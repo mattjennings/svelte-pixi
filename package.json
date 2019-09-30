@@ -5,15 +5,16 @@
   "repository": "https://github.com/mattjennings/svelte-pixi",
   "author": "Matt Jennings",
   "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "examples/*"
+    ],
+    "nohoist": [
+      "**/svelte"
+    ]
+  },
   "devDependencies": {
-    "npm-run-all": "^4.1.5",
-    "rollup": "^1.12.0",
-    "rollup-plugin-commonjs": "^10.0.0",
-    "rollup-plugin-livereload": "^1.0.0",
-    "rollup-plugin-node-builtins": "^2.1.2",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-svelte": "^5.0.3",
-    "rollup-plugin-terser": "^4.0.4",
     "svelte": "^3.0.0",
     "prettier": "^1.18.2",
     "eslint": "6.1.0",

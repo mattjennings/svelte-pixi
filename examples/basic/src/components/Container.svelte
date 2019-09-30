@@ -3,9 +3,6 @@
   import { onMount, getContext, setContext } from 'svelte'
 
   import createSelf from '../util/createSelf'
-  import getParentContainer from '../util/getParentContainer'
-
-  const parent = getParentContainer()
 
   let self
 
