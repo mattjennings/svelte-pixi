@@ -13,6 +13,7 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "keyboard-input": "^1.0.0",
     "pixi.js": "^5.1.5",
     "sirv-cli": "^0.4.4",
     "svelte-fragment": "^1.0.1"

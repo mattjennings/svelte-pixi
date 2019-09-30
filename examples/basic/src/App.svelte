@@ -4,10 +4,10 @@
 
   import fragment from 'svelte-fragment'
 
-  import Sprite from './components/Sprite.svelte'
-  import Container from './components/Container.svelte'
-  import Text from './components/Text.svelte'
-  import Preloader from './components/Preloader.svelte'
+  import Player from './components/Player.svelte'
+  import Container from './components/base/Container.svelte'
+  import Text from './components/base/Text.svelte'
+  import Preloader from './components/base/Preloader.svelte'
 
   const app = new PIXI.Application({
     width: 400, // default: 800
@@ -17,21 +17,32 @@
     resolution: 1 // default: 1
   })
 
-  document.body.appendChild(app.view)
-
   window.game = app
   setContext('game', app)
   setContext('stage', app.stage)
+
+  function renderGame(node) {
+    node.appendChild(app.view)
+
+    return {
+      destroy() {
+        node.removeChild(app.view)
+      }
+    }
+  }
 </script>
 
-<Preloader urls={['assets/stand.png']}>
+<div use:renderGame>
 
-  <template use:fragment slot="loading">
-    <Text text="loading" position={{ x: 0, y: 0 }} />
-  </template>
+  <Preloader urls={['assets/stand.png', 'assets/adventurer/spritesheet.json']}>
 
-  <Container>
-    <Sprite texture="assets/stand.png" position={{ x: 5, y: 5 }} />
-  </Container>
+    <template use:fragment slot="loading">
+      <Text text="loading" position={{ x: 0, y: 0 }} />
+    </template>
 
-</Preloader>
+    <Container>
+      <Player />
+    </Container>
+
+  </Preloader>
+</div>
