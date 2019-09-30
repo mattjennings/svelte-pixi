@@ -10,8 +10,8 @@
   import Preloader from './components/Preloader.svelte'
 
   const app = new PIXI.Application({
-    width: 800, // default: 800
-    height: 800, // default: 600
+    width: 400, // default: 800
+    height: 400, // default: 600
     antialias: true, // default: false
     transparent: false, // default: false
     resolution: 1 // default: 1
@@ -22,6 +22,7 @@
   window.game = app
   setContext('game', app)
   setContext('stage', app.stage)
+
 </script>
 
 <Preloader urls={['assets/adventurer.png']}>
@@ -31,7 +32,7 @@
   </template>
 
   <Container>
-    <Text text="done" position={{ x: 0, y: 0 }} />
+    <Text text="loaded" position={{ x: 0, y: 0 }} />
   </Container>
 
 </Preloader>
