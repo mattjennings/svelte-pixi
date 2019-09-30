@@ -22,17 +22,16 @@
   window.game = app
   setContext('game', app)
   setContext('stage', app.stage)
-
 </script>
 
-<Preloader urls={['assets/adventurer.png']}>
+<Preloader urls={['assets/stand.png']}>
 
   <template use:fragment slot="loading">
     <Text text="loading" position={{ x: 0, y: 0 }} />
   </template>
 
   <Container>
-    <Text text="loaded" position={{ x: 0, y: 0 }} />
+    <Sprite texture="assets/stand.png" position={{ x: 5, y: 5 }} />
   </Container>
 
 </Preloader>

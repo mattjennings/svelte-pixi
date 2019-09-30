@@ -1,7 +1,6 @@
 <script>
   import { onMount, getContext } from 'svelte'
   import * as PIXI from 'pixi.js'
-  const loader = new PIXI.Loader()
 
   const game = getContext('game')
 
@@ -11,11 +10,11 @@
 
   onMount(() => {
     urls.forEach(url => {
-      loader.add(url)
+      game.loader.add(url)
     })
-    loader.load()
+    game.loader.load()
 
-    loader.onComplete.add(() => {
+    game.loader.onComplete.add(() => {
       preloading = false
     })
   })
