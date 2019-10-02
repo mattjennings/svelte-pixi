@@ -5,9 +5,7 @@
   import fragment from 'svelte-fragment'
 
   import Player from './components/Player.svelte'
-  import Container from './components/base/Container.svelte'
-  import Text from './components/base/Text.svelte'
-  import Preloader from './components/base/Preloader.svelte'
+  import { Pixi, Container, Text, Preloader } from 'svelte-pixi'
 
   const app = new PIXI.Application({
     width: 400, // default: 800
@@ -16,23 +14,9 @@
     transparent: false, // default: false
     resolution: 1 // default: 1
   })
-
-  window.game = app
-  setContext('game', app)
-  setContext('stage', app.stage)
-
-  function renderGame(node) {
-    node.appendChild(app.view)
-
-    return {
-      destroy() {
-        node.removeChild(app.view)
-      }
-    }
-  }
 </script>
 
-<div use:renderGame>
+<Pixi {app}>
 
   <Preloader urls={['assets/stand.png', 'assets/adventurer/spritesheet.json']}>
 
@@ -45,4 +29,4 @@
     </Container>
 
   </Preloader>
-</div>
+</Pixi>

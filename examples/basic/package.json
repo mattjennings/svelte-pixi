@@ -10,13 +10,14 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-svelte": "^5.0.3",
     "rollup-plugin-terser": "^4.0.4",
-    "svelte": "^3.0.0"
+    "sirv-cli": "^0.4.4"
   },
   "dependencies": {
     "keyboard-input": "^1.0.0",
+    "svelte-pixi": "*",
     "pixi.js": "^5.1.5",
-    "sirv-cli": "^0.4.4",
-    "svelte-fragment": "^1.0.1"
+    "svelte-fragment": "^1.0.1",
+    "svelte": "^3.0.0"
   },
   "scripts": {
     "build": "rollup -c",

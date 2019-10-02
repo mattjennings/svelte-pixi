@@ -1,21 +1,29 @@
 {
-  "name": "svelte-pixi",
+  "name": "svelte-pixi-monorepo",
   "version": "0.0.1",
   "description": "Create pixi.js apps with svelte 3",
   "repository": "https://github.com/mattjennings/svelte-pixi",
   "author": "Matt Jennings",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "clean:node_modules": "find . -name \"node_modules\" -exec rm -rf '{}' +"
+  },
   "workspaces": {
     "packages": [
-      "examples/*"
+      "examples/*",
+      "packages/*"
     ],
     "nohoist": [
       "**/svelte"
     ]
   },
+  "resolutions": {
+    "svelte": "3.12.1"
+  },
   "devDependencies": {
     "svelte": "^3.0.0",
+    "pixi.js": "^5.1.1",
     "prettier": "^1.18.2",
     "eslint": "6.1.0",
     "eslint-plugin-svelte3": "^2.7.3"

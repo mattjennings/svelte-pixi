@@ -1,8 +1,8 @@
 <script>
   import * as PIXI from 'pixi.js'
   import { onMount, beforeUpdate } from 'svelte'
-  import addPixiInstance from '../../util/addPixiInstance'
-  import applyProps from '../../util/applyProps'
+  import addPixiInstance from './util/addPixiInstance'
+  import applyProps from './util/applyProps'
 
   export let alpha = undefined
   export let anchor = undefined

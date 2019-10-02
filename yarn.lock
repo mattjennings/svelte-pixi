@@ -2439,7 +2439,7 @@ pify@^3.0.0:
   resolved "https://registry.yarnpkg.com/pify/-/pify-3.0.0.tgz#e5a4acd2c101fdf3d9a4d07f0dbc4db49dd28176"
   integrity sha1-5aSs0sEB/fPZpNB/DbxNtJ3SgXY=
 
-pixi.js@^5.1.5:
+pixi.js@^5.1.1, pixi.js@^5.1.5:
   version "5.1.5"
   resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-5.1.5.tgz#96e8140652c8f53d5adde9d679d5a8f8a0ef626f"
   integrity sha512-VUvM/eoOahQV1wx+wEOM7/Xw+XXdbwP3qGaANZKeJAyVvOa4ZcsSTyWHV9bAITOJFyoLhJ/h7h2QCNtvv1s/WA==
@@ -3170,7 +3170,7 @@ svelte-fragment@^1.0.1:
   resolved "https://registry.yarnpkg.com/svelte-fragment/-/svelte-fragment-1.0.1.tgz#7a1d6447bb0508451401fcdbd02ed87bd8b1b5ed"
   integrity sha512-ZmuKDMPhsn/TFV3w1nIfwIJE+QJtvH1my6ETB/vPtbb7+zYTSiuLxNsjWLglYZdQAIWgthEoS7t8DeVBB3Wjfg==
 
-svelte@^3.0.0:
+svelte@3.12.1, svelte@^3.0.0:
   version "3.12.1"
   resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.12.1.tgz#ddfacd43272ac3255907c682b74ee7d3d8b06b0c"
   integrity sha512-t29WJNjHIqfrdMcVXqIyRfgLEaNz7MihKXTpb8qHlbzvf0WyOOIhIlwIGvl6ahJ9+9CLJwz0sjhFNAmPgo8BHg==

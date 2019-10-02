@@ -1,0 +1,28 @@
+{
+  "name": "svelte-pixi",
+  "version": "0.0.1",
+  "description": "Create pixi.js apps with svelte 3",
+  "repository": "https://github.com/mattjennings/svelte-pixi",
+  "author": "Matt Jennings",
+  "license": "MIT",
+  "module": "dist/index.mjs",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "rollup -c",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "svelte": "^3.0.0",
+    "rollup": "^1.12.0",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-livereload": "^1.0.0",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-svelte": "^5.0.3",
+    "rollup-plugin-terser": "^4.0.4"
+  },
+  "svelte": "src/index.js",
+  "keywords": [
+    "svelte"
+  ]
+}

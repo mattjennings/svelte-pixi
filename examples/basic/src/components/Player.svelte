@@ -1,13 +1,13 @@
 <script>
   import { onMount, getContext } from 'svelte'
   import * as PIXI from 'pixi.js'
-  import AnimatedSprite from './base/AnimatedSprite.svelte'
+  import { AnimatedSprite } from 'svelte-pixi'
   import KeyboardInput from 'keyboard-input'
 
   const keyboard = new KeyboardInput()
-  const game = getContext('game')
+  const app = getContext('app')
 
-  const { spritesheet } = game.loader.resources[
+  const { spritesheet } = app.loader.resources[
     'assets/adventurer/spritesheet.json'
   ]
 
@@ -36,10 +36,10 @@
       }
     }
 
-    game.ticker.add(moveOnInput)
+    app.ticker.add(moveOnInput)
 
     return () => {
-      game.ticker.remove(moveOnInput)
+      app.ticker.remove(moveOnInput)
     }
   })
 
