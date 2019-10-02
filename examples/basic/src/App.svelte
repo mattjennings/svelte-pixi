@@ -1,5 +1,4 @@
 <script>
-  import { setContext } from 'svelte'
   import * as PIXI from 'pixi.js'
 
   import fragment from 'svelte-fragment'
@@ -25,6 +24,7 @@
     </template>
 
     <Container>
+      <Text text="move with arrow keys" position={{ x: 120, y: 0 }} />
       <Player />
     </Container>
 

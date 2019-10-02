@@ -16,6 +16,6 @@
   }
 </script>
 
-<div use:renderApp>
+<div id="pixi-wrapper" use:renderApp>
   <slot />
 </div>
