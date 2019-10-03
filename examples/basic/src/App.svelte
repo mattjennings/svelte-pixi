@@ -1,8 +1,5 @@
 <script>
   import * as PIXI from 'pixi.js'
-
-  import fragment from 'svelte-fragment'
-
   import Player from './components/Player.svelte'
   import { Pixi, Container, Text, Preloader } from 'svelte-pixi'
 
@@ -19,7 +16,7 @@
 
   <Preloader urls={['assets/stand.png', 'assets/adventurer/spritesheet.json']}>
 
-    <template use:fragment slot="loading">
+    <template slot="loading">
       <Text text="loading" position={{ x: 0, y: 0 }} />
     </template>
 

@@ -6,12 +6,12 @@
 
   const self = new PIXI.Container()
   const removeSelf = addPixiInstance(self)
-  setContext('container', self)
+  setContext('pixi-container', self)
 
   onMount(() => {
     return () => {
       removeSelf()
-      setContext('container', undefined)
+      setContext('pixi-container', undefined)
     }
   })
 </script>
