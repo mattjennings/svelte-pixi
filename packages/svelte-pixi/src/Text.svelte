@@ -33,9 +33,12 @@
   export let fill = 0xffffff
   export let fontSize = 16
   export let style = undefined
+  export let ref = undefined
 
   const self = new PIXI.Text(text, { position, fill, fontSize, style })
   const removeSelf = addPixiInstance(self)
+
+  ref = self
 
   beforeUpdate(() => {
     applyProps(self, $$props)

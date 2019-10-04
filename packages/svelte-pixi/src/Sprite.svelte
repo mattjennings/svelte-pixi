@@ -28,12 +28,15 @@
   export let width = undefined
   export let zIndex = undefined
 
+  export let ref = undefined
+
   const app = getContext('pixi-app')
   const self =
     typeof texture === 'string'
       ? PIXI.Sprite.from(texture)
       : new PIXI.Sprite(texture)
   const removeSelf = addPixiInstance(self)
+  ref = self
 
   beforeUpdate(() => {
     applyProps(self, $$props, (key, value) => {

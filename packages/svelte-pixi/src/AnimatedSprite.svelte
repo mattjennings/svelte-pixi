@@ -34,11 +34,12 @@
    * if true, play the animation
    */
   export let play = true
+  export let ref = undefined
 
   const app = getContext('pixi-app')
   const self = new PIXI.AnimatedSprite(texture || textures.map(getTexture))
-
   const removeSelf = addPixiInstance(self)
+  ref = self
 
   // cache previous value so we can quickly check if textures prop has changed
   let previousTextures = textures
