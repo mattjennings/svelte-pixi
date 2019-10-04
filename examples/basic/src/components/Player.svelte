@@ -11,23 +11,18 @@
   ]
 
   let animKey = 'adventurer-idle'
-  let position = { x: 50, y: 55 }
+  let x = 50
+  let y = 50
   let direction = 1
 
   onMount(() => {
     const moveOnInput = () => {
       if (keyboard.isPressed(37)) {
-        position = {
-          ...position,
-          x: position.x - 3
-        }
+        x = x - 3
         animKey = 'adventurer-run'
         direction = -1
       } else if (keyboard.isPressed(39)) {
-        position = {
-          ...position,
-          x: position.x + 3
-        }
+        x = x + 3
         animKey = 'adventurer-run'
         direction = 1
       } else {
@@ -61,5 +56,6 @@
   anchor={{ x: 0.5, y: 0 }}
   bind:animationSpeed
   bind:textures
-  bind:position
+  bind:x
+  bind:y
   bind:scale />

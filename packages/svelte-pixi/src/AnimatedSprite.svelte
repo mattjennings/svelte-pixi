@@ -23,11 +23,14 @@
   export let resolution = undefined
   export let roundPixels = undefined
   export let shader = undefined
+  export let scale = undefined
   export let skew = undefined
   export let texture = undefined
   export let textures = undefined
   export let visible = undefined
   export let width = undefined
+  export let x = undefined
+  export let y = undefined
   export let zIndex = undefined
 
   /**
@@ -44,8 +47,9 @@
   // cache previous value so we can quickly check if textures prop has changed
   let previousTextures = textures
 
-  beforeUpdate(() => {
-    applyProps(self, $$props, (key, value) => {
+  beforeUpdate(async () => {
+    const props = getProps()
+    applyProps(self, props, (key, value) => {
       switch (key) {
         case 'play':
           return value ? self.play() : self.stop()
@@ -62,7 +66,7 @@
     })
 
     if (previousTextures !== textures) {
-      if ($$props.play) {
+      if (props.play) {
         self.play()
       }
       previousTextures = textures
@@ -77,5 +81,38 @@
     }
 
     return texture
+  }
+
+  function getProps() {
+    return {
+      alpha,
+      anchor,
+      animationSpeed,
+      angle,
+      blendMode,
+      buttonMode,
+      cursor,
+      filters,
+      hitArea,
+      interactive,
+      interactiveChildren,
+      height,
+      mask,
+      name,
+      pivot,
+      position,
+      resolution,
+      roundPixels,
+      scale,
+      shader,
+      skew,
+      texture,
+      textures,
+      visible,
+      width,
+      x,
+      y,
+      play
+    }
   }
 </script>

@@ -10,6 +10,8 @@
     transparent: false, // default: false
     resolution: 1 // default: 1
   })
+
+  window.pixiApp = app
 </script>
 
 <Pixi {app}>
