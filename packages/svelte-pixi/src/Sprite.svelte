@@ -28,7 +28,7 @@
   export let width = undefined
   export let zIndex = undefined
 
-  const app = getContext('app')
+  const app = getContext('pixi-app')
   const self =
     typeof texture === 'string'
       ? PIXI.Sprite.from(texture)

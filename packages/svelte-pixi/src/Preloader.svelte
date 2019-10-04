@@ -2,7 +2,7 @@
   import { onMount, getContext } from 'svelte'
   import * as PIXI from 'pixi.js'
 
-  const app = getContext('app')
+  const app = getContext('pixi-app')
 
   export let urls = []
 

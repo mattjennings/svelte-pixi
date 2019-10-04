@@ -1,5 +1,5 @@
 import { getContext } from 'svelte'
 
 export default function getParentContainer() {
-  return getContext('container') || getContext('stage')
+  return getContext('pixi-container') || getContext('pixi-stage')
 }

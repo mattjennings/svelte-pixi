@@ -35,7 +35,7 @@
    */
   export let play = true
 
-  const app = getContext('app')
+  const app = getContext('pixi-app')
   const self = new PIXI.AnimatedSprite(texture || textures.map(getTexture))
 
   const removeSelf = addPixiInstance(self)

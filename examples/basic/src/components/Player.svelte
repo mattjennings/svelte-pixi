@@ -1,11 +1,10 @@
 <script>
   import { onMount, getContext } from 'svelte'
-  import * as PIXI from 'pixi.js'
   import { AnimatedSprite } from 'svelte-pixi'
   import KeyboardInput from 'keyboard-input'
 
   const keyboard = new KeyboardInput()
-  const app = getContext('app')
+  const app = getContext('pixi-app')
 
   const { spritesheet } = app.loader.resources[
     'assets/adventurer/spritesheet.json'
