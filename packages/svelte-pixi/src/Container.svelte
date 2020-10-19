@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import * as PIXI from 'pixi.js'
   import { onMount, setContext } from 'svelte'
 

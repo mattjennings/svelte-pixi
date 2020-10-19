@@ -20,5 +20,9 @@ module.exports = {
   },
   settings: {
     // ...
+  },
+  env: {
+    node: true,
+    browser: true
   }
 }

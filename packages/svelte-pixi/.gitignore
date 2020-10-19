@@ -3,3 +3,8 @@ node_modules
 yarn.lock
 package-lock.json
 dist
+
+# Beware that this will ignore any .d.ts files you add to /src yourself
+src/**/*.d.ts
+# if you need to add a .d.ts file, ignore it like so:
+#!/src/my-types.d.ts

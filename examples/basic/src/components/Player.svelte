@@ -3,7 +3,8 @@
   import { AnimatedSprite } from 'svelte-pixi'
   import KeyboardInput from 'keyboard-input'
 
-  const keyboard = new KeyboardInput()
+  // todo: replace keyboard-input with some other library
+  const keyboard = new KeyboardInput.default()
   const app = getContext('pixi-app')
 
   const { spritesheet } = app.loader.resources[

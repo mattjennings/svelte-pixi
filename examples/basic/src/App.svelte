@@ -15,9 +15,7 @@
 </script>
 
 <Pixi {app}>
-
   <Preloader urls={['assets/stand.png', 'assets/adventurer/spritesheet.json']}>
-
     <template slot="loading">
       <Text text="loading" position={{ x: 0, y: 0 }} />
     </template>
@@ -26,6 +24,5 @@
       <Text text="move with arrow keys" position={{ x: 120, y: 0 }} />
       <Player />
     </Container>
-
   </Preloader>
 </Pixi>
