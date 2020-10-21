@@ -1,33 +1,18 @@
 <script lang="ts">
   import * as PIXI from 'pixi.js'
   import { onMount, setContext } from 'svelte'
-  import { addPixiInstance,  shouldApplyProps, toPoint } from './util'
+  import { addPixiInstance, shouldApplyProps, toPoint } from './util'
   import type { PointLike } from './util'
+  import DisplayObject from './base-components/DisplayObject.svelte'
+  import Container from './Container.svelte'
 
-  export let alpha: PIXI.Text['alpha'] = undefined
+  // text props
   export let anchor: PIXI.Text['anchor'] = undefined
-  export let angle: PIXI.Text['angle'] = undefined
   export let blendMode: PIXI.Text['blendMode'] = undefined
-  export let buttonMode: PIXI.Text['buttonMode'] = undefined
-  export let cursor: PIXI.Text['cursor'] = undefined
-  export let filterArea: PIXI.Text['filterArea'] = undefined
-  export let filters: PIXI.Text['filters'] = undefined
-  export let hitArea: PIXI.Text['hitArea'] = undefined
-  export let interactive: PIXI.Text['interactive'] = undefined
-  export let interactiveChildren: PIXI.Text['interactiveChildren'] = undefined
-  export let height: PIXI.Text['height'] = undefined
-  export let mask: PIXI.Text['mask'] = undefined
-  export let name: PIXI.Text['name'] = undefined
-  export let pivot: PIXI.Text['pivot'] = undefined
-  export let position: PIXI.Text['position'] | PointLike = undefined
   export let roundPixels: PIXI.Text['roundPixels'] = undefined
   export let resolution: PIXI.Text['resolution'] = undefined
-  export let shader: PIXI.Text['shader'] = undefined
-  export let skew: PIXI.Text['skew'] = undefined
+  export let text: PIXI.Text['text']
   export let texture: PIXI.Text['texture'] = undefined
-  export let visible: PIXI.Text['visible'] = undefined
-  export let width: PIXI.Text['width'] = undefined
-  export let zIndex: PIXI.Text['zIndex'] = undefined
 
   // styles
   export let align: PIXI.Text['style']['align'] = 'left'
@@ -63,39 +48,51 @@
   export let wordWrap: PIXI.Text['style']['wordWrap'] = false
   export let wordWrapWidth: PIXI.Text['style']['wordWrapWidth'] = 100
 
-  export let text: PIXI.Text['text']
+  // Container props
+  export let height: PIXI.Text['height'] = undefined
+  export let width: PIXI.Text['width'] = undefined
+  export let sortableChildren: PIXI.Text['sortableChildren'] = undefined
+  export let interactiveChildren: PIXI.Text['interactiveChildren'] = undefined
+
+  // DisplayObject props
+  export let accessible: PIXI.Text['accessible'] = undefined
+  export let accessibleChildren: PIXI.Text['accessibleChildren'] = true
+  export let accessibleHint: PIXI.Text['accessibleHint'] = undefined
+  export let accessiblePointerEvents: PIXI.Text['accessiblePointerEvents'] =
+    'auto'
+  export let accessibleTitle: PIXI.Text['accessibleTitle'] = undefined
+  export let accessibleType: PIXI.Text['accessibleType'] = undefined
+  export let alpha: PIXI.Text['alpha'] = undefined
+  export let angle: PIXI.Text['angle'] = undefined
+  export let buttonMode: PIXI.Text['buttonMode'] = undefined
+  export let cacheAsBitmap: PIXI.Text['cacheAsBitmap'] = undefined
+  export let cursor: PIXI.Text['cursor'] = undefined
+  export let filterArea: PIXI.Text['filterArea'] = undefined
+  export let filters: PIXI.Text['filters'] = undefined
+  export let hitArea: PIXI.Text['hitArea'] = undefined
+  export let interactive: PIXI.Text['interactive'] = undefined
+  export let mask: PIXI.Text['mask'] = undefined
+  export let name: PIXI.Text['name'] = undefined
+  export let pivot: PIXI.Text['pivot'] = undefined
+  export let position: PIXI.Text['position'] | PointLike = undefined
+  export let renderable: PIXI.Text['renderable'] = undefined
+  export let rotation: PIXI.Text['rotation'] = undefined
+  export let scale: PIXI.Text['scale'] = undefined
+  export let skew: PIXI.Text['skew'] = undefined
+  export let transform: PIXI.Text['transform'] = undefined
+  export let visible: PIXI.Text['visible'] = undefined
+  export let x: PIXI.Text['x'] = undefined
+  export let y: PIXI.Text['y'] = undefined
+  export let zIndex: PIXI.Text['zIndex'] = undefined
+
   export let instance = new PIXI.Text(text)
 
-  const removeSelf = addPixiInstance(instance)
-  onMount(() => removeSelf)
-  
   setContext('pixi/object', instance)
-  setContext('pixi/container', instance)
 
-  $: shouldApplyProps(alpha) && (instance.alpha = alpha)
   $: shouldApplyProps(anchor) && (instance.anchor = anchor)
-  $: shouldApplyProps(angle) && (instance.angle = angle)
   $: shouldApplyProps(blendMode) && (instance.blendMode = blendMode)
-  $: shouldApplyProps(buttonMode) && (instance.buttonMode = buttonMode)
-  $: shouldApplyProps(cursor) && (instance.cursor = cursor)
-  $: shouldApplyProps(filterArea) && (instance.filterArea = filterArea)
-  $: shouldApplyProps(filters) && (instance.filters = filters)
-  $: shouldApplyProps(hitArea) && (instance.hitArea = hitArea)
-  $: shouldApplyProps(interactive) && (instance.interactive = interactive)
-  $: shouldApplyProps(interactiveChildren) &&
-    (instance.interactiveChildren = interactiveChildren)
-  $: shouldApplyProps(height) && (instance.height = height)
-  $: shouldApplyProps(mask) && (instance.mask = mask)
-  $: shouldApplyProps(name) && (instance.name = name)
-  $: shouldApplyProps(pivot) && (instance.pivot = pivot)
-  $: shouldApplyProps(position) && (instance.position = toPoint(position))
   $: shouldApplyProps(roundPixels) && (instance.roundPixels = roundPixels)
-  $: shouldApplyProps(shader) && (instance.shader = shader)
-  $: shouldApplyProps(skew) && (instance.skew = skew)
   $: shouldApplyProps(texture) && (instance.texture = texture)
-  $: shouldApplyProps(visible) && (instance.visible = visible)
-  $: shouldApplyProps(width) && (instance.width = width)
-  $: shouldApplyProps(zIndex) && (instance.zIndex = zIndex)
 
   $: shouldApplyProps(align) && (instance.style.align = align)
   $: shouldApplyProps(breakWords) && (instance.style.breakWords = breakWords)
@@ -144,4 +141,35 @@
   $: shouldApplyProps(whiteSpace) && (instance.style.whiteSpace = whiteSpace)
 </script>
 
-<slot />
+<Container {instance} {height} {width} {interactiveChildren} {sortableChildren}>
+  <DisplayObject
+    {accessible}
+    {accessibleChildren}
+    {accessibleHint}
+    {accessiblePointerEvents}
+    {accessibleTitle}
+    {accessibleType}
+    {alpha}
+    {angle}
+    {buttonMode}
+    {cacheAsBitmap}
+    {cursor}
+    {filterArea}
+    {filters}
+    {hitArea}
+    {interactive}
+    {mask}
+    {name}
+    {pivot}
+    {position}
+    {renderable}
+    {rotation}
+    {scale}
+    {skew}
+    {transform}
+    {visible}
+    {x}
+    {y}
+    {zIndex} />
+  <slot />
+</Container>

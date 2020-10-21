@@ -8,7 +8,7 @@
     height: 400, // default: 600
     antialias: true, // default: false
     transparent: false, // default: false
-    resolution: 1 // default: 1
+    resolution: 1, // default: 1
   })
 
   // @ts-ignore
@@ -25,13 +25,13 @@
         position={{ x: 0, y: 0 }} />
     </template>
 
-    <Container>
-      <Text
-        text="move with arrow keys"
-        fill="white"
-        fontSize={16}
-        position={{ x: 120, y: 0 }} />
-      <Player />
-    </Container>
+    <!-- <Container> -->
+    <Text
+      text="move with arrow keys"
+      fill="white"
+      fontSize={16}
+      position={{ x: 120, y: 0 }} />
+    <!-- <Player /> -->
+    <!-- </Container> -->
   </Preloader>
 </Pixi>

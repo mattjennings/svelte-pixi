@@ -6,16 +6,16 @@ import * as PIXI from 'pixi.js'
  *
  * @returns {function} removes instance from container
  */
-export function addPixiInstance(self) {
-  const container =
+export function addPixiInstance(instance) {
+  const parent =
     getContext<PIXI.Container>('pixi/container') ||
     getContext<PIXI.Container>('pixi/stage')
 
   if (parent) {
-    container.addChild(self)
+    parent.addChild(instance)
 
     return () => {
-      container && container.removeChild(self)
+      parent?.removeChild(instance)
     }
   } else {
     throw new Error('Unable to find container or stage')
@@ -64,4 +64,28 @@ export function toPoint(point: PointLike) {
   }
 
   return new PIXI.Point(point.x, point.y)
+}
+
+/**
+ * Logs a warning if the condition is met
+ *
+ * taken from https://github.com/alexreardon/tiny-warning/blob/master/src/index.js
+ */
+export function warning(condition: boolean, message: string): void {
+  // condition passed: do not log
+  if (condition) {
+    return
+  }
+
+  const text: string = `Warning: ${message}`
+
+  console.warn(text)
+
+  // Throwing an error and catching it immediately
+  // to improve debugging
+  // A consumer can use 'pause on caught exceptions'
+  // https://github.com/facebook/react/issues/4216
+  try {
+    throw Error(text)
+  } catch (x) {}
 }

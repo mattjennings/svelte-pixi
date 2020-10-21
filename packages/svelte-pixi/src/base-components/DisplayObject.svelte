@@ -2,10 +2,8 @@
   /**
    * Handles the application of properties for objects that extend DisplayObject
    */
-
-  import * as PIXI from 'pixi.js'
+  import type * as PIXI from 'pixi.js'
   import { getContext } from 'svelte'
-  import warning from 'tiny-warning'
   import type { PointLike } from '../util'
   import { shouldApplyProps, toPoint } from '../util'
 
@@ -40,11 +38,6 @@
   export let zIndex: PIXI.DisplayObject['zIndex'] = undefined
 
   const instance = getContext<PIXI.DisplayObject>('pixi/object')
-
-  warning(
-    instance instanceof PIXI.DisplayObject,
-    `Parent instance (${instance.name}) does not extend PIXI.DisplayObject`
-  )
 
   $: shouldApplyProps(alpha) && (instance.alpha = alpha)
   $: shouldApplyProps(accessible) && (instance.accessible = accessible)
