@@ -3,7 +3,7 @@
   import { onMount, beforeUpdate, getContext } from 'svelte'
   import { addPixiInstance, applyProps } from './util'
 
-  export let alpha = undefined
+  export let alpha: PIXI.Sprite['alpha'] = undefined
   export let anchor = undefined
   export let angle = undefined
   export let blendMode = undefined
