@@ -1,6 +1,7 @@
 {
   "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
+    "target": "ES6",
     "sourceMap": true,
     "allowJs": true
   },
