@@ -1,8 +1,7 @@
 <script lang="ts">
   import * as PIXI from 'pixi.js'
   import { onMount, beforeUpdate, getContext } from 'svelte'
-  import addPixiInstance from './util/addPixiInstance'
-  import applyProps from './util/applyProps'
+  import { addPixiInstance, applyProps } from './util'
 
   export let alpha = undefined
   export let anchor = undefined
@@ -39,7 +38,7 @@
   export let play = true
   export let ref = undefined
 
-  const app = getContext('pixi-app')
+  const app = getContext('pixi/app')
   const self = new PIXI.AnimatedSprite(texture || textures.map(getTexture))
   const removeSelf = addPixiInstance(self)
   ref = self

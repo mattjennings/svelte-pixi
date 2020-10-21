@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import * as PIXI from 'pixi.js'
   import Player from './components/Player.svelte'
   import { Pixi, Container, Text, Preloader } from 'svelte-pixi'
@@ -11,17 +11,26 @@
     resolution: 1 // default: 1
   })
 
+  // @ts-ignore
   window.pixiApp = app
 </script>
 
 <Pixi {app}>
   <Preloader urls={['assets/stand.png', 'assets/adventurer/spritesheet.json']}>
     <template slot="loading">
-      <Text text="loading" position={{ x: 0, y: 0 }} />
+      <Text
+        text="loading"
+        fill="white"
+        fontSize={16}
+        position={{ x: 0, y: 0 }} />
     </template>
 
     <Container>
-      <Text text="move with arrow keys" position={{ x: 120, y: 0 }} />
+      <Text
+        text="move with arrow keys"
+        fill="white"
+        fontSize={16}
+        position={{ x: 120, y: 0 }} />
       <Player />
     </Container>
   </Preloader>

@@ -23,7 +23,8 @@ export default {
         // generate type definitions and process .svelte files
         // (we do it here so we only run this once)
         execute([
-          'tsc --outDir ./dist --declaration',
+          'tsc --outDir ./dist', // create index.js file for pkg.svelte
+          'tsc --outDir ./dist/ts --declaration --emitDeclarationOnly', // create types files for ts users,
           'node scripts/preprocess.js'
         ])
       ]

@@ -5,7 +5,7 @@
 
   // todo: replace keyboard-input with some other library
   const keyboard = new KeyboardInput.default()
-  const app = getContext('pixi-app')
+  const app = getContext('pixi/app')
 
   const { spritesheet } = app.loader.resources[
     'assets/adventurer/spritesheet.json'

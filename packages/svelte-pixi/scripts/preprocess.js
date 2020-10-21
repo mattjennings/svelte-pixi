@@ -1,6 +1,5 @@
 const fs = require('fs-extra')
 const glob = require('glob')
-const move = require('glob-move')
 const path = require('path')
 const svelte = require('svelte/compiler')
 const sveltePreprocess = require('svelte-preprocess')
@@ -28,9 +27,6 @@ async function main() {
         )
       )
     )
-
-    // move .d.ts files back into /src
-    await move(path.join(destPath, '**/*.d.ts'), path.join(srcPath))
   })
 }
 
@@ -44,9 +40,7 @@ async function preprocessSvelte(src, dest) {
       sourceMap: false,
       typescript: {
         compilerOptions: {
-          sourceMap: false,
-          outDir: './dist',
-          declaration: true
+          sourceMap: false
         }
       }
     }),
@@ -56,10 +50,24 @@ async function preprocessSvelte(src, dest) {
   )
 
   // remove lang=ts from processed .svelte files
-  code = code.replace('script lang="ts"', 'script')
+  code = code.replace(/script lang="ts"/g, 'script')
 
+  const destDir = dest
+    .split('/')
+    .slice(0, dest.split('/').length - 1)
+    .join('/')
+
+  // write preprocessed svelte file to /dist
   await fs.ensureFile(dest)
   await fs.writeFile(dest, code, { encoding: 'utf-8' })
+
+  // write the unprocessed svelte component to /dist/ts/ so we can have correct types for ts users
+  const fileName = dest.split(destDir)[1]
+  const tsDest = path.join(destDir, 'ts', fileName)
+  await fs.ensureFile(tsDest)
+  await fs.writeFile(tsDest, srcCode, {
+    encoding: 'utf-8'
+  })
 }
 
 main()

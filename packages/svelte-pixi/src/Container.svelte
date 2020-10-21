@@ -2,16 +2,16 @@
   import * as PIXI from 'pixi.js'
   import { onMount, setContext } from 'svelte'
 
-  import addPixiInstance from './util/addPixiInstance'
+  import { addPixiInstance } from './util'
 
   const self = new PIXI.Container()
   const removeSelf = addPixiInstance(self)
-  setContext('pixi-container', self)
+  setContext('pixi/container', self)
 
   onMount(() => {
     return () => {
       removeSelf()
-      setContext('pixi-container', undefined)
+      setContext('pixi/container', undefined)
     }
   })
 </script>

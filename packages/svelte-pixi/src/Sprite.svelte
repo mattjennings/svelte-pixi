@@ -1,8 +1,7 @@
 <script lang="ts">
   import * as PIXI from 'pixi.js'
   import { onMount, beforeUpdate, getContext } from 'svelte'
-  import addPixiInstance from './util/addPixiInstance'
-  import applyProps from './util/applyProps'
+  import { addPixiInstance, applyProps } from './util'
 
   export let alpha = undefined
   export let anchor = undefined
@@ -30,7 +29,7 @@
 
   export let ref = undefined
 
-  const app = getContext('pixi-app')
+  const app = getContext('pixi/app')
   const self =
     typeof texture === 'string'
       ? PIXI.Sprite.from(texture)
