@@ -1,5 +1,5 @@
 import { getContext } from 'svelte'
-import * as PIXI from 'pixi.js'
+import type PIXI from 'pixi.js'
 
 /**
  * Adds a PIXI instance to the nearest container in the svelte tree
@@ -11,7 +11,15 @@ export function addPixiInstance(instance) {
     getContext<PIXI.Container>('pixi/container') ||
     getContext<PIXI.Container>('pixi/stage')
 
-  if (parent) {
+  let childIndex = -1
+
+  // make sure child isn't already added to the parent
+  try {
+    // Container.getChildIndex throws an error if instance is not a child...
+    childIndex = parent.getChildIndex(instance)
+  } catch (e) {}
+
+  if (parent && childIndex === -1) {
     parent.addChild(instance)
 
     return () => {
@@ -54,17 +62,17 @@ export function applyProps(instance, props, applyProp = (key, value) => value) {
   }
 }
 
-export type PointLike = PIXI.Point | { x: number; y: number }
-/**
- * Converts a point-like object to a Point
- */
-export function toPoint(point: PointLike) {
-  if (point instanceof PIXI.Point) {
-    return point
-  }
+// export type PointLike = PIXI.Point | { x: number; y: number }
+// /**
+//  * Converts a point-like object to a Point
+//  */
+// export function toPoint(point: PointLike) {
+//   if (point instanceof PIXI.Point) {
+//     return point
+//   }
 
-  return new PIXI.Point(point.x, point.y)
-}
+//   return new PIXI.Point(point.x, point.y)
+// }
 
 /**
  * Logs a warning if the condition is met

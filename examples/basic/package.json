@@ -14,7 +14,7 @@
   "dependencies": {
     "keyboard-input": "^1.0.0",
     "svelte-pixi": "*",
-    "pixi.js": "^5.1.5",
+    "pixi.js": "^5.3.3",
     "svelte": "^3.24.0",
     "sirv-cli": "^1.0.0"
   },

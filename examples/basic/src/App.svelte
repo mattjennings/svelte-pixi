@@ -1,7 +1,7 @@
 <script lang="ts">
   import * as PIXI from 'pixi.js'
   import Player from './components/Player.svelte'
-  import { Pixi, Container, Text, Preloader } from 'svelte-pixi'
+  import { Pixi, Container, Sprite, Text, Preloader } from 'svelte-pixi'
 
   const app = new PIXI.Application({
     width: 400, // default: 800
@@ -18,20 +18,22 @@
 <Pixi {app}>
   <Preloader urls={['assets/stand.png', 'assets/adventurer/spritesheet.json']}>
     <template slot="loading">
-      <Text
-        text="loading"
-        fill="white"
-        fontSize={16}
-        position={{ x: 0, y: 0 }} />
+      <Text text="loading" fill="white" fontSize={16} x={0} y={0} />
     </template>
 
-    <!-- <Container> -->
-    <Text
-      text="move with arrow keys"
-      fill="white"
-      fontSize={16}
-      position={{ x: 120, y: 0 }} />
-    <!-- <Player /> -->
-    <!-- </Container> -->
+    <Container>
+      <Text
+        text="move with arrow keys"
+        fill="white"
+        fontSize={16}
+        x={120}
+        y={0} />
+      <Player />
+      <!-- <Sprite
+        x={50}
+        y={50}
+        texture="assets/stand.png"
+        scale={new PIXI.Point(2, 2)} /> -->
+    </Container>
   </Preloader>
 </Pixi>

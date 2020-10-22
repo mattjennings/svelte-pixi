@@ -8,11 +8,22 @@
   export let sortableChildren: PIXI.Container['sortableChildren'] = undefined
   export let interactiveChildren: PIXI.Container['interactiveChildren'] = undefined
 
-  export let instance = new PIXI.Container()
-  const removeSelf = addPixiInstance(instance)
-  setContext('pixi/container', instance)
+  export let instance: PIXI.Container = undefined
 
-  onMount(() => removeSelf)
+  const instancePropExists = typeof instance !== 'undefined'
+
+  instance ??= new PIXI.Container()
+
+  // Container can be used either as it's own instance or as a base
+  // component for its parent instance. If this is standalone, we
+  // will manage its add/remove of the pixi instance
+  if (!instancePropExists) {
+    // we are self-managing the instance
+    const removeSelf = addPixiInstance(instance)
+    onMount(() => removeSelf)
+  }
+
+  setContext('pixi/container', instance)
 
   $: shouldApplyProps(height) && (instance.height = height)
   $: shouldApplyProps(width) && (instance.width = width)

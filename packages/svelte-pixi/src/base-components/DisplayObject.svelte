@@ -3,9 +3,8 @@
    * Handles the application of properties for objects that extend DisplayObject
    */
   import type * as PIXI from 'pixi.js'
-  import { getContext } from 'svelte'
-  import type { PointLike } from '../util'
-  import { shouldApplyProps, toPoint } from '../util'
+  import { getContext, onMount, setContext } from 'svelte'
+  import { addPixiInstance, shouldApplyProps } from '../util'
 
   export let accessible: PIXI.DisplayObject['accessible'] = undefined
   export let accessibleChildren: PIXI.DisplayObject['accessibleChildren'] = true
@@ -26,7 +25,7 @@
   export let mask: PIXI.DisplayObject['mask'] = undefined
   export let name: PIXI.DisplayObject['name'] = undefined
   export let pivot: PIXI.DisplayObject['pivot'] = undefined
-  export let position: PIXI.DisplayObject['position'] | PointLike = undefined
+  export let position: PIXI.DisplayObject['position'] = undefined
   export let renderable: PIXI.DisplayObject['renderable'] = undefined
   export let rotation: PIXI.DisplayObject['rotation'] = undefined
   export let scale: PIXI.DisplayObject['scale'] = undefined
@@ -37,7 +36,10 @@
   export let y: PIXI.DisplayObject['y'] = undefined
   export let zIndex: PIXI.DisplayObject['zIndex'] = undefined
 
-  const instance = getContext<PIXI.DisplayObject>('pixi/object')
+  export let instance: PIXI.DisplayObject
+
+  const removeSelf = addPixiInstance(instance)
+  onMount(() => removeSelf)
 
   $: shouldApplyProps(alpha) && (instance.alpha = alpha)
   $: shouldApplyProps(accessible) && (instance.accessible = accessible)
@@ -62,7 +64,7 @@
   $: shouldApplyProps(mask) && (instance.mask = mask)
   $: shouldApplyProps(name) && (instance.name = name)
   $: shouldApplyProps(pivot) && (instance.pivot = pivot)
-  $: shouldApplyProps(position) && (instance.position = toPoint(position))
+  $: shouldApplyProps(position) && (instance.position = position)
   $: shouldApplyProps(renderable) && (instance.renderable = renderable)
   $: shouldApplyProps(rotation) && (instance.rotation = rotation)
   $: shouldApplyProps(scale) && (instance.scale = scale)

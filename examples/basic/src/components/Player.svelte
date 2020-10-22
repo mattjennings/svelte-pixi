@@ -1,4 +1,5 @@
 <script>
+  import * as PIXI from 'pixi.js'
   import { onMount, getContext } from 'svelte'
   import { AnimatedSprite } from 'svelte-pixi'
   import KeyboardInput from 'keyboard-input'
@@ -53,8 +54,8 @@
 </script>
 
 <AnimatedSprite
-  play
-  anchor={{ x: 0.5, y: 0 }}
+  playing
+  anchor={new PIXI.Point(0.5, 0)}
   bind:animationSpeed
   bind:textures
   bind:x

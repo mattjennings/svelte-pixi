@@ -1,18 +1,18 @@
 <script lang="ts">
   import * as PIXI from 'pixi.js'
-  import { onMount, setContext } from 'svelte'
-  import { addPixiInstance, shouldApplyProps, toPoint } from './util'
-  import type { PointLike } from './util'
-  import DisplayObject from './base-components/DisplayObject.svelte'
-  import Container from './Container.svelte'
+  import Sprite from './Sprite.svelte'
+  import { shouldApplyProps } from './util'
 
   // text props
+  export let text: PIXI.Text['text']
+
+  // Sprite props
   export let anchor: PIXI.Text['anchor'] = undefined
   export let blendMode: PIXI.Text['blendMode'] = undefined
+  export let pluginName: PIXI.Text['pluginName'] = undefined
   export let roundPixels: PIXI.Text['roundPixels'] = undefined
-  export let resolution: PIXI.Text['resolution'] = undefined
-  export let text: PIXI.Text['text']
-  export let texture: PIXI.Text['texture'] = undefined
+  export let texture: PIXI.Text['texture'] | string = undefined
+  export let tint: PIXI.Text['tint'] = undefined
 
   // styles
   export let align: PIXI.Text['style']['align'] = 'left'
@@ -74,7 +74,7 @@
   export let mask: PIXI.Text['mask'] = undefined
   export let name: PIXI.Text['name'] = undefined
   export let pivot: PIXI.Text['pivot'] = undefined
-  export let position: PIXI.Text['position'] | PointLike = undefined
+  export let position: PIXI.Text['position'] = undefined
   export let renderable: PIXI.Text['renderable'] = undefined
   export let rotation: PIXI.Text['rotation'] = undefined
   export let scale: PIXI.Text['scale'] = undefined
@@ -86,13 +86,6 @@
   export let zIndex: PIXI.Text['zIndex'] = undefined
 
   export let instance = new PIXI.Text(text)
-
-  setContext('pixi/object', instance)
-
-  $: shouldApplyProps(anchor) && (instance.anchor = anchor)
-  $: shouldApplyProps(blendMode) && (instance.blendMode = blendMode)
-  $: shouldApplyProps(roundPixels) && (instance.roundPixels = roundPixels)
-  $: shouldApplyProps(texture) && (instance.texture = texture)
 
   $: shouldApplyProps(align) && (instance.style.align = align)
   $: shouldApplyProps(breakWords) && (instance.style.breakWords = breakWords)
@@ -136,40 +129,49 @@
   $: shouldApplyProps(wordWrapWidth) &&
     (instance.style.wordWrapWidth = wordWrapWidth)
 
-  $: shouldApplyProps(resolution) && (instance.resolution = resolution)
   $: shouldApplyProps(text) && (instance.text = text)
   $: shouldApplyProps(whiteSpace) && (instance.style.whiteSpace = whiteSpace)
 </script>
 
-<Container {instance} {height} {width} {interactiveChildren} {sortableChildren}>
-  <DisplayObject
-    {accessible}
-    {accessibleChildren}
-    {accessibleHint}
-    {accessiblePointerEvents}
-    {accessibleTitle}
-    {accessibleType}
-    {alpha}
-    {angle}
-    {buttonMode}
-    {cacheAsBitmap}
-    {cursor}
-    {filterArea}
-    {filters}
-    {hitArea}
-    {interactive}
-    {mask}
-    {name}
-    {pivot}
-    {position}
-    {renderable}
-    {rotation}
-    {scale}
-    {skew}
-    {transform}
-    {visible}
-    {x}
-    {y}
-    {zIndex} />
+<Sprite
+  {instance}
+  {accessible}
+  {accessibleChildren}
+  {accessibleHint}
+  {accessiblePointerEvents}
+  {accessibleTitle}
+  {accessibleType}
+  {alpha}
+  {anchor}
+  {angle}
+  {blendMode}
+  {buttonMode}
+  {cacheAsBitmap}
+  {cursor}
+  {filterArea}
+  {filters}
+  {height}
+  {hitArea}
+  {interactive}
+  {interactiveChildren}
+  {mask}
+  {name}
+  {pivot}
+  {pluginName}
+  {position}
+  {renderable}
+  {rotation}
+  {roundPixels}
+  {scale}
+  {skew}
+  {sortableChildren}
+  {texture}
+  {tint}
+  {transform}
+  {visible}
+  {width}
+  {x}
+  {y}
+  {zIndex}>
   <slot />
-</Container>
+</Sprite>
