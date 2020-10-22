@@ -66,7 +66,6 @@
   }
 
   const app = getContext<PIXI.Application>('pixi/app')
-  console.log(getTextures(textures))
   const instance = new PIXI.AnimatedSprite(getTextures(textures), autoUpdate)
 
   $: shouldApplyProps(autoUpdate) && (instance.autoUpdate = autoUpdate)

@@ -17,8 +17,13 @@
 
 <Pixi {app}>
   <Preloader urls={['assets/stand.png', 'assets/adventurer/spritesheet.json']}>
-    <template slot="loading">
-      <Text text="loading" fill="white" fontSize={16} x={0} y={0} />
+    <template slot="loading" let:progress>
+      <Text
+        text={`Loading... ${progress}%`}
+        fill="white"
+        fontSize={16}
+        x={0}
+        y={0} />
     </template>
 
     <Container>
@@ -29,11 +34,6 @@
         x={120}
         y={0} />
       <Player />
-      <!-- <Sprite
-        x={50}
-        y={50}
-        texture="assets/stand.png"
-        scale={new PIXI.Point(2, 2)} /> -->
     </Container>
   </Preloader>
 </Pixi>
