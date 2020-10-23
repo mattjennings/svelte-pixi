@@ -3783,6 +3783,11 @@ svelte-language-server@*:
     vscode-languageserver-types "3.15.1"
     vscode-uri "2.1.2"
 
+svelte-pixi@*:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/svelte-pixi/-/svelte-pixi-0.0.1.tgz#8b0fbb3de73e30ccdeab7e03973458adcdc5c60f"
+  integrity sha512-wgPiAFhfS52eMwyPgfAFVYOnYVS2Nq7d45SNys0i5UXGiX6ULMPe7cYnqjRrA5gH/26InSrRY3XO2jGkvCxFhQ==
+
 svelte-preprocess@^4.5.1:
   version "4.5.1"
   resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-4.5.1.tgz#cfdb642b0305e09ff6090b99d6af30fbb29239e0"
