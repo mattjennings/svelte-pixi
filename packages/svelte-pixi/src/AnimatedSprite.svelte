@@ -1,118 +1,150 @@
-<script>
+<script lang="ts">
   import * as PIXI from 'pixi.js'
-  import { onMount, beforeUpdate, getContext } from 'svelte'
-  import addPixiInstance from './util/addPixiInstance'
-  import applyProps from './util/applyProps'
+  import { getContext, onMount, tick } from 'svelte'
+  import Sprite from './Sprite.svelte'
+  import { shouldApplyProps } from './util'
 
-  export let alpha = undefined
-  export let anchor = undefined
-  export let animationSpeed = undefined
-  export let angle = undefined
-  export let blendMode = undefined
-  export let buttonMode = undefined
-  export let cursor = undefined
-  export let filters = undefined
-  export let hitArea = undefined
-  export let interactive = undefined
-  export let interactiveChildren = undefined
-  export let height = undefined
-  export let mask = undefined
-  export let name = undefined
-  export let pivot = undefined
-  export let position = undefined
-  export let resolution = undefined
-  export let roundPixels = undefined
-  export let shader = undefined
-  export let scale = undefined
-  export let skew = undefined
-  export let texture = undefined
-  export let textures = undefined
-  export let visible = undefined
-  export let width = undefined
-  export let x = undefined
-  export let y = undefined
-  export let zIndex = undefined
+  // Sprite props
+  export let anchor: PIXI.AnimatedSprite['anchor'] = undefined
+  export let blendMode: PIXI.AnimatedSprite['blendMode'] = undefined
+  export let pluginName: PIXI.AnimatedSprite['pluginName'] = undefined
+  export let roundPixels: PIXI.AnimatedSprite['roundPixels'] = undefined
+  export let texture: PIXI.AnimatedSprite['texture'] | string = undefined
+  export let tint: PIXI.AnimatedSprite['tint'] = undefined
 
-  /**
-   * if true, play the animation
-   */
-  export let play = true
-  export let ref = undefined
+  // Container props
+  export let height: PIXI.AnimatedSprite['height'] = undefined
+  export let width: PIXI.AnimatedSprite['width'] = undefined
+  export let sortableChildren: PIXI.AnimatedSprite['sortableChildren'] = undefined
+  export let interactiveChildren: PIXI.AnimatedSprite['interactiveChildren'] = undefined
 
-  const app = getContext('pixi-app')
-  const self = new PIXI.AnimatedSprite(texture || textures.map(getTexture))
-  const removeSelf = addPixiInstance(self)
-  ref = self
+  // DisplayObject props
+  export let accessible: PIXI.AnimatedSprite['accessible'] = undefined
+  export let accessibleChildren: PIXI.AnimatedSprite['accessibleChildren'] = true
+  export let accessibleHint: PIXI.AnimatedSprite['accessibleHint'] = undefined
+  export let accessiblePointerEvents: PIXI.AnimatedSprite['accessiblePointerEvents'] =
+    'auto'
+  export let accessibleTitle: PIXI.AnimatedSprite['accessibleTitle'] = undefined
+  export let accessibleType: PIXI.AnimatedSprite['accessibleType'] = undefined
+  export let alpha: PIXI.AnimatedSprite['alpha'] = undefined
+  export let angle: PIXI.AnimatedSprite['angle'] = undefined
+  export let buttonMode: PIXI.AnimatedSprite['buttonMode'] = undefined
+  export let cacheAsBitmap: PIXI.AnimatedSprite['cacheAsBitmap'] = undefined
+  export let cursor: PIXI.AnimatedSprite['cursor'] = undefined
+  export let filterArea: PIXI.AnimatedSprite['filterArea'] = undefined
+  export let filters: PIXI.AnimatedSprite['filters'] = undefined
+  export let hitArea: PIXI.AnimatedSprite['hitArea'] = undefined
+  export let interactive: PIXI.AnimatedSprite['interactive'] = undefined
+  export let mask: PIXI.AnimatedSprite['mask'] = undefined
+  export let name: PIXI.AnimatedSprite['name'] = undefined
+  export let pivot: PIXI.AnimatedSprite['pivot'] = undefined
+  export let position: PIXI.AnimatedSprite['position'] = undefined
+  export let renderable: PIXI.AnimatedSprite['renderable'] = undefined
+  export let rotation: PIXI.AnimatedSprite['rotation'] = undefined
+  export let scale: PIXI.AnimatedSprite['scale'] = undefined
+  export let skew: PIXI.AnimatedSprite['skew'] = undefined
+  export let transform: PIXI.AnimatedSprite['transform'] = undefined
+  export let visible: PIXI.AnimatedSprite['visible'] = undefined
+  export let x: PIXI.AnimatedSprite['x'] = undefined
+  export let y: PIXI.AnimatedSprite['y'] = undefined
+  export let zIndex: PIXI.AnimatedSprite['zIndex'] = undefined
 
-  // cache previous value so we can quickly check if textures prop has changed
-  let previousTextures = textures
+  // AnimatedSprite props
+  export let autoUpdate: PIXI.AnimatedSprite['autoUpdate'] = undefined
+  export let animationSpeed: PIXI.AnimatedSprite['animationSpeed'] = undefined
+  export let playing: PIXI.AnimatedSprite['playing'] = true
+  export let textures: PIXI.AnimatedSprite['textures'] | string[]
+  export let instance = new PIXI.AnimatedSprite(
+    getTextures(textures),
+    autoUpdate
+  )
 
-  beforeUpdate(async () => {
-    const props = getProps()
-    applyProps(self, props, (key, value) => {
-      switch (key) {
-        case 'play':
-          return value ? self.play() : self.stop()
-        case 'textures':
-          // conditionally update textures, otherwise the animation will get messed up
-          return previousTextures !== textures
-            ? value.map(getTexture)
-            : undefined
-        case 'texture':
-          return getTexture(value)
-        default:
-          return value
+  function getTextures(
+    textures: PIXI.AnimatedSprite['textures'] | string[]
+  ): PIXI.Texture[] {
+    return (textures as any[]).map((texture) =>
+      typeof texture === 'string'
+        ? app.loader.resources[texture]?.texture
+        : texture
+    )
+  }
+
+  const app = getContext<PIXI.Application>('pixi/app')
+
+  $: shouldApplyProps(autoUpdate) && (instance.autoUpdate = autoUpdate)
+  $: shouldApplyProps(playing) && (playing ? instance.play() : instance.stop())
+
+  // cache the previous textures prop so we don't re-assign it if value hasn't changed
+  let prevTextures
+  $: if (shouldApplyProps(textures) && prevTextures !== textures) {
+    instance.textures = getTextures(textures)
+    prevTextures = textures
+  }
+
+  $: shouldApplyProps(animationSpeed) &&
+    (instance.animationSpeed = animationSpeed)
+
+  onMount(() => {
+    async function updateProps() {
+      await tick()
+
+      autoUpdate = instance.autoUpdate
+      playing = instance.playing
+
+      if (typeof textures[0] === 'string' && instance.textures) {
+        textures = instance.textures.map((t) => t.textureCacheIds[0])
+        prevTextures = textures
+      } else {
+        textures = instance.textures
+        prevTextures = textures
       }
-    })
-
-    if (previousTextures !== textures) {
-      if (props.play) {
-        self.play()
-      }
-      previousTextures = textures
     }
+
+    app.ticker.add(updateProps)
+
+    return () => app.ticker.remove(updateProps)
   })
-
-  onMount(() => removeSelf)
-
-  function getTexture(texture) {
-    if (typeof texture === 'string') {
-      return app.loader.resources[texture]
-    }
-
-    return texture
-  }
-
-  function getProps() {
-    return {
-      alpha,
-      anchor,
-      animationSpeed,
-      angle,
-      blendMode,
-      buttonMode,
-      cursor,
-      filters,
-      hitArea,
-      interactive,
-      interactiveChildren,
-      height,
-      mask,
-      name,
-      pivot,
-      position,
-      resolution,
-      roundPixels,
-      scale,
-      shader,
-      skew,
-      texture,
-      textures,
-      visible,
-      width,
-      x,
-      y,
-      play
-    }
-  }
 </script>
+
+<Sprite
+  bind:instance
+  bind:accessible
+  bind:accessibleChildren
+  bind:accessibleHint
+  bind:accessiblePointerEvents
+  bind:accessibleTitle
+  bind:accessibleType
+  bind:alpha
+  bind:anchor
+  bind:angle
+  bind:blendMode
+  bind:buttonMode
+  bind:cacheAsBitmap
+  bind:cursor
+  bind:filterArea
+  bind:filters
+  bind:height
+  bind:hitArea
+  bind:interactive
+  bind:interactiveChildren
+  bind:mask
+  bind:name
+  bind:pivot
+  bind:pluginName
+  bind:position
+  bind:renderable
+  bind:rotation
+  bind:roundPixels
+  bind:scale
+  bind:skew
+  bind:sortableChildren
+  bind:texture
+  bind:tint
+  bind:transform
+  bind:visible
+  bind:width
+  bind:x
+  bind:y
+  bind:zIndex>
+  <slot />
+</Sprite>

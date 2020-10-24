@@ -1,27 +1,31 @@
-<script>
+<script lang="ts">
   import { onMount, getContext } from 'svelte'
-  import * as PIXI from 'pixi.js'
 
-  const app = getContext('pixi-app')
+  const app = getContext<PIXI.Application>('pixi/app')
 
-  export let urls = []
+  export let urls: string[] = []
 
-  let preloading = urls.length > 0
+  let progress: number = 0
+  let loading = urls.length > 0
 
   onMount(() => {
-    urls.forEach(url => {
+    urls.forEach((url) => {
       app.loader.add(url)
     })
     app.loader.load()
 
     app.loader.onComplete.add(() => {
-      preloading = false
+      loading = false
+    })
+
+    app.loader.onProgress.add((ev) => {
+      progress = ev.progress
     })
   })
 </script>
 
-{#if preloading}
-  <slot name="loading" />
+{#if loading}
+  <slot name="loading" {progress} />
 {:else}
   <slot />
 {/if}

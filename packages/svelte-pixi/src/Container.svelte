@@ -1,18 +1,52 @@
-<script>
+<script lang="ts">
   import * as PIXI from 'pixi.js'
-  import { onMount, setContext } from 'svelte'
+  import { getContext, onMount, setContext, tick } from 'svelte'
+  import { addPixiInstance, shouldApplyProps } from './util'
 
-  import addPixiInstance from './util/addPixiInstance'
+  export let height: PIXI.Container['height'] = undefined
+  export let width: PIXI.Container['width'] = undefined
+  export let sortableChildren: PIXI.Container['sortableChildren'] = undefined
+  export let interactiveChildren: PIXI.Container['interactiveChildren'] = undefined
 
-  const self = new PIXI.Container()
-  const removeSelf = addPixiInstance(self)
-  setContext('pixi-container', self)
+  export let instance: PIXI.Container = undefined
+
+  const instancePropExists = typeof instance !== 'undefined'
+
+  instance ??= new PIXI.Container()
+
+  // Container can be used either as it's own instance or as a base
+  // component for its parent instance. If this is standalone, we
+  // will manage its add/remove of the pixi instance
+  if (!instancePropExists) {
+    // we are self-managing the instance
+    const removeSelf = addPixiInstance(instance)
+    onMount(() => removeSelf)
+  }
+
+  setContext('pixi/container', instance)
+
+  const app = getContext<PIXI.Application>('pixi/app')
+
+  $: shouldApplyProps(height) && (instance.height = height)
+  $: shouldApplyProps(width) && (instance.width = width)
+  $: shouldApplyProps(sortableChildren) &&
+    (instance.sortableChildren = sortableChildren)
+  $: shouldApplyProps(interactiveChildren) &&
+    (instance.interactiveChildren = interactiveChildren)
 
   onMount(() => {
-    return () => {
-      removeSelf()
-      setContext('pixi-container', undefined)
+    async function updateProps() {
+      await tick()
+
+      height = instance.height
+      width = instance.width
+      sortableChildren = instance.sortableChildren
+      interactiveChildren = instance.interactiveChildren
     }
+
+    app.ticker.add(updateProps)
+
+    return () => app.ticker.remove(updateProps)
   })
 </script>
 

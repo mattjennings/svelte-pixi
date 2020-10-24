@@ -1,9 +1,9 @@
-<script>
+<script lang="ts">
   import { setContext } from 'svelte'
-  export let app
+  export let app: PIXI.Application
 
-  setContext('pixi-app', app)
-  setContext('pixi-stage', app.stage)
+  setContext('pixi/app', app)
+  setContext('pixi/stage', app.stage)
 
   function renderApp(node) {
     node.appendChild(app.view)

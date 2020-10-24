@@ -1,7 +1,10 @@
 # svelte-pixi
 
-Create pixi.js apps with svelte 3
+you probably shouldn't use this yet
 
-work in progress
+Support components:
 
-https://svelte-pixi.mattjennings.now.sh
+- AnimatedSprite
+- Container
+- Sprite
+- Text

@@ -1,10 +1,13 @@
 <script>
+  import * as PIXI from 'pixi.js'
   import { onMount, getContext } from 'svelte'
   import { AnimatedSprite } from 'svelte-pixi'
   import KeyboardInput from 'keyboard-input'
 
-  const keyboard = new KeyboardInput()
-  const app = getContext('pixi-app')
+  // todo: replace keyboard-input with some other library
+  const keyboard = new KeyboardInput.default()
+  const app = getContext('pixi/app')
+  let instance
 
   const { spritesheet } = app.loader.resources[
     'assets/adventurer/spritesheet.json'
@@ -52,8 +55,9 @@
 </script>
 
 <AnimatedSprite
-  play
-  anchor={{ x: 0.5, y: 0 }}
+  bind:instance
+  playing
+  anchor={new PIXI.Point(0.5, 0)}
   bind:animationSpeed
   bind:textures
   bind:x
