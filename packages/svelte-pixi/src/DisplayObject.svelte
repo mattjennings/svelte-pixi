@@ -4,7 +4,7 @@
    */
   import type * as PIXI from 'pixi.js'
   import { getContext, onMount, setContext } from 'svelte'
-  import { addPixiInstance, shouldApplyProps } from '../util'
+  import { addPixiInstance, shouldApplyProps } from './util'
 
   export let accessible: PIXI.DisplayObject['accessible'] = undefined
   export let accessibleChildren: PIXI.DisplayObject['accessibleChildren'] = true

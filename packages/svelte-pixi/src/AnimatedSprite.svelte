@@ -1,8 +1,8 @@
 <script lang="ts">
   import * as PIXI from 'pixi.js'
-  import { onMount, beforeUpdate, getContext } from 'svelte'
-  import { addPixiInstance, applyProps, shouldApplyProps } from './util'
+  import { getContext } from 'svelte'
   import Sprite from './Sprite.svelte'
+  import { shouldApplyProps } from './util'
 
   // Sprite props
   export let anchor: PIXI.AnimatedSprite['anchor'] = undefined

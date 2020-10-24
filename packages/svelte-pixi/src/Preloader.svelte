@@ -19,7 +19,6 @@
     })
 
     app.loader.onProgress.add((ev) => {
-      console.log(ev)
       progress = ev.progress
     })
   })

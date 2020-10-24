@@ -2,7 +2,7 @@
   import * as PIXI from 'pixi.js'
   import { onMount, getContext, setContext } from 'svelte'
   import { addPixiInstance, shouldApplyProps } from './util'
-  import DisplayObject from './base-components/DisplayObject.svelte'
+  import DisplayObject from './DisplayObject.svelte'
   import Container from './Container.svelte'
 
   // Sprite props
