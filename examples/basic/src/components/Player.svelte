@@ -7,6 +7,7 @@
   // todo: replace keyboard-input with some other library
   const keyboard = new KeyboardInput.default()
   const app = getContext('pixi/app')
+  let instance
 
   const { spritesheet } = app.loader.resources[
     'assets/adventurer/spritesheet.json'
@@ -54,6 +55,7 @@
 </script>
 
 <AnimatedSprite
+  bind:instance
   playing
   anchor={new PIXI.Point(0.5, 0)}
   bind:animationSpeed

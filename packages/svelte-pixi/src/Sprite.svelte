@@ -1,6 +1,6 @@
 <script lang="ts">
   import * as PIXI from 'pixi.js'
-  import { onMount, getContext, setContext } from 'svelte'
+  import { onMount, getContext, setContext, tick } from 'svelte'
   import { addPixiInstance, shouldApplyProps } from './util'
   import DisplayObject from './DisplayObject.svelte'
   import Container from './Container.svelte'
@@ -58,50 +58,78 @@
   $: shouldApplyProps(blendMode) && (instance.blendMode = blendMode)
   $: shouldApplyProps(pluginName) && (instance.pluginName = pluginName)
   $: shouldApplyProps(roundPixels) && (instance.roundPixels = roundPixels)
-  $: shouldApplyProps(texture) &&
-    (instance.texture =
+
+  // cache the previous texture prop so we don't re-assign it if value hasn't changed
+  let prevTexture
+  $: if (shouldApplyProps(texture) && texture !== prevTexture) {
+    instance.texture =
       typeof texture === 'string'
         ? app.loader.resources[texture]?.texture
-        : texture)
+        : texture
+  }
   $: shouldApplyProps(tint) && (instance.tint = tint)
+
+  onMount(() => {
+    async function updateProps() {
+      await tick()
+
+      anchor = instance.anchor
+      blendMode = instance.blendMode
+      pluginName = instance.pluginName
+      roundPixels = instance.roundPixels
+
+      if (typeof texture === 'string') {
+        // assign it the first textureCacheId
+        texture = instance.texture?.textureCacheIds?.[0]
+        prevTexture = texture
+      } else {
+        texture = instance.texture
+        prevTexture = texture
+      }
+    }
+
+    app.ticker.add(updateProps)
+
+    return () => app.ticker.remove(updateProps)
+  })
 </script>
 
 <DisplayObject
-  {instance}
-  {accessible}
-  {accessibleChildren}
-  {accessibleHint}
-  {accessiblePointerEvents}
-  {accessibleTitle}
-  {accessibleType}
-  {alpha}
-  {angle}
-  {buttonMode}
-  {cacheAsBitmap}
-  {cursor}
-  {filterArea}
-  {filters}
-  {hitArea}
-  {interactive}
-  {mask}
-  {name}
-  {pivot}
-  {position}
-  {renderable}
-  {rotation}
-  {scale}
-  {skew}
-  {transform}
-  {visible}
-  {x}
-  {y}
-  {zIndex}>
+  bind:instance
+  bind:accessible
+  bind:accessibleChildren
+  bind:accessibleHint
+  bind:accessiblePointerEvents
+  bind:accessibleTitle
+  bind:accessibleType
+  bind:alpha
+  bind:angle
+  bind:buttonMode
+  bind:cacheAsBitmap
+  bind:cursor
+  bind:filterArea
+  bind:filters
+  bind:hitArea
+  bind:interactive
+  bind:mask
+  bind:name
+  bind:pivot
+  bind:position
+  bind:renderable
+  bind:rotation
+  bind:scale
+  bind:skew
+  bind:transform
+  bind:visible
+  bind:x
+  bind:y
+  bind:zIndex>
   <Container
     {instance}
-    {height}
-    {width}
-    {interactiveChildren}
-    {sortableChildren}>
+    bind:height
+    bind:width
+    bind:interactiveChildren
+    bind:sortableChildren>
     <slot />
   </Container>
 </DisplayObject>

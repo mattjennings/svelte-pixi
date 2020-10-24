@@ -1,6 +1,6 @@
 <script lang="ts">
   import * as PIXI from 'pixi.js'
-  import { onMount, setContext } from 'svelte'
+  import { getContext, onMount, setContext, tick } from 'svelte'
   import { addPixiInstance, shouldApplyProps } from './util'
 
   export let height: PIXI.Container['height'] = undefined
@@ -25,12 +25,29 @@
 
   setContext('pixi/container', instance)
 
+  const app = getContext<PIXI.Application>('pixi/app')
+
   $: shouldApplyProps(height) && (instance.height = height)
   $: shouldApplyProps(width) && (instance.width = width)
   $: shouldApplyProps(sortableChildren) &&
     (instance.sortableChildren = sortableChildren)
   $: shouldApplyProps(interactiveChildren) &&
     (instance.interactiveChildren = interactiveChildren)
+
+  onMount(() => {
+    async function updateProps() {
+      await tick()
+
+      height = instance.height
+      width = instance.width
+      sortableChildren = instance.sortableChildren
+      interactiveChildren = instance.interactiveChildren
+    }
+
+    app.ticker.add(updateProps)
+
+    return () => app.ticker.remove(updateProps)
+  })
 </script>
 
 <slot />

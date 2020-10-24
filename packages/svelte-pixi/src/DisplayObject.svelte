@@ -3,7 +3,7 @@
    * Handles the application of properties for objects that extend DisplayObject
    */
   import type * as PIXI from 'pixi.js'
-  import { getContext, onMount, setContext } from 'svelte'
+  import { getContext, onMount, tick } from 'svelte'
   import { addPixiInstance, shouldApplyProps } from './util'
 
   export let accessible: PIXI.DisplayObject['accessible'] = undefined
@@ -37,6 +37,8 @@
   export let zIndex: PIXI.DisplayObject['zIndex'] = undefined
 
   export let instance: PIXI.DisplayObject
+
+  const app = getContext<PIXI.Application>('pixi/app')
 
   const removeSelf = addPixiInstance(instance)
   onMount(() => removeSelf)
@@ -74,6 +76,44 @@
   $: shouldApplyProps(x) && (instance.x = x)
   $: shouldApplyProps(y) && (instance.y = y)
   $: shouldApplyProps(zIndex) && (instance.zIndex = zIndex)
+
+  onMount(() => {
+    async function updateProps() {
+      await tick()
+      alpha = instance.alpha
+      accessible = instance.accessible
+      accessibleChildren = instance.accessibleChildren
+      accessibleHint = instance.accessibleHint
+      accessiblePointerEvents = instance.accessiblePointerEvents
+      accessibleTitle = instance.accessibleTitle
+      accessibleType = instance.accessibleType
+      angle = instance.angle
+      buttonMode = instance.buttonMode
+      cacheAsBitmap = instance.cacheAsBitmap
+      cursor = instance.cursor
+      filterArea = instance.filterArea
+      filters = instance.filters
+      hitArea = instance.hitArea
+      interactive = instance.interactive
+      mask = instance.mask
+      name = instance.name
+      pivot = instance.pivot
+      position = instance.position
+      renderable = instance.renderable
+      rotation = instance.rotation
+      scale = instance.scale
+      skew = instance.skew
+      transform = instance.transform
+      visible = instance.visible
+      x = instance.x
+      y = instance.y
+      zIndex = instance.zIndex
+    }
+
+    app.ticker.add(updateProps)
+
+    return () => app.ticker.remove(updateProps)
+  })
 </script>
 
 <slot />

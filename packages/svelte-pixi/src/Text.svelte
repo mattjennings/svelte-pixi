@@ -1,5 +1,6 @@
 <script lang="ts">
   import * as PIXI from 'pixi.js'
+  import { getContext, onMount, tick } from 'svelte'
   import Sprite from './Sprite.svelte'
   import { shouldApplyProps } from './util'
 
@@ -87,6 +88,8 @@
 
   export let instance = new PIXI.Text(text)
 
+  const app = getContext<PIXI.Application>('pixi/app')
+
   $: shouldApplyProps(align) && (instance.style.align = align)
   $: shouldApplyProps(breakWords) && (instance.style.breakWords = breakWords)
   $: shouldApplyProps(dropShadow) && (instance.style.dropShadow = dropShadow)
@@ -131,47 +134,85 @@
 
   $: shouldApplyProps(text) && (instance.text = text)
   $: shouldApplyProps(whiteSpace) && (instance.style.whiteSpace = whiteSpace)
+
+  onMount(() => {
+    async function updateProps() {
+      await tick()
+
+      align = instance.style.align
+      breakWords = instance.style.breakWords
+      dropShadow = instance.style.dropShadow
+      dropShadowAlpha = instance.style.dropShadowAlpha
+      dropShadowBlur = instance.style.dropShadowBlur
+      dropShadowColor = instance.style.dropShadowColor
+      dropShadowDistance = instance.style.dropShadowDistance
+      fill = instance.style.fill
+      fillGradientType = instance.style.fillGradientType
+      fillGradientStops = instance.style.fillGradientStops
+      fontFamily = instance.style.fontFamily
+      fontSize = instance.style.fontSize
+      fontStyle = instance.style.fontStyle
+      fontVariant = instance.style.fontVariant
+      fontWeight = instance.style.fontWeight
+      leading = instance.style.leading
+      letterSpacing = instance.style.letterSpacing
+      lineHeight = instance.style.lineHeight
+      lineJoin = instance.style.lineJoin
+      miterLimit = instance.style.miterLimit
+      padding = instance.style.padding
+      stroke = instance.style.stroke
+      strokeThickness = instance.style.strokeThickness
+      trim = instance.style.trim
+      textBaseline = instance.style.textBaseline
+      wordWrap = instance.style.wordWrap
+      wordWrapWidth = instance.style.wordWrapWidth
+    }
+
+    app.ticker.add(updateProps)
+
+    return () => app.ticker.remove(updateProps)
+  })
 </script>
 
 <Sprite
-  {instance}
-  {accessible}
-  {accessibleChildren}
-  {accessibleHint}
-  {accessiblePointerEvents}
-  {accessibleTitle}
-  {accessibleType}
-  {alpha}
-  {anchor}
-  {angle}
-  {blendMode}
-  {buttonMode}
-  {cacheAsBitmap}
-  {cursor}
-  {filterArea}
-  {filters}
-  {height}
-  {hitArea}
-  {interactive}
-  {interactiveChildren}
-  {mask}
-  {name}
-  {pivot}
-  {pluginName}
-  {position}
-  {renderable}
-  {rotation}
-  {roundPixels}
-  {scale}
-  {skew}
-  {sortableChildren}
-  {texture}
-  {tint}
-  {transform}
-  {visible}
-  {width}
-  {x}
-  {y}
-  {zIndex}>
+  bind:instance
+  bind:accessible
+  bind:accessibleChildren
+  bind:accessibleHint
+  bind:accessiblePointerEvents
+  bind:accessibleTitle
+  bind:accessibleType
+  bind:alpha
+  bind:anchor
+  bind:angle
+  bind:blendMode
+  bind:buttonMode
+  bind:cacheAsBitmap
+  bind:cursor
+  bind:filterArea
+  bind:filters
+  bind:height
+  bind:hitArea
+  bind:interactive
+  bind:interactiveChildren
+  bind:mask
+  bind:name
+  bind:pivot
+  bind:pluginName
+  bind:position
+  bind:renderable
+  bind:rotation
+  bind:roundPixels
+  bind:scale
+  bind:skew
+  bind:sortableChildren
+  bind:texture
+  bind:tint
+  bind:transform
+  bind:visible
+  bind:width
+  bind:x
+  bind:y
+  bind:zIndex>
   <slot />
 </Sprite>

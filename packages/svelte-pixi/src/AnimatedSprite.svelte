@@ -1,6 +1,6 @@
 <script lang="ts">
   import * as PIXI from 'pixi.js'
-  import { getContext } from 'svelte'
+  import { getContext, onMount, tick } from 'svelte'
   import Sprite from './Sprite.svelte'
   import { shouldApplyProps } from './util'
 
@@ -54,6 +54,10 @@
   export let animationSpeed: PIXI.AnimatedSprite['animationSpeed'] = undefined
   export let playing: PIXI.AnimatedSprite['playing'] = true
   export let textures: PIXI.AnimatedSprite['textures'] | string[]
+  export let instance = new PIXI.AnimatedSprite(
+    getTextures(textures),
+    autoUpdate
+  )
 
   function getTextures(
     textures: PIXI.AnimatedSprite['textures'] | string[]
@@ -66,55 +70,81 @@
   }
 
   const app = getContext<PIXI.Application>('pixi/app')
-  const instance = new PIXI.AnimatedSprite(getTextures(textures), autoUpdate)
 
   $: shouldApplyProps(autoUpdate) && (instance.autoUpdate = autoUpdate)
-
   $: shouldApplyProps(playing) && (playing ? instance.play() : instance.stop())
-  $: shouldApplyProps(textures) && (instance.textures = getTextures(textures))
+
+  // cache the previous textures prop so we don't re-assign it if value hasn't changed
+  let prevTextures
+  $: if (shouldApplyProps(textures) && prevTextures !== textures) {
+    instance.textures = getTextures(textures)
+    prevTextures = textures
+  }
+
   $: shouldApplyProps(animationSpeed) &&
     (instance.animationSpeed = animationSpeed)
+
+  onMount(() => {
+    async function updateProps() {
+      await tick()
+
+      autoUpdate = instance.autoUpdate
+      playing = instance.playing
+
+      if (typeof textures[0] === 'string' && instance.textures) {
+        textures = instance.textures.map((t) => t.textureCacheIds[0])
+        prevTextures = textures
+      } else {
+        textures = instance.textures
+        prevTextures = textures
+      }
+    }
+
+    app.ticker.add(updateProps)
+
+    return () => app.ticker.remove(updateProps)
+  })
 </script>
 
 <Sprite
-  {instance}
-  {accessible}
-  {accessibleChildren}
-  {accessibleHint}
-  {accessiblePointerEvents}
-  {accessibleTitle}
-  {accessibleType}
-  {alpha}
-  {anchor}
-  {angle}
-  {blendMode}
-  {buttonMode}
-  {cacheAsBitmap}
-  {cursor}
-  {filterArea}
-  {filters}
-  {height}
-  {hitArea}
-  {interactive}
-  {interactiveChildren}
-  {mask}
-  {name}
-  {pivot}
-  {pluginName}
-  {position}
-  {renderable}
-  {rotation}
-  {roundPixels}
-  {scale}
-  {skew}
-  {sortableChildren}
-  {texture}
-  {tint}
-  {transform}
-  {visible}
-  {width}
-  {x}
-  {y}
-  {zIndex}>
+  bind:instance
+  bind:accessible
+  bind:accessibleChildren
+  bind:accessibleHint
+  bind:accessiblePointerEvents
+  bind:accessibleTitle
+  bind:accessibleType
+  bind:alpha
+  bind:anchor
+  bind:angle
+  bind:blendMode
+  bind:buttonMode
+  bind:cacheAsBitmap
+  bind:cursor
+  bind:filterArea
+  bind:filters
+  bind:height
+  bind:hitArea
+  bind:interactive
+  bind:interactiveChildren
+  bind:mask
+  bind:name
+  bind:pivot
+  bind:pluginName
+  bind:position
+  bind:renderable
+  bind:rotation
+  bind:roundPixels
+  bind:scale
+  bind:skew
+  bind:sortableChildren
+  bind:texture
+  bind:tint
+  bind:transform
+  bind:visible
+  bind:width
+  bind:x
+  bind:y
+  bind:zIndex>
   <slot />
 </Sprite>

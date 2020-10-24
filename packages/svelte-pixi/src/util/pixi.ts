@@ -1,4 +1,4 @@
-import { getContext } from 'svelte'
+import { getContext, tick } from 'svelte'
 import type PIXI from 'pixi.js'
 import { warning } from './helpers'
 

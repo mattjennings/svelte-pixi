@@ -1,8 +1,9 @@
 <script lang="ts">
   import * as PIXI from 'pixi.js'
-  import { getContext } from 'svelte'
+  import { getContext, onMount, tick } from 'svelte'
   import { getTexture, shouldApplyProps } from './util'
   import Sprite from './Sprite.svelte'
+  const app = getContext<PIXI.Application>('pixi/app')
 
   // Sprite props
   export let anchor: PIXI.TilingSprite['anchor'] = undefined
@@ -54,9 +55,7 @@
   export let tileTransform: PIXI.TilingSprite['tileTransform'] = undefined
   export let uvMatrix: PIXI.TilingSprite['uvMatrix'] = undefined
   export let uvRespectAnchor: PIXI.TilingSprite['uvRespectAnchor'] = undefined
-
-  const app = getContext<PIXI.Application>('pixi/app')
-  const instance = new PIXI.TilingSprite(
+  export let instance = new PIXI.TilingSprite(
     getTexture(app, texture),
     width,
     height
@@ -67,47 +66,62 @@
   $: shouldApplyProps(uvMatrix) && (instance.uvMatrix = uvMatrix)
   $: shouldApplyProps(uvRespectAnchor) &&
     (instance.uvRespectAnchor = uvRespectAnchor)
+
+  onMount(() => {
+    async function updateProps() {
+      await tick()
+
+      clampMargin = instance.clampMargin
+      tileTransform = instance.tileTransform
+      uvMatrix = instance.uvMatrix
+      uvRespectAnchor = instance.uvRespectAnchor
+    }
+
+    app.ticker.add(updateProps)
+
+    return () => app.ticker.remove(updateProps)
+  })
 </script>
 
 <Sprite
-  {instance}
-  {accessible}
-  {accessibleChildren}
-  {accessibleHint}
-  {accessiblePointerEvents}
-  {accessibleTitle}
-  {accessibleType}
-  {alpha}
-  {anchor}
-  {angle}
-  {blendMode}
-  {buttonMode}
-  {cacheAsBitmap}
-  {cursor}
-  {filterArea}
-  {filters}
-  {height}
-  {hitArea}
-  {interactive}
-  {interactiveChildren}
-  {mask}
-  {name}
-  {pivot}
-  {pluginName}
-  {position}
-  {renderable}
-  {rotation}
-  {roundPixels}
-  {scale}
-  {skew}
-  {sortableChildren}
-  {texture}
-  {tint}
-  {transform}
-  {visible}
-  {width}
-  {x}
-  {y}
-  {zIndex}>
+  bind:instance
+  bind:accessible
+  bind:accessibleChildren
+  bind:accessibleHint
+  bind:accessiblePointerEvents
+  bind:accessibleTitle
+  bind:accessibleType
+  bind:alpha
+  bind:anchor
+  bind:angle
+  bind:blendMode
+  bind:buttonMode
+  bind:cacheAsBitmap
+  bind:cursor
+  bind:filterArea
+  bind:filters
+  bind:height
+  bind:hitArea
+  bind:interactive
+  bind:interactiveChildren
+  bind:mask
+  bind:name
+  bind:pivot
+  bind:pluginName
+  bind:position
+  bind:renderable
+  bind:rotation
+  bind:roundPixels
+  bind:scale
+  bind:skew
+  bind:sortableChildren
+  bind:texture
+  bind:tint
+  bind:transform
+  bind:visible
+  bind:width
+  bind:x
+  bind:y
+  bind:zIndex>
   <slot />
 </Sprite>
