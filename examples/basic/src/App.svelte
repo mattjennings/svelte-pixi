@@ -1,7 +1,7 @@
 <script lang="ts">
   import * as PIXI from 'pixi.js'
   import Player from './components/Player.svelte'
-  import { Pixi, Container, Text, Preloader } from 'svelte-pixi'
+  import { Pixi, Container, Graphics, Text, Preloader } from 'svelte-pixi'
 
   const app = new PIXI.Application({
     width: 400, // default: 800
