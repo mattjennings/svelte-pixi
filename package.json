@@ -12,7 +12,8 @@
   "workspaces": {
     "packages": [
       "examples/*",
-      "packages/*"
+      "packages/*",
+      "docs"
     ],
     "nohoist": [
       "**/svelte"

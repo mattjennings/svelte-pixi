@@ -1,5 +1,6 @@
 <script lang="ts">
-  import * as PIXI from 'pixi.js'
+  import type PIXI from 'pixi.js'
+  import { Sprite } from '@pixi/sprite'
   import { onMount, getContext, setContext, tick } from 'svelte'
   import { addPixiInstance, shouldApplyProps } from './util'
   import DisplayObject from './DisplayObject.svelte'
@@ -50,7 +51,7 @@
   export let y: PIXI.Sprite['y'] = undefined
   export let zIndex: PIXI.Sprite['zIndex'] = undefined
 
-  export let instance: PIXI.Sprite = new PIXI.Sprite()
+  export let instance: PIXI.Sprite = new Sprite()
 
   const app = getContext<PIXI.Application>('pixi/app')
 

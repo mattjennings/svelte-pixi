@@ -1,8 +1,9 @@
 <script lang="ts">
-  import * as PIXI from 'pixi.js'
+  import type PIXI from 'pixi.js'
+  import { Text, TEXT_GRADIENT } from '@pixi/text'
   import { getContext, onMount, tick } from 'svelte'
-  import Sprite from './Sprite.svelte'
   import { shouldApplyProps } from './util'
+  import Sprite from './Sprite.svelte'
 
   // text props
   export let text: PIXI.Text['text']
@@ -28,7 +29,7 @@
   export let dropShadowDistance: PIXI.Text['style']['dropShadowDistance'] = 5
   export let fill: PIXI.Text['style']['fill'] = 'black'
   export let fillGradientType: PIXI.Text['style']['fillGradientType'] =
-    PIXI.TEXT_GRADIENT.LINEAR_VERTICAL
+    TEXT_GRADIENT.LINEAR_VERTICAL
   export let fillGradientStops: PIXI.Text['style']['fillGradientStops'] = undefined
   export let fontFamily: PIXI.Text['style']['fontFamily'] = 'Arial'
   export let fontSize: PIXI.Text['style']['fontSize'] = 26
@@ -86,7 +87,7 @@
   export let y: PIXI.Text['y'] = undefined
   export let zIndex: PIXI.Text['zIndex'] = undefined
 
-  export let instance = new PIXI.Text(text)
+  export let instance: PIXI.Text = new Text(text)
 
   const app = getContext<PIXI.Application>('pixi/app')
 

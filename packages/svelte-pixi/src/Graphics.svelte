@@ -1,5 +1,6 @@
 <script lang="ts">
-  import * as PIXI from 'pixi.js'
+  import type PIXI from 'pixi.js'
+  import { Graphics } from '@pixi/graphics'
   import { onMount, getContext, setContext, tick } from 'svelte'
   import { addPixiInstance, shouldApplyProps } from './util'
   import DisplayObject from './DisplayObject.svelte'
@@ -50,7 +51,7 @@
 
   export let draw: (graphics: PIXI.Graphics) => any
 
-  export let instance: PIXI.Graphics = new PIXI.Graphics()
+  export let instance: PIXI.Graphics = new Graphics()
   const app = getContext<PIXI.Application>('pixi/app')
 
   $: shouldApplyProps(blendMode) && (instance.blendMode = blendMode)

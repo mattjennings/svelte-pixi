@@ -1,5 +1,6 @@
 <script lang="ts">
-  import * as PIXI from 'pixi.js'
+  import type PIXI from 'pixi.js'
+  import { TilingSprite } from '@pixi/sprite-tiling'
   import { getContext, onMount, tick } from 'svelte'
   import { getTexture, shouldApplyProps } from './util'
   import Sprite from './Sprite.svelte'
@@ -55,7 +56,7 @@
   export let tileTransform: PIXI.TilingSprite['tileTransform'] = undefined
   export let uvMatrix: PIXI.TilingSprite['uvMatrix'] = undefined
   export let uvRespectAnchor: PIXI.TilingSprite['uvRespectAnchor'] = undefined
-  export let instance = new PIXI.TilingSprite(
+  export let instance: PIXI.TilingSprite = new TilingSprite(
     getTexture(app, texture),
     width,
     height

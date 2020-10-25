@@ -1,5 +1,6 @@
 <script lang="ts">
-  import * as PIXI from 'pixi.js'
+  import type PIXI from 'pixi.js'
+  import { AnimatedSprite } from '@pixi/sprite-animated'
   import { getContext, onMount, tick } from 'svelte'
   import Sprite from './Sprite.svelte'
   import { shouldApplyProps } from './util'
@@ -54,7 +55,7 @@
   export let animationSpeed: PIXI.AnimatedSprite['animationSpeed'] = undefined
   export let playing: PIXI.AnimatedSprite['playing'] = true
   export let textures: PIXI.AnimatedSprite['textures'] | string[]
-  export let instance = new PIXI.AnimatedSprite(
+  export let instance: PIXI.AnimatedSprite = new AnimatedSprite(
     getTextures(textures),
     autoUpdate
   )

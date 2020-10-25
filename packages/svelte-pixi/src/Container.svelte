@@ -1,5 +1,6 @@
 <script lang="ts">
-  import * as PIXI from 'pixi.js'
+  import type PIXI from 'pixi.js'
+  import { Container } from '@pixi/display'
   import { getContext, onMount, setContext, tick } from 'svelte'
   import { addPixiInstance, shouldApplyProps } from './util'
 
@@ -12,7 +13,7 @@
 
   const instancePropExists = typeof instance !== 'undefined'
 
-  instance ??= new PIXI.Container()
+  instance ??= new Container()
 
   // Container can be used either as it's own instance or as a base
   // component for its parent instance. If this is standalone, we
