@@ -13,10 +13,19 @@
     "packages": [
       "examples/*",
       "packages/*",
+      "packages/@svelte-docs/*",
       "docs"
     ],
     "nohoist": [
-      "**/svelte"
+      "**/svelte",
+      "**/@svelte-docs/core",
+      "**/@svelte-docs/core/**",
+      "**/@svelte-docs/server",
+      "**/@svelte-docs/server/**",
+      "**/@svelte-docs/publisher",
+      "**/@svelte-docs/publisher/**",
+      "**/@svelte-docs/themes",
+      "**/@svelte-docs/themes/**"
     ]
   },
   "resolutions": {

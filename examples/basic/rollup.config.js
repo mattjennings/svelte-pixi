@@ -58,7 +58,6 @@ export default {
     resolve({
       browser: true,
       preferBuiltins: false,
-      // dedupe: ['svelte']
       dedupe: (importee) => {
         return importee === 'svelte' || importee.startsWith('svelte/')
       },
