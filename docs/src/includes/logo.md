@@ -1,4 +1,4 @@
-# [Svelte<span>Docs</span>](/) #
+# [Svelte<span>Pixi</span>](/)
 
 <style>
     span{color:var(--light)}

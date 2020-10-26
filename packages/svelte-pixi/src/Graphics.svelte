@@ -49,9 +49,14 @@
   export let state: PIXI.Graphics['state'] = undefined
   export let tint: PIXI.Graphics['tint'] = undefined
 
+  /**
+   * @type { (graphics: PIXI.Graphics) => any}
+   */
   export let draw: (graphics: PIXI.Graphics) => any
 
+  /** @type {PIXI.DisplayObject} PIXI.DisplayObject instance to render */
   export let instance: PIXI.Graphics = new Graphics()
+
   const app = getContext<PIXI.Application>('pixi/app')
 
   $: shouldApplyProps(blendMode) && (instance.blendMode = blendMode)

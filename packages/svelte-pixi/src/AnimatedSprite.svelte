@@ -55,6 +55,8 @@
   export let animationSpeed: PIXI.AnimatedSprite['animationSpeed'] = undefined
   export let playing: PIXI.AnimatedSprite['playing'] = true
   export let textures: PIXI.AnimatedSprite['textures'] | string[]
+
+  /** @type {PIXI.AnimatedSprite} PIXI.AnimatedSprite instance to render */
   export let instance: PIXI.AnimatedSprite = new AnimatedSprite(
     getTextures(textures),
     autoUpdate

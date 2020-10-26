@@ -36,6 +36,7 @@
   export let y: PIXI.DisplayObject['y'] = undefined
   export let zIndex: PIXI.DisplayObject['zIndex'] = undefined
 
+  /** @type {PIXI.DisplayObject} PIXI.DisplayObject instance to render */
   export let instance: PIXI.DisplayObject
 
   const app = getContext<PIXI.Application>('pixi/app')

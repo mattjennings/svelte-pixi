@@ -3,6 +3,8 @@
   "version": "0.10.8",
   "description": "Core of Svelte-docs builder",
   "dependencies": {
+    "@rollup/plugin-commonjs": "^11.0.2",
+    "@rollup/plugin-node-resolve": "^9.0.0",
     "chalk": "^2.4.2",
     "espree": "^6.1.2",
     "fs-extra": "^8.1.0",
@@ -14,9 +16,7 @@
     "postcss-import": "^12.0.1",
     "resize-detector": "^0.2.0",
     "rollup": "^1.32.1",
-    "@rollup/plugin-commonjs": "^11.0.2",
     "rollup-plugin-livereload": "^1.1.0",
-    "@rollup/plugin-node-resolve": "^9.0.0",
     "rollup-plugin-postcss": "^2.5.0",
     "rollup-plugin-svelte": "^5.1.1",
     "svelte": "^3.16.4",
@@ -36,6 +36,7 @@
   },
   "homepage": "https://alexxnb.github.io/svelte-docs",
   "devDependencies": {
-    "rollup-plugin-terser": "^7.0.0"
+    "rollup-plugin-terser": "^7.0.0",
+    "string-replace-async": "^2.0.0"
   }
 }

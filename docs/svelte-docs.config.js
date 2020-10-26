@@ -3,7 +3,7 @@ module.exports = {
   basepath: '/',
 
   // theme
-  theme: 'default',
+  theme: './theme',
 
   title: {
     // constant part of page title

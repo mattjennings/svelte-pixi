@@ -1,4 +1,5 @@
 - [Getting Started](getting-started)
 - Components
+  - [Graphics](components/graphics)
   - [Sprite](components/sprite)
 - [Github](https://github.com/mattjennings/svelte-pixi)

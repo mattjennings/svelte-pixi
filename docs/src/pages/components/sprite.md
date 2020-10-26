@@ -1,20 +1,16 @@
 # Sprite
 
-Renders an image to the screen
-
 ## Usage
 
 ```example
-<script lang="ts">
+<script>
   import * as PIXI from 'pixi.js'
   import { Pixi, Sprite, Preloader } from 'svelte-pixi'
 
   const app = new PIXI.Application({
-    width: 400, // default: 800
-    height: 400, // default: 600
-    antialias: true, // default: false
-    transparent: false, // default: false
-    resolution: 1, // default: 1
+    width: 400,
+    height: 400,
+    antialias: true
   })
 </script>
 
@@ -27,4 +23,8 @@ Renders an image to the screen
       scale={{ x: 2, y: 2}} />
   </Preloader>
 </Pixi>
+```
+
+```properties pixiUrl:PIXI.Sprite.html
+./../../packages/svelte-pixi/src/Sprite.svelte
 ```

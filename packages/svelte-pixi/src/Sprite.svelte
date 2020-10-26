@@ -11,7 +11,10 @@
   export let blendMode: PIXI.Sprite['blendMode'] = undefined
   export let pluginName: PIXI.Sprite['pluginName'] = undefined
   export let roundPixels: PIXI.Sprite['roundPixels'] = undefined
+
+  /** @type {string|PIXI.Texture} @pixiLink */
   export let texture: PIXI.Sprite['texture'] | string = undefined
+
   export let tint: PIXI.Sprite['tint'] = undefined
 
   // Container props
@@ -51,6 +54,7 @@
   export let y: PIXI.Sprite['y'] = undefined
   export let zIndex: PIXI.Sprite['zIndex'] = undefined
 
+  /** @type {PIXI.Sprite} PIXI.Sprite instance to render */
   export let instance: PIXI.Sprite = new Sprite()
 
   const app = getContext<PIXI.Application>('pixi/app')

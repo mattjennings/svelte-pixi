@@ -9,6 +9,7 @@
   export let sortableChildren: PIXI.Container['sortableChildren'] = undefined
   export let interactiveChildren: PIXI.Container['interactiveChildren'] = undefined
 
+  /** @type {PIXI.Container} PIXI.Container instance to render */
   export let instance: PIXI.Container = undefined
 
   const instancePropExists = typeof instance !== 'undefined'
