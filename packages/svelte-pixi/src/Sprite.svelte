@@ -3,7 +3,6 @@
   import { Sprite } from '@pixi/sprite'
   import { onMount, getContext, tick } from 'svelte'
   import { shouldApplyProps } from './util'
-  import DisplayObject from './DisplayObject.svelte'
   import Container from './Container.svelte'
 
   // Sprite props
@@ -81,7 +80,7 @@
   })
 </script>
 
-<DisplayObject
+<Container
   bind:instance
   bind:accessible
   bind:accessibleChildren
@@ -110,13 +109,38 @@
   bind:visible
   bind:x
   bind:y
-  bind:zIndex>
-  <Container
-    {instance}
-    bind:height
-    bind:width
-    bind:interactiveChildren
-    bind:sortableChildren>
-    <slot />
-  </Container>
-</DisplayObject>
+  bind:zIndex
+  bind:height
+  bind:width
+  bind:interactiveChildren
+  bind:sortableChildren
+  on:mousedown
+  on:mousemove
+  on:mouseout
+  on:mouseover
+  on:mouseup
+  on:mouseupoutside
+  on:mouseupoutside
+  on:pointercancel
+  on:pointerdown
+  on:pointermove
+  on:pointerout
+  on:pointerover
+  on:pointertap
+  on:pointerup
+  on:pointerupoutside
+  on:removedFrom
+  on:rightclick
+  on:rightdown
+  on:rightup
+  on:rightupoutside
+  on:tap
+  on:touchcancel
+  on:touchend
+  on:touchendoutside
+  on:touchmove
+  on:touchstart
+  on:added
+  on:removed>
+  <slot />
+</Container>

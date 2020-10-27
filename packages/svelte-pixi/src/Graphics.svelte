@@ -1,10 +1,9 @@
 <script lang="ts">
-  import type PIXI from 'pixi.js'
   import { Graphics } from '@pixi/graphics'
-  import { onMount, getContext, setContext, tick } from 'svelte'
-  import { addPixiInstance, shouldApplyProps } from './util'
-  import DisplayObject from './DisplayObject.svelte'
+  import type PIXI from 'pixi.js'
+  import { getContext, onMount, tick } from 'svelte'
   import Container from './Container.svelte'
+  import { shouldApplyProps } from './util'
 
   // Container props
   export let height: PIXI.Graphics['height'] = undefined
@@ -83,7 +82,7 @@
 </script>
 
 <svelte:options immutable />
-<DisplayObject
+<Container
   bind:instance
   bind:accessible
   bind:accessibleChildren
@@ -112,13 +111,10 @@
   bind:visible
   bind:x
   bind:y
-  bind:zIndex>
-  <Container
-    {instance}
-    bind:height
-    bind:width
-    bind:interactiveChildren
-    bind:sortableChildren>
-    <slot />
-  </Container>
-</DisplayObject>
+  bind:zIndex
+  bind:height
+  bind:width
+  bind:interactiveChildren
+  bind:sortableChildren>
+  <slot />
+</Container>
