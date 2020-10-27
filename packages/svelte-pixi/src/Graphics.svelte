@@ -49,7 +49,7 @@
   export let tint: PIXI.Graphics['tint'] = undefined
 
   /**
-   * @type { (graphics: PIXI.Graphics) => any}
+   * @type { (graphics: PIXI.Graphics) => any} Call your draw functions here
    */
   export let draw: (graphics: PIXI.Graphics) => any
 
@@ -63,16 +63,31 @@
   $: shouldApplyProps(state) && (instance.state = state)
   $: shouldApplyProps(tint) && (instance.tint = tint)
 
+  // because Graphics is not immutable, we can call draw whenever it changes
   $: draw(instance)
 
   onMount(() => {
     async function updateProps() {
       await tick()
 
-      blendMode = instance.blendMode
-      pluginName = instance.pluginName
-      state = instance.state
-      tint = instance.tint
+      // Graphics is not an immutable component
+      // so we need to compare values before re-assigning
+
+      if (blendMode !== instance.blendMode) {
+        blendMode = instance.blendMode
+      }
+
+      if (pluginName !== instance.pluginName) {
+        pluginName = instance.pluginName
+      }
+
+      if (state !== instance.state) {
+        state = instance.state
+      }
+
+      if (tint !== instance.tint) {
+        tint = instance.tint
+      }
     }
 
     app.ticker.add(updateProps)
@@ -81,7 +96,6 @@
   })
 </script>
 
-<svelte:options immutable />
 <Container
   bind:instance
   bind:accessible

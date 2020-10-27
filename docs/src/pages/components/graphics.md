@@ -14,16 +14,16 @@
   })
 
   let grow = true
-  let width = 50
+  let size = 50
 
   onMount(() => {
     function tick(delta) {
-      let growBy = 2 * delta * (grow ? 1 : -1)
-      width += growBy
+      let growBy = delta * (grow ? 1 : -1)
+      size += growBy
 
-      if (width >= 200) {
+      if (size >= 200) {
         grow = false
-      } else if (width <= 50) {
+      } else if (size <= 50) {
         grow = true
       }
     }
@@ -36,12 +36,12 @@
 
 <Pixi {app}>
   <Graphics
-    x={100}
-    y={100}
+    x={200}
+    y={200}
     draw={(graphics) => {
       graphics.clear()
       graphics.beginFill(0xDE3249)
-      graphics.drawRect(0, 0, width, 100)
+      graphics.drawCircle(0, 0, size)
       graphics.endFill()
     }} />
 </Pixi>
