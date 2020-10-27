@@ -43,24 +43,3 @@ export function shouldApplyProps(...args) {
 
   return false
 }
-
-/**
- * Returns the loaded texture
- */
-export function getTexture(
-  app: PIXI.Application,
-  texture: string | PIXI.Texture
-) {
-  if (typeof texture === 'string') {
-    const foundTexture = app.loader.resources[texture]?.texture
-
-    warning(
-      !!foundTexture,
-      `Texture "${texture}" was not found in loaded resources`
-    )
-
-    return foundTexture
-  }
-
-  return texture
-}

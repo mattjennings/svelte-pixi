@@ -13,7 +13,7 @@
   export let blendMode: PIXI.Text['blendMode'] = undefined
   export let pluginName: PIXI.Text['pluginName'] = undefined
   export let roundPixels: PIXI.Text['roundPixels'] = undefined
-  export let texture: PIXI.Text['texture'] | string = undefined
+  export let texture: PIXI.Text['texture'] = undefined
   export let tint: PIXI.Text['tint'] = undefined
 
   // styles
@@ -175,6 +175,7 @@
   })
 </script>
 
+<svelte:options immutable />
 <Sprite
   bind:instance
   bind:accessible

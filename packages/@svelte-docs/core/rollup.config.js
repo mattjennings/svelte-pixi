@@ -46,6 +46,7 @@ export default [
     plugins: [
       replacer(),
       aliases(),
+      nodeBuiltins(),
       indexer(!production),
       syncer(!production),
       pages(),

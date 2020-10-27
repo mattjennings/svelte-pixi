@@ -12,12 +12,13 @@
     height: 400,
     antialias: true
   })
+
 </script>
 
 <Pixi {app}>
-  <Preloader urls={['static/assets/dude.png']}>
+  <Preloader urls={['static/assets/adventurer.png']}>
     <Sprite
-      texture="static/assets/dude.png"
+      texture={new PIXI.Texture.from('static/assets/adventurer.png')}
       x={100}
       y={100}
       scale={{ x: 2, y: 2}} />

@@ -2,7 +2,7 @@
   import type PIXI from 'pixi.js'
   import { TilingSprite } from '@pixi/sprite-tiling'
   import { getContext, onMount, tick } from 'svelte'
-  import { getTexture, shouldApplyProps } from './util'
+  import { shouldApplyProps } from './util'
   import Sprite from './Sprite.svelte'
   const app = getContext<PIXI.Application>('pixi/app')
 
@@ -11,7 +11,7 @@
   export let blendMode: PIXI.TilingSprite['blendMode'] = undefined
   export let pluginName: PIXI.TilingSprite['pluginName'] = undefined
   export let roundPixels: PIXI.TilingSprite['roundPixels'] = undefined
-  export let texture: PIXI.TilingSprite['texture'] | string = undefined
+  export let texture: PIXI.TilingSprite['texture'] = undefined
   export let tint: PIXI.TilingSprite['tint'] = undefined
 
   // Container props
@@ -57,7 +57,7 @@
   export let uvMatrix: PIXI.TilingSprite['uvMatrix'] = undefined
   export let uvRespectAnchor: PIXI.TilingSprite['uvRespectAnchor'] = undefined
   export let instance: PIXI.TilingSprite = new TilingSprite(
-    getTexture(app, texture),
+    texture,
     width,
     height
   )
@@ -84,6 +84,7 @@
   })
 </script>
 
+<svelte:options immutable />
 <Sprite
   bind:instance
   bind:accessible

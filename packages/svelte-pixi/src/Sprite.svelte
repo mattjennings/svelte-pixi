@@ -1,8 +1,8 @@
 <script lang="ts">
   import type PIXI from 'pixi.js'
   import { Sprite } from '@pixi/sprite'
-  import { onMount, getContext, setContext, tick } from 'svelte'
-  import { addPixiInstance, shouldApplyProps } from './util'
+  import { onMount, getContext, tick } from 'svelte'
+  import { shouldApplyProps } from './util'
   import DisplayObject from './DisplayObject.svelte'
   import Container from './Container.svelte'
 
@@ -11,9 +11,7 @@
   export let blendMode: PIXI.Sprite['blendMode'] = undefined
   export let pluginName: PIXI.Sprite['pluginName'] = undefined
   export let roundPixels: PIXI.Sprite['roundPixels'] = undefined
-
-  /** @type {string|PIXI.Texture} @pixiLink */
-  export let texture: PIXI.Sprite['texture'] | string = undefined
+  export let texture: PIXI.Sprite['texture'] = undefined
 
   export let tint: PIXI.Sprite['tint'] = undefined
 
@@ -63,15 +61,7 @@
   $: shouldApplyProps(blendMode) && (instance.blendMode = blendMode)
   $: shouldApplyProps(pluginName) && (instance.pluginName = pluginName)
   $: shouldApplyProps(roundPixels) && (instance.roundPixels = roundPixels)
-
-  // cache the previous texture prop so we don't re-assign it if value hasn't changed
-  let prevTexture
-  $: if (shouldApplyProps(texture) && texture !== prevTexture) {
-    instance.texture =
-      typeof texture === 'string'
-        ? app.loader.resources[texture]?.texture
-        : texture
-  }
+  $: shouldApplyProps(texture) && (instance.texture = texture)
   $: shouldApplyProps(tint) && (instance.tint = tint)
 
   onMount(() => {
@@ -82,15 +72,7 @@
       blendMode = instance.blendMode
       pluginName = instance.pluginName
       roundPixels = instance.roundPixels
-
-      if (typeof texture === 'string') {
-        // assign it the first textureCacheId
-        texture = instance.texture?.textureCacheIds?.[0]
-        prevTexture = texture
-      } else {
-        texture = instance.texture
-        prevTexture = texture
-      }
+      texture = instance.texture
     }
 
     app.ticker.add(updateProps)

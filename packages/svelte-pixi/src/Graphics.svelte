@@ -82,6 +82,7 @@
   })
 </script>
 
+<svelte:options immutable />
 <DisplayObject
   bind:instance
   bind:accessible

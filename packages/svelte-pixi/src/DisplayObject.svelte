@@ -117,4 +117,5 @@
   })
 </script>
 
+<svelte:options immutable />
 <slot />
