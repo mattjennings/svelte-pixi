@@ -21,12 +21,13 @@
   $: parsedData = data
     .map((prop) => {
       const linkToPixi =
-        !prop.description || prop.description.match(pixiLinkRegExp)
+        pixiUrl && (!prop.description || prop.description.match(pixiLinkRegExp))
       const description =
         prop.description && prop.description.replace(pixiLinkRegExp, '')
 
       return {
         ...prop,
+        required: !prop.attr.default,
         description,
         linkToPixi,
       }
@@ -62,9 +63,9 @@
 <dl class="properties">
   {#each parsedData as prop}
     {#if !prop.linkToPixi}
-      <dt class:required={!prop.attr.default}>{prop.name}</dt>
+      <dt class:required={prop.required}>{prop.name}</dt>
     {:else}
-      <dt class:required={!prop.attr.default}>
+      <dt class:required={prop.required}>
         <a
           href={`https://pixijs.download/release/docs/${pixiUrl}#${prop.name}`}>
           {prop.name}

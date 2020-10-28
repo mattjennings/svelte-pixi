@@ -1,7 +1,11 @@
 - [Getting Started](getting-started)
 - Components
+  - [Pixi](components/pixi)
   - [AnimatedSprite](components/animated-sprite)
+  - [Container](components/container)
   - [Graphics](components/graphics)
+  - [Loader](components/loader)
   - [Sprite](components/sprite)
+  - [Text](components/text)
   - [TilingSprite](components/tiling-sprite)
 - [Github](https://github.com/mattjennings/svelte-pixi)

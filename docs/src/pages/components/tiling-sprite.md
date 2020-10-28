@@ -6,7 +6,7 @@
 <script>
   import * as PIXI from 'pixi.js'
   import { onMount } from 'svelte'
-  import { Pixi, TilingSprite, Preloader } from 'svelte-pixi'
+  import { Pixi, TilingSprite, Loader } from 'svelte-pixi'
 
   const app = new PIXI.Application({
     width: 400,
@@ -32,15 +32,15 @@
 </script>
 
 <Pixi {app}>
-  <Preloader
-    urls={['static/assets/tiling-sprite.jpeg']}>
+  <Loader
+    assets={['static/assets/tiling-sprite.jpeg']}>
     <TilingSprite
       texture={new PIXI.Texture.from('static/assets/tiling-sprite.jpeg')}
       {tilePosition}
       {scale}
       width={400}
       height={400} />
-  </Preloader>
+  </Loader>
 </Pixi>
 ```
 

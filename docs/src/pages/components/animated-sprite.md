@@ -11,7 +11,7 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 ```example
 <script>
   import * as PIXI from 'pixi.js'
-  import { Pixi, AnimatedSprite, Preloader } from 'svelte-pixi'
+  import { Pixi, AnimatedSprite, Loader } from 'svelte-pixi'
 
   const app = new PIXI.Application({
     width: 400,
@@ -22,8 +22,8 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 </script>
 
 <Pixi {app}>
-  <Preloader
-    urls={['static/assets/adventurer-spritesheet.json']}>
+  <Loader
+    assets={['static/assets/adventurer-spritesheet.json']}>
     <AnimatedSprite
       textures={[
         new PIXI.Texture.from('adventurer-idle-00.png'),
@@ -36,7 +36,7 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
       x={200}
       y={200}
       scale={{ x: 2, y: 2 }} />
-  </Preloader>
+  </Loader>
 </Pixi>
 ```
 
@@ -45,7 +45,7 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 ```example
 <script>
   import * as PIXI from 'pixi.js'
-  import { Pixi, AnimatedSprite, Preloader } from 'svelte-pixi'
+  import { Pixi, AnimatedSprite, Loader } from 'svelte-pixi'
 
   const app = new PIXI.Application({
     width: 400,
@@ -69,8 +69,8 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 </script>
 
 <Pixi {app}>
-  <Preloader
-    urls={['static/assets/adventurer-spritesheet.json']}
+  <Loader
+    assets={['static/assets/adventurer-spritesheet.json']}
     on:complete={() => {
       spritesheet = app.loader.resources['static/assets/adventurer-spritesheet.json'].spritesheet
     }}
@@ -85,7 +85,7 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
       scale={{ x: 2, y: 2 }}
       on:loop={changeAnimation}
       />
-  </Preloader>
+  </Loader>
 </Pixi>
 ```
 

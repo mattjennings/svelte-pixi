@@ -60,12 +60,12 @@
 
     if (parent && childIndex === -1) {
       parent.addChild(instance)
-
-      return () => {
-        parent?.removeChild(instance)
-      }
     } else {
       throw new Error('Unable to find container or stage')
+    }
+
+    return () => {
+      parent?.removeChild(instance)
     }
   })
 

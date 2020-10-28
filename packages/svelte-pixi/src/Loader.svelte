@@ -1,17 +1,43 @@
 <script lang="ts">
+  import type PIXI from 'pixi.js'
   import { onMount, getContext, createEventDispatcher } from 'svelte'
 
   const dispatch = createEventDispatcher()
   const app = getContext<PIXI.Application>('pixi/app')
 
-  export let urls: string[] = []
+  /**
+   * @type {string[] | [string, string, PIXI.ILoaderOptions, function][] } The resources you wish to load. This can be an array of URLs, or an array of arguments to pass into the
+   * PixiJS loader add function.
+   */
+  export let resources:
+    | string[]
+    | Array<[string, string, PIXI.ILoaderOptions, () => any]>
+
+  /**
+   * @type {string} The base url for all resources loaded by this loader.
+   */
+  export let baseUrl: string = ''
+
+  /**
+   * @type {number} The number of resources to load concurrently.
+   */
+  export let concurrency: number = 10
 
   let progress: number = 0
-  let loading = urls.length > 0
+  let loading = resources.length > 0
 
   onMount(() => {
-    urls.forEach((url) => {
-      app.loader.add(url)
+    if (baseUrl) {
+      app.loader.baseUrl = baseUrl
+    }
+    app.loader.concurrency = concurrency
+
+    resources.forEach((url) => {
+      if (Array.isArray(url)) {
+        app.loader.add(...url)
+      } else {
+        app.loader.add(url)
+      }
     })
     app.loader.load()
 

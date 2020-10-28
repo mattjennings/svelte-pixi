@@ -5,7 +5,7 @@
 ```example
 <script>
   import * as PIXI from 'pixi.js'
-  import { Pixi, Sprite, Preloader } from 'svelte-pixi'
+  import { Pixi, Sprite, Loader } from 'svelte-pixi'
 
   const app = new PIXI.Application({
     width: 400,
@@ -16,14 +16,14 @@
 </script>
 
 <Pixi {app}>
-  <Preloader urls={['static/assets/adventurer.png']}>
+  <Loader assets={['static/assets/adventurer.png']}>
     <Sprite
       texture={new PIXI.Texture.from('static/assets/adventurer.png')}
       anchor={new PIXI.Point(0.5, 0.5)}
       x={200}
       y={200}
       scale={{ x: 2, y: 2}} />
-  </Preloader>
+  </Loader>
 </Pixi>
 ```
 

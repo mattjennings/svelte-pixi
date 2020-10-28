@@ -1,5 +1,9 @@
 <script lang="ts">
   import { setContext } from 'svelte'
+
+  /**
+   * The pixi.js application instance
+   */
   export let app: PIXI.Application
 
   setContext('pixi/app', app)
@@ -11,7 +15,7 @@
     return {
       destroy() {
         node.removeChild(app.view)
-      }
+      },
     }
   }
 </script>
