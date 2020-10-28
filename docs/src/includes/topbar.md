@@ -1,2 +1,2 @@
-* [Docs](getting-started)
-* [Github](https://github.com/alexxnb/svelte-docs)
+- [Docs](getting-started)
+- [Github](https://github.com/mattjennings/svelte-pixi)

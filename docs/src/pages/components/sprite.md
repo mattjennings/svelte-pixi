@@ -1,5 +1,7 @@
 # Sprite
 
+Sprites are the base for all textured objects that are rendered to the screen
+
 ## Usage
 
 ```example
@@ -16,7 +18,7 @@
 </script>
 
 <Pixi {app}>
-  <Loader assets={['static/assets/adventurer.png']}>
+  <Loader resources={['static/assets/adventurer.png']}>
     <Sprite
       texture={new PIXI.Texture.from('static/assets/adventurer.png')}
       anchor={new PIXI.Point(0.5, 0.5)}

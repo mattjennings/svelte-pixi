@@ -1,6 +1,6 @@
 # Pixi
 
-Mounts a Pixi app
+Renders a Pixi application. All child components will render to this.
 
 ## Usage
 
@@ -16,7 +16,9 @@ Mounts a Pixi app
   })
 </script>
 
-<Pixi {app}></Pixi>
+<Pixi {app}>
+  <!-- some cool components -->
+</Pixi>
 ```
 
 ## Properties

@@ -1,8 +1,8 @@
 # AnimatedSprite
 
-Allows you to animate between multiple textures.
+An AnimatedSprite is a simple way to display an animation depicted by a list of textures.
 
-I recommend using [TexturePacker](https://www.codeandweb.com/texturepacker) to create your spritesheets. [Here is a good tutorial on it.](https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-and-animations-with-pixijs5)
+I recommend using spritesheets created by TexturePacker ([they have a great tutorial on it](https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-and-animations-with-pixijs5)).
 
 If you don't want to use spritesheets, you can simply just pass in an array of your desired textures.
 
@@ -23,7 +23,7 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 
 <Pixi {app}>
   <Loader
-    assets={['static/assets/adventurer-spritesheet.json']}>
+    resources={['static/assets/adventurer-spritesheet.json']}>
     <AnimatedSprite
       textures={[
         new PIXI.Texture.from('adventurer-idle-00.png'),
@@ -70,7 +70,7 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 
 <Pixi {app}>
   <Loader
-    assets={['static/assets/adventurer-spritesheet.json']}
+    resources={['static/assets/adventurer-spritesheet.json']}
     on:complete={() => {
       spritesheet = app.loader.resources['static/assets/adventurer-spritesheet.json'].spritesheet
     }}

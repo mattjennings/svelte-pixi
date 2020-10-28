@@ -33,7 +33,7 @@
 
 <Pixi {app}>
   <Loader
-    assets={['static/assets/tiling-sprite.jpeg']}>
+    resources={['static/assets/tiling-sprite.jpeg']}>
     <TilingSprite
       texture={new PIXI.Texture.from('static/assets/tiling-sprite.jpeg')}
       {tilePosition}

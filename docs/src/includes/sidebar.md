@@ -8,4 +8,3 @@
   - [Sprite](components/sprite)
   - [Text](components/text)
   - [TilingSprite](components/tiling-sprite)
-- [Github](https://github.com/mattjennings/svelte-pixi)
