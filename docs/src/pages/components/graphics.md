@@ -50,3 +50,7 @@
 ```properties pixiUrl:PIXI.Graphics.html
 ./../../packages/svelte-pixi/src/Graphics.svelte
 ```
+
+## Events
+
+[See PIXI.Graphics events](https://pixijs.download/release/docs/PIXI.Graphics.html#event:added)

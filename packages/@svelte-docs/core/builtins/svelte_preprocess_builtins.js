@@ -42,6 +42,11 @@ async function replaceBuiltins(text, filename) {
         )
       } else if (block.type === 'properties') {
         let name = `Props_${uid++}_${fid}`
+
+        // hack - i don't know why, but without this, consecutive ```properties won't be parsed
+        // this is probably going to bite later
+        await new Promise((res) => setTimeout(res))
+
         text = await replaceAsync(
           text,
           block.fragment,

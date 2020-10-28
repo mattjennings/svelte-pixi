@@ -56,6 +56,9 @@
   export let tileTransform: PIXI.TilingSprite['tileTransform'] = undefined
   export let uvMatrix: PIXI.TilingSprite['uvMatrix'] = undefined
   export let uvRespectAnchor: PIXI.TilingSprite['uvRespectAnchor'] = undefined
+  export let tilePosition: PIXI.TilingSprite['tilePosition'] = undefined
+
+  /** @type {PIXI.TilingSprite} PIXI.TilingSprite instance to render */
   export let instance: PIXI.TilingSprite = new TilingSprite(
     texture,
     width,
@@ -64,6 +67,7 @@
 
   $: shouldApplyProps(clampMargin) && (instance.clampMargin = clampMargin)
   $: shouldApplyProps(tileTransform) && (instance.tileTransform = tileTransform)
+  $: shouldApplyProps(tilePosition) && (instance.tilePosition = tilePosition)
   $: shouldApplyProps(uvMatrix) && (instance.uvMatrix = uvMatrix)
   $: shouldApplyProps(uvRespectAnchor) &&
     (instance.uvRespectAnchor = uvRespectAnchor)

@@ -19,13 +19,20 @@
   <Preloader urls={['static/assets/adventurer.png']}>
     <Sprite
       texture={new PIXI.Texture.from('static/assets/adventurer.png')}
-      x={100}
-      y={100}
+      anchor={new PIXI.Point(0.5, 0.5)}
+      x={200}
+      y={200}
       scale={{ x: 2, y: 2}} />
   </Preloader>
 </Pixi>
 ```
 
+## Properties
+
 ```properties pixiUrl:PIXI.Sprite.html
 ./../../packages/svelte-pixi/src/Sprite.svelte
 ```
+
+## Events
+
+[See PIXI.Sprite events](https://pixijs.download/release/docs/PIXI.Sprite.html#event:added)

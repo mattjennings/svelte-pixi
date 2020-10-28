@@ -6,8 +6,6 @@ I recommend using [TexturePacker](https://www.codeandweb.com/texturepacker) to c
 
 If you don't want to use spritesheets, you can simply just pass in an array of your desired textures.
 
-## Usage
-
 ### Spritesheet
 
 ```example
@@ -34,8 +32,9 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
       ]}
       playing
       animationSpeed={0.1}
-      x={100}
-      y={100}
+      anchor={new PIXI.Point(0.5, 0.5)}
+      x={200}
+      y={200}
       scale={{ x: 2, y: 2 }} />
   </Preloader>
 </Pixi>
@@ -80,8 +79,9 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
       textures={spritesheet.animations[animation]}
       playing
       animationSpeed={0.1}
-      x={100}
-      y={100}
+      anchor={new PIXI.Point(0.5, 0.5)}
+      x={200}
+      y={200}
       scale={{ x: 2, y: 2 }}
       on:loop={changeAnimation}
       />
@@ -92,3 +92,7 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 ```properties pixiUrl:PIXI.AnimatedSprite.html
 ./../../packages/svelte-pixi/src/AnimatedSprite.svelte
 ```
+
+## Events
+
+[See PIXI.AnimatedSprite events](https://pixijs.download/release/docs/PIXI.AnimatedSprite.html#event:added)

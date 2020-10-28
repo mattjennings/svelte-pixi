@@ -3,4 +3,5 @@
   - [AnimatedSprite](components/animated-sprite)
   - [Graphics](components/graphics)
   - [Sprite](components/sprite)
+  - [TilingSprite](components/tiling-sprite)
 - [Github](https://github.com/mattjennings/svelte-pixi)

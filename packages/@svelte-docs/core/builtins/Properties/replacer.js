@@ -59,5 +59,6 @@ export default (content, params, name) => async () => {
 
   const App = require(PROPS_CMP).default
   const { html } = App.render({ data: props, ...params })
+
   return html
 }
