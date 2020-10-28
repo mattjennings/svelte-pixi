@@ -35,7 +35,7 @@
   <Loader
     resources={['static/assets/tiling-sprite.jpeg']}>
     <TilingSprite
-      texture={new PIXI.Texture.from('static/assets/tiling-sprite.jpeg')}
+      texture={PIXI.Texture.from('static/assets/tiling-sprite.jpeg')}
       {tilePosition}
       {scale}
       width={400}

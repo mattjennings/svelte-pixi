@@ -25,6 +25,7 @@ import nodeBuiltins from 'rollup-plugin-node-builtins'
 import { INDEX, DEVPATH, BUILDPATH, EX_INDEX, SRC } from './constants'
 import highlight from './highlight'
 import config from './config'
+import sveltePreprocess from 'svelte-preprocess'
 
 const production = !process.env.ROLLUP_WATCH
 
@@ -55,7 +56,11 @@ export default [
         dev: !production,
         emitCss: true,
         extensions: ['.svelte', '.md'],
-        preprocess: [builtins(), markdown({ highlight, headerIds: true })],
+        preprocess: [
+          sveltePreprocess(),
+          builtins(),
+          markdown({ highlight, headerIds: true }),
+        ],
       }),
       postcss({
         extract: true,

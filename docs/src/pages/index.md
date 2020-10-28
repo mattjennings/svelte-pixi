@@ -3,6 +3,10 @@ layout: 'no_sidebar'
 title: false
 ---
 
+<script>
+    import Stars from '../components/Stars/Stars.svelte'
+</script>
+
 <div class="hero">
     <div class="banner">
         <h1>svelte-pixi</h1>
@@ -12,6 +16,8 @@ title: false
     <div class="buttons">
         <a href="getting-started">Get Started</a>
     </div>
+
+    <Stars />
 
 </div>
 
