@@ -1,15 +1,16 @@
 <script lang="ts">
-  import * as PIXI from 'pixi.js'
-  import { getContext, onMount, tick } from 'svelte'
+  import type PIXI from 'pixi.js'
+  import { AnimatedSprite } from '@pixi/sprite-animated'
+  import { createEventDispatcher, getContext, onMount, tick } from 'svelte'
   import Sprite from './Sprite.svelte'
-  import { shouldApplyProps } from './util'
+  import { shouldApplyProps, warning } from './util'
 
   // Sprite props
   export let anchor: PIXI.AnimatedSprite['anchor'] = undefined
   export let blendMode: PIXI.AnimatedSprite['blendMode'] = undefined
   export let pluginName: PIXI.AnimatedSprite['pluginName'] = undefined
   export let roundPixels: PIXI.AnimatedSprite['roundPixels'] = undefined
-  export let texture: PIXI.AnimatedSprite['texture'] | string = undefined
+  export let texture: PIXI.AnimatedSprite['texture'] = undefined
   export let tint: PIXI.AnimatedSprite['tint'] = undefined
 
   // Container props
@@ -53,51 +54,41 @@
   export let autoUpdate: PIXI.AnimatedSprite['autoUpdate'] = undefined
   export let animationSpeed: PIXI.AnimatedSprite['animationSpeed'] = undefined
   export let playing: PIXI.AnimatedSprite['playing'] = true
-  export let textures: PIXI.AnimatedSprite['textures'] | string[]
-  export let instance = new PIXI.AnimatedSprite(
-    getTextures(textures),
+  export let textures: PIXI.AnimatedSprite['textures']
+
+  /** @type {PIXI.AnimatedSprite} PIXI.AnimatedSprite instance to render */
+  export let instance: PIXI.AnimatedSprite = new AnimatedSprite(
+    textures,
     autoUpdate
   )
 
-  function getTextures(
-    textures: PIXI.AnimatedSprite['textures'] | string[]
-  ): PIXI.Texture[] {
-    return (textures as any[]).map((texture) =>
-      typeof texture === 'string'
-        ? app.loader.resources[texture]?.texture
-        : texture
-    )
-  }
-
   const app = getContext<PIXI.Application>('pixi/app')
+  const dispatch = createEventDispatcher()
 
   $: shouldApplyProps(autoUpdate) && (instance.autoUpdate = autoUpdate)
   $: shouldApplyProps(playing) && (playing ? instance.play() : instance.stop())
+  $: if (shouldApplyProps(textures)) {
+    instance.textures = textures
 
-  // cache the previous textures prop so we don't re-assign it if value hasn't changed
-  let prevTextures
-  $: if (shouldApplyProps(textures) && prevTextures !== textures) {
-    instance.textures = getTextures(textures)
-    prevTextures = textures
+    if (playing) {
+      instance.play()
+    }
   }
-
   $: shouldApplyProps(animationSpeed) &&
     (instance.animationSpeed = animationSpeed)
 
   onMount(() => {
+    instance.onComplete = () => dispatch('complete')
+    instance.onFrameChange = () => dispatch('frameChange')
+    instance.onLoop = () => dispatch('loop')
+
     async function updateProps() {
       await tick()
 
       autoUpdate = instance.autoUpdate
       playing = instance.playing
-
-      if (typeof textures[0] === 'string' && instance.textures) {
-        textures = instance.textures.map((t) => t.textureCacheIds[0])
-        prevTextures = textures
-      } else {
-        textures = instance.textures
-        prevTextures = textures
-      }
+      textures = instance.textures
+      animationSpeed = instance.animationSpeed
     }
 
     app.ticker.add(updateProps)
@@ -106,6 +97,7 @@
   })
 </script>
 
+<svelte:options immutable />
 <Sprite
   bind:instance
   bind:accessible

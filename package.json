@@ -12,14 +12,23 @@
   "workspaces": {
     "packages": [
       "examples/*",
-      "packages/*"
+      "packages/*",
+      "packages/@svelte-docs/*",
+      "docs"
     ],
     "nohoist": [
-      "**/svelte"
+      "**/@svelte-docs/core",
+      "**/@svelte-docs/core/**",
+      "**/@svelte-docs/server",
+      "**/@svelte-docs/server/**",
+      "**/@svelte-docs/publisher",
+      "**/@svelte-docs/publisher/**",
+      "**/@svelte-docs/themes",
+      "**/@svelte-docs/themes/**"
     ]
   },
   "resolutions": {
-    "svelte": "^3.24.0"
+    "svelte": "3.29.4"
   },
   "devDependencies": {
     "eslint": "^7.11.0",

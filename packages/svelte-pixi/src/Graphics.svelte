@@ -1,9 +1,9 @@
 <script lang="ts">
-  import * as PIXI from 'pixi.js'
-  import { onMount, getContext, setContext, tick } from 'svelte'
-  import { addPixiInstance, shouldApplyProps } from './util'
-  import DisplayObject from './DisplayObject.svelte'
+  import { Graphics } from '@pixi/graphics'
+  import type PIXI from 'pixi.js'
+  import { getContext, onMount, tick } from 'svelte'
   import Container from './Container.svelte'
+  import { shouldApplyProps } from './util'
 
   // Container props
   export let height: PIXI.Graphics['height'] = undefined
@@ -48,9 +48,14 @@
   export let state: PIXI.Graphics['state'] = undefined
   export let tint: PIXI.Graphics['tint'] = undefined
 
+  /**
+   * @type { (graphics: PIXI.Graphics) => any} Call your draw functions here
+   */
   export let draw: (graphics: PIXI.Graphics) => any
 
-  export let instance: PIXI.Graphics = new PIXI.Graphics()
+  /** @type {PIXI.Graphics} PIXI.Graphics instance to render */
+  export let instance: PIXI.Graphics = new Graphics()
+
   const app = getContext<PIXI.Application>('pixi/app')
 
   $: shouldApplyProps(blendMode) && (instance.blendMode = blendMode)
@@ -58,16 +63,31 @@
   $: shouldApplyProps(state) && (instance.state = state)
   $: shouldApplyProps(tint) && (instance.tint = tint)
 
+  // because Graphics is not immutable, we can call draw whenever it changes
   $: draw(instance)
 
   onMount(() => {
     async function updateProps() {
       await tick()
 
-      blendMode = instance.blendMode
-      pluginName = instance.pluginName
-      state = instance.state
-      tint = instance.tint
+      // Graphics is not an immutable component
+      // so we need to compare values before re-assigning
+
+      if (blendMode !== instance.blendMode) {
+        blendMode = instance.blendMode
+      }
+
+      if (pluginName !== instance.pluginName) {
+        pluginName = instance.pluginName
+      }
+
+      if (state !== instance.state) {
+        state = instance.state
+      }
+
+      if (tint !== instance.tint) {
+        tint = instance.tint
+      }
     }
 
     app.ticker.add(updateProps)
@@ -76,7 +96,7 @@
   })
 </script>
 
-<DisplayObject
+<Container
   bind:instance
   bind:accessible
   bind:accessibleChildren
@@ -105,13 +125,10 @@
   bind:visible
   bind:x
   bind:y
-  bind:zIndex>
-  <Container
-    {instance}
-    bind:height
-    bind:width
-    bind:interactiveChildren
-    bind:sortableChildren>
-    <slot />
-  </Container>
-</DisplayObject>
+  bind:zIndex
+  bind:height
+  bind:width
+  bind:interactiveChildren
+  bind:sortableChildren>
+  <slot />
+</Container>

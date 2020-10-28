@@ -1,0 +1,2 @@
+- [Docs](getting-started)
+- [Github](https://github.com/mattjennings/svelte-pixi)

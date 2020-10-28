@@ -3,8 +3,8 @@
    * Handles the application of properties for objects that extend DisplayObject
    */
   import type * as PIXI from 'pixi.js'
-  import { getContext, onMount, tick } from 'svelte'
-  import { addPixiInstance, shouldApplyProps } from './util'
+  import { createEventDispatcher, getContext, onMount, tick } from 'svelte'
+  import { shouldApplyProps, createPixiEventDispatcher } from './util'
 
   export let accessible: PIXI.DisplayObject['accessible'] = undefined
   export let accessibleChildren: PIXI.DisplayObject['accessibleChildren'] = true
@@ -36,12 +36,38 @@
   export let y: PIXI.DisplayObject['y'] = undefined
   export let zIndex: PIXI.DisplayObject['zIndex'] = undefined
 
+  /**
+   * Optionally provide the parent Container instance this DisplayObject should be added to.
+   */
+  export let parent: PIXI.Container =
+    getContext<PIXI.Container>('pixi/container') ||
+    getContext<PIXI.Container>('pixi/stage')
+
+  /** @type {PIXI.DisplayObject} PIXI.DisplayObject instance to render */
   export let instance: PIXI.DisplayObject
 
+  const dispatch = createEventDispatcher()
   const app = getContext<PIXI.Application>('pixi/app')
 
-  const removeSelf = addPixiInstance(instance)
-  onMount(() => removeSelf)
+  onMount(() => {
+    let childIndex = -1
+
+    // make sure child isn't already added to the parent
+    try {
+      // Container.getChildIndex throws an error if instance is not a child...
+      childIndex = parent.getChildIndex(instance)
+    } catch (e) {}
+
+    if (parent && childIndex === -1) {
+      parent.addChild(instance)
+    } else {
+      throw new Error('Unable to find container or stage')
+    }
+
+    return () => {
+      parent?.removeChild(instance)
+    }
+  })
 
   $: shouldApplyProps(alpha) && (instance.alpha = alpha)
   $: shouldApplyProps(accessible) && (instance.accessible = accessible)
@@ -112,8 +138,43 @@
 
     app.ticker.add(updateProps)
 
-    return () => app.ticker.remove(updateProps)
+    const dispatchers = [
+      createPixiEventDispatcher(instance, dispatch, 'click'),
+      createPixiEventDispatcher(instance, dispatch, 'mousedown'),
+      createPixiEventDispatcher(instance, dispatch, 'mousemove'),
+      createPixiEventDispatcher(instance, dispatch, 'mouseout'),
+      createPixiEventDispatcher(instance, dispatch, 'mouseover'),
+      createPixiEventDispatcher(instance, dispatch, 'mouseup'),
+      createPixiEventDispatcher(instance, dispatch, 'mouseupoutside'),
+      createPixiEventDispatcher(instance, dispatch, 'mouseupoutside'),
+      createPixiEventDispatcher(instance, dispatch, 'pointercancel'),
+      createPixiEventDispatcher(instance, dispatch, 'pointerdown'),
+      createPixiEventDispatcher(instance, dispatch, 'pointermove'),
+      createPixiEventDispatcher(instance, dispatch, 'pointerout'),
+      createPixiEventDispatcher(instance, dispatch, 'pointerover'),
+      createPixiEventDispatcher(instance, dispatch, 'pointertap'),
+      createPixiEventDispatcher(instance, dispatch, 'pointerup'),
+      createPixiEventDispatcher(instance, dispatch, 'pointerupoutside'),
+      createPixiEventDispatcher(instance, dispatch, 'removedFrom'),
+      createPixiEventDispatcher(instance, dispatch, 'rightclick'),
+      createPixiEventDispatcher(instance, dispatch, 'rightdown'),
+      createPixiEventDispatcher(instance, dispatch, 'rightup'),
+      createPixiEventDispatcher(instance, dispatch, 'rightupoutside'),
+      createPixiEventDispatcher(instance, dispatch, 'tap'),
+      createPixiEventDispatcher(instance, dispatch, 'touchcancel'),
+      createPixiEventDispatcher(instance, dispatch, 'touchend'),
+      createPixiEventDispatcher(instance, dispatch, 'touchendoutside'),
+      createPixiEventDispatcher(instance, dispatch, 'touchmove'),
+      createPixiEventDispatcher(instance, dispatch, 'touchstart'),
+      createPixiEventDispatcher(instance, dispatch, 'added'),
+      createPixiEventDispatcher(instance, dispatch, 'removed'),
+    ]
+    return () => {
+      dispatchers.forEach((remove) => remove())
+      app.ticker.remove(updateProps)
+    }
   })
 </script>
 
+<svelte:options immutable />
 <slot />

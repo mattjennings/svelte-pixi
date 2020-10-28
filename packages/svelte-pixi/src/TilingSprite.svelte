@@ -1,7 +1,8 @@
 <script lang="ts">
-  import * as PIXI from 'pixi.js'
+  import type PIXI from 'pixi.js'
+  import { TilingSprite } from '@pixi/sprite-tiling'
   import { getContext, onMount, tick } from 'svelte'
-  import { getTexture, shouldApplyProps } from './util'
+  import { shouldApplyProps } from './util'
   import Sprite from './Sprite.svelte'
   const app = getContext<PIXI.Application>('pixi/app')
 
@@ -10,7 +11,7 @@
   export let blendMode: PIXI.TilingSprite['blendMode'] = undefined
   export let pluginName: PIXI.TilingSprite['pluginName'] = undefined
   export let roundPixels: PIXI.TilingSprite['roundPixels'] = undefined
-  export let texture: PIXI.TilingSprite['texture'] | string = undefined
+  export let texture: PIXI.TilingSprite['texture'] = undefined
   export let tint: PIXI.TilingSprite['tint'] = undefined
 
   // Container props
@@ -55,14 +56,18 @@
   export let tileTransform: PIXI.TilingSprite['tileTransform'] = undefined
   export let uvMatrix: PIXI.TilingSprite['uvMatrix'] = undefined
   export let uvRespectAnchor: PIXI.TilingSprite['uvRespectAnchor'] = undefined
-  export let instance = new PIXI.TilingSprite(
-    getTexture(app, texture),
+  export let tilePosition: PIXI.TilingSprite['tilePosition'] = undefined
+
+  /** @type {PIXI.TilingSprite} PIXI.TilingSprite instance to render */
+  export let instance: PIXI.TilingSprite = new TilingSprite(
+    texture,
     width,
     height
   )
 
   $: shouldApplyProps(clampMargin) && (instance.clampMargin = clampMargin)
   $: shouldApplyProps(tileTransform) && (instance.tileTransform = tileTransform)
+  $: shouldApplyProps(tilePosition) && (instance.tilePosition = tilePosition)
   $: shouldApplyProps(uvMatrix) && (instance.uvMatrix = uvMatrix)
   $: shouldApplyProps(uvRespectAnchor) &&
     (instance.uvRespectAnchor = uvRespectAnchor)
@@ -83,6 +88,7 @@
   })
 </script>
 
+<svelte:options immutable />
 <Sprite
   bind:instance
   bind:accessible
@@ -122,6 +128,34 @@
   bind:width
   bind:x
   bind:y
-  bind:zIndex>
+  bind:zIndex
+  on:mousedown
+  on:mousemove
+  on:mouseout
+  on:mouseover
+  on:mouseup
+  on:mouseupoutside
+  on:mouseupoutside
+  on:pointercancel
+  on:pointerdown
+  on:pointermove
+  on:pointerout
+  on:pointerover
+  on:pointertap
+  on:pointerup
+  on:pointerupoutside
+  on:removedFrom
+  on:rightclick
+  on:rightdown
+  on:rightup
+  on:rightupoutside
+  on:tap
+  on:touchcancel
+  on:touchend
+  on:touchendoutside
+  on:touchmove
+  on:touchstart
+  on:added
+  on:removed>
   <slot />
 </Sprite>

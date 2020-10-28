@@ -1,8 +1,8 @@
 <script lang="ts">
-  import * as PIXI from 'pixi.js'
-  import { onMount, getContext, setContext, tick } from 'svelte'
-  import { addPixiInstance, shouldApplyProps } from './util'
-  import DisplayObject from './DisplayObject.svelte'
+  import type PIXI from 'pixi.js'
+  import { Sprite } from '@pixi/sprite'
+  import { onMount, getContext, tick } from 'svelte'
+  import { shouldApplyProps } from './util'
   import Container from './Container.svelte'
 
   // Sprite props
@@ -10,7 +10,8 @@
   export let blendMode: PIXI.Sprite['blendMode'] = undefined
   export let pluginName: PIXI.Sprite['pluginName'] = undefined
   export let roundPixels: PIXI.Sprite['roundPixels'] = undefined
-  export let texture: PIXI.Sprite['texture'] | string = undefined
+  export let texture: PIXI.Sprite['texture'] = undefined
+
   export let tint: PIXI.Sprite['tint'] = undefined
 
   // Container props
@@ -50,7 +51,8 @@
   export let y: PIXI.Sprite['y'] = undefined
   export let zIndex: PIXI.Sprite['zIndex'] = undefined
 
-  export let instance: PIXI.Sprite = new PIXI.Sprite()
+  /** @type {PIXI.Sprite} PIXI.Sprite instance to render */
+  export let instance: PIXI.Sprite = new Sprite()
 
   const app = getContext<PIXI.Application>('pixi/app')
 
@@ -58,15 +60,7 @@
   $: shouldApplyProps(blendMode) && (instance.blendMode = blendMode)
   $: shouldApplyProps(pluginName) && (instance.pluginName = pluginName)
   $: shouldApplyProps(roundPixels) && (instance.roundPixels = roundPixels)
-
-  // cache the previous texture prop so we don't re-assign it if value hasn't changed
-  let prevTexture
-  $: if (shouldApplyProps(texture) && texture !== prevTexture) {
-    instance.texture =
-      typeof texture === 'string'
-        ? app.loader.resources[texture]?.texture
-        : texture
-  }
+  $: shouldApplyProps(texture) && (instance.texture = texture)
   $: shouldApplyProps(tint) && (instance.tint = tint)
 
   onMount(() => {
@@ -77,15 +71,7 @@
       blendMode = instance.blendMode
       pluginName = instance.pluginName
       roundPixels = instance.roundPixels
-
-      if (typeof texture === 'string') {
-        // assign it the first textureCacheId
-        texture = instance.texture?.textureCacheIds?.[0]
-        prevTexture = texture
-      } else {
-        texture = instance.texture
-        prevTexture = texture
-      }
+      texture = instance.texture
     }
 
     app.ticker.add(updateProps)
@@ -94,7 +80,7 @@
   })
 </script>
 
-<DisplayObject
+<Container
   bind:instance
   bind:accessible
   bind:accessibleChildren
@@ -123,13 +109,38 @@
   bind:visible
   bind:x
   bind:y
-  bind:zIndex>
-  <Container
-    {instance}
-    bind:height
-    bind:width
-    bind:interactiveChildren
-    bind:sortableChildren>
-    <slot />
-  </Container>
-</DisplayObject>
+  bind:zIndex
+  bind:height
+  bind:width
+  bind:interactiveChildren
+  bind:sortableChildren
+  on:mousedown
+  on:mousemove
+  on:mouseout
+  on:mouseover
+  on:mouseup
+  on:mouseupoutside
+  on:mouseupoutside
+  on:pointercancel
+  on:pointerdown
+  on:pointermove
+  on:pointerout
+  on:pointerover
+  on:pointertap
+  on:pointerup
+  on:pointerupoutside
+  on:removedFrom
+  on:rightclick
+  on:rightdown
+  on:rightup
+  on:rightupoutside
+  on:tap
+  on:touchcancel
+  on:touchend
+  on:touchendoutside
+  on:touchmove
+  on:touchstart
+  on:added
+  on:removed>
+  <slot />
+</Container>
