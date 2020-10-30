@@ -26,9 +26,9 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
     resources={['static/assets/adventurer-spritesheet.json']}>
     <AnimatedSprite
       textures={[
-        new PIXI.Texture.from('adventurer-idle-00.png'),
-        new PIXI.Texture.from('adventurer-idle-01.png'),
-        new PIXI.Texture.from('adventurer-idle-02.png'),
+        PIXI.Texture.from('adventurer-idle-00.png'),
+        PIXI.Texture.from('adventurer-idle-01.png'),
+        PIXI.Texture.from('adventurer-idle-02.png'),
       ]}
       playing
       animationSpeed={0.1}

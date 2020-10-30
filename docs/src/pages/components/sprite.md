@@ -20,7 +20,7 @@ Sprites are the base for all textured objects that are rendered to the screen
 <Pixi {app}>
   <Loader resources={['static/assets/adventurer.png']}>
     <Sprite
-      texture={new PIXI.Texture.from('static/assets/adventurer.png')}
+      texture={PIXI.Texture.from('static/assets/adventurer.png')}
       anchor={new PIXI.Point(0.5, 0.5)}
       x={200}
       y={200}

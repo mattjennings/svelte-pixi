@@ -54,7 +54,7 @@
   export let y: PIXI.Text['y'] = undefined
   export let zIndex: PIXI.Text['zIndex'] = undefined
 
-  export let instance: PIXI.Text = new Text(text)
+  export let instance: PIXI.Text = new Text(text, style)
 
   const app = getContext<PIXI.Application>('pixi/app')
 

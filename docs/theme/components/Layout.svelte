@@ -20,14 +20,14 @@
       delay,
       duration,
       easing,
-      css: t => `overflow: hidden;` + `width: ${t * width}px;`,
+      css: (t) => `overflow: hidden;` + `width: ${t * width}px;`,
     }
   }
 
   function set_active_link(node) {
     return {
-      destroy: current_page.subscribe(page => {
-        node.querySelectorAll('a').forEach(a => {
+      destroy: current_page.subscribe((page) => {
+        node.querySelectorAll('a').forEach((a) => {
           if (a.getAttribute('href') === page.url) a.classList.add('active')
           else a.classList.remove('active')
         })
@@ -66,14 +66,16 @@
   <title>{title}</title>
 </svelte:head>
 
-<!-- top bar -->
-<header>
-  <Topbar />
-</header>
+{#if layout !== 'empty'}
+  <!-- top bar -->
+  <header>
+    <Topbar />
+  </header>
+{/if}
 
-{#if layout === 'no_sidebar'}
+{#if layout === 'no_sidebar' || layout === 'empty'}
   <!-- content -->
-  <main class="fullscreen" class:mobile={$mobile}>
+  <main class={`fullscreen layout-${layout}`} class:mobile={$mobile}>
     <Document />
   </main>
 {/if}
@@ -98,7 +100,7 @@
   {/if}
 
   <!-- content -->
-  <main class:mobile={$mobile}>
+  <main class:mobile={$mobile} class={`fullscreen layout-${layout}`}>
     <Document />
   </main>
 {/if}

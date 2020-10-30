@@ -33,7 +33,7 @@ render until loading has finished.
     </slot>
 
     <Sprite
-      texture={new PIXI.Texture.from('static/great-success.png')}
+      texture={PIXI.Texture.from('static/great-success.png')}
       x={20}
       y={50}
       width={360}
@@ -72,7 +72,7 @@ You can show progress by using the `progress` prop from the `loading` slot.
     </slot>
 
     <Sprite
-      texture={new PIXI.Texture.from('static/great-success.png')}
+      texture={PIXI.Texture.from('static/great-success.png')}
       x={20}
       y={50}
       width={360}
@@ -118,7 +118,7 @@ progress yourself using the `on:progress` event
     </slot>
 
     <Sprite
-      texture={new PIXI.Texture.from('static/great-success.png')}
+      texture={PIXI.Texture.from('static/great-success.png')}
       x={20}
       y={50}
       width={360}
