@@ -25,16 +25,6 @@ title: false
 </div>
 
 <style>
-    /* :global(main) {
-        max-width: 100vw;   
-        margin: 0; 
-        padding: 0;
-    }
-
-    :global(main article) {
-        padding: 0 !important;
-    } */
-
     .root {
         overflow: hidden;
         position: relative;
