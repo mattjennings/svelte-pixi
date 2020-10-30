@@ -5,7 +5,8 @@
 
   export let cameraZ
   export let app
-
+  const texture = PIXI.Texture.from('static/assets/star.png')
+  const anchor = new PIXI.Point(0.5, 0.7)
   let instance: PIXI.Sprite = new PIXI.Sprite()
 
   const fov = 20
@@ -20,6 +21,7 @@
   let y = initY
   let scale
   let rotation
+  let alpha = 0
 
   function getScale() {
     const z = initZ - cameraZ
@@ -59,6 +61,11 @@
 
   onMount(() => {
     function tick() {
+      // fade in
+      if (alpha < 1) {
+        alpha += 0.05
+      }
+
       updatePosition()
 
       rotation = getRotation()
@@ -76,5 +83,6 @@
   bind:y
   bind:scale
   bind:rotation
-  texture={PIXI.Texture.from('static/assets/star.png')}
-  anchor={new PIXI.Point(0.5, 0.7)} />
+  {alpha}
+  {texture}
+  {anchor} />

@@ -1,5 +1,5 @@
 ---
-layout: 'no_sidebar'
+layout: 'empty'
 title: false
 ---
 
@@ -7,44 +7,84 @@ title: false
     import Stars from '../components/Stars/Stars.svelte'
 </script>
 
-<div class="hero">
-    <div class="banner">
-        <h1>svelte-pixi</h1>
-        <p>Create Pixi apps with Svelte</p>
+<div class="root">
+    <div class="background-app">
+        <Stars />
     </div>
 
-    <div class="buttons">
-        <a href="getting-started">Get Started</a>
+    <div class="content">
+        <div class="info">
+            <h1>svelte-pixi</h1>
+            <p>Create Pixi apps with Svelte</p>
+            <div class="buttons">
+                <a href="getting-started">Get Started</a>
+            </div>
+        </div>
     </div>
-
-    <Stars />
 
 </div>
 
 <style>
-    .banner h1 {
+    /* :global(main) {
+        max-width: 100vw;   
+        margin: 0; 
+        padding: 0;
+    }
+
+    :global(main article) {
+        padding: 0 !important;
+    } */
+
+    .root {
+        overflow: hidden;
+        position: relative;
+        height: 100vh;
+    }
+
+    .background-app {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background: black;
+    }
+
+    .content {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        color: white;
+    }
+
+    .info h1 {
       text-align: center;
       margin-bottom: 0;
       font-size: 3em;
     }
 
-    .banner{
-        flex: 1 0 auto;
-        margin-top: 100px;
+    .info {
+        height: 75%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
-    .banner p{
+    .info p {
         font-size: 1.5em;
         text-align: center;
     }
 
-    .buttons{
+    .buttons {
         flex: 0 0 auto;
         text-align: center;
         margin-bottom: 100px;
     }
 
-    .buttons a{
+    .buttons a {
         display: inline-block;
         padding: 10px;
         color: white;
