@@ -1,10 +1,7 @@
 # svelte-pixi
 
-you probably shouldn't use this yet
+Create [PixiJS](https://www.pixijs.com) apps with Svelte.
 
-Support components:
+This is a work in progress, but should be ready enough to play around with.
 
-- AnimatedSprite
-- Container
-- Sprite
-- Text
+[View Documentation](svelte-pixi.com)
