@@ -7,14 +7,10 @@
   let isManualRender = false
   let isMounted = false
 
-  /**
-   * The pixi.js application instance
-   */
+  /** @type {PIXI.Application} The pixi.js application instance */
   export let app: PIXI.Application
 
-  /**
-   * If you want to customize the host element, you can use this as an action
-   */
+  /** @type {function} If you want to customize the host element, you can use this as an action on a child element */
   export const render = (node) => {
     if (!isMounted) {
       isManualRender = true
