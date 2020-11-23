@@ -1,25 +1,33 @@
 <script lang="ts">
-  import { setContext } from 'svelte'
+  import { onMount, setContext } from 'svelte'
 
   /**
-   * The pixi.js application instance
+   * if parent is using the render prop action
    */
+  let isManualRender = false
+  let isMounted = false
+
+  /** @type {PIXI.Application} The pixi.js application instance */
   export let app: PIXI.Application
+
+  /** @type {function} If you want to customize the host element, you can use this as an action on a child element */
+  export const render = (node) => {
+    if (!isMounted) {
+      isManualRender = true
+    }
+    node.appendChild(app.view)
+  }
 
   setContext('pixi/app', app)
   setContext('pixi/stage', app.stage)
 
-  function renderApp(node) {
-    node.appendChild(app.view)
-
-    return {
-      destroy() {
-        node.removeChild(app.view)
-      },
-    }
-  }
+  onMount(() => {
+    isMounted = true
+  })
 </script>
 
-<div id="pixi-wrapper" use:renderApp>
-  <slot />
-</div>
+{#if !isManualRender && isMounted}
+  <div use:render />
+{/if}
+
+<slot {render} />

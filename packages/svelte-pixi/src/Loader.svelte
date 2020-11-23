@@ -63,18 +63,18 @@
       dispatch('load', ev)
     }
 
-    app.loader.onComplete.add(onComplete)
-    app.loader.onProgress.add(onProgress)
-    app.loader.onError.add(onError)
-    app.loader.onStart.add(onStart)
-    app.loader.onLoad.add(onLoad)
+    const onCompleteId = app.loader.onComplete.add(onComplete)
+    const onProgressId = app.loader.onProgress.add(onProgress)
+    const onErrorId = app.loader.onError.add(onError)
+    const onStartId = app.loader.onStart.add(onStart)
+    const onLoadId = app.loader.onLoad.add(onLoad)
 
     return () => {
-      app.loader.onComplete.detach(onComplete)
-      app.loader.onProgress.detach(onProgress)
-      app.loader.onError.detach(onError)
-      app.loader.onStart.detach(onStart)
-      app.loader.onLoad.detach(onLoad)
+      app.loader.onComplete.detach(onCompleteId)
+      app.loader.onProgress.detach(onProgressId)
+      app.loader.onError.detach(onErrorId)
+      app.loader.onStart.detach(onStartId)
+      app.loader.onLoad.detach(onLoadId)
     }
   })
 </script>

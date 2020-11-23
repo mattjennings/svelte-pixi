@@ -100,7 +100,7 @@
   {/if}
 
   <!-- content -->
-  <main class:mobile={$mobile} class={`fullscreen layout-${layout}`}>
+  <main class:mobile={$mobile} class={`layout-${layout}`}>
     <Document />
   </main>
 {/if}
