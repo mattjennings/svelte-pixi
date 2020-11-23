@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "keyboard-input": "^1.0.0",
-    "svelte-pixi": "*",
+    "svelte-pixi": "0.0.1-alpha.2",
     "pixi.js": "^5.3.3",
     "svelte": "^3.24.0",
     "sirv-cli": "^1.0.0"
