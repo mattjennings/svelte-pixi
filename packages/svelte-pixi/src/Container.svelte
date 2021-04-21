@@ -2,7 +2,7 @@
   import type PIXI from 'pixi.js'
   import { Container } from '@pixi/display'
   import DisplayObject from './DisplayObject.svelte'
-  import { getContext, onMount, setContext, tick } from 'svelte'
+  import { getContext, onMount, setContext } from 'svelte'
   import { shouldApplyProps } from './util'
 
   // DisplayObject props
@@ -65,8 +65,6 @@
 
   onMount(() => {
     async function updateProps() {
-      await tick()
-
       height = instance.height
       width = instance.width
       sortableChildren = instance.sortableChildren

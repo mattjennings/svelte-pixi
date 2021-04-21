@@ -1,7 +1,7 @@
 <script lang="ts">
   import type PIXI from 'pixi.js'
   import { TilingSprite } from '@pixi/sprite-tiling'
-  import { getContext, onMount, tick } from 'svelte'
+  import { getContext, onMount } from 'svelte'
   import { shouldApplyProps } from './util'
   import Sprite from './Sprite.svelte'
   const app = getContext<PIXI.Application>('pixi/app')
@@ -74,8 +74,6 @@
 
   onMount(() => {
     async function updateProps() {
-      await tick()
-
       clampMargin = instance.clampMargin
       tileTransform = instance.tileTransform
       uvMatrix = instance.uvMatrix

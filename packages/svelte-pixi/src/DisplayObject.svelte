@@ -3,7 +3,7 @@
    * Handles the application of properties for objects that extend DisplayObject
    */
   import type * as PIXI from 'pixi.js'
-  import { createEventDispatcher, getContext, onMount, tick } from 'svelte'
+  import { createEventDispatcher, getContext, onMount } from 'svelte'
   import { shouldApplyProps, createPixiEventDispatcher } from './util'
 
   export let accessible: PIXI.DisplayObject['accessible'] = undefined
@@ -105,7 +105,6 @@
 
   onMount(() => {
     async function updateProps() {
-      await tick()
       alpha = instance.alpha
       accessible = instance.accessible
       accessibleChildren = instance.accessibleChildren

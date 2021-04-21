@@ -1,7 +1,7 @@
 <script lang="ts">
   import type PIXI from 'pixi.js'
   import { Sprite } from '@pixi/sprite'
-  import { onMount, getContext, tick } from 'svelte'
+  import { onMount, getContext } from 'svelte'
   import { shouldApplyProps } from './util'
   import Container from './Container.svelte'
 
@@ -65,8 +65,6 @@
 
   onMount(() => {
     async function updateProps() {
-      await tick()
-
       anchor = instance.anchor
       blendMode = instance.blendMode
       pluginName = instance.pluginName

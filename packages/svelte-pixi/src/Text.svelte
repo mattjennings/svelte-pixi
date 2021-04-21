@@ -1,7 +1,7 @@
 <script lang="ts">
   import type PIXI from 'pixi.js'
   import { Text, TEXT_GRADIENT } from '@pixi/text'
-  import { getContext, onMount, tick } from 'svelte'
+  import { getContext, onMount } from 'svelte'
   import { shouldApplyProps } from './util'
   import Sprite from './Sprite.svelte'
 
@@ -63,8 +63,6 @@
 
   onMount(() => {
     async function updateProps() {
-      await tick()
-
       text = instance.text
       style = instance.style
     }

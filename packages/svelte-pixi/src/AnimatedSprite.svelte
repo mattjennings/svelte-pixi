@@ -1,7 +1,7 @@
 <script lang="ts">
   import type PIXI from 'pixi.js'
   import { AnimatedSprite } from '@pixi/sprite-animated'
-  import { createEventDispatcher, getContext, onMount, tick } from 'svelte'
+  import { createEventDispatcher, getContext, onMount } from 'svelte'
   import Sprite from './Sprite.svelte'
   import { shouldApplyProps, warning } from './util'
 
@@ -83,8 +83,6 @@
     instance.onLoop = () => dispatch('loop')
 
     async function updateProps() {
-      await tick()
-
       autoUpdate = instance.autoUpdate
       playing = instance.playing
       textures = instance.textures

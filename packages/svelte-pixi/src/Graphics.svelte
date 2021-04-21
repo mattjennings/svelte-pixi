@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Graphics } from '@pixi/graphics'
   import type PIXI from 'pixi.js'
-  import { getContext, onMount, tick } from 'svelte'
+  import { getContext, onMount } from 'svelte'
   import Container from './Container.svelte'
   import { shouldApplyProps } from './util'
 
@@ -68,8 +68,6 @@
 
   onMount(() => {
     async function updateProps() {
-      await tick()
-
       // Graphics is not an immutable component
       // so we need to compare values before re-assigning
 
