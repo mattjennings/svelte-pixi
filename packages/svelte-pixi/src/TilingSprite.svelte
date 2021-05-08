@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import type PIXI from 'pixi.js'
-  import { TilingSprite } from '@pixi/sprite-tiling'
+  import { TilingSprite } from 'pixi.js'
   import { getContext, onMount } from 'svelte'
   import { shouldApplyProps } from './util'
   import Sprite from './Sprite.svelte'

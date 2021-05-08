@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import type PIXI from 'pixi.js'
-  import { AnimatedSprite } from '@pixi/sprite-animated'
+  import { AnimatedSprite } from 'pixi.js'
   import { createEventDispatcher, getContext, onMount } from 'svelte'
   import Sprite from './Sprite.svelte'
   import { shouldApplyProps, warning } from './util'

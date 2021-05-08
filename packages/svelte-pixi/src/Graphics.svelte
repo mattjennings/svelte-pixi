@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Graphics } from '@pixi/graphics'
+  import { Graphics } from 'pixi.js'
   import type PIXI from 'pixi.js'
   import { getContext, onMount } from 'svelte'
   import Container from './Container.svelte'
@@ -45,7 +45,6 @@
   // Graphics props
   export let blendMode: PIXI.Graphics['blendMode'] = undefined
   export let pluginName: PIXI.Graphics['pluginName'] = undefined
-  export let state: PIXI.Graphics['state'] = undefined
   export let tint: PIXI.Graphics['tint'] = undefined
 
   /**
@@ -60,7 +59,6 @@
 
   $: shouldApplyProps(blendMode) && (instance.blendMode = blendMode)
   $: shouldApplyProps(pluginName) && (instance.pluginName = pluginName)
-  $: shouldApplyProps(state) && (instance.state = state)
   $: shouldApplyProps(tint) && (instance.tint = tint)
 
   // because Graphics is not immutable, we can call draw whenever it changes
@@ -77,10 +75,6 @@
 
       if (pluginName !== instance.pluginName) {
         pluginName = instance.pluginName
-      }
-
-      if (state !== instance.state) {
-        state = instance.state
       }
 
       if (tint !== instance.tint) {

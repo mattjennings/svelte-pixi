@@ -1,6 +1,6 @@
 {
   "name": "svelte-pixi",
-  "version": "0.0.5-rc.3",
+  "version": "0.0.5-rc.4",
   "description": "Create Pixi.js apps with Svelte 3",
   "repository": "https://github.com/mattjennings/svelte-pixi",
   "author": "Matt Jennings",
@@ -9,9 +9,9 @@
   "main": "dist/index.js",
   "types": "dist/ts/index.d.ts",
   "scripts": {
-    "build": "NODE_ENV=production node scripts/build.js",
+    "validate": "svelte-check --threshold error --ignore \"dist\"",
+    "build": "npm run validate && NODE_ENV=production node scripts/build.js",
     "dev": "node scripts/build.js",
-    "validate": "svelte-check",
     "prepublishOnly": "npm run build",
     "publish:prod": "npm publish --tag latest",
     "publish:next": "npm publish --tag next"

@@ -6,12 +6,10 @@
   const app = getContext<PIXI.Application>('pixi/app')
 
   /**
-   * @type {string[] | [string, string, PIXI.ILoaderOptions, function][] } The resources you wish to load. This can be an array of URLs, or an array of arguments to pass into the
+   * @type {string[] | [string, string, PIXI.IAddOptions, function][] } The resources you wish to load. This can be an array of URLs, or an array of arguments to pass into the
    * PixiJS loader add function.
    */
-  export let resources:
-    | string[]
-    | Array<[string, string, PIXI.ILoaderOptions, () => any]>
+  export let resources: string[] | Array<[string, string, any, () => any]>
 
   /**
    * @type {string} The base url for all resources loaded by this loader.
@@ -34,6 +32,7 @@
 
     resources.forEach((url) => {
       if (Array.isArray(url)) {
+        // @ts-ignore
         app.loader.add(...url)
       } else {
         app.loader.add(url)

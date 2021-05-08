@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import type PIXI from 'pixi.js'
-  import { Container } from '@pixi/display'
+  import { Container } from 'pixi.js'
   import DisplayObject from './DisplayObject.svelte'
   import { getContext, onMount, setContext } from 'svelte'
   import { shouldApplyProps } from './util'

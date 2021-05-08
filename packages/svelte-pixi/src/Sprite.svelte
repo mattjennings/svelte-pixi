@@ -1,6 +1,6 @@
 <script lang="ts">
   import type PIXI from 'pixi.js'
-  import { Sprite } from '@pixi/sprite'
+  import { Sprite } from 'pixi.js'
   import { onMount, getContext } from 'svelte'
   import { shouldApplyProps } from './util'
   import Container from './Container.svelte'

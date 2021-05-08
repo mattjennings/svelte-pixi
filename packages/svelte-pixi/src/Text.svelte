@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import type PIXI from 'pixi.js'
-  import { Text } from '@pixi/text'
+  import { Text } from 'pixi.js'
   import { getContext, onMount } from 'svelte'
   import { shouldApplyProps } from './util'
   import Sprite from './Sprite.svelte'
