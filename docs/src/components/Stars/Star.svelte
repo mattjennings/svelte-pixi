@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
   import * as PIXI from 'pixi.js'
   import { getContext, onMount } from 'svelte'
   import { Sprite } from 'svelte-pixi'
@@ -7,7 +7,7 @@
   export let app
   const texture = PIXI.Texture.from('static/assets/star.png')
   const anchor = new PIXI.Point(0.5, 0.7)
-  let instance: PIXI.Sprite = new PIXI.Sprite()
+  let instance = new PIXI.Sprite()
 
   const fov = 20
   const starBaseSize = 0.05
@@ -85,4 +85,5 @@
   bind:rotation
   {alpha}
   {texture}
-  {anchor} />
+  {anchor}
+/>

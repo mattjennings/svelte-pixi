@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
   /**
    * This is recreated from a pixi.js example
    *
@@ -27,7 +27,7 @@
     return () => app.ticker.remove(tick)
   })
 
-  function resize(node: HTMLElement) {
+  function resize(node) {
     function handler() {
       app.renderer.resize(node.offsetWidth, node.offsetHeight)
     }
@@ -43,6 +43,14 @@
   }
 </script>
 
+<div class="wrapper" use:resize>
+  <Pixi {app}>
+    {#each stars as star}
+      <Star {app} {cameraZ} />
+    {/each}
+  </Pixi>
+</div>
+
 <style>
   .wrapper {
     width: 100%;
@@ -50,11 +58,3 @@
     background: black;
   }
 </style>
-
-<div class="wrapper" use:resize>
-  <Pixi {app}>
-    {#each stars as star, i}
-      <Star {app} {cameraZ} />
-    {/each}
-  </Pixi>
-</div>

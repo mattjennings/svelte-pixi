@@ -4658,15 +4658,6 @@ rollup-plugin-postcss@^2.5.0:
     safe-identifier "^0.4.1"
     style-inject "^0.3.0"
 
-rollup-plugin-svelte@^5.1.1:
-  version "5.2.3"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-svelte/-/rollup-plugin-svelte-5.2.3.tgz#efdc15e3e3fdd9b9f1100fdc14a8532b4e587bc8"
-  integrity sha512-513vOht9A93OV7fvmpIq8mD1JFgTZ5LidmpULKM2Od9P1l8oI5KwvO32fwCnASuVJS1EkRfvCnS7vKQ8DF4srg==
-  dependencies:
-    require-relative "^0.8.7"
-    rollup-pluginutils "^2.8.2"
-    sourcemap-codec "^1.4.8"
-
 rollup-plugin-svelte@^6.0.0:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/rollup-plugin-svelte/-/rollup-plugin-svelte-6.1.1.tgz#66362cf0500fb7a848283ebcf19d289a60ef0871"
@@ -5237,7 +5228,7 @@ svelte-preprocess-markdown@^2.7.0:
     front-matter "^3.2.1"
     marked "^1.0.0"
 
-svelte-preprocess@^4.0.0, svelte-preprocess@^4.3.1:
+svelte-preprocess@^4.0.0:
   version "4.6.1"
   resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-4.6.1.tgz#a7de4d91b32d5608b6637da960ee81e6089ae276"
   integrity sha512-s7KdhR2pOsffyOzZIMEb315f6pfgeDnOWN47m6YKFeSEx3NMf/79Znc3vuG/Ai79SL/vsi86WDrjFPLGRfDesg==
@@ -5257,7 +5248,7 @@ svelte-preprocess@^4.7.3:
     detect-indent "^6.0.0"
     strip-indent "^3.0.0"
 
-svelte@3.38.2, svelte@^3.0.0, svelte@^3.16.4, svelte@^3.24.0, svelte@^3.37.0:
+svelte@3.38.2, svelte@^3.0.0, svelte@^3.24.0, svelte@^3.37.0, svelte@^3.38.2:
   version "3.38.2"
   resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.38.2.tgz#55e5c681f793ae349b5cc2fe58e5782af4275ef5"
   integrity sha512-q5Dq0/QHh4BLJyEVWGe7Cej5NWs040LWjMbicBGZ+3qpFWJ1YObRmUDZKbbovddLC9WW7THTj3kYbTOFmU9fbg==

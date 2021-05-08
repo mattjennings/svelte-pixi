@@ -13,7 +13,7 @@
     "pixi.js": "^5.3.3",
     "rollup-plugin-node-builtins": "^2.1.2",
     "svelte-pixi": "*",
-    "svelte-preprocess": "^4.3.1"
+    "svelte-preprocess": "^4.7.3"
   },
   "scripts": {
     "build": "rollup -c node_modules/@svelte-docs/core/rollup.config.js",
