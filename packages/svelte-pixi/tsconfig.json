@@ -1,11 +1,23 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
+  "include": ["src", "types"],
   "compilerOptions": {
-    "target": "ES6",
+    "module": "esnext",
+    "lib": ["esnext"],
+    "importHelpers": true,
+    "resolveJsonModule": true,
+    "declaration": true,
     "sourceMap": true,
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules/*"]
+    "rootDir": "./src",
+    "strict": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "moduleResolution": "node",
+    "jsx": "react",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true
+  }
 }

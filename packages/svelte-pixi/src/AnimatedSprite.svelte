@@ -1,3 +1,5 @@
+<svelte:options immutable />
+
 <script lang="ts">
   import type PIXI from 'pixi.js'
   import { AnimatedSprite } from '@pixi/sprite-animated'
@@ -95,7 +97,6 @@
   })
 </script>
 
-<svelte:options immutable />
 <Sprite
   bind:instance
   bind:accessible
@@ -135,6 +136,7 @@
   bind:width
   bind:x
   bind:y
-  bind:zIndex>
+  bind:zIndex
+>
   <slot />
 </Sprite>

@@ -1,6 +1,8 @@
+<svelte:options immutable />
+
 <script lang="ts">
   import type PIXI from 'pixi.js'
-  import { Text, TEXT_GRADIENT } from '@pixi/text'
+  import { Text } from '@pixi/text'
   import { getContext, onMount } from 'svelte'
   import { shouldApplyProps } from './util'
   import Sprite from './Sprite.svelte'
@@ -73,7 +75,6 @@
   })
 </script>
 
-<svelte:options immutable />
 <Sprite
   bind:instance
   bind:accessible
@@ -141,6 +142,7 @@
   on:touchmove
   on:touchstart
   on:added
-  on:removed>
+  on:removed
+>
   <slot />
 </Sprite>

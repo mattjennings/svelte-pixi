@@ -127,6 +127,7 @@
   bind:height
   bind:width
   bind:interactiveChildren
-  bind:sortableChildren>
+  bind:sortableChildren
+>
   <slot />
 </Container>

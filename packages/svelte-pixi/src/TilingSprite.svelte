@@ -1,3 +1,5 @@
+<svelte:options immutable />
+
 <script lang="ts">
   import type PIXI from 'pixi.js'
   import { TilingSprite } from '@pixi/sprite-tiling'
@@ -86,7 +88,6 @@
   })
 </script>
 
-<svelte:options immutable />
 <Sprite
   bind:instance
   bind:accessible
@@ -154,6 +155,7 @@
   on:touchmove
   on:touchstart
   on:added
-  on:removed>
+  on:removed
+>
   <slot />
 </Sprite>

@@ -139,6 +139,7 @@
   on:touchmove
   on:touchstart
   on:added
-  on:removed>
+  on:removed
+>
   <slot />
 </Container>

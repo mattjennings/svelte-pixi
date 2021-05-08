@@ -1,3 +1,5 @@
+<svelte:options immutable />
+
 <script lang="ts">
   import type PIXI from 'pixi.js'
   import { Container } from '@pixi/display'
@@ -77,7 +79,6 @@
   })
 </script>
 
-<svelte:options immutable />
 <DisplayObject
   {parent}
   bind:instance
@@ -137,6 +138,7 @@
   on:touchmove
   on:touchstart
   on:added
-  on:removed>
+  on:removed
+>
   <slot />
 </DisplayObject>
