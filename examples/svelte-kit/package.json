@@ -1,0 +1,22 @@
+{
+  "name": "svelte-kit",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "svelte-kit dev",
+    "build": "svelte-kit build",
+    "package": "svelte-kit package",
+    "preview": "svelte-kit preview",
+    "prepare": "svelte-kit sync"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "next",
+    "@sveltejs/kit": "next",
+    "svelte": "^3.46.4"
+  },
+  "dependencies": {
+    "keyboard-input": "^1.0.0",
+    "pixi.js": "^6.2.2",
+    "svelte-pixi": "^0.0.5"
+  },
+  "type": "module"
+}

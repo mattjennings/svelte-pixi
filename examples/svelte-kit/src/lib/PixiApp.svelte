@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
   import * as PIXI from 'pixi.js'
   import Player from './Player.svelte'
   import { Pixi, Text, Loader } from 'svelte-pixi'
@@ -10,9 +10,6 @@
     transparent: false, // default: false
     resolution: 1, // default: 1
   })
-
-  // @ts-ignore
-  window.pixiApp = app
 </script>
 
 <Pixi {app}>

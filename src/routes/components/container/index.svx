@@ -1,0 +1,12 @@
+<script>
+  import docs from '$lib/Sprite.svelte?raw&sveld' 
+  import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
+  import CodeExample from'$lib/website/CodeExample.svelte' 
+  import CSR from '$lib/website/CSR.svelte'
+</script>
+
+# Container
+
+A Container represents a collection of display objects. They can be used to group child components and manipulate them together.
+
+When child components are rendered inside, their coordinates become local to the parent Container.

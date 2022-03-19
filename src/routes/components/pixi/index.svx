@@ -1,0 +1,34 @@
+<script>
+  import docs from '$lib/Pixi.svelte?raw&sveld' 
+  import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
+  import CodeExample from'$lib/website/CodeExample.svelte' 
+  import CSR from '$lib/website/CSR.svelte'
+  import Basic from './_examples/Basic.svelte'
+  import BasicSrc from './_examples/Basic.svelte?raw'
+  import CustomHost from './_examples/CustomHost.svelte'
+  import CustomHostSrc from './_examples/CustomHost.svelte?raw'
+</script>
+
+# Pixi
+
+Renders a Pixi application. All child components will render to this.
+
+## Usage
+
+<CSR>
+  <CodeExample src={BasicSrc}>
+    <Basic />
+  </CodeExample>
+</CSR>
+
+## Custom Host Element
+
+If you want to customize the element that the canvas is rendered into, Pixi provides a `render` action as a prop
+
+<CSR>
+  <CodeExample src={CustomHostSrc}>
+    <CustomHost />
+  </CodeExample>
+</CSR>
+
+<ComponentDocs docs={docs} />

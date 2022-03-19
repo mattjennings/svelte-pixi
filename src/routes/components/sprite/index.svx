@@ -1,0 +1,22 @@
+<script>
+  import docs from '$lib/Sprite.svelte?raw&sveld' 
+  import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
+  import CodeExample from'$lib/website/CodeExample.svelte' 
+  import CSR from '$lib/website/CSR.svelte'
+  import Basic from './_examples/Basic.svelte'
+  import BasicSrc from './_examples/Basic.svelte?raw'
+</script>
+
+# Sprite
+
+Sprites are the base for all textured objects that are rendered to the screen
+
+## Usage
+
+<CSR>
+  <CodeExample src={BasicSrc}>
+    <Basic />
+  </CodeExample>
+</CSR>
+
+<ComponentDocs docs={docs} pixiDocs={{ name: "PIXI.Sprite" }}/>
