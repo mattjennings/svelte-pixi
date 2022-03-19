@@ -1,6 +1,6 @@
 import { mdsvex } from 'mdsvex'
 import mdsvexConfig from './mdsvex.config.js'
-import adapter from '@sveltejs/adapter-auto'
+import vercel from '@sveltejs/adapter-vercel'
 import preprocess from 'svelte-preprocess'
 import sveld from 'vite-plugin-sveld'
 import path from 'path'
@@ -22,7 +22,7 @@ const config = {
   ],
 
   kit: {
-    adapter: adapter(),
+    adapter: vercel(),
     package: {
       files: (file) => !file.includes('website'),
     },
