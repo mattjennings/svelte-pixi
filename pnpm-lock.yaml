@@ -65,7 +65,7 @@ importers:
       keyboard-input: ^1.0.0
       pixi.js: ^6.2.2
       svelte: ^3.46.4
-      svelte-pixi: ^0.0.5
+      svelte-pixi: latest
     dependencies:
       keyboard-input: 1.0.0
       pixi.js: 6.2.2

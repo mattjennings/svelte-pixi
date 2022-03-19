@@ -1,22 +1,21 @@
 {
   "name": "svelte-pixi",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.1",
   "description": "Create Pixi.js apps with Svelte 3",
   "repository": "https://github.com/mattjennings/svelte-pixi",
   "author": "Matt Jennings",
   "license": "MIT",
   "scripts": {
     "dev": "svelte-kit dev",
-    "build": "svelte-kit build",
-    "package": "svelte-kit package",
+    "build": "svelte-kit package",
     "preview": "svelte-kit preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "eslint --ignore-path .gitignore .",
     "validate": "svelte-check --threshold error --ignore \"dist\"",
     "prepublishOnly": "npm run build",
-    "publish:prod": "npm publish --tag latest",
-    "publish:next": "npm publish --tag next"
+    "publish:prod": "npm publish ./package --tag latest",
+    "publish:next": "npm publish ./package --tag next"
   },
   "devDependencies": {
     "@steeze-ui/heroicons": "^1.1.1",
@@ -49,5 +48,5 @@
   "peerDependencies": {
     "pixi.js": "^6.0.0"
   },
-  "type": "module" 
+  "type": "module"
 }
