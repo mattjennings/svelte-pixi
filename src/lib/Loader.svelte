@@ -2,12 +2,20 @@
   import type PIXI from 'pixi.js'
   import { onMount, getContext, createEventDispatcher } from 'svelte'
 
+  interface $$Slots {
+    default: {
+      progress?: number
+    }
+    loading: {
+      progress: number
+    }
+  }
+
   const dispatch = createEventDispatcher()
   const app = getContext<PIXI.Application>('pixi/app')
 
   /**
-   * @type {string[] | [string, string, PIXI.IAddOptions, function][] } The resources you wish to load. This can be an array of URLs, or an array of arguments to pass into the
-   * PixiJS loader add function.
+   * An array of urls or arguments to be passed into Pixi.js's [loader.add function](https://pixijs.download/release/docs/PIXI.Loader.html#add)
    */
   export let resources:
     | string[]

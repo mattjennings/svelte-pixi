@@ -1,17 +1,20 @@
 <script>
-  import docs from '$lib/Container.svelte?raw&sveld' 
+  import docs from '$lib/Loader.svelte?raw&sveld' 
   import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
   import CodeExample from'$lib/website/CodeExample.svelte' 
   import CSR from '$lib/website/CSR.svelte'
+
   import Basic from './_examples/Basic.svelte'
   import BasicSrc from './_examples/Basic.svelte?raw'
 </script>
 
-# Container
+# Loader
 
-A Container represents a collection of display objects. They can be used to group child components and manipulate them together.
+Loads the assets (textures, audio, etc) required for your components.
+It contains two slots, `loading` and default. The default slot will not
+render until loading has finished.
 
-When child components are rendered inside, their coordinates become local to the parent Container.
+You can show progress by using the `progress` prop from the `loading` slot.
 
 ## Usage
 
@@ -21,4 +24,4 @@ When child components are rendered inside, their coordinates become local to the
   </CodeExample>
 </CSR>
 
-<ComponentDocs docs={docs} pixiDocs={{ name: "PIXI.Container" }}/>
+<ComponentDocs docs={docs} />

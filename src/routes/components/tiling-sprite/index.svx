@@ -1,5 +1,5 @@
 <script>
-  import docs from '$lib/Container.svelte?raw&sveld' 
+  import docs from '$lib/TilingSprite.svelte?raw&sveld' 
   import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
   import CodeExample from'$lib/website/CodeExample.svelte' 
   import CSR from '$lib/website/CSR.svelte'
@@ -7,11 +7,7 @@
   import BasicSrc from './_examples/Basic.svelte?raw'
 </script>
 
-# Container
-
-A Container represents a collection of display objects. They can be used to group child components and manipulate them together.
-
-When child components are rendered inside, their coordinates become local to the parent Container.
+# TilingSprite
 
 ## Usage
 
@@ -21,4 +17,4 @@ When child components are rendered inside, their coordinates become local to the
   </CodeExample>
 </CSR>
 
-<ComponentDocs docs={docs} pixiDocs={{ name: "PIXI.Container" }}/>
+<ComponentDocs docs={docs} pixiDocs={{ name: "PIXI.TilingSprite" }}/>

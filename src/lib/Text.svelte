@@ -10,7 +10,7 @@
 
   // text props
   export let text: PIXI.Text['text']
-  export let style: PIXI.Text['style']
+  export let style: PIXI.Text['style'] = undefined
 
   // Sprite props
   export let anchor: PointLike = undefined

@@ -17,12 +17,36 @@
       section: 'Components',
       links: [
         {
+          href: '/components/animated-sprite',
+          label: 'AnimatedSprite',
+        },
+        {
+          href: '/components/container',
+          label: 'Container',
+        },
+        {
+          href: '/components/graphics',
+          label: 'Graphics',
+        },
+        {
+          href: '/components/loader',
+          label: 'Loader',
+        },
+        {
           href: '/components/pixi',
           label: 'Pixi',
         },
         {
           href: '/components/sprite',
           label: 'Sprite',
+        },
+        {
+          href: '/components/tiling-sprite',
+          label: 'Tiling Sprite',
+        },
+        {
+          href: '/components/text',
+          label: 'Text',
         },
       ],
     },

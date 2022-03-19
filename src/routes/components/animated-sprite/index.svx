@@ -1,0 +1,37 @@
+<script>
+  import docs from '$lib/AnimatedSprite.svelte?raw&sveld' 
+  import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
+  import CodeExample from'$lib/website/CodeExample.svelte' 
+  import CSR from '$lib/website/CSR.svelte'
+
+  import Spritesheet from './_examples/Spritesheet.svelte'
+  import SpritesheetSrc from './_examples/Spritesheet.svelte?raw'
+  import MultipleAnimations from './_examples/MultipleAnimations.svelte'
+  import MultipleAnimationsSrc from './_examples/MultipleAnimations.svelte?raw'
+</script>
+
+# AnimatedSprite
+
+An AnimatedSprite is a simple way to display an animation depicted by a list of textures.
+
+I recommend using spritesheets created by TexturePacker ([they have a great tutorial on it](https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-and-animations-with-pixijs5)).
+
+If you don't want to use spritesheets, you can simply just pass in an array of your desired textures.
+
+### Spritesheet
+
+<CSR>
+  <CodeExample src={SpritesheetSrc}>
+    <Spritesheet />
+  </CodeExample>
+</CSR>
+
+### Multiple Animations from Spritesheet
+
+<CSR>
+  <CodeExample src={MultipleAnimationsSrc}>
+    <MultipleAnimations />
+  </CodeExample>
+</CSR>
+
+<ComponentDocs docs={docs} pixiDocs={{ name: "PIXI.AnimatedSprite" }}/>
