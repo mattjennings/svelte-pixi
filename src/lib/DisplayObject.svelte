@@ -4,54 +4,53 @@
   /**
    * Handles the application of properties for objects that extend DisplayObject
    */
-  import type * as PIXI from 'pixi.js'
+  import type { DisplayObject } from '@pixi/display'
   import { createEventDispatcher, getContext, onMount } from 'svelte'
   import { shouldApplyProps, createPixiEventDispatcher } from './util'
   import type { PointLike } from '$lib/util/data-types'
   import { parsePoint } from '$lib/util/data-types'
+  import { getPixiApp, getPixiContainer } from './util/context'
 
-  export let accessible: PIXI.DisplayObject['accessible'] = undefined
-  export let accessibleChildren: PIXI.DisplayObject['accessibleChildren'] = true
-  export let accessibleHint: PIXI.DisplayObject['accessibleHint'] = undefined
-  export let accessiblePointerEvents: PIXI.DisplayObject['accessiblePointerEvents'] =
+  export let accessible: DisplayObject['accessible'] = undefined
+  export let accessibleChildren: DisplayObject['accessibleChildren'] = true
+  export let accessibleHint: DisplayObject['accessibleHint'] = undefined
+  export let accessiblePointerEvents: DisplayObject['accessiblePointerEvents'] =
     'auto'
-  export let accessibleTitle: PIXI.DisplayObject['accessibleTitle'] = undefined
-  export let accessibleType: PIXI.DisplayObject['accessibleType'] = undefined
-  export let alpha: PIXI.DisplayObject['alpha'] = undefined
-  export let angle: PIXI.DisplayObject['angle'] = undefined
-  export let buttonMode: PIXI.DisplayObject['buttonMode'] = undefined
-  export let cacheAsBitmap: PIXI.DisplayObject['cacheAsBitmap'] = undefined
-  export let cursor: PIXI.DisplayObject['cursor'] = undefined
-  export let filterArea: PIXI.DisplayObject['filterArea'] = undefined
-  export let filters: PIXI.DisplayObject['filters'] = undefined
-  export let hitArea: PIXI.DisplayObject['hitArea'] = undefined
-  export let interactive: PIXI.DisplayObject['interactive'] = undefined
-  export let mask: PIXI.DisplayObject['mask'] = undefined
-  export let name: PIXI.DisplayObject['name'] = undefined
-  export let pivot: PIXI.DisplayObject['pivot'] = undefined
+  export let accessibleTitle: DisplayObject['accessibleTitle'] = undefined
+  export let accessibleType: DisplayObject['accessibleType'] = undefined
+  export let alpha: DisplayObject['alpha'] = undefined
+  export let angle: DisplayObject['angle'] = undefined
+  export let buttonMode: DisplayObject['buttonMode'] = undefined
+  export let cacheAsBitmap: DisplayObject['cacheAsBitmap'] = undefined
+  export let cursor: DisplayObject['cursor'] = undefined
+  export let filterArea: DisplayObject['filterArea'] = undefined
+  export let filters: DisplayObject['filters'] = undefined
+  export let hitArea: DisplayObject['hitArea'] = undefined
+  export let interactive: DisplayObject['interactive'] = undefined
+  export let mask: DisplayObject['mask'] = undefined
+  export let name: DisplayObject['name'] = undefined
+  export let pivot: DisplayObject['pivot'] = undefined
   export let position: PointLike = undefined
-  export let renderable: PIXI.DisplayObject['renderable'] = undefined
-  export let rotation: PIXI.DisplayObject['rotation'] = undefined
+  export let renderable: DisplayObject['renderable'] = undefined
+  export let rotation: DisplayObject['rotation'] = undefined
   export let scale: PointLike = undefined
   export let skew: PointLike = undefined
-  export let transform: PIXI.DisplayObject['transform'] = undefined
-  export let visible: PIXI.DisplayObject['visible'] = undefined
-  export let x: PIXI.DisplayObject['x'] = undefined
-  export let y: PIXI.DisplayObject['y'] = undefined
-  export let zIndex: PIXI.DisplayObject['zIndex'] = undefined
+  export let transform: DisplayObject['transform'] = undefined
+  export let visible: DisplayObject['visible'] = undefined
+  export let x: DisplayObject['x'] = undefined
+  export let y: DisplayObject['y'] = undefined
+  export let zIndex: DisplayObject['zIndex'] = undefined
 
   /**
    * Optionally provide the parent Container instance this DisplayObject should be added to.
    */
-  export let parent: PIXI.Container =
-    getContext<PIXI.Container>('pixi/container') ||
-    getContext<PIXI.Container>('pixi/stage')
+  export let parent = getPixiContainer()
 
-  /** @type {PIXI.DisplayObject} PIXI.DisplayObject instance to render */
-  export let instance: PIXI.DisplayObject
+  /** @type {DisplayObject} DisplayObject instance to render */
+  export let instance: DisplayObject
 
   const dispatch = createEventDispatcher()
-  const app = getContext<PIXI.Application>('pixi/app')
+  const app = getPixiApp()
 
   onMount(() => {
     let childIndex = -1

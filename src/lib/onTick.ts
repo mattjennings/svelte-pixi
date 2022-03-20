@@ -1,8 +1,8 @@
-import type PIXI from 'pixi.js'
-import { getContext, onMount } from 'svelte'
+import { onMount } from 'svelte'
+import { getPixiApp } from './util/context'
 
 export function onTick(fn: (delta: number) => any) {
-  const app = getContext<PIXI.Application>('pixi/app')
+  const app = getPixiApp()
 
   onMount(() => {
     app.ticker.add(fn)

@@ -1,65 +1,64 @@
 <svelte:options immutable />
 
 <script lang="ts">
-  import type PIXI from 'pixi.js'
-  import { Text } from 'pixi.js'
+  import { Text } from '@pixi/text'
   import { getContext, onMount } from 'svelte'
   import { shouldApplyProps } from './util'
   import Sprite from './Sprite.svelte'
   import type { PointLike } from '$lib/util/data-types'
+  import { getPixiApp } from './util/context'
 
   // text props
-  export let text: PIXI.Text['text']
-  export let style: PIXI.Text['style'] = undefined
+  export let text: Text['text']
+  export let style: Text['style'] = undefined
 
   // Sprite props
   export let anchor: PointLike = undefined
-  export let blendMode: PIXI.Text['blendMode'] = undefined
-  export let pluginName: PIXI.Text['pluginName'] = undefined
-  export let roundPixels: PIXI.Text['roundPixels'] = undefined
-  export let texture: PIXI.Text['texture'] = undefined
-  export let tint: PIXI.Text['tint'] = undefined
+  export let blendMode: Text['blendMode'] = undefined
+  export let pluginName: Text['pluginName'] = undefined
+  export let roundPixels: Text['roundPixels'] = undefined
+  export let texture: Text['texture'] = undefined
+  export let tint: Text['tint'] = undefined
 
   // Container props
-  export let height: PIXI.Text['height'] = undefined
-  export let width: PIXI.Text['width'] = undefined
-  export let sortableChildren: PIXI.Text['sortableChildren'] = undefined
-  export let interactiveChildren: PIXI.Text['interactiveChildren'] = undefined
+  export let height: Text['height'] = undefined
+  export let width: Text['width'] = undefined
+  export let sortableChildren: Text['sortableChildren'] = undefined
+  export let interactiveChildren: Text['interactiveChildren'] = undefined
 
   // DisplayObject props
-  export let accessible: PIXI.Text['accessible'] = undefined
-  export let accessibleChildren: PIXI.Text['accessibleChildren'] = true
-  export let accessibleHint: PIXI.Text['accessibleHint'] = undefined
-  export let accessiblePointerEvents: PIXI.Text['accessiblePointerEvents'] =
-    'auto'
-  export let accessibleTitle: PIXI.Text['accessibleTitle'] = undefined
-  export let accessibleType: PIXI.Text['accessibleType'] = undefined
-  export let alpha: PIXI.Text['alpha'] = undefined
-  export let angle: PIXI.Text['angle'] = undefined
-  export let buttonMode: PIXI.Text['buttonMode'] = undefined
-  export let cacheAsBitmap: PIXI.Text['cacheAsBitmap'] = undefined
-  export let cursor: PIXI.Text['cursor'] = undefined
-  export let filterArea: PIXI.Text['filterArea'] = undefined
-  export let filters: PIXI.Text['filters'] = undefined
-  export let hitArea: PIXI.Text['hitArea'] = undefined
-  export let interactive: PIXI.Text['interactive'] = undefined
-  export let mask: PIXI.Text['mask'] = undefined
-  export let name: PIXI.Text['name'] = undefined
-  export let pivot: PIXI.Text['pivot'] = undefined
-  export let position: PIXI.Text['position'] = undefined
-  export let renderable: PIXI.Text['renderable'] = undefined
-  export let rotation: PIXI.Text['rotation'] = undefined
-  export let scale: PIXI.Text['scale'] = undefined
-  export let skew: PIXI.Text['skew'] = undefined
-  export let transform: PIXI.Text['transform'] = undefined
-  export let visible: PIXI.Text['visible'] = undefined
-  export let x: PIXI.Text['x'] = undefined
-  export let y: PIXI.Text['y'] = undefined
-  export let zIndex: PIXI.Text['zIndex'] = undefined
+  export let accessible: Text['accessible'] = undefined
+  export let accessibleChildren: Text['accessibleChildren'] = true
+  export let accessibleHint: Text['accessibleHint'] = undefined
+  export let accessiblePointerEvents: Text['accessiblePointerEvents'] = 'auto'
+  export let accessibleTitle: Text['accessibleTitle'] = undefined
+  export let accessibleType: Text['accessibleType'] = undefined
+  export let alpha: Text['alpha'] = undefined
+  export let angle: Text['angle'] = undefined
+  export let buttonMode: Text['buttonMode'] = undefined
+  export let cacheAsBitmap: Text['cacheAsBitmap'] = undefined
+  export let cursor: Text['cursor'] = undefined
+  export let filterArea: Text['filterArea'] = undefined
+  export let filters: Text['filters'] = undefined
+  export let hitArea: Text['hitArea'] = undefined
+  export let interactive: Text['interactive'] = undefined
+  export let mask: Text['mask'] = undefined
+  export let name: Text['name'] = undefined
+  export let pivot: Text['pivot'] = undefined
+  export let position: Text['position'] = undefined
+  export let renderable: Text['renderable'] = undefined
+  export let rotation: Text['rotation'] = undefined
+  export let scale: Text['scale'] = undefined
+  export let skew: Text['skew'] = undefined
+  export let transform: Text['transform'] = undefined
+  export let visible: Text['visible'] = undefined
+  export let x: Text['x'] = undefined
+  export let y: Text['y'] = undefined
+  export let zIndex: Text['zIndex'] = undefined
 
-  export let instance: PIXI.Text = new Text(text, style)
+  export let instance: Text = new Text(text, style)
 
-  const app = getContext<PIXI.Application>('pixi/app')
+  const app = getPixiApp()
 
   $: shouldApplyProps(text) && (instance.text = text)
   $: shouldApplyProps(style) && (instance.style = style)

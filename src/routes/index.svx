@@ -1,3 +1,24 @@
+<script>
+  import CodeExample from'$lib/website/CodeExample.svelte' 
+  import { Pixi, Text } from 'svelte-pixi'
+
+  const src = `<script>
+  import { Pixi, Text } from 'svelte-pixi'
+<\/script>
+
+<Pixi width={400} height={400}>
+  <Text
+    text="Hello World"
+    anchor={0.5}
+    x={200}
+    y={200}
+    style={{
+      fill: 'white'
+    }} />
+<\/Pixi>`
+
+</script>
+
 # svelte-pixi
 
 A Svelte component library for Pixi applications. **This is still in its early stages, so don't expect everything to work perfectly!**
@@ -14,25 +35,15 @@ npm install pixi.js svelte-pixi
 
 ### Usage
 
-```svelte
-<script>
-  import * as PIXI from 'pixi.js'
-  import { Pixi, Text } from 'svelte-pixi'
-
-  const app = new PIXI.Application({
-    width: 400,
-    height: 400
-  })
-</script>
-
-<Pixi {app}>
-  <Text
-    text="Hello World"
-    anchor={0.5}
-    x={200}
-    y={200}
-    style={{
-      fill: 'white'
-    }} />
-</Pixi>
-```
+<CodeExample src={src}>
+  <Pixi width={400} height={400}>
+    <Text
+      text="Hello World"
+      anchor={0.5}
+      x={200}
+      y={200}
+      style={{
+        fill: 'white'
+      }} />
+  </Pixi>
+</CodeExample>

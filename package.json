@@ -31,7 +31,6 @@
     "eslint-plugin-svelte3": "^3.4.1",
     "mdsvex": "^0.10.5",
     "mdsvex-sveld": "^1.0.3",
-    "pixi.js": "^6.0.0",
     "postcss": "^8.4.5",
     "postcss-load-config": "^3.1.1",
     "prettier": "^2.6.0",
@@ -47,7 +46,22 @@
     "vite-plugin-sveld": "^1.0.2"
   },
   "peerDependencies": {
-    "pixi.js": "^6.0.0"
+    "@pixi/sprite": "^6.0.0",
+    "@pixi/sprite-animated": "^6.0.0",
+    "@pixi/sprite-tiling": "^6.0.0",
+    "@pixi/constants": "^6.0.0",
+    "@pixi/core": "^6.0.0",
+    "@pixi/display": "^6.0.0",
+    "@pixi/math": "^6.0.0",
+    "@pixi/settings": "^6.0.0",
+    "@pixi/utils": "^6.0.0",
+    "@pixi/runner": "^6.0.0",
+    "@pixi/ticker": "^6.0.0",
+    "@pixi/text": "^6.0.0",
+    "@pixi/graphics": "^6.0.0",
+    "@pixi/app": "^6.0.0",
+    "@pixi/loaders": "^6.0.0",
+    "@pixi/spritesheet": "^6.0.0"
   },
   "type": "module"
 }

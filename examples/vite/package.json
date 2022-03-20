@@ -1,6 +1,7 @@
 {
   "name": "vite-example",
   "version": "0.0.0",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",

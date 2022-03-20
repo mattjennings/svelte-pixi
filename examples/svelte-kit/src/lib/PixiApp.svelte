@@ -1,16 +1,9 @@
 <script>
-  import * as PIXI from 'pixi.js'
   import Player from './Player.svelte'
   import { Pixi, Text, Loader } from 'svelte-pixi'
-
-  const app = new PIXI.Application({
-    width: 400, // default: 800
-    height: 400, // default: 600
-    antialias: true, // default: false
-  })
 </script>
 
-<Pixi {app}>
+<Pixi width={400} height={400} antialias>
   <Loader resources={['adventurer/spritesheet.json']}>
     <slot slot="loading">
       <Text text={`Loading...`} style={{ fill: 'white' }} x={0} y={0} />

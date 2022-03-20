@@ -4,6 +4,14 @@ import adapter from '@sveltejs/adapter-auto'
 const config = {
   kit: {
     adapter: adapter(),
+    vite: {
+      // ssr: {
+      //   external: ['@pixi/polyfill', 'es6-promise-polyfill'],
+      // },
+      // optimizeDeps: {
+      //   exclude: ['@pixi/polyfill', 'es6-promise-polyfill'],
+      // },
+    },
   },
 }
 

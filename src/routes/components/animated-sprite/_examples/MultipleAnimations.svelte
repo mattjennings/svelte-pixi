@@ -1,12 +1,12 @@
-<script>
-  import * as PIXI from 'pixi.js'
-  import { Pixi, AnimatedSprite, Loader } from 'svelte-pixi'
+<script context="module">
+  // register spritesheet loader plugin
+  import { registerLoaderPlugin } from 'svelte-pixi'
+  import { SpritesheetLoader } from '@pixi/spritesheet'
+  registerLoaderPlugin(SpritesheetLoader)
+</script>
 
-  const app = new PIXI.Application({
-    width: 400,
-    height: 400,
-    antialias: true,
-  })
+<script>
+  import { Pixi, AnimatedSprite, Loader } from 'svelte-pixi'
 
   let spritesheet
   let animation = 'adventurer-idle'
@@ -23,19 +23,19 @@
   }
 </script>
 
-<Pixi {app}>
+<Pixi width={400} height={400} antialias>
   <Loader
     resources={['/assets/adventurer-spritesheet.json']}
-    on:complete={() => {
+    on:complete={({ detail }) => {
       spritesheet =
-        app.loader.resources['/assets/adventurer-spritesheet.json'].spritesheet
+        detail.resources['/assets/adventurer-spritesheet.json'].spritesheet
     }}
   >
     <AnimatedSprite
       textures={spritesheet.animations[animation]}
       playing
       animationSpeed={0.1}
-      anchor={new PIXI.Point(0.5, 0.5)}
+      anchor={0.5}
       x={200}
       y={200}
       scale={{ x: 2, y: 2 }}

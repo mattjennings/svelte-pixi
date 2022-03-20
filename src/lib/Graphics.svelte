@@ -1,62 +1,61 @@
 <script lang="ts">
-  import { Graphics } from 'pixi.js'
-  import type PIXI from 'pixi.js'
-  import { getContext, onMount } from 'svelte'
+  import { Graphics } from '@pixi/graphics'
+  import { onMount } from 'svelte'
   import Container from './Container.svelte'
   import { shouldApplyProps } from './util'
+  import { getPixiApp } from './util/context'
 
   // Container props
-  export let height: PIXI.Graphics['height'] = undefined
-  export let width: PIXI.Graphics['width'] = undefined
-  export let sortableChildren: PIXI.Graphics['sortableChildren'] = undefined
-  export let interactiveChildren: PIXI.Graphics['interactiveChildren'] =
-    undefined
+  export let height: Graphics['height'] = undefined
+  export let width: Graphics['width'] = undefined
+  export let sortableChildren: Graphics['sortableChildren'] = undefined
+  export let interactiveChildren: Graphics['interactiveChildren'] = undefined
 
   // DisplayObject props
-  export let accessible: PIXI.Graphics['accessible'] = undefined
-  export let accessibleChildren: PIXI.Graphics['accessibleChildren'] = true
-  export let accessibleHint: PIXI.Graphics['accessibleHint'] = undefined
-  export let accessiblePointerEvents: PIXI.Graphics['accessiblePointerEvents'] =
+  export let accessible: Graphics['accessible'] = undefined
+  export let accessibleChildren: Graphics['accessibleChildren'] = true
+  export let accessibleHint: Graphics['accessibleHint'] = undefined
+  export let accessiblePointerEvents: Graphics['accessiblePointerEvents'] =
     'auto'
-  export let accessibleTitle: PIXI.Graphics['accessibleTitle'] = undefined
-  export let accessibleType: PIXI.Graphics['accessibleType'] = undefined
-  export let alpha: PIXI.Graphics['alpha'] = undefined
-  export let angle: PIXI.Graphics['angle'] = undefined
-  export let buttonMode: PIXI.Graphics['buttonMode'] = undefined
-  export let cacheAsBitmap: PIXI.Graphics['cacheAsBitmap'] = undefined
-  export let cursor: PIXI.Graphics['cursor'] = undefined
-  export let filterArea: PIXI.Graphics['filterArea'] = undefined
-  export let filters: PIXI.Graphics['filters'] = undefined
-  export let hitArea: PIXI.Graphics['hitArea'] = undefined
-  export let interactive: PIXI.Graphics['interactive'] = undefined
-  export let mask: PIXI.Graphics['mask'] = undefined
-  export let name: PIXI.Graphics['name'] = undefined
-  export let pivot: PIXI.Graphics['pivot'] = undefined
-  export let position: PIXI.Graphics['position'] = undefined
-  export let renderable: PIXI.Graphics['renderable'] = undefined
-  export let rotation: PIXI.Graphics['rotation'] = undefined
-  export let scale: PIXI.Graphics['scale'] = undefined
-  export let skew: PIXI.Graphics['skew'] = undefined
-  export let transform: PIXI.Graphics['transform'] = undefined
-  export let visible: PIXI.Graphics['visible'] = undefined
-  export let x: PIXI.Graphics['x'] = undefined
-  export let y: PIXI.Graphics['y'] = undefined
-  export let zIndex: PIXI.Graphics['zIndex'] = undefined
+  export let accessibleTitle: Graphics['accessibleTitle'] = undefined
+  export let accessibleType: Graphics['accessibleType'] = undefined
+  export let alpha: Graphics['alpha'] = undefined
+  export let angle: Graphics['angle'] = undefined
+  export let buttonMode: Graphics['buttonMode'] = undefined
+  export let cacheAsBitmap: Graphics['cacheAsBitmap'] = undefined
+  export let cursor: Graphics['cursor'] = undefined
+  export let filterArea: Graphics['filterArea'] = undefined
+  export let filters: Graphics['filters'] = undefined
+  export let hitArea: Graphics['hitArea'] = undefined
+  export let interactive: Graphics['interactive'] = undefined
+  export let mask: Graphics['mask'] = undefined
+  export let name: Graphics['name'] = undefined
+  export let pivot: Graphics['pivot'] = undefined
+  export let position: Graphics['position'] = undefined
+  export let renderable: Graphics['renderable'] = undefined
+  export let rotation: Graphics['rotation'] = undefined
+  export let scale: Graphics['scale'] = undefined
+  export let skew: Graphics['skew'] = undefined
+  export let transform: Graphics['transform'] = undefined
+  export let visible: Graphics['visible'] = undefined
+  export let x: Graphics['x'] = undefined
+  export let y: Graphics['y'] = undefined
+  export let zIndex: Graphics['zIndex'] = undefined
 
   // Graphics props
-  export let blendMode: PIXI.Graphics['blendMode'] = undefined
-  export let pluginName: PIXI.Graphics['pluginName'] = undefined
-  export let tint: PIXI.Graphics['tint'] = undefined
+  export let blendMode: Graphics['blendMode'] = undefined
+  export let pluginName: Graphics['pluginName'] = undefined
+  export let tint: Graphics['tint'] = undefined
 
   /**
-   * @type { (graphics: PIXI.Graphics) => any} Call your draw functions here
+   * @type { (graphics: Graphics) => any} Call your draw functions here
    */
-  export let draw: (graphics: PIXI.Graphics) => any
+  export let draw: (graphics: Graphics) => any
 
-  /** @type {PIXI.Graphics} PIXI.Graphics instance to render */
-  export let instance: PIXI.Graphics = new Graphics()
+  /** @type {Graphics} Graphics instance to render */
+  export let instance: Graphics = new Graphics()
 
-  const app = getContext<PIXI.Application>('pixi/app')
+  const app = getPixiApp()
 
   $: shouldApplyProps(blendMode) && (instance.blendMode = blendMode)
   $: shouldApplyProps(pluginName) && (instance.pluginName = pluginName)

@@ -1,16 +1,10 @@
 <script>
-  import * as PIXI from 'pixi.js'
   import { onMount } from 'svelte'
   import { Pixi, Container, Text } from 'svelte-pixi'
 
-  const app = new PIXI.Application({
-    width: 400,
-    height: 400,
-    antialias: true,
-  })
-
   let x = 200
   let y = 100
+  let app
 
   // move container back and forth
   onMount(() => {
@@ -31,7 +25,7 @@
   })
 </script>
 
-<Pixi {app}>
+<Pixi bind:instance={app} width={400} height={400} antialias>
   <Container {x} {y} height={200} width={200}>
     <Text text="Hello" x={0} y={0} style={{ fill: 'white' }} />
     <Text text="World" x={0} y={60} style={{ fill: 'white' }} />

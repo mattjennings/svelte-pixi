@@ -1,5 +1,5 @@
-import type { ObservablePoint } from 'pixi.js'
-import { Point } from 'pixi.js'
+import type { ObservablePoint } from '@pixi/math'
+import { Point } from '@pixi/math'
 
 export type PointLike =
   | number

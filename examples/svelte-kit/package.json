@@ -1,6 +1,7 @@
 {
-  "name": "svelte-kit",
+  "name": "svelte-kit-example",
   "version": "0.0.1",
+  "private": true,
   "scripts": {
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
@@ -15,7 +16,7 @@
   },
   "dependencies": {
     "keyboard-input": "^1.0.0",
-    "pixi.js": "^6.2.2",
+    "@pixi/app": "^6.2.2",
     "svelte-pixi": "latest"
   },
   "type": "module"

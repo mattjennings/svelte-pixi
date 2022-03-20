@@ -1,6 +1,17 @@
+<script context="module" lang="ts">
+  export function registerLoaderPlugin(plugin: ILoaderPlugin) {
+    const registered = (Loader as any)._plugins
+    if (!registered.includes(plugin)) {
+      Loader.registerPlugin(plugin)
+    }
+  }
+</script>
+
 <script lang="ts">
-  import type PIXI from 'pixi.js'
-  import { onMount, getContext, createEventDispatcher } from 'svelte'
+  import type { IAddOptions, ILoaderPlugin } from '@pixi/loaders'
+  import { Loader } from '@pixi/loaders'
+  import { onMount, createEventDispatcher } from 'svelte'
+  import { getPixiApp } from './util/context'
 
   interface $$Slots {
     default: {
@@ -11,15 +22,23 @@
     }
   }
 
+  interface $$Events {
+    complete: CustomEvent<Loader>
+    progress: CustomEvent<Loader>
+    error: CustomEvent<Loader>
+    start: CustomEvent<Loader>
+    load: CustomEvent<Loader>
+  }
+
   const dispatch = createEventDispatcher()
-  const app = getContext<PIXI.Application>('pixi/app')
+  const app = getPixiApp()
 
   /**
    * An array of urls or arguments to be passed into Pixi.js's [loader.add function](https://pixijs.download/release/docs/PIXI.Loader.html#add)
    */
   export let resources:
     | string[]
-    | Array<[string, string, PIXI.IAddOptions, () => any]>
+    | Array<[string, string, IAddOptions, () => any]>
 
   /**
    * @type {string} The base url for all resources loaded by this loader.
@@ -54,6 +73,8 @@
       dispatch('complete', ev)
       loading = false
     }
+
+    $: console.log(loading)
 
     function onProgress(ev) {
       dispatch('progress', ev)

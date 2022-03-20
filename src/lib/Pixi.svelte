@@ -1,16 +1,52 @@
+<script context="module" lang="ts">
+  registerApplicationPlugin(TickerPlugin)
+  registerApplicationPlugin(AppLoaderPlugin)
+  registerRendererPlugin('batch', BatchRenderer)
+
+  export function registerApplicationPlugin(plugin: IApplicationPlugin) {
+    const registered = (Application as any)._plugins
+    if (!registered.includes(plugin)) {
+      Application.registerPlugin(plugin)
+    }
+  }
+
+  export function registerRendererPlugin(
+    name: string,
+    plugin: IRendererPluginConstructor
+  ) {
+    const registered = (Renderer as any).__plugins ?? {}
+    if (!registered[name]) {
+      Renderer.registerPlugin(name, plugin)
+    }
+  }
+</script>
+
 <script lang="ts">
-  import type PIXI from 'pixi.js'
   import { onMount, setContext } from 'svelte'
+  import { Application } from '@pixi/app'
+  import { TickerPlugin } from '@pixi/ticker'
+  import { AppLoaderPlugin } from '@pixi/loaders'
+  import type { IApplicationOptions, IApplicationPlugin } from '@pixi/app'
+  import type { IRendererPluginConstructor } from '@pixi/core'
+  import { BatchRenderer, Renderer } from '@pixi/core'
+
+  type $$Props = IApplicationOptions
 
   /**
+   * @extends {IApplicationOptions}
+   */
+
+  /**
+   *
    * if parent is using the render prop action
    * @type {PIXI.Application}
    */
   let isManualRender = false
   let isMounted = false
 
-  /** The pixi.js application instance */
-  export let app: PIXI.Application
+  export let instance: Application = new Application({
+    ...$$restProps,
+  })
 
   /**
    *  If you want to customize the host element,
@@ -21,11 +57,11 @@
     if (!isMounted) {
       isManualRender = true
     }
-    node.appendChild(app.view)
+    node.appendChild(instance.view)
   }
 
-  setContext('pixi/app', app)
-  setContext('pixi/stage', app.stage)
+  setContext('pixi/app', instance)
+  setContext('pixi/stage', instance.stage)
 
   onMount(() => {
     isMounted = true

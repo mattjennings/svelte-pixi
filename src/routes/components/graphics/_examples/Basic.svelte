@@ -1,15 +1,10 @@
 <script>
-  import * as PIXI from 'pixi.js'
   import { onMount } from 'svelte'
   import { Pixi, Graphics } from 'svelte-pixi'
 
-  const app = new PIXI.Application({
-    width: 400,
-    height: 400,
-  })
-
   let grow = true
   let size = 50
+  let app
 
   onMount(() => {
     function tick(delta) {
@@ -29,7 +24,7 @@
   })
 </script>
 
-<Pixi {app}>
+<Pixi bind:instance={app} width={400} height={400} antialias>
   <Graphics
     x={200}
     y={200}
