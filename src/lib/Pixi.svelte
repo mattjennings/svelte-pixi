@@ -1,7 +1,9 @@
 <script context="module" lang="ts">
-  registerApplicationPlugin(TickerPlugin)
-  registerApplicationPlugin(AppLoaderPlugin)
-  registerRendererPlugin('batch', BatchRenderer)
+  if (typeof window !== 'undefined') {
+    registerApplicationPlugin(TickerPlugin)
+    registerApplicationPlugin(AppLoaderPlugin)
+    registerRendererPlugin('batch', BatchRenderer)
+  }
 
   export function registerApplicationPlugin(plugin: IApplicationPlugin) {
     const registered = (Application as any)._plugins
@@ -65,11 +67,16 @@
 
   onMount(() => {
     isMounted = true
+
+    // @ts-ignore
+    window.pixiApp = instance
   })
 </script>
 
-{#if !isManualRender && isMounted}
-  <div use:render />
-{/if}
+{#if typeof window !== 'undefined'}
+  {#if !isManualRender && isMounted}
+    <div use:render />
+  {/if}
 
-<slot {render} />
+  <slot {render} />
+{/if}

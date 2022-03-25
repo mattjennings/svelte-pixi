@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "keyboard-input": "^1.0.0",
-    "pixi.js": "^6.2.2",
     "svelte-pixi": "latest",
     "svelte-preprocess": "^4.7.3",
     "svelte-check": "^1.5.2"

@@ -17,6 +17,9 @@ module.exports = {
     es2017: true,
     node: true,
   },
+  globals: {
+    GlobalMixins: 'readonly',
+  },
   rules: {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',

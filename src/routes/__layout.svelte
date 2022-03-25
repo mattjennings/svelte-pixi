@@ -2,6 +2,7 @@
   import '../app.css'
   import '../prism.css'
   import Sidebar from '$lib/website/Sidebar.svelte'
+  import { browser } from '$app/env'
 </script>
 
 <title>svelte-pixi</title>

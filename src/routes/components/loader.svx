@@ -1,4 +1,20 @@
 <script>
+  import docs from '$lib/Loader.svelte?raw&sveld' 
+  import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
+</script>
+
+# Loader
+
+Loads the assets (textures, audio, etc) required for your components.
+It contains two slots, `loading` and default. The default slot will not
+render until loading has finished.
+
+You can show progress by using the `progress` prop from the `loading` slot.
+
+## Usage
+
+```svelte example csr
+<script>
   import { Texture } from '@pixi/core'
   import { Pixi, Loader, Sprite, Text } from 'svelte-pixi'
 </script>
@@ -18,3 +34,6 @@
     />
   </Loader>
 </Pixi>
+```
+
+<ComponentDocs docs={docs} />

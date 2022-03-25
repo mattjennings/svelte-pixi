@@ -1,4 +1,14 @@
 <script>
+  import docs from '$lib/Graphics.svelte?raw&sveld' 
+  import ComponentDocs from'$lib/website/ComponentDocs.svelte'
+</script>
+
+# Graphics
+
+## Usage
+
+```svelte example csr
+<script>
   import { onMount } from 'svelte'
   import { Pixi, Graphics } from 'svelte-pixi'
 
@@ -36,3 +46,7 @@
     }}
   />
 </Pixi>
+
+```
+
+<ComponentDocs docs={docs} pixiDocs={{ name: "PIXI.Graphics" }}/>

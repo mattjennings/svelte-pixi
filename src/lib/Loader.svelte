@@ -74,8 +74,6 @@
       loading = false
     }
 
-    $: console.log(loading)
-
     function onProgress(ev) {
       dispatch('progress', ev)
       progress = ev.progress

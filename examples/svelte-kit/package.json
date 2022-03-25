@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "keyboard-input": "^1.0.0",
-    "@pixi/app": "^6.2.2",
+    "mdsvexamples": "^0.0.6",
     "svelte-pixi": "latest"
   },
   "type": "module"

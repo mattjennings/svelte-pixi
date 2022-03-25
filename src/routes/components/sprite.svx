@@ -1,0 +1,31 @@
+<script>
+  import docs from '$lib/Sprite.svelte?raw&sveld' 
+  import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
+</script>
+
+# Sprite
+
+Sprites are the base for all textured objects that are rendered to the screen
+
+## Usage
+
+```svelte example csr
+<script>
+  import { Pixi, Sprite, Loader } from 'svelte-pixi'
+  import { Texture } from '@pixi/core'
+</script>
+
+<Pixi width={400} height={400}>
+  <Loader resources={['/assets/adventurer.png']}>
+    <Sprite
+      texture={Texture.from('/assets/adventurer.png')}
+      anchor={0.5}
+      scale={2}
+      x={200}
+      y={200}
+    />
+  </Loader>
+</Pixi>
+```
+
+<ComponentDocs docs={docs} pixiDocs={{ name: "PIXI.Sprite" }}/>

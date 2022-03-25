@@ -1,4 +1,14 @@
 <script>
+  import docs from '$lib/TilingSprite.svelte?raw&sveld' 
+  import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
+</script>
+
+# TilingSprite
+
+## Usage
+
+```svelte example csr
+<script>
   import { onMount } from 'svelte'
   import { Pixi, TilingSprite, Loader } from 'svelte-pixi'
   import { Texture } from '@pixi/core'
@@ -32,3 +42,6 @@
     />
   </Loader>
 </Pixi>
+```
+
+<ComponentDocs docs={docs} pixiDocs={{ name: "PIXI.TilingSprite" }}/>

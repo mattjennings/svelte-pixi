@@ -1,0 +1,45 @@
+<script>
+  import docs from '$lib/Pixi.svelte?raw&sveld' 
+  import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
+</script>
+
+# Pixi
+
+Renders a Pixi application. All child components will render to this.
+
+## Usage
+
+```svelte example csr
+<script>
+  import { Pixi } from 'svelte-pixi'
+</script>
+
+<Pixi width={400} height={400} antialias>
+  <!-- some cool components -->
+</Pixi>
+```
+
+## Custom Host Element
+
+If you want to customize the element that the canvas is rendered into, Pixi provides a `render` action as a prop
+
+```svelte example csr
+<script>
+  import { Pixi } from 'svelte-pixi'
+</script>
+
+<Pixi width={400} height={400} antialias let:render>
+  <div class="custom" use:render>
+    <!-- some cool components -->
+  </div>
+</Pixi>
+
+<style>
+  :global(.custom canvas) {
+    border: 5px solid tomato;
+    border-radius: 5px;
+  }
+</style>
+```
+
+<ComponentDocs docs={docs} />

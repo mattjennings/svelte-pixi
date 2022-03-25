@@ -5,6 +5,7 @@ import preprocess from 'svelte-preprocess'
 import sveld from 'vite-plugin-sveld'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import examples from 'mdsvexamples/vite'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -27,12 +28,18 @@ const config = {
       files: (file) => !file.includes('website'),
     },
     vite: {
+      ssr: {
+        // external: ['@pixi/core'],
+      },
+      optimizeDeps: {
+        // include: ['@pixi/core'],
+      },
       resolve: {
         alias: {
           'svelte-pixi': path.resolve(__dirname, './src/lib'),
         },
       },
-      plugins: [sveld()],
+      plugins: [sveld(), examples],
     },
   },
 }

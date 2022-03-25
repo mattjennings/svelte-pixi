@@ -1,5 +1,6 @@
 import { defineMDSveXConfig as defineConfig } from 'mdsvex'
 import sveld from 'mdsvex-sveld'
+import examples from 'mdsvexamples'
 
 const config = defineConfig({
   extensions: ['.svelte.md', '.md', '.svx'],
@@ -8,7 +9,10 @@ const config = defineConfig({
     dashes: 'oldschool',
   },
 
-  remarkPlugins: [sveld],
+  remarkPlugins: [
+    [examples, { ExampleComponent: '/src/lib/website/Example.svelte' }],
+    sveld,
+  ],
 
   rehypePlugins: [],
 })

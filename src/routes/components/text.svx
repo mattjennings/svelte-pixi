@@ -1,10 +1,6 @@
 <script>
   import docs from '$lib/Text.svelte?raw&sveld' 
   import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
-  import CodeExample from'$lib/website/CodeExample.svelte' 
-  import CSR from '$lib/website/CSR.svelte'
-  import Basic from './_examples/Basic.svelte'
-  import BasicSrc from './_examples/Basic.svelte?raw'
 </script>
 
 # Text
@@ -19,10 +15,22 @@ To split a line you can use '\n' in your text string, or, on the style prop, cha
 
 ## Usage
 
-<CSR>
-  <CodeExample src={BasicSrc}>
-    <Basic />
-  </CodeExample>
-</CSR>
+```svelte example csr
+<script>
+  import { Pixi, Text } from 'svelte-pixi'
+</script>
+
+<Pixi width={400} height={400} antialias>
+  <Text
+    text="Hello World"
+    anchor={0.5}
+    x={200}
+    y={200}
+    style={{
+      fill: 'white',
+    }}
+  />
+</Pixi>
+```
 
 <ComponentDocs docs={docs} pixiDocs={{ name: "PIXI.Text" }}/>

@@ -1,3 +1,9 @@
+<script context="module">
+  import { registerLoaderPlugin } from 'svelte-pixi'
+  import { SpritesheetLoader } from '@pixi/spritesheet'
+  registerLoaderPlugin(SpritesheetLoader)
+</script>
+
 <script>
   import Player from './Player.svelte'
   import { Pixi, Text, Loader } from 'svelte-pixi'
