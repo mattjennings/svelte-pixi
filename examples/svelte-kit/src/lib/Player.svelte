@@ -54,9 +54,9 @@
   bind:instance
   playing
   anchor={{ x: 0.5, y: 0 }}
-  bind:animationSpeed
-  bind:textures
-  bind:x
-  bind:y
-  bind:scale
+  {animationSpeed}
+  {textures}
+  {x}
+  {y}
+  {scale}
 />

@@ -28,6 +28,7 @@
       }
     }
 
+
     app.ticker.add(tick)
 
     return () => app.ticker.remove(tick)

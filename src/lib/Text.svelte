@@ -1,26 +1,27 @@
 <script context="module" lang="ts">
   import type { ExtractProps } from './util/props'
 
-  export interface TextProps<Instance extends Text = Text>
-    extends ExtractProps<Text>,
+  export interface TextProps<Instance extends PixiText = PixiText>
+    extends ExtractProps<PixiText>,
       ExtractProps<GlobalMixins.Text> {
     instance?: Instance
   }
 </script>
 
 <script lang="ts">
-  import { Text } from '@pixi/text'
-  import Sprite, { type SpriteProps } from './Sprite.svelte'
+  import { Text as PixiText } from '@pixi/text'
+  import Sprite, { type SpriteComponentProps } from './Sprite.svelte'
 
-  type T = $$Generic<Text>
-  type $$Props = TextProps<T> & SpriteProps<T>
+  type T = $$Generic<PixiText>
+  type $$Props = TextProps<T> & SpriteComponentProps<T>
 
-  export let instance: Text = new Text($$props.text, $$props.style)
+  export let instance: PixiText = new PixiText($$props.text, $$props.style)
 </script>
 
 <Sprite
   {...$$restProps}
   {instance}
+  on:click
   on:mousedown
   on:mousemove
   on:mouseout

@@ -1,6 +1,5 @@
 <script context="module" lang="ts">
   if (typeof window !== 'undefined') {
-    registerApplicationPlugin(TickerPlugin)
     registerApplicationPlugin(AppLoaderPlugin)
     registerRendererPlugin('batch', BatchRenderer)
   }
@@ -21,12 +20,26 @@
       Renderer.registerPlugin(name, plugin)
     }
   }
+
+  export function getPixi(): PixiContext {
+    return getContext('pixi')
+  }
+
+  export interface PixiContext {
+    app: Application
+    render: () => void
+  }
 </script>
 
 <script lang="ts">
-  import { onMount, setContext } from 'svelte'
+  import {
+    createEventDispatcher,
+    getContext,
+    onMount,
+    setContext,
+  } from 'svelte'
   import { Application } from '@pixi/app'
-  import { TickerPlugin } from '@pixi/ticker'
+  import { Ticker } from '@pixi/ticker'
   import { AppLoaderPlugin } from '@pixi/loaders'
   import type { IApplicationOptions, IApplicationPlugin } from '@pixi/app'
   import type { IRendererPluginConstructor } from '@pixi/core'
@@ -34,49 +47,72 @@
 
   type $$Props = IApplicationOptions
 
-  /**
-   * @extends {IApplicationOptions}
-   */
+  const dispatch = createEventDispatcher()
 
   /**
-   *
    * if parent is using the render prop action
-   * @type {PIXI.Application}
    */
-  let isManualRender = false
+  let isManualView = false
   let isMounted = false
+
+  /**
+   * Disables default behaviour of rendering the canvas on each tick.
+   * You will be responsible for triggering renders yourself (via app.renderer.render())
+   */
+  export let disableRenderOnTick = false
 
   export let instance: Application = new Application({
     ...$$restProps,
   })
 
+  // remove default ticker
+  instance.ticker?.stop()
+  instance.ticker = new Ticker()
+
+  if (!disableRenderOnTick) {
+    instance.ticker.add(function render() {
+      instance.renderer.render(instance.stage)
+    })
+  }
+
+  if ($$props.autoStart !== false) {
+    instance.ticker.start()
+  }
+
   /**
    *  If you want to customize the host element,
-   *  you can declare this prop via `let:render` and use it
+   *  you can declare this prop via `let:view` and use it
    *  as an action on a child element
    **/
-  export function render(node): void {
+  export function view(node): void {
     if (!isMounted) {
-      isManualRender = true
+      isManualView = true
     }
     node.appendChild(instance.view)
   }
 
-  setContext('pixi/app', instance)
-  setContext('pixi/stage', instance.stage)
+  setContext<PixiContext>('pixi', {
+    app: instance,
+    render: () => instance.renderer.render(instance.stage),
+  })
+  setContext('pixi/container', instance.stage)
+
+  // internal functions that I dont want to expose in pixi context
+  setContext('pixi_internal', {
+    onComponentUpdate: () => {
+      dispatch('componentupdate')
+    },
+  })
 
   onMount(() => {
     isMounted = true
-
-    // @ts-ignore
-    window.pixiApp = instance
   })
 </script>
 
 {#if typeof window !== 'undefined'}
-  {#if !isManualRender && isMounted}
-    <div use:render />
+  {#if !isManualView && isMounted}
+    <div use:view />
   {/if}
 
-  <slot {render} />
+  <slot {view} />
 {/if}

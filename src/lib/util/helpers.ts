@@ -9,7 +9,7 @@ export function warning(condition: boolean, message: string): void {
     return
   }
 
-  const text: string = `Warning: ${message}`
+  const text = `Warning: ${message}`
 
   console.warn(text)
 
@@ -19,6 +19,7 @@ export function warning(condition: boolean, message: string): void {
   // https://github.com/facebook/react/issues/4216
   try {
     throw Error(text)
+    // eslint-disable-next-line no-empty
   } catch (x) {}
 }
 

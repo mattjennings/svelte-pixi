@@ -1,21 +1,25 @@
 <script context="module" lang="ts">
-  export interface ContainerProps<Instance extends Container = Container>
-    extends ExtractProps<Container>,
+  export interface ContainerComponentProps<
+    Instance extends PixiContainer = PixiContainer
+  > extends ExtractProps<PixiContainer>,
       ExtractProps<GlobalMixins.Container> {
     instance?: Instance
     applyPropsOnMount?: boolean
   }
+
+  export function getContainer(): Container {
+    return getContext('pixi/container')
+  }
 </script>
 
 <script lang="ts">
-  import { Container } from '@pixi/display'
-  import { onMount, setContext } from 'svelte'
+  import { Container, Container as PixiContainer } from '@pixi/display'
+  import { getContext, onMount, setContext } from 'svelte'
   import DisplayObject from './DisplayObject.svelte'
-  import { getPixiContainer } from './util/context'
   import type { ExtractProps } from './util/props'
 
-  type T = $$Generic<Container>
-  type $$Props = ContainerProps<T>
+  type T = $$Generic<PixiContainer>
+  type $$Props = ContainerComponentProps<T>
 
   /**
    * By default the container instance will have its props applied
@@ -26,7 +30,7 @@
   export let applyPropsOnMount: $$Props['applyPropsOnMount'] = false
 
   /** @type {Container} Container instance to render */
-  export let instance: Container = new Container()
+  export let instance: PixiContainer = new PixiContainer()
 
   onMount(() => {
     if (applyPropsOnMount) {
@@ -35,7 +39,7 @@
     }
   })
 
-  let parent = getPixiContainer()
+  let parent = getContainer()
   setContext('pixi/container', instance)
 </script>
 
@@ -43,6 +47,7 @@
   {instance}
   {parent}
   {...$$restProps}
+  on:click
   on:mousedown
   on:mousemove
   on:mouseout

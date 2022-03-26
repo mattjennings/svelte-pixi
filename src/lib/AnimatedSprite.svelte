@@ -1,27 +1,27 @@
 <script context="module" lang="ts">
-  export interface AnimatedSpriteProps<
-    Instance extends AnimatedSprite = AnimatedSprite
-  > extends ExtractProps<AnimatedSprite>,
+  export interface AnimatedSpriteComponentProps<
+    Instance extends PixiAnimatedSprite = PixiAnimatedSprite
+  > extends ExtractProps<PixiAnimatedSprite>,
       ExtractProps<GlobalMixins.AnimatedSprite> {
     instance?: Instance
   }
 </script>
 
 <script lang="ts">
-  import { AnimatedSprite } from '@pixi/sprite-animated'
+  import { AnimatedSprite as PixiAnimatedSprite } from '@pixi/sprite-animated'
   import { createEventDispatcher, onMount } from 'svelte'
-  import Sprite, { type SpriteProps } from './Sprite.svelte'
+  import Sprite, { type SpriteComponentProps } from './Sprite.svelte'
   import { applyProps, type ExtractProps } from './util/props'
 
-  type T = $$Generic<AnimatedSprite>
-  type $$Props = AnimatedSpriteProps<T> & SpriteProps<T>
+  type T = $$Generic<PixiAnimatedSprite>
+  type $$Props = AnimatedSpriteComponentProps<T> & SpriteComponentProps<T>
 
   // AnimatedSprite props
   export let playing: $$Props['playing'] = true
   export let textures: $$Props['textures'] = []
 
   /** @type {AnimatedSprite} AnimatedSprite instance to render */
-  export let instance: AnimatedSprite = new AnimatedSprite(
+  export let instance: PixiAnimatedSprite = new PixiAnimatedSprite(
     textures,
     $$props.autoUpdate
   )
@@ -59,6 +59,7 @@
 <Sprite
   {...$$restProps}
   {instance}
+  on:click
   on:mousedown
   on:mousemove
   on:mouseout

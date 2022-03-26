@@ -1,15 +1,18 @@
 <script context="module" lang="ts">
-  import { TilingSprite, TilingSpriteRenderer } from '@pixi/sprite-tiling'
+  import {
+    TilingSprite as PixiTilingSprite,
+    TilingSpriteRenderer,
+  } from '@pixi/sprite-tiling'
   import { registerRendererPlugin } from './Pixi.svelte'
-  import Sprite, { type SpriteProps } from './Sprite.svelte'
+  import Sprite, { type SpriteComponentProps } from './Sprite.svelte'
   import type { PointLike } from './util/data-types'
   import type { ExtractProps } from './util/props'
 
   registerRendererPlugin('tilingSprite', TilingSpriteRenderer)
 
-  export interface TilingSpriteProps<
-    Instance extends TilingSprite = TilingSprite
-  > extends ExtractProps<Omit<TilingSprite, 'tilePosition'>>,
+  export interface TilingSpriteComponentProps<
+    Instance extends PixiTilingSprite = PixiTilingSprite
+  > extends ExtractProps<Omit<PixiTilingSprite, 'tilePosition'>>,
       ExtractProps<GlobalMixins.TilingSprite> {
     instance?: Instance
     tilePosition: PointLike
@@ -17,11 +20,11 @@
 </script>
 
 <script lang="ts">
-  type T = $$Generic<TilingSprite>
-  type $$Props = TilingSpriteProps<T> & SpriteProps<T>
+  type T = $$Generic<PixiTilingSprite>
+  type $$Props = TilingSpriteComponentProps<T> & SpriteComponentProps<T>
 
   /** @type {TilingSprite} TilingSprite instance to render */
-  export let instance: TilingSprite = new TilingSprite(
+  export let instance: PixiTilingSprite = new PixiTilingSprite(
     $$props.texture,
     $$props.width,
     $$props.height
@@ -31,6 +34,7 @@
 <Sprite
   {...$$restProps}
   {instance}
+  on:click
   on:mousedown
   on:mousemove
   on:mouseout

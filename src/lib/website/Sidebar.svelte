@@ -13,39 +13,44 @@
       href: '/',
       label: 'Intro',
     },
+    // {
+    //   section: 'Guides',
+    //   links: [
+    //   ],
+    // },
     {
-      section: 'Components',
+      section: 'API',
       links: [
         {
-          href: '/components/animated-sprite',
+          href: '/api/components/animated-sprite',
           label: 'AnimatedSprite',
         },
         {
-          href: '/components/container',
+          href: '/api/components/container',
           label: 'Container',
         },
         {
-          href: '/components/graphics',
+          href: '/api/components/graphics',
           label: 'Graphics',
         },
         {
-          href: '/components/loader',
+          href: '/api/components/loader',
           label: 'Loader',
         },
         {
-          href: '/components/pixi',
+          href: '/api/components/pixi',
           label: 'Pixi',
         },
         {
-          href: '/components/sprite',
+          href: '/api/components/sprite',
           label: 'Sprite',
         },
         {
-          href: '/components/tiling-sprite',
+          href: '/api/components/tiling-sprite',
           label: 'Tiling Sprite',
         },
         {
-          href: '/components/text',
+          href: '/api/components/text',
           label: 'Text',
         },
       ],

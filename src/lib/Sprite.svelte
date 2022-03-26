@@ -1,20 +1,18 @@
 <script context="module" lang="ts">
-  export interface SpriteProps<Instance extends Sprite = Sprite>
-    extends ExtractProps<Omit<Sprite, 'anchor'>>,
+  export interface SpriteComponentProps<Instance extends Sprite = Sprite>
+    extends ExtractProps<Sprite>,
       ExtractProps<GlobalMixins.Sprite> {
     instance?: Instance
-    anchor?: PointLike
   }
 </script>
 
 <script lang="ts">
   import { Sprite } from '@pixi/sprite'
-  import Container, { type ContainerProps } from './Container.svelte'
-  import type { PointLike } from './util/data-types'
+  import Container, { type ContainerComponentProps } from './Container.svelte'
   import { applyPoint, applyProps, type ExtractProps } from './util/props'
 
   type T = $$Generic<Sprite>
-  type $$Props = SpriteProps<T> & ContainerProps<T>
+  type $$Props = SpriteComponentProps<T> & ContainerComponentProps<T>
 
   export let anchor: $$Props['anchor'] = undefined
 
@@ -34,6 +32,7 @@
 <Container
   {...$$restProps}
   {instance}
+  on:click
   on:mousedown
   on:mousemove
   on:mouseout

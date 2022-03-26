@@ -1,11 +1,12 @@
 export { default as AnimatedSprite } from './AnimatedSprite.svelte'
-export { default as Container } from './Container.svelte'
+export { default as Container, getContainer } from './Container.svelte'
 export { default as Loader, registerLoaderPlugin } from './Loader.svelte'
 export { default as Sprite } from './Sprite.svelte'
 export { default as TilingSprite } from './TilingSprite.svelte'
 export { default as Text } from './Text.svelte'
 export {
   default as Pixi,
+  getPixi,
   registerApplicationPlugin,
   registerRendererPlugin,
 } from './Pixi.svelte'

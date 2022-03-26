@@ -1,19 +1,20 @@
 <script context="module" lang="ts">
-  import { Graphics } from '@pixi/graphics'
-  import Container, { type ContainerProps } from './Container.svelte'
+  import { Graphics as PixiGraphics } from '@pixi/graphics'
+  import Container, { type ContainerComponentProps } from './Container.svelte'
   import type { ExtractProps } from './util/props'
 
-  export interface GraphicsProps<Instance extends Graphics = Graphics>
-    extends ExtractProps<Graphics>,
+  export interface GraphicsComponentProps<
+    Instance extends PixiGraphics = PixiGraphics
+  > extends ExtractProps<PixiGraphics>,
       ExtractProps<GlobalMixins.Graphics> {
     instance?: Instance
-    draw: (graphics: Graphics) => any
+    draw: (graphics: PixiGraphics) => any
   }
 </script>
 
 <script lang="ts">
-  type T = $$Generic<Graphics>
-  type $$Props = GraphicsProps<T> & ContainerProps<T>
+  type T = $$Generic<PixiGraphics>
+  type $$Props = GraphicsComponentProps<T> & ContainerComponentProps<T>
 
   /**
    * @type { (graphics: Graphics) => any} Call your draw functions here
@@ -21,7 +22,7 @@
   export let draw: $$Props['draw']
 
   /** @type {Graphics} Graphics instance to render */
-  export let instance: Graphics = new Graphics()
+  export let instance: PixiGraphics = new PixiGraphics()
 
   // because Graphics is not immutable, we can call draw whenever it changes
   $: draw(instance)
@@ -30,6 +31,7 @@
 <Container
   {...$$restProps}
   {instance}
+  on:click
   on:mousedown
   on:mousemove
   on:mouseout

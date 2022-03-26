@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
-  export interface DisplayObjectProps<Instance extends DisplayObject>
-    extends ExtractProps<Omit<DisplayObject, 'scale' | 'skew'>>,
+  export interface DisplayObjectComponentProps<
+    Instance extends PixiDisplayObject
+  > extends ExtractProps<Omit<PixiDisplayObject, 'scale' | 'skew'>>,
       ExtractProps<GlobalMixins.DisplayObject> {
     instance: Instance
     scale?: PointLike
@@ -9,20 +10,27 @@
 </script>
 
 <script lang="ts">
-  import type { DisplayObject } from '@pixi/display'
-  import { createEventDispatcher, onMount } from 'svelte'
+  import type { DisplayObject as PixiDisplayObject } from '@pixi/display'
+  import {
+    afterUpdate,
+    createEventDispatcher,
+    getContext,
+    onMount,
+  } from 'svelte'
+  import { getContainer } from './Container.svelte'
   import { createPixiEventDispatcher } from './util'
-  import { getPixiContainer } from './util/context'
   import type { PointLike } from './util/data-types'
   import { applyPoint, applyProps, type ExtractProps } from './util/props'
 
-  type T = $$Generic<DisplayObject>
-  type $$Props = DisplayObjectProps<T>
+  type T = $$Generic<PixiDisplayObject>
+  type $$Props = DisplayObjectComponentProps<T>
+
+  const { onComponentUpdate } = getContext('pixi_internal')
 
   /** @type {DisplayObject} DisplayObject instance to render */
-  export let instance: DisplayObject
+  export let instance: PixiDisplayObject
 
-  export let parent = getPixiContainer()
+  export let parent = getContainer()
 
   onMount(() => {
     let childIndex = -1
@@ -43,6 +51,10 @@
     return () => {
       parent?.removeChild(instance)
     }
+  })
+
+  afterUpdate(() => {
+    onComponentUpdate()
   })
 
   $: {

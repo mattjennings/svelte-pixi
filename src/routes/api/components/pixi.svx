@@ -1,0 +1,153 @@
+<script>
+  import docs from '$lib/Pixi.svelte?raw&sveld' 
+  import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
+</script>
+
+# Pixi
+
+Renders a Pixi application. All child components will render to this.
+
+## Usage
+
+```svelte example csr
+<script>
+  import { Pixi } from 'svelte-pixi'
+</script>
+
+<Pixi width={400} height={400} antialias>
+  <!-- some cool components -->
+</Pixi>
+```
+
+## Custom Host Element
+
+If you want to customize the element that the canvas is rendered into, Pixi provides a `view` action as a prop
+
+```svelte example csr
+<script>
+  import { Pixi } from 'svelte-pixi'
+</script>
+
+<Pixi width={400} height={400} antialias let:view>
+  <div class="custom" use:view>
+    <!-- some cool components -->
+  </div>
+</Pixi>
+
+<style>
+  :global(.custom canvas) {
+    border: 5px solid tomato;
+    border-radius: 5px;
+  }
+</style>
+```
+
+## Manual Rendering
+
+Pixi's default behaviour is to render at the target framerate. It is possible to opt-out of this behaviour and take control of when Pixi renders yourself. The `disableRenderOnTick` prop will do this.
+
+Pixi also emits a `componentupdate` event whenever a svelte-pixi component updates via props. You can utilize both of these features to create an application that only renders when Svelte components render.
+
+```svelte example csr
+<script context="module">
+  // load interaction plugin
+  import { InteractionManager } from '@pixi/interaction'
+  import { registerRendererPlugin } from 'svelte-pixi'
+
+  registerRendererPlugin('interaction', InteractionManager)
+</script>
+
+<script>
+  import { onMount } from 'svelte'
+  import { Pixi, Text, Graphics } from 'svelte-pixi'
+  import { Circle } from '@pixi/math'
+
+  let app
+  let needsRender = false
+
+  let dragging = false
+  let position = { x: 200, y: 200 }
+  let offset = { x: 0, y: 0 }
+  let circleSize = 50
+
+  function handleDragStart({ detail }) {
+    dragging = true
+    offset = {
+      x: detail.data.global.x - position.x,
+      y: detail.data.global.y - position.y
+    }
+  }
+
+  function handleDragEnd({ detail }) {
+    dragging = false
+  }
+
+  function handleDrag({ detail }) {
+    const clamp = (num, min, max) =>  Math.min(Math.max(num, min), max)
+    const nextPosition = detail.data.global
+
+    if (dragging) {
+      position.x = clamp(nextPosition.x - offset.x, circleSize, 400 - circleSize)
+      position.y = clamp(nextPosition.y - offset.y, circleSize, 400 - circleSize)
+    }
+  }
+
+  function handleComponentUpdate() {
+    // flag that a render is needed
+    needsRender = true
+
+    // we could call app.renderer.render() here instead but the framerate would be uncapped, so we'll use
+    // requestAnimationFrame below in render()
+  }
+
+  function render() {
+    requestAnimationFrame(() => {
+      if (needsRender) {
+        app.renderer.render(app.stage)
+        needsRender = false
+        console.log('manual render')
+      }
+      render()
+    })
+  }
+
+  // kick off raf
+  render()
+</script>
+
+<Pixi
+  bind:instance={app}
+  width={400}
+  height={400}
+  antialias
+  disableRenderOnTick
+  on:componentupdate={handleComponentUpdate}
+>
+  <Text
+    x={200}
+    y={300}
+    text="Click and drag"
+    style={{ fill: 'white' }}
+    anchor={0.5}
+  />
+  <Graphics
+    x={position.x}
+    y={position.y}
+    draw={(graphics) => {
+      graphics.clear()
+      graphics.beginFill(0xde3249)
+      graphics.drawCircle(0, 0, circleSize)
+      graphics.endFill()
+    }}
+    interactive
+    hitArea={new Circle(0, 0, circleSize)}
+    buttonMode
+    on:pointerdown={handleDragStart}
+    on:pointerup={handleDragEnd}
+    on:mousemove={handleDrag}
+  />
+</Pixi>
+
+```
+
+<ComponentDocs docs={docs} />
