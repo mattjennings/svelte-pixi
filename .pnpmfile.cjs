@@ -4,13 +4,6 @@ function readPackage(pkg) {
     pkg.dependencies['svelte-pixi'] = 'file:../../package'
   }
 
-  // automatically install peer deps as dev deps
-  if (pkg.name === 'svelte-pixi') {
-    pkg.devDependencies = {
-      ...pkg.peerDependencies,
-      ...pkg.devDependencies,
-    }
-  }
   return pkg
 }
 
