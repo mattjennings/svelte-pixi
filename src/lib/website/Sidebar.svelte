@@ -4,6 +4,7 @@
   import { Icon } from '@steeze-ui/svelte-icon'
   import { X, Menu } from '@steeze-ui/heroicons'
   import GitHub from './GitHub.svelte'
+  import NavLinks from './NavLinks.svelte'
 
   let isMenuOpen = false
   $: $page.url.pathname, (isMenuOpen = false)
@@ -93,9 +94,7 @@
           <div class="flex justify-end">
             <GitHub />
           </div>
-          {#each links as { href, label }}
-            <a {href} class:active={$page.url.pathname === href}>{label}</a>
-          {/each}
+          <NavLinks {links} />
         </nav>
       </div>
     </div>
@@ -118,36 +117,7 @@
           <div class="flex justify-end">
             <GitHub />
           </div>
-          <ul>
-            {#each links as link}
-              {#if link.section}
-                <li class="ml-2 mt-4">
-                  <div class="mb-2 font-semibold text-gray-600">
-                    {link.section}
-                  </div>
-                  <ul>
-                    {#each link.links as link}
-                      <li>
-                        <a
-                          href={link.href}
-                          class:active={$page.url.pathname === link.href}
-                          >{link.label}</a
-                        >
-                      </li>
-                    {/each}
-                  </ul>
-                </li>
-              {:else}
-                <li>
-                  <a
-                    href={link.href}
-                    class:active={$page.url.pathname === link.href}
-                    >{link.label}</a
-                  >
-                </li>
-              {/if}
-            {/each}
-          </ul>
+          <NavLinks {links} />
         </nav>
       </div>
     </div>
@@ -155,10 +125,10 @@
 </div>
 
 {#if !isMenuOpen}
-  <div class="sm:hidden fixed bottom-0 right-4 z-10 flex-shrink-0 h-16 flex">
+  <div class="md:hidden fixed bottom-0 right-4 z-10 flex-shrink-0 h-16 flex">
     <button
       on:click={() => (isMenuOpen = true)}
-      class="unstyled bg-white rounded-full h-10 w-10 flex items-center justify-center shadow border border-gray-200 text-gray-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
+      class="unstyled bg-white text-gray-800 border border-gray-300 rounded-full h-10 w-10 flex items-center justify-center shadow"
     >
       <span class="sr-only">Open sidebar</span>
       <Icon src={Menu} class="h-[1.25rem] w-[1.25rem]" />
@@ -166,12 +136,3 @@
     <div />
   </div>
 {/if}
-
-<style>
-  a {
-    @apply text-gray-600 rounded-md py-2 px-2 flex items-center text-sm font-medium;
-  }
-  a.active {
-    @apply text-gray-900 bg-gray-200;
-  }
-</style>
