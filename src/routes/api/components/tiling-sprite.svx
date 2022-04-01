@@ -1,9 +1,11 @@
+---
+title: TilingSprite
+---
+
 <script>
   import docs from '$lib/TilingSprite.svelte?raw&sveld' 
   import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
 </script>
-
-# TilingSprite
 
 ## Usage
 

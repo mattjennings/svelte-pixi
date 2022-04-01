@@ -1,9 +1,11 @@
+---
+title: Loader
+---
+
 <script>
   import docs from '$lib/Loader.svelte?raw&sveld' 
   import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
 </script>
-
-# Loader
 
 Loads the assets (textures, audio, etc) required for your components.
 It contains two slots, `loading` and default. The default slot will not

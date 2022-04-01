@@ -1,3 +1,10 @@
+<script>
+  export let src
+  export let meta
+
+  $: src, meta
+</script>
+
 <div class="flex flex-col w-full overflow-hidden rounded mb-4">
   <div class="flex justify-center py-3 bg-slate-700">
     <div class="overflow-hidden rounded min-h-[400px]">

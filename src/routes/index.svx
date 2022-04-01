@@ -1,4 +1,6 @@
-# svelte-pixi
+---
+title: svelte-pixi
+---
 
 A Svelte component library for Pixi applications. **This is still in its early stages, so don't expect everything to work perfectly!**
 

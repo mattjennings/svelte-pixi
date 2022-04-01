@@ -2,7 +2,6 @@
   import '../app.css'
   import '../prism.css'
   import Sidebar from '$lib/website/Sidebar.svelte'
-  import { browser } from '$app/env'
 </script>
 
 <title>svelte-pixi</title>
@@ -10,9 +9,7 @@
   <Sidebar />
   <main class="flex-1 w-0 flex flex-col md:px-8 xl:px-0 ">
     <div class="max-w-full flex-1 relative focus:outline-none">
-      <article class="py-6 pb-24 px-4 sm:px-6 prose prose-slate max-w-5xl">
-        <slot />
-      </article>
+      <slot />
     </div>
   </main>
 </div>

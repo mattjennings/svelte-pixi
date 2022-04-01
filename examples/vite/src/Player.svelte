@@ -1,10 +1,10 @@
 <script>
-  import { onMount, getContext } from 'svelte'
-  import { AnimatedSprite } from 'svelte-pixi'
+  import { onMount } from 'svelte'
+  import { AnimatedSprite, getPixi } from 'svelte-pixi'
   import KeyboardInput from 'keyboard-input'
 
   const keyboard = new KeyboardInput()
-  const app = getContext('pixi/app')
+  const { app } = getPixi()
   let instance
 
   const { spritesheet } = app.loader.resources['adventurer/spritesheet.json']
@@ -54,9 +54,9 @@
   bind:instance
   playing
   anchor={{ x: 0.5, y: 0 }}
-  bind:animationSpeed
-  bind:textures
-  bind:x
-  bind:y
-  bind:scale
+  {animationSpeed}
+  {textures}
+  {x}
+  {y}
+  {scale}
 />

@@ -14,11 +14,15 @@
       href: '/',
       label: 'Intro',
     },
-    // {
-    //   section: 'Guides',
-    //   links: [
-    //   ],
-    // },
+    {
+      section: 'Guides',
+      links: [
+        {
+          href: '/guides/reducing-bundle-size',
+          label: 'Reducing Bundle Size',
+        },
+      ],
+    },
     {
       section: 'API',
       links: [

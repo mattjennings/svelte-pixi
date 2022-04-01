@@ -1,9 +1,11 @@
+---
+title: Pixi
+---
+
 <script>
   import docs from '$lib/Pixi.svelte?raw&sveld' 
   import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
 </script>
-
-# Pixi
 
 Renders a Pixi application. All child components will render to this.
 

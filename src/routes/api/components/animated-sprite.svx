@@ -1,9 +1,11 @@
+---
+title: AnimatedSprite
+---
+
 <script>
   import docs from '$lib/AnimatedSprite.svelte?raw&sveld' 
   import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
 </script>
-
-# AnimatedSprite
 
 An AnimatedSprite is a simple way to display an animation depicted by a list of textures.
 
@@ -14,13 +16,6 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 ### Spritesheet
 
 ```svelte example csr
-<script context="module">
-  // register spritesheet loader plugin
-  import { registerLoaderPlugin } from 'svelte-pixi'
-  import { SpritesheetLoader } from '@pixi/spritesheet'
-  registerLoaderPlugin(SpritesheetLoader)
-</script>
-
 <script>
   import { Pixi, AnimatedSprite, Loader } from 'svelte-pixi'
   import { Texture } from '@pixi/core'
@@ -48,13 +43,6 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 ### Multiple Animations from Spritesheet
 
 ```svelte example csr
-<script context="module">
-  // register spritesheet loader plugin
-  import { registerLoaderPlugin } from 'svelte-pixi'
-  import { SpritesheetLoader } from '@pixi/spritesheet'
-  registerLoaderPlugin(SpritesheetLoader)
-</script>
-
 <script>
   import { Pixi, AnimatedSprite, Loader } from 'svelte-pixi'
 

@@ -1,9 +1,11 @@
+---
+title: Graphics
+---
+
 <script>
   import docs from '$lib/Graphics.svelte?raw&sveld' 
   import ComponentDocs from'$lib/website/ComponentDocs.svelte'
 </script>
-
-# Graphics
 
 ## Usage
 

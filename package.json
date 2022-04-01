@@ -51,6 +51,7 @@
   },
   "type": "module",
   "dependencies": {
+    "pixi.js": "^6.3.0",
     "@pixi/accessibility": "^6.3.0",
     "@pixi/app": "^6.3.0",
     "@pixi/basis": "^6.3.0",

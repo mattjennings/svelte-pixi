@@ -68,6 +68,7 @@ importers:
       mdsvex: ^0.10.5
       mdsvex-sveld: ^1.0.3
       mdsvexamples: ^0.2.0
+      pixi.js: ^6.3.0
       postcss: ^8.4.12
       postcss-load-config: ^3.1.3
       prettier: ^2.6.0
@@ -134,6 +135,7 @@ importers:
       '@pixi/ticker': 6.3.0_@pixi+settings@6.3.0
       '@pixi/unsafe-eval': 6.3.0_@pixi+core@6.3.0
       '@pixi/utils': 6.3.0_144ef662441eafe6efbce13303d1e8b8
+      pixi.js: 6.3.0
     devDependencies:
       '@steeze-ui/heroicons': 1.1.1
       '@steeze-ui/svelte-icon': 1.3.1
@@ -2504,6 +2506,46 @@ packages:
   /picomatch/2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
+
+  /pixi.js/6.3.0:
+    resolution: {integrity: sha512-ayOmVagMSa5lPVvznDf2e4EppwzPEDnB/q3AYdjTM9Ksw+JKT3lbLuZFo/6U0HNYF9DsJRJL/4ebReZh1hnqLQ==}
+    dependencies:
+      '@pixi/accessibility': 6.3.0_bb4b4e28a5dfba35286b18f9d00067ac
+      '@pixi/app': 6.3.0_cdae25483588b0a4e56d97fe063feaa7
+      '@pixi/compressed-textures': 6.3.0_d089c9ec1b9a94e9d501f212351db9af
+      '@pixi/constants': 6.3.0
+      '@pixi/core': 6.3.0_27ae776bfc84274ca58c0cc44f8c5b37
+      '@pixi/display': 6.3.0_847174e7ddcf04d2e651eb5a179aff75
+      '@pixi/extract': 6.3.0_fe061c6812dd841a336f7bdce639d7bd
+      '@pixi/filter-alpha': 6.3.0_@pixi+core@6.3.0
+      '@pixi/filter-blur': 6.3.0_3cf1b78697a3bd859784ee357016e80d
+      '@pixi/filter-color-matrix': 6.3.0_@pixi+core@6.3.0
+      '@pixi/filter-displacement': 6.3.0_f0ca2d9aa40a357b10a6579c2ba2580c
+      '@pixi/filter-fxaa': 6.3.0_@pixi+core@6.3.0
+      '@pixi/filter-noise': 6.3.0_@pixi+core@6.3.0
+      '@pixi/graphics': 6.3.0_a09f64c7bef28a737b882c25c5af46fd
+      '@pixi/interaction': 6.3.0_a0f03be371cd1c37a108c6bd3cfd784e
+      '@pixi/loaders': 6.3.0_a94aba2335b7bc65a24d61ccd7be5733
+      '@pixi/math': 6.3.0
+      '@pixi/mesh': 6.3.0_45b67f8fed0f079020fd8517bdc63488
+      '@pixi/mesh-extras': 6.3.0_8b9140838a1e372f10405c23ddaa8854
+      '@pixi/mixin-cache-as-bitmap': 6.3.0_7be9bace190ffccae0fa6e49b620e873
+      '@pixi/mixin-get-child-by-name': 6.3.0_@pixi+display@6.3.0
+      '@pixi/mixin-get-global-position': 6.3.0_0a5c543cd7030a4f5de76ea535933907
+      '@pixi/particle-container': 6.3.0_499425e40f70bfcf5c78e9dbc9eba230
+      '@pixi/polyfill': 6.3.0
+      '@pixi/prepare': 6.3.0_31d7e14a60d0a928bb09c6814ad5aa59
+      '@pixi/runner': 6.3.0
+      '@pixi/settings': 6.3.0
+      '@pixi/sprite': 6.3.0_45b67f8fed0f079020fd8517bdc63488
+      '@pixi/sprite-animated': 6.3.0_3c0ec2cf44e4869083d5fa00362f7c5e
+      '@pixi/sprite-tiling': 6.3.0_a09f64c7bef28a737b882c25c5af46fd
+      '@pixi/spritesheet': 6.3.0_597c6343416fc4c35769530e3044de43
+      '@pixi/text': 6.3.0_09c15ae38211b732767a2ec7133a24a9
+      '@pixi/text-bitmap': 6.3.0_e5b7c7296d8d0ea296850d503201ab8e
+      '@pixi/ticker': 6.3.0_@pixi+settings@6.3.0
+      '@pixi/utils': 6.3.0_144ef662441eafe6efbce13303d1e8b8
+    dev: false
 
   /postcss-js/4.0.0_postcss@8.4.12:
     resolution: {integrity: sha512-77QESFBwgX4irogGVPgQ5s07vLvFqWr228qZY+w6lW599cRlK/HmnlivnnVUxkjHnCu4J16PDMHcH+e+2HbvTQ==}
