@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
   import { Graphics as PixiGraphics } from '@pixi/graphics'
   import Container, { type ContainerComponentProps } from './Container.svelte'
-  import type { ExtractProps } from './util/props'
+  import { applyPoint, applyProps, type ExtractProps } from './util/props'
 
   export interface GraphicsComponentProps<
     Instance extends PixiGraphics = PixiGraphics
@@ -15,6 +15,18 @@
 <script lang="ts">
   type T = $$Generic<PixiGraphics>
   type $$Props = GraphicsComponentProps<T> & ContainerComponentProps<T>
+
+  export let pivot: $$Props['pivot'] = undefined
+
+  $: {
+    const props = { pivot }
+
+    applyProps(instance, props, {
+      apply: {
+        pivot: applyPoint,
+      },
+    })
+  }
 
   /**
    * @type { (graphics: Graphics) => any} Call your draw functions here

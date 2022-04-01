@@ -15,6 +15,43 @@
       label: 'Intro',
     },
     {
+      section: 'Components',
+      links: [
+        {
+          href: '/components/animated-sprite',
+          label: 'AnimatedSprite',
+        },
+        {
+          href: '/components/container',
+          label: 'Container',
+        },
+        {
+          href: '/components/graphics',
+          label: 'Graphics',
+        },
+        {
+          href: '/components/loader',
+          label: 'Loader',
+        },
+        {
+          href: '/components/pixi',
+          label: 'Pixi',
+        },
+        {
+          href: '/components/sprite',
+          label: 'Sprite',
+        },
+        {
+          href: '/components/tiling-sprite',
+          label: 'Tiling Sprite',
+        },
+        {
+          href: '/components/text',
+          label: 'Text',
+        },
+      ],
+    },
+    {
       section: 'Guides',
       links: [
         {
@@ -24,39 +61,11 @@
       ],
     },
     {
-      section: 'API',
+      section: 'Animation',
       links: [
         {
-          href: '/api/components/animated-sprite',
-          label: 'AnimatedSprite',
-        },
-        {
-          href: '/api/components/container',
-          label: 'Container',
-        },
-        {
-          href: '/api/components/graphics',
-          label: 'Graphics',
-        },
-        {
-          href: '/api/components/loader',
-          label: 'Loader',
-        },
-        {
-          href: '/api/components/pixi',
-          label: 'Pixi',
-        },
-        {
-          href: '/api/components/sprite',
-          label: 'Sprite',
-        },
-        {
-          href: '/api/components/tiling-sprite',
-          label: 'Tiling Sprite',
-        },
-        {
-          href: '/api/components/text',
-          label: 'Text',
+          href: '/animation/svelte-motion',
+          label: 'svelte/motion',
         },
       ],
     },
