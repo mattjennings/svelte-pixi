@@ -39,13 +39,16 @@
     setContext,
   } from 'svelte'
   import { Application } from '@pixi/app'
-  import { Ticker } from '@pixi/ticker'
+  import { Ticker, UPDATE_PRIORITY } from '@pixi/ticker'
   import { AppLoaderPlugin } from '@pixi/loaders'
   import type { IApplicationOptions, IApplicationPlugin } from '@pixi/app'
   import type { IRendererPluginConstructor } from '@pixi/core'
   import { BatchRenderer, Renderer } from '@pixi/core'
 
-  type $$Props = IApplicationOptions
+  type $$Props = IApplicationOptions & {
+    instance?: Application
+    disableRenderOnTick?: boolean
+  }
 
   const dispatch = createEventDispatcher()
 
@@ -61,22 +64,12 @@
    */
   export let disableRenderOnTick = false
 
-  export let instance: Application = new Application({
+  export let instance: $$Props['instance'] = new Application({
     ...$$restProps,
   })
 
-  // remove default ticker
-  instance.ticker?.stop()
-  instance.ticker = new Ticker()
-
-  if (!disableRenderOnTick) {
-    instance.ticker.add(function render() {
-      instance.renderer.render(instance.stage)
-    })
-  }
-
-  if ($$props.autoStart !== false) {
-    instance.ticker.start()
+  if (disableRenderOnTick) {
+    instance.ticker.remove(instance.render, instance)
   }
 
   /**
