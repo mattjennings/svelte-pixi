@@ -2,9 +2,9 @@
 title: Reducing Bundle Size
 ---
 
-Pixi can be used from either the all-in-one `pixi.js` package, or its [individual `@pixi` packages](https://pixijs.io/customize/). By default, `svelte-pixi` will include `pixi.js` so that every feature is included out of the box. However, this results in a potentially larger bundle size than necessary.
+Pixi can be used from either the all-in-one `pixi.js` package, or its individual `@pixi/*` packages. By default, `svelte-pixi` will include `pixi.js` so that every feature is included out of the box. However, this results in a potentially larger bundle size than necessary.
 
-Instead of importing from `svelte-pixi`, you can import from `svelte-pixi/lite`. This will only include the `@pixi` packages required for the components that you use (i.e, `@pixi/sprite` for the `Sprite` component)
+Instead of importing from `svelte-pixi`, you can import from `svelte-pixi/lite`. This will only include the packages required for the components that you use (i.e, `@pixi/sprite` for the `Sprite` component)
 
 ## Extensibility
 
