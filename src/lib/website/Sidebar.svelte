@@ -11,42 +11,42 @@
 
   let links = [
     {
-      href: '/',
+      href: '/docs/',
       label: 'Intro',
     },
     {
       section: 'Components',
       links: [
         {
-          href: '/components/animated-sprite',
+          href: '/docs/components/animated-sprite',
           label: 'AnimatedSprite',
         },
         {
-          href: '/components/container',
+          href: '/docs/components/container',
           label: 'Container',
         },
         {
-          href: '/components/graphics',
+          href: '/docs/components/graphics',
           label: 'Graphics',
         },
         {
-          href: '/components/loader',
+          href: '/docs/components/loader',
           label: 'Loader',
         },
         {
-          href: '/components/pixi',
+          href: '/docs/components/pixi',
           label: 'Pixi',
         },
         {
-          href: '/components/sprite',
+          href: '/docs/components/sprite',
           label: 'Sprite',
         },
         {
-          href: '/components/tiling-sprite',
+          href: '/docs/components/tiling-sprite',
           label: 'Tiling Sprite',
         },
         {
-          href: '/components/text',
+          href: '/docs/components/text',
           label: 'Text',
         },
       ],
@@ -55,7 +55,7 @@
       section: 'Guides',
       links: [
         {
-          href: '/guides/reducing-bundle-size',
+          href: '/docs/guides/reducing-bundle-size',
           label: 'Reducing Bundle Size',
         },
       ],
@@ -64,7 +64,7 @@
       section: 'Animation',
       links: [
         {
-          href: '/animation/svelte-motion',
+          href: '/docs/animation/svelte-motion',
           label: 'svelte/motion',
         },
       ],

@@ -3,7 +3,9 @@ import sveld from 'mdsvex-sveld'
 import examples from 'mdsvexamples'
 
 const config = defineConfig({
-  layout: './src/lib/website/mdsvex.svelte',
+  layout: {
+    _: './src/lib/website/mdsvex.svelte',
+  },
   extensions: ['.svelte.md', '.md', '.svx'],
 
   smartypants: {
