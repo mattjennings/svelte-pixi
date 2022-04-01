@@ -3,7 +3,7 @@
     TilingSprite as PixiTilingSprite,
     TilingSpriteRenderer,
   } from '@pixi/sprite-tiling'
-  import { registerRendererPlugin } from './Pixi.svelte'
+  import { registerRendererPlugin } from './util/plugins'
   import Sprite, { type SpriteComponentProps } from './Sprite.svelte'
   import type { PointLike } from './util/data-types'
   import type { ExtractProps } from './util/props'

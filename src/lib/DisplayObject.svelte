@@ -18,18 +18,22 @@
     onMount,
   } from 'svelte'
   import { getContainer } from './Container.svelte'
-  import { createPixiEventDispatcher } from './util'
+  import { createPixiEventDispatcher } from '$lib/util/helpers'
   import type { PointLike } from './util/data-types'
   import { applyPoint, applyProps, type ExtractProps } from './util/props'
 
   type T = $$Generic<PixiDisplayObject>
   type $$Props = DisplayObjectComponentProps<T>
 
-  const { onComponentUpdate } = getContext('pixi_internal')
+  const { onComponentUpdate } = getContext('pixi/renderer_internal')
 
   /** @type {DisplayObject} DisplayObject instance to render */
   export let instance: PixiDisplayObject
 
+  /**
+   * The parent container to add this component to. Set to null
+   * if you don't want to add it to a parent.
+   */
   export let parent = getContainer()
 
   onMount(() => {
@@ -44,12 +48,10 @@
 
     if (parent && childIndex === -1) {
       parent.addChild(instance)
-    } else {
-      throw new Error('Unable to find container or stage')
-    }
 
-    return () => {
-      parent?.removeChild(instance)
+      return () => {
+        parent?.removeChild(instance)
+      }
     }
   })
 

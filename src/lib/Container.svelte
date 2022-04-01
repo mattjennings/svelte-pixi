@@ -40,6 +40,11 @@
   })
 
   let parent = getContainer()
+
+  if (!parent) {
+    setContext('pixi/stage', instance)
+  }
+
   setContext('pixi/container', instance)
 </script>
 

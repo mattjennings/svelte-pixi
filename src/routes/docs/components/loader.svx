@@ -7,7 +7,7 @@ title: Loader
   import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
 </script>
 
-Loads the assets (textures, audio, etc) required for your components.
+Preloads the assets (textures, audio, etc) required for your components.
 It contains two slots, `loading` and default. The default slot will not
 render until loading has finished.
 
@@ -18,10 +18,10 @@ You can show progress by using the `progress` prop from the `loading` slot.
 ```svelte example csr
 <script>
   import { Texture } from '@pixi/core'
-  import { Pixi, Loader, Sprite, Text } from 'svelte-pixi'
+  import { Application, Loader, Sprite, Text } from 'svelte-pixi'
 </script>
 
-<Pixi width={400} height={400} antialias backgroundColor={0xffffff}>
+<Application width={400} height={400} antialias backgroundColor={0xffffff}>
   <Loader let:progress resources={['/assets/great-success.png']}>
     <slot slot="loading">
       <Text text={`Loading... ${progress}`} x={200} y={200} anchor={0.5} />
@@ -35,7 +35,7 @@ You can show progress by using the `progress` prop from the `loading` slot.
       height={300}
     />
   </Loader>
-</Pixi>
+</Application>
 ```
 
 <ComponentDocs docs={docs} />

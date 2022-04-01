@@ -14,32 +14,27 @@ Graphics can be used for any kind of drawing. Use the `draw` prop to interact wi
 ```svelte example csr
 <script>
   import { onMount } from 'svelte'
-  import { Pixi, Graphics } from 'svelte-pixi'
+  import { Application, Graphics, Ticker } from 'svelte-pixi'
 
   let grow = true
   let size = 50
-  let app
 
-  onMount(() => {
-    function tick(delta) {
-      let growBy = delta * (grow ? 1 : -1)
-      size += growBy
+  function tick(ev) {
+    const delta = ev.detail
 
-      if (size >= 200) {
-        grow = false
-      } else if (size <= 50) {
-        grow = true
-      }
+    let growBy = delta * (grow ? 1 : -1)
+    size += growBy
+
+    if (size >= 200) {
+      grow = false
+    } else if (size <= 50) {
+      grow = true
     }
-
-
-    app.ticker.add(tick)
-
-    return () => app.ticker.remove(tick)
-  })
+  }
 </script>
 
-<Pixi bind:instance={app} width={400} height={400} antialias>
+<Application width={400} height={400} antialias>
+  <Ticker on:tick={tick} />
   <Graphics
     x={200}
     y={200}
@@ -50,7 +45,7 @@ Graphics can be used for any kind of drawing. Use the `draw` prop to interact wi
       graphics.endFill()
     }}
   />
-</Pixi>
+</Application>
 
 ```
 

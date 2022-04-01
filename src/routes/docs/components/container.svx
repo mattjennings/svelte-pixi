@@ -18,37 +18,34 @@ When child components are rendered inside, their coordinates become local to the
 ```svelte example csr
 <script>
   import { onMount } from 'svelte'
-  import { Pixi, Container, Text } from 'svelte-pixi'
+  import { Application, Container, Text, Ticker } from 'svelte-pixi'
 
   let x = 200
   let y = 100
-  let app
+  let direction = -1
 
   // move container back and forth
-  onMount(() => {
-    let direction = -1
-    function tick() {
-      if (x <= 0) {
-        direction = 1
-      } else if (x >= 340) {
-        direction = -1
-      }
+  function tick(ev) {
+    const delta = ev.detail
 
-      x += 1 * direction
+    if (x <= 0) {
+      direction = 1
+    } else if (x >= 340) {
+      direction = -1
     }
 
-    app.ticker.add(tick)
+    x += 2 * direction * delta
+  }
 
-    return () => app.ticker.remove(tick)
-  })
 </script>
 
-<Pixi bind:instance={app} width={400} height={400} antialias>
+<Application width={400} height={400} antialias>
+  <Ticker on:tick={tick} />
   <Container {x} {y}>
     <Text text="Hello" style={{ fill: 'white' }} />
     <Text text="World" y={60} style={{ fill: 'white' }} />
   </Container>
-</Pixi>
+</Application>
 ```
 
 <ComponentDocs docs={docs} pixiDocs={{ name: "PIXI.Container", isLinkableProp: prop => !customProps.includes(prop) }}/>

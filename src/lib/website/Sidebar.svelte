@@ -22,6 +22,10 @@
           label: 'AnimatedSprite',
         },
         {
+          href: '/docs/components/application',
+          label: 'Application',
+        },
+        {
           href: '/docs/components/container',
           label: 'Container',
         },
@@ -32,10 +36,6 @@
         {
           href: '/docs/components/loader',
           label: 'Loader',
-        },
-        {
-          href: '/docs/components/pixi',
-          label: 'Pixi',
         },
         {
           href: '/docs/components/sprite',
@@ -57,6 +57,10 @@
         {
           href: '/docs/guides/reducing-bundle-size',
           label: 'Reducing Bundle Size',
+        },
+        {
+          href: '/docs/guides/custom-renderer',
+          label: 'Custom Renderer',
         },
       ],
     },

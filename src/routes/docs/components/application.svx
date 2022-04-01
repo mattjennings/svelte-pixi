@@ -1,0 +1,54 @@
+---
+title: Application
+---
+
+<script>
+  import docs from '$lib/Application.svelte?raw&sveld' 
+  import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
+</script>
+
+Creates a [Pixi Application](https://pixijs.download/release/docs/PIXI.Application.html). All child components will render to this.
+
+## Usage
+
+```svelte example csr
+<script>
+  import { Application, Text } from 'svelte-pixi'
+</script>
+
+<Application width={400} height={400} antialias>
+   <Text x={200} y={200} anchor={0.5} text="Hello World" style={{ fill: 'white'}} />
+</Application>
+```
+
+## Custom View
+
+If you want to customize the element that the canvas is rendered into, you can use the `view` slot. The canvas will be appended as a child of the slot element.
+
+```svelte example csr
+<script>
+  import { Application, Text } from 'svelte-pixi'
+</script>
+
+<Application width={400} height={400} antialias>
+  <div slot="view" class="custom">
+    <!-- canvas will be placed here -->
+  </div>
+
+  <!-- pixi components go here -->
+  <Text x={200} y={200} anchor={0.5} text="Hello World" style={{ fill: 'white'}} />
+</Application>
+
+<style>
+  .custom :global(canvas) {
+    border: 5px solid tomato;
+    border-radius: 5px;
+  }
+</style>
+```
+
+## Custom Renderer
+
+Pixi's `Application` class is a convenience class for creating a renderer, ticker, and root container (stage). As such, the `Application` component mimics this behaviour.
+
+If you wish to customize any of those components, e.g. taking control of rendering yourself, see the guide on [creating a custom renderer](/docs/guides/custom-renderer).

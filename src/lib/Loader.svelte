@@ -1,17 +1,15 @@
 <script context="module" lang="ts">
-  export function registerLoaderPlugin(plugin: ILoaderPlugin) {
-    const registered = (PixiLoader as any)._plugins
-    if (!registered.includes(plugin)) {
-      PixiLoader.registerPlugin(plugin)
-    }
+  if (typeof window !== 'undefined') {
+    registerApplicationPlugin(AppLoaderPlugin)
   }
 </script>
 
 <script lang="ts">
-  import type { IAddOptions, ILoaderPlugin } from '@pixi/loaders'
-  import { Loader as PixiLoader } from '@pixi/loaders'
-  import { onMount, createEventDispatcher } from 'svelte'
-  import { getPixi } from './Pixi.svelte'
+  import { AppLoaderPlugin, type IAddOptions } from '@pixi/loaders'
+  import type { Loader as PixiLoader } from '@pixi/loaders'
+  import { createEventDispatcher, onMount } from 'svelte'
+  import { getApp } from './Application.svelte'
+  import { registerApplicationPlugin } from './util/plugins'
 
   interface $$Slots {
     default: {
@@ -31,7 +29,7 @@
   }
 
   const dispatch = createEventDispatcher()
-  const { app } = getPixi()
+  const app = getApp()
 
   /**
    * An array of urls or arguments to be passed into Pixi.js's [loader.add function](https://pixijs.download/release/docs/PIXI.Loader.html#add)

@@ -78,6 +78,9 @@
 
     return isLinkable
   }
+
+  // filter out context methods
+  $: props = docs.props?.filter((prop) => !prop.name.startsWith('get'))
 </script>
 
 {#if docs.typedefs.length}
@@ -93,7 +96,7 @@
   </div>
 {/if}
 
-{#if docs.props.length}
+{#if props.length}
   <h2>Props</h2>
   <table>
     <thead>
@@ -105,7 +108,7 @@
       </tr>
     </thead>
     <tbody>
-      {#each docs.props as prop}
+      {#each props as prop}
         <tr>
           <td>
             {#if pixiDocsUrl && isLinkableProp(prop.name)}
@@ -116,9 +119,13 @@
               {prop.name}
             {/if}
           </td>
-          <td><code>{formatCodeType(prop.type)}</code></td>
           <td>
-            {#if prop.kind !== 'function'}
+            {#if prop.type}
+              <code>{formatCodeType(prop.type)}</code>
+            {/if}
+          </td>
+          <td>
+            {#if prop.value && prop.kind !== 'function'}
               <code>{formatCodeValue(prop.value)}</code>
             {/if}
           </td>
@@ -143,8 +150,16 @@
       {#each docs.slots as slot}
         <tr>
           <td>{slot.name === '__default__' ? 'default' : slot.name}</td>
-          <td><code>{formatSlotProps(slot.props)}</code></td>
-          <td><code>{formatSlotFallback(slot.fallback)}</code></td>
+          <td>
+            {#if slot.props}
+              <code>{formatSlotProps(slot.props)}</code>
+            {/if}
+          </td>
+          <td>
+            {#if slot.fallback}
+              <code>{formatSlotFallback(slot.fallback)}</code>
+            {/if}
+          </td>
         </tr>
       {/each}
     </tbody>
@@ -165,8 +180,16 @@
       {#each docs.events as event}
         <tr>
           <td>{event.name}</td>
-          <td><code>{formatCodeValue(event.type)}</code></td>
-          <td><code>{formatEventDetail(event.detail)}</code></td>
+          <td>
+            {#if event.type}
+              <code>{formatCodeValue(event.type)}</code>
+            {/if}
+          </td>
+          <td>
+            {#if event.detail}
+              <code>{formatEventDetail(event.detail)}</code>
+            {/if}
+          </td>
         </tr>
       {/each}
     </tbody>

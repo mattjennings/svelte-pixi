@@ -1,8 +1,8 @@
-import { getPixi } from '$lib/Pixi.svelte'
+import { getApp } from '$lib'
 import { onMount } from 'svelte'
 
 export function onTick(fn: (delta: number) => any) {
-  const { app } = getPixi()
+  const app = getApp()
 
   onMount(() => {
     app.ticker.add(fn)

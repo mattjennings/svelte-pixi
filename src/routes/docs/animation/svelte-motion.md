@@ -8,7 +8,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
 
 ```svelte example csr
 <script>
-  import { Pixi, Text, Sprite, Loader } from 'svelte-pixi'
+  import { Application, Text, Sprite, Loader } from 'svelte-pixi'
   import { Texture } from '@pixi/core'
   import { spring } from 'svelte/motion'
 
@@ -47,7 +47,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
   }
 </script>
 
-<Pixi
+<Application
   width={400}
   height={400}
   antialias>
@@ -69,7 +69,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
       on:pointerup={handleDragEnd}
       on:pointerupoutside={handleDragEnd}
       on:mousemove={handleDrag} />
-</Pixi>
+</Application>
 ```
 
 ### Tween
@@ -77,7 +77,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
 ```svelte example csr
 <script>
   import { onMount} from 'svelte'
-  import { Pixi,  Graphics } from 'svelte-pixi'
+  import { Application,  Graphics, Ticker } from 'svelte-pixi'
   import { tweened } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
 
@@ -89,33 +89,30 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
     easing: cubicOut
   })
 
-  onMount(() => {
-    let step = 0
+  let step = 0
 
-    function tick(delta) {
-      step += 1
+  function tick() {
+    step += 1
 
-      if (step > 100) {
-        step = 0
+    if (step > 100) {
+      step = 0
 
-        if ($progress < barWidth) {
-          $progress += barWidth / 5
-        } else {
-          $progress = barWidth / 5
-        }
+      if ($progress < barWidth) {
+        $progress += barWidth / 5
+      } else {
+        $progress = barWidth / 5
       }
     }
+  }
 
-    app.ticker.add(tick)
-    return () => app.ticker.remove(tick)
-  })
 </script>
 
-<Pixi
+<Application
   bind:instance={app}
   width={400}
   height={400}
   antialias>
+  <Ticker on:tick={tick} />
   <Graphics
     x={200}
     y={200}
@@ -126,5 +123,5 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
       graphics.drawRect(0, 0, $progress, 50)
       graphics.endFill()
     }}/>
-</Pixi>
+</Application>
 ```

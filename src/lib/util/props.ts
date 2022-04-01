@@ -24,6 +24,19 @@ export function applyProps<Instance, Props extends Record<string, any>>(
   }
 }
 
+/**
+ * Returns true if any of the values are not undefined
+ */
+export function shouldApplyProps(...args) {
+  for (const arg of args) {
+    if (typeof arg !== 'undefined') {
+      return true
+    }
+  }
+
+  return false
+}
+
 export function applyPoint<T = any>(
   instance: T,
   value: PointLike,

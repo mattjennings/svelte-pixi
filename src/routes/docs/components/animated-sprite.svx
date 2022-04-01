@@ -17,11 +17,11 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 
 ```svelte example csr
 <script>
-  import { Pixi, AnimatedSprite, Loader } from 'svelte-pixi'
+  import { Application, AnimatedSprite, Loader } from 'svelte-pixi'
   import { Texture } from '@pixi/core'
 </script>
 
-<Pixi width={400} height={400} antialias>
+<Application width={400} height={400} antialias>
   <Loader resources={['/assets/adventurer-spritesheet.json']}>
     <AnimatedSprite
       textures={[
@@ -37,14 +37,14 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
       scale={{ x: 2, y: 2 }}
     />
   </Loader>
-</Pixi>
+</Application>
 ```
 
 ### Multiple Animations from Spritesheet
 
 ```svelte example csr
 <script>
-  import { Pixi, AnimatedSprite, Loader } from 'svelte-pixi'
+  import { Application, AnimatedSprite, Loader } from 'svelte-pixi'
 
   let spritesheet
   let animation = 'adventurer-idle'
@@ -61,7 +61,7 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
   }
 </script>
 
-<Pixi width={400} height={400} antialias>
+<Application width={400} height={400} antialias>
   <Loader
     resources={['/assets/adventurer-spritesheet.json']}
     on:complete={({ detail }) => {
@@ -80,7 +80,7 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
       on:loop={changeAnimation}
     />
   </Loader>
-</Pixi>
+</Application>
 ```
 
 <ComponentDocs docs={docs} pixiDocs={{ name: "PIXI.AnimatedSprite" }}/>

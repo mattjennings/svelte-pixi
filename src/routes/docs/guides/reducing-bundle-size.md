@@ -25,7 +25,7 @@ Here is an example of how to add interactivity via the `@pixi/interaction` packa
 </script>
 
 <script>
-  import { Pixi, Sprite, Text } from 'svelte-pixi/lite'
+  import { Application, Sprite, Text } from 'svelte-pixi/lite'
   import { Rectangle } from '@pixi/math/'
 
   let text
@@ -34,15 +34,13 @@ Here is an example of how to add interactivity via the `@pixi/interaction` packa
   $: height = text?.height ?? 0
 </script>
 
-<Pixi width={400} height={400}>
+<Application width={400} height={400}>
     <Text
       bind:instance={text}
       text="Click me!"
-      style={{
-        fill: 'white',
-      }}
       x={200 - (width / 2)}
       y={200 - (height / 2)}
+      style={{ fill: 'white' }}
       interactive
       buttonMode
       hitArea={new Rectangle(0, 0, width, height)}
@@ -50,7 +48,7 @@ Here is an example of how to add interactivity via the `@pixi/interaction` packa
         alert('you clicked me')
       }}
     />
-</Pixi>
+</Application>
 ```
 
 ## Aliasing
