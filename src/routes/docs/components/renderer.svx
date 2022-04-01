@@ -1,0 +1,95 @@
+---
+title: Renderer
+---
+
+<script>
+  import docs from '$lib/Renderer.svelte?raw&sveld' 
+  import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
+</script>
+
+Creates a [Pixi Renderer](https://pixijs.download/release/docs/PIXI.Renderer.html) and a root [Container](/docs/components/container) (as the stage). This is an alternative to using the [Application](/docs/components/application) component, where you might desire more control over the rendering process.
+
+## Usage
+
+When you use `Renderer`, you are responsible for calling its instance's render method. Typically you would do that with a [Ticker](/docs/components/ticker).
+
+```svelte example csr
+<script>
+  import { Renderer, Ticker, Text } from 'svelte-pixi'
+
+  let renderer
+  let stage
+
+</script>
+
+<Renderer
+  bind:instance={renderer}
+  bind:stage={stage}
+  width={400}
+  height={400}
+  antialias
+>
+  <Ticker
+    on:tick={() => {
+      renderer.render(stage)
+    }}>
+    <Text
+      x={200}
+      y={200}
+      text="Hello World"
+      style={{ fill: 'white' }}
+      anchor={0.5}
+    />
+  </Ticker>
+</Renderer>
+```
+
+## Custom View
+
+If you want to customize the element that the canvas is rendered into, you can use the `view` slot. The canvas will be appended as a child of the slot element.
+
+```svelte example csr
+<script>
+  import { Renderer, Ticker, Text } from 'svelte-pixi'
+
+  let renderer
+  let stage
+</script>
+
+<Renderer
+  bind:instance={renderer}
+  bind:stage={stage}
+  width={400}
+  height={400}
+  antialias
+>
+  <div slot="view" class="custom">
+    <!-- canvas will be placed here -->
+  </div>
+
+  <!-- pixi components go here -->
+  <Ticker
+    on:tick={() => {
+      renderer.render(stage)
+    }} />
+  <Text
+    x={200}
+    y={200}
+    anchor={0.5}
+    text="Hello World"
+    style={{ fill: 'white'}} />
+</Renderer>
+
+<style>
+  .custom :global(canvas) {
+    border: 5px solid tomato;
+    border-radius: 5px;
+  }
+</style>
+```
+
+## Advanced Usage
+
+See the guide on [custom rendering](/docs/guides/custom-renderer) to view more advanced usage of the renderer.
+
+<ComponentDocs docs={docs} pixiDocs={{ name: 'PIXI.Renderer' }}/>

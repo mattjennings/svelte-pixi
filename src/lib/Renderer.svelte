@@ -45,14 +45,12 @@
     ...$$restProps,
   })
 
+  /**
+   * The Container instance to use as the stage
+   */
   export let stage: Container = new Container()
 
-  /**
-   *  If you want to customize the host element,
-   *  you can declare this prop via `let:view` and use it
-   *  as an action on a child element
-   **/
-  export function view(node: HTMLElement): void {
+  function view(node: HTMLElement): void {
     if (node.childNodes.length) {
       node.childNodes[0].appendChild(instance.view)
     } else {

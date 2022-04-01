@@ -26,6 +26,7 @@
     maxFPS?: Ticker['maxFPS']
     minFPS?: Ticker['minFPS']
     speed?: Ticker['speed']
+    priority?: number
   }
 
   const dispatch = createEventDispatcher()
@@ -33,12 +34,17 @@
   export let autoStart: $$Props['autoStart'] = true
   export let instance: $$Props['instance'] = new Ticker()
 
+  /**
+   * UPDATE_PRIORITY of the Ticker. Defaults to LOW
+   */
+  export let priority = UPDATE_PRIORITY.LOW
+
   setContext('pixi/ticker', instance)
 
   onMount(() => {
     instance.add((delta) => {
       dispatch('tick', delta)
-    }, UPDATE_PRIORITY.LOW)
+    }, priority)
   })
 
   $: {

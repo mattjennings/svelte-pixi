@@ -2,9 +2,9 @@
 title: Custom Renderer
 ---
 
-If you want more control over the rendering process, you can use the [Renderer](/docs/components/renderer) and [Ticker](/docs/components/ticker) components instead of the [Application](/docs/components/application) component.
+If you want more control over the rendering process, you can use the [Renderer](/docs/components/renderer) component instead of the [Application](/docs/components/application) component
 
-`Renderer` will create the Pixi renderer and root container (the stage) for you. Ticker can be used to trigger the rendering, but is not required.
+`Renderer` will create the Pixi renderer and root container (the stage) for you. You are responsible for calling the `Renderer` instance's `render` method, so typically you would do that in a `Ticker`.
 
 ```svelte example csr
 <script>
@@ -24,23 +24,20 @@ If you want more control over the rendering process, you can use the [Renderer](
   <Ticker
     on:tick={() => {
       renderer.render(stage)
-    }}>
-    <Text
-      x={200}
-      y={200}
-      text="Hello World"
-      style={{ fill: 'white' }}
-      anchor={0.5}
-    />
-  </Ticker>
+    }} />
+  <Text
+    x={200}
+    y={200}
+    text="Hello World"
+    style={{ fill: 'white' }}
+    anchor={0.5}
+  />
 </Renderer>
 ```
 
 ## Rendering without a Ticker
 
-For one reason or another, you may want to call the rendering yourself instead of using a ticker.
-
-For example, using `requestAnimationFrame`:
+For one reason or another, you may not want to use a `Ticker` for rendering. Here's an example using `requestAnimationFrame` instead.
 
 ```svelte example csr
 <script>
@@ -83,7 +80,7 @@ For example, using `requestAnimationFrame`:
 
 ## Rendering on Svelte Updates
 
-`Renderer` emits a `componentupdate` event whenever a svelte-pixi component is updated. You can use this to trigger renders only when Svelte updates occur.
+`Renderer` emits a `componentupdate` event whenever a svelte-pixi component is updated. You could use this to lazily render only when Svelte updates are applied.
 
 ```svelte example csr
 <script>

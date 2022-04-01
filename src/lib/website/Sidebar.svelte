@@ -38,8 +38,16 @@
           label: 'Loader',
         },
         {
+          href: '/docs/components/renderer',
+          label: 'Renderer',
+        },
+        {
           href: '/docs/components/sprite',
           label: 'Sprite',
+        },
+        {
+          href: '/docs/components/ticker',
+          label: 'Ticker',
         },
         {
           href: '/docs/components/tiling-sprite',
