@@ -9,5 +9,5 @@ canvas {
 
 pre,
 pre code {
-  @apply !text-xs md:!text-base;
+  @apply !text-xs md:!text-sm;
 }
