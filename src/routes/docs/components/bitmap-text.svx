@@ -15,7 +15,6 @@ Creates a [Pixi BitmapText](https://pixijs.download/release/docs/PIXI.BitmapText
 <script>
   import { Texture } from '@pixi/core'
   import { Application, Loader, Sprite, BitmapText } from 'svelte-pixi'
-  import { Point } from '@pixi/math'
 </script>
 
 <Application width={400} height={400} antialias backgroundColor={0xffffff}>

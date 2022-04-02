@@ -20,7 +20,6 @@ To split a line you can use '\n' in your text string, or, on the style prop, cha
 ```svelte example csr
 <script>
   import { Application, Text } from 'svelte-pixi'
-  import { Point } from '@pixi/math'
 </script>
 
 <Application width={400} height={400} antialias>

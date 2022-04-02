@@ -16,7 +16,6 @@ Just like its native Pixi counterpart, it sets up the [Renderer](/docs/component
 ```svelte example csr
 <script>
   import { Application, Text } from 'svelte-pixi'
-  import { Point } from '@pixi/math'
 </script>
 
 <Application width={400} height={400} antialias>
@@ -37,7 +36,6 @@ If you want to customize the element that the canvas is rendered into, you can u
 ```svelte example csr
 <script>
   import { Application, Text } from 'svelte-pixi'
-  import { Point } from '@pixi/math'
 </script>
 
 <Application width={400} height={400} antialias>

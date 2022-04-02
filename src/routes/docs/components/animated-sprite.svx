@@ -19,7 +19,6 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 <script>
   import { Application, AnimatedSprite, Loader } from 'svelte-pixi'
   import { Texture } from '@pixi/core'
-  import { Point } from '@pixi/math'
 </script>
 
 <Application width={400} height={400} antialias>
@@ -46,7 +45,6 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 ```svelte example csr
 <script>
   import { Application, AnimatedSprite, Loader } from 'svelte-pixi'
-  import { Point } from '@pixi/math'
 
   let spritesheet
   let animation = 'adventurer-idle'

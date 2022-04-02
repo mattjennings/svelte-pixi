@@ -16,7 +16,6 @@ When you use `Renderer`, you are responsible for calling its instance's render m
 ```svelte example csr
 <script>
   import { Renderer, Ticker, Text } from 'svelte-pixi'
-  import { Point } from '@pixi/math'
 
   let renderer
   let stage
@@ -52,7 +51,6 @@ If you want to customize the element that the canvas is rendered into, you can u
 ```svelte example csr
 <script>
   import { Renderer, Ticker, Text } from 'svelte-pixi'
-  import { Point } from '@pixi/math'
 
   let renderer
   let stage

@@ -11,7 +11,6 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
   import { Application, Text, Sprite, Loader } from 'svelte-pixi'
   import { Texture } from '@pixi/core'
   import { spring } from 'svelte/motion'
-  import { Point } from '@pixi/math'
 
   let dragging = false
   let offset = { x: 0, y: 0 }
@@ -81,7 +80,6 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
   import { Application,  Graphics, Ticker } from 'svelte-pixi'
   import { tweened } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
-  import { Point } from '@pixi/math'
 
   let app
   const barWidth = 200

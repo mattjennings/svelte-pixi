@@ -16,7 +16,6 @@ Child components can use the `onTick` function from svelte-pixi to subscribe to 
 ```svelte example csr
 <script>
   import { Application, Ticker, Text } from 'svelte-pixi'
-  import { Point } from '@pixi/math'
 
   let delta = 0
 </script>

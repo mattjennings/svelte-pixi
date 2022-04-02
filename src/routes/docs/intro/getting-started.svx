@@ -17,7 +17,6 @@ npm install svelte-pixi
 ```svelte example csr
 <script>
   import { Application, Text } from 'svelte-pixi'
-  import { Point } from '@pixi/math'
 </script>
 
 <Application width={400} height={400}>

@@ -19,7 +19,6 @@ You can show progress by using the `progress` prop from the `loading` slot.
 <script>
   import { Texture } from '@pixi/core'
   import { Application, Loader, Sprite, Text } from 'svelte-pixi'
-  import { Point } from '@pixi/math'
 </script>
 
 <Application width={400} height={400} antialias backgroundColor={0xffffff}>
