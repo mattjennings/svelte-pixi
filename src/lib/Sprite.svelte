@@ -9,22 +9,11 @@
 <script lang="ts">
   import { Sprite } from '@pixi/sprite'
   import Container, { type ContainerComponentProps } from './Container.svelte'
-  import { applyPoint, applyProps, type ExtractProps } from './util/props'
+  import type { ExtractProps } from './util/props'
 
   type T = $$Generic<Sprite>
   type $$Props = SpriteComponentProps<T> & ContainerComponentProps<T>
 
-  export let anchor: $$Props['anchor'] = undefined
-
-  $: {
-    const props = { anchor }
-
-    applyProps(instance, props, {
-      apply: {
-        anchor: applyPoint,
-      },
-    })
-  }
   /** @type {Sprite} Sprite instance to render */
   export let instance: Sprite = new Sprite($$props.texture)
 </script>

@@ -19,7 +19,7 @@
   let initY = Math.sin(deg) * distance
   let x = initX
   let y = initY
-  let scale
+  let scale = new Point(1, 1)
   let rotation
   let alpha = 0
 
@@ -69,7 +69,7 @@
 <Sprite
   bind:instance
   texture={Texture.from('/assets/star.png')}
-  anchor={[0.5, 0.7]}
+  anchor={new Point(0.5, 0.7)}
   {x}
   {y}
   {scale}

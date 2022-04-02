@@ -14,10 +14,11 @@ Creates a [Pixi Application](https://pixijs.download/release/docs/PIXI.Applicati
 ```svelte example csr
 <script>
   import { Application, Text } from 'svelte-pixi'
+  import { Point } from '@pixi/math'
 </script>
 
 <Application width={400} height={400} antialias>
-   <Text x={200} y={200} anchor={0.5} text="Hello World" style={{ fill: 'white'}} />
+   <Text x={200} y={200} anchor={new Point(0.5, 0.5)} text="Hello World" style={{ fill: 'white'}} />
 </Application>
 ```
 
@@ -28,6 +29,7 @@ If you want to customize the element that the canvas is rendered into, you can u
 ```svelte example csr
 <script>
   import { Application, Text } from 'svelte-pixi'
+  import { Point } from '@pixi/math'
 </script>
 
 <Application width={400} height={400} antialias>
@@ -36,7 +38,7 @@ If you want to customize the element that the canvas is rendered into, you can u
   </div>
 
   <!-- pixi components go here -->
-  <Text x={200} y={200} anchor={0.5} text="Hello World" style={{ fill: 'white'}} />
+  <Text x={200} y={200} anchor={new Point(0.5, 0.5)} text="Hello World" style={{ fill: 'white'}} />
 </Application>
 
 <style>

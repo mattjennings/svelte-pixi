@@ -15,14 +15,15 @@ Sprites are the base for all textured objects that are rendered to the screen
 <script>
   import { Application, Sprite, Loader } from 'svelte-pixi'
   import { Texture } from '@pixi/core'
+  import { Point } from '@pixi/math'
 </script>
 
 <Application width={400} height={400}>
   <Loader resources={['/assets/adventurer.png']}>
     <Sprite
       texture={Texture.from('/assets/adventurer.png')}
-      anchor={0.5}
-      scale={2}
+      anchor={new Point(0.5, 0.5)}
+      scale={new Point(2, 2)}
       x={200}
       y={200}
     />

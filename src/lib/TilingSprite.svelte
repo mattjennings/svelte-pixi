@@ -5,17 +5,15 @@
   } from '@pixi/sprite-tiling'
   import { registerRendererPlugin } from './util/plugins'
   import Sprite, { type SpriteComponentProps } from './Sprite.svelte'
-  import type { PointLike } from './util/data-types'
   import type { ExtractProps } from './util/props'
 
   registerRendererPlugin('tilingSprite', TilingSpriteRenderer)
 
   export interface TilingSpriteComponentProps<
     Instance extends PixiTilingSprite = PixiTilingSprite
-  > extends ExtractProps<Omit<PixiTilingSprite, 'tilePosition'>>,
+  > extends ExtractProps<PixiTilingSprite>,
       ExtractProps<GlobalMixins.TilingSprite> {
     instance?: Instance
-    tilePosition: PointLike
   }
 </script>
 

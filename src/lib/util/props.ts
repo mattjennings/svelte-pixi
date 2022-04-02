@@ -37,23 +37,12 @@ export function shouldApplyProps(...args) {
   return false
 }
 
-export function applyPoint<T = any>(
-  instance: T,
-  value: PointLike,
-  key: string
-) {
-  if (value) {
-    const point = parsePoint(value)
-    instance[key].set(point.x, point.y)
-  }
-}
-
 /* -------------------------------------------------------------------------- */
 /*                                    TYPES                                   */
 /* -------------------------------------------------------------------------- */
 
 export type ExtractProps<T> = Partial<
-  SwapPoints<Pick<T, NotFunctions<T> & PublicProperties<T>>>
+  Pick<T, NotFunctions<T> & PublicProperties<T>>
 >
 
 export type ApplyProp<Instance, Props, Value> = (
@@ -69,13 +58,6 @@ type FilterNotStartingWith<
 > = Set extends `${Needle}${infer _X}` ? never : Set
 
 type PublicProperties<T> = FilterNotStartingWith<keyof T, '_'>
-
-/**
- * Converts Point or ObservablePoint types to PointLike
- */
-type SwapPoints<T> = T extends {}
-  ? { [K in keyof T]: T[K] extends Point | ObservablePoint ? PointLike : T[K] }
-  : T
 
 type NotFunctions<T> = {
   [K in keyof T]-?: T[K] extends Function ? never : K

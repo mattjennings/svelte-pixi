@@ -1,11 +1,9 @@
 <script context="module" lang="ts">
   export interface DisplayObjectComponentProps<
     Instance extends PixiDisplayObject
-  > extends ExtractProps<Omit<PixiDisplayObject, 'scale' | 'skew'>>,
+  > extends ExtractProps<PixiDisplayObject>,
       ExtractProps<GlobalMixins.DisplayObject> {
     instance: Instance
-    scale?: PointLike
-    skew?: PointLike
   }
 </script>
 
@@ -19,8 +17,7 @@
   } from 'svelte'
   import { getContainer } from './Container.svelte'
   import { createPixiEventDispatcher } from '$lib/util/helpers'
-  import type { PointLike } from './util/data-types'
-  import { applyPoint, applyProps, type ExtractProps } from './util/props'
+  import { applyProps, type ExtractProps } from './util/props'
 
   type T = $$Generic<PixiDisplayObject>
   type $$Props = DisplayObjectComponentProps<T>
@@ -59,13 +56,7 @@
     onComponentUpdate()
   })
 
-  $: {
-    applyProps(instance, $$props, {
-      apply: {
-        scale: applyPoint,
-      },
-    })
-  }
+  $: applyProps(instance, $$props)
 
   const dispatch = createEventDispatcher()
 

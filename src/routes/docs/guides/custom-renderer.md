@@ -9,6 +9,7 @@ If you want more control over the rendering process, you can use the [Renderer](
 ```svelte example csr
 <script>
   import { Renderer, Ticker, Text } from 'svelte-pixi'
+  import { Point } from '@pixi/math'
 
   let renderer
   let stage
@@ -30,7 +31,7 @@ If you want more control over the rendering process, you can use the [Renderer](
     y={200}
     text="Hello World"
     style={{ fill: 'white' }}
-    anchor={0.5}
+    anchor={new Point(0.5, 0.5)}
   />
 </Renderer>
 ```
@@ -43,6 +44,7 @@ For one reason or another, you may not want to use a `Ticker` for rendering. Her
 <script>
   import { onMount } from 'svelte'
   import { Text, Renderer } from 'svelte-pixi'
+  import { Point } from '@pixi/math'
   import DraggableCircle from './_/DraggableCircle.svelte'
 
   let renderer
@@ -71,7 +73,7 @@ For one reason or another, you may not want to use a `Ticker` for rendering. Her
     y={300}
     text="Click and drag"
     style={{ fill: 'white' }}
-    anchor={0.5}
+    anchor={new Point(0.5, 0.5)}
   />
   <DraggableCircle x={200} y={200} />
 </Renderer>
@@ -86,8 +88,8 @@ For one reason or another, you may not want to use a `Ticker` for rendering. Her
 <script>
   import { onMount } from 'svelte'
   import { Text, Renderer } from 'svelte-pixi'
+  import { Point } from '@pixi/math'
   import DraggableCircle from './_/DraggableCircle.svelte'
-
   let renderer
   let stage
   let needsRender = false
@@ -124,7 +126,7 @@ For one reason or another, you may not want to use a `Ticker` for rendering. Her
     y={300}
     text="Click and drag"
     style={{ fill: 'white' }}
-    anchor={0.5}
+    anchor={new Point(0.5, 0.5)}
   />
   <DraggableCircle x={200} y={200} />
 </Renderer>

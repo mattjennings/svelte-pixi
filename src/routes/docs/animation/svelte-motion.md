@@ -11,6 +11,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
   import { Application, Text, Sprite, Loader } from 'svelte-pixi'
   import { Texture } from '@pixi/core'
   import { spring } from 'svelte/motion'
+  import { Point } from '@pixi/math'
 
   let dragging = false
   let offset = { x: 0, y: 0 }
@@ -54,12 +55,12 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
     <Text
       x={200}
       y={300}
-      anchor={0.5}
+      anchor={new Point(0.5, 0.5)}
       text="Try clicking and dragging the mushroom"
       style={{ fill: 'white', fontSize: 20 }} />
     <Sprite
       texture={Texture.from('/assets/mushroom.png')}
-      anchor={0.5}
+      anchor={new Point(0.5, 0.5)}
       x={$position.x}
       y={$position.y}
       rotation={($position.x - startingPosition.x) * 0.02}
@@ -80,6 +81,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
   import { Application,  Graphics, Ticker } from 'svelte-pixi'
   import { tweened } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
+  import { Point } from '@pixi/math'
 
   let app
   const barWidth = 200
@@ -116,7 +118,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
   <Graphics
     x={200}
     y={200}
-    pivot={{ x: barWidth / 2}}
+    pivot={new Point(barWidth / 2, 0)}
     draw={graphics => {
       graphics.clear()
       graphics.beginFill(0xff0000)
