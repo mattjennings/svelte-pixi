@@ -1,11 +1,11 @@
 <script>
-  import { Sprite, getPixi, onTick } from 'svelte-pixi'
+  import { Sprite, getApp, onTick } from 'svelte-pixi'
   import { Point } from '@pixi/math'
   import { Texture } from '@pixi/core'
 
   export let cameraZ
 
-  const { app } = getPixi()
+  const app = getApp()
 
   let instance
 

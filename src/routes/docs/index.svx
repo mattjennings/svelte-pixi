@@ -11,17 +11,17 @@ A Svelte component library for Pixi applications. **This is still in its early s
 ### Install
 
 ```cli
-npm install pixi.js svelte-pixi
+npm install svelte-pixi
 ```
 
 ### Usage
 
 ```svelte example csr
 <script>
-  import { Pixi, Text } from 'svelte-pixi'
+  import { Application, Text } from 'svelte-pixi'
 </script>
 
-<Pixi width={400} height={400}>
+<Application width={400} height={400}>
   <Text
     text="Hello World"
     anchor={0.5}
@@ -30,5 +30,5 @@ npm install pixi.js svelte-pixi
     style={{
       fill: 'white'
     }} />
-</Pixi>
+</Application>
 ```

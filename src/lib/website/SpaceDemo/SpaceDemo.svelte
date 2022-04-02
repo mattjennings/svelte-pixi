@@ -4,7 +4,7 @@
    *
    * https://github.com/pixijs/examples/blob/gh-pages/examples/js/demos-advanced/star-warp.js
    */
-  import { Pixi } from 'svelte-pixi'
+  import { Application } from 'svelte-pixi'
   import { onMount } from 'svelte'
   import Star from './Star.svelte'
 
@@ -35,11 +35,11 @@
 <svelte:window bind:outerHeight={height} bind:outerWidth={width} />
 
 <div class="wrapper">
-  <Pixi bind:instance={app}>
+  <Application bind:instance={app}>
     {#each stars as star}
       <Star {cameraZ} />
     {/each}
-  </Pixi>
+  </Application>
 </div>
 
 <style>
