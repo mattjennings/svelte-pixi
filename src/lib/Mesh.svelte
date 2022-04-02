@@ -3,7 +3,7 @@
 
   export interface MeshComponentProps<Instance extends PixiMesh = PixiMesh>
     extends ExtractProps<PixiMesh>,
-      ExtractProps<GlobalMixins.Text> {
+      ExtractProps<GlobalMixins.Mesh> {
     instance?: Instance
   }
 </script>

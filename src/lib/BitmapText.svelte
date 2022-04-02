@@ -3,8 +3,7 @@
 
   export interface BitmapTextComponentProps<
     Instance extends PixiBitmapText = PixiBitmapText
-  > extends ExtractProps<PixiBitmapText>,
-      ExtractProps<GlobalMixins.Text> {
+  > extends ExtractProps<PixiBitmapText> {
     instance?: Instance
   }
 </script>

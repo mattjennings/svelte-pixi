@@ -2,8 +2,7 @@
   import type { ExtractProps } from './util/props'
 
   export interface TextComponentProps<Instance extends PixiText = PixiText>
-    extends ExtractProps<PixiText>,
-      ExtractProps<GlobalMixins.Text> {
+    extends ExtractProps<PixiText> {
     instance?: Instance
   }
 </script>

@@ -4,7 +4,7 @@
   export interface SimplePlaneComponentProps<
     Instance extends PixiSimplePlane = PixiSimplePlane
   > extends ExtractProps<PixiSimplePlane>,
-      ExtractProps<GlobalMixins.Text> {
+      ExtractProps<GlobalMixins.Mesh> {
     instance?: Instance
     vertices: PointLike
   }

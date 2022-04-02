@@ -11,8 +11,3 @@ declare namespace App {
   // interface Session {}
   // interface Stuff {}
 }
-
-declare namespace GlobalMixins {
-  interface Text {}
-  interface AnimatedSprite {}
-}

@@ -2,7 +2,7 @@
   export interface AnimatedSpriteComponentProps<
     Instance extends PixiAnimatedSprite = PixiAnimatedSprite
   > extends ExtractProps<PixiAnimatedSprite>,
-      ExtractProps<GlobalMixins.AnimatedSprite> {
+      ExtractProps<GlobalMixins.Sprite> {
     instance?: Instance
   }
 </script>
