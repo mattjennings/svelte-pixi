@@ -45,6 +45,10 @@
     instance.add((delta) => {
       dispatch('tick', delta)
     }, priority)
+
+    return () => {
+      instance.destroy()
+    }
   })
 
   $: {
