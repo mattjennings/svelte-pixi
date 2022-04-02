@@ -1,28 +1,27 @@
 <script context="module" lang="ts">
   import type { ExtractProps } from './util/props'
 
-  export interface SimplePlaneComponentProps<
-    Instance extends PixiSimplePlane = PixiSimplePlane
-  > extends ExtractProps<PixiSimplePlane>,
-      ExtractProps<GlobalMixins.Mesh> {
+  export interface NineSlicePlaneComponentProps<
+    Instance extends PixiNineSlicePlane = PixiNineSlicePlane
+  > extends ExtractProps<PixiNineSlicePlane>,
+      ExtractProps<GlobalMixins.NineSlicePlane> {
     instance?: Instance
-    vertices: PointLike
   }
 </script>
 
 <script lang="ts">
-  import { SimplePlane as PixiSimplePlane } from '@pixi/mesh-extras'
+  import { NineSlicePlane as PixiNineSlicePlane } from '@pixi/mesh-extras'
   import Mesh, { type MeshComponentProps } from './Mesh.svelte'
-  import { parsePoint, type PointLike } from './util/data-types'
 
-  type T = $$Generic<PixiSimplePlane>
-  type $$Props = SimplePlaneComponentProps<T> & MeshComponentProps<T>
+  type T = $$Generic<PixiNineSlicePlane>
+  type $$Props = NineSlicePlaneComponentProps<T> & MeshComponentProps<T>
 
-  export let vertices: $$Props['vertices']
-  export let instance: PixiSimplePlane = new PixiSimplePlane(
+  export let instance: PixiNineSlicePlane = new PixiNineSlicePlane(
     ($$props as $$Props).texture,
-    parsePoint(vertices).x,
-    parsePoint(vertices).y
+    ($$props as $$Props).leftWidth,
+    ($$props as $$Props).topHeight,
+    ($$props as $$Props).rightWidth,
+    ($$props as $$Props).bottomHeight
   )
 </script>
 

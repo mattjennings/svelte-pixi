@@ -1,0 +1,62 @@
+---
+title: NineSlicePlane
+---
+
+<script>
+  import docs from '$lib/NineSlicePlane.svelte?raw&sveld' 
+  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
+</script>
+
+Creates a [PIXI.NineSlicePlane](https://pixijs.download/release/docs/PIXI.NineSlicePlane.html) object.
+
+## Usage
+
+```svelte example csr
+<script>
+  import { Application, NineSlicePlane, Ticker } from 'svelte-pixi'
+  import { Texture } from '@pixi/core'
+
+
+  let width = 50
+  let height = 50
+  let grow = false
+
+  function tick({ detail: delta }) {
+    const amt = delta / 2
+
+    if (grow) {
+      width += amt
+      height += amt
+
+      if (width > 150) {
+        grow = false
+      }
+    } else {
+      width -= amt
+      height -= amt
+      if (width < 50) {
+        grow = true
+      }
+    }
+  }
+</script>
+
+<Application width={400} height={400} antialias>
+  <Ticker on:tick={tick} />
+  <NineSlicePlane
+    x={200}
+    y={200}
+    texture={Texture.from('/assets/nine-slice-blue.png')}
+    leftWidth={12}
+    topHeight={12}
+    rightWidth={12}
+    bottomHeight={12}
+    {width}
+    {height}
+    pivot={{ x: width/2, y: height/2}}
+    scale={2}
+  />
+</Application>
+```
+
+<ComponentDocs docs={docs} pixiComponentName="PIXI.NineSlicePlane" />
