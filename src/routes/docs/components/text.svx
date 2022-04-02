@@ -4,7 +4,7 @@ title: Text
 
 <script>
   import docs from '$lib/Text.svelte?raw&sveld' 
-  import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
+  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
 </script>
 
 Renders a line or multiple lines of text to the canvas.

@@ -1,12 +1,10 @@
 ---
-title: svelte-pixi
+title: Getting Started
 ---
 
-A Svelte component library for Pixi applications. **This is still in its early stages, so don't expect everything to work perfectly!**
+svelte-pixi is a Svelte component library for creating Pixi applications.
 
-[PRs are welcome if you'd like to contribute](https://github.com/mattjennings/svelte-pixi)
-
-## Getting Started
+**This is still in its early stages, so don't expect everything to work perfectly!** [PRs are welcome if you'd like to contribute](https://github.com/mattjennings/svelte-pixi).
 
 ### Install
 

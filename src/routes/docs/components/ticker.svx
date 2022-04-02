@@ -4,7 +4,7 @@ title: Ticker
 
 <script>
   import docs from '$lib/Ticker.svelte?raw&sveld' 
-  import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
+  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
 </script>
 
 Creates a [Pixi Ticker](https://pixijs.download/release/docs/PIXI.Ticker.html).

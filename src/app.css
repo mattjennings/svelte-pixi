@@ -11,3 +11,7 @@ pre,
 pre code {
   @apply !text-xs md:!text-sm;
 }
+
+a {
+  @apply focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-400;
+}

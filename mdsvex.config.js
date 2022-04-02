@@ -4,7 +4,7 @@ import examples from 'mdsvexamples'
 
 const config = defineConfig({
   layout: {
-    _: './src/lib/website/mdsvex.svelte',
+    _: './src/lib/site/mdsvex.svelte',
   },
   extensions: ['.svelte.md', '.md', '.svx'],
 
@@ -13,7 +13,7 @@ const config = defineConfig({
   },
 
   remarkPlugins: [
-    [examples, { ExampleComponent: '/src/lib/website/Example.svelte' }],
+    [examples, { ExampleComponent: '/src/lib/site/Example.svelte' }],
     sveld,
   ],
 

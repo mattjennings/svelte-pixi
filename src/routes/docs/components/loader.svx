@@ -4,7 +4,7 @@ title: Loader
 
 <script>
   import docs from '$lib/Loader.svelte?raw&sveld' 
-  import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
+  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
 </script>
 
 Preloads the assets (textures, audio, etc) required for your components.

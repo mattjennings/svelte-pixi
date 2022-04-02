@@ -1,7 +1,7 @@
 <a
   aria-label="github"
   href="https://github.com/mattjennings/svelte-pixi"
-  class="w-10 h-10 text-gray-600"
+  class="p-1 rounded-full text-gray-600"
 >
   <svg
     class="fill-current"

@@ -4,7 +4,7 @@ title: Container
 
 <script>
   import docs from '$lib/Container.svelte?raw&sveld' 
-  import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
+  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
 
   const customProps = ['instance', 'applyPropsOnMount']
 </script>

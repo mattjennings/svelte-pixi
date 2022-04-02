@@ -1,5 +1,5 @@
 <script>
-  import Sidebar from '$lib/website/Sidebar.svelte'
+  import Sidebar from '$lib/site/Sidebar/Sidebar.svelte'
 </script>
 
 <title>svelte-pixi</title>

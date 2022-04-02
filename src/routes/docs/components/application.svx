@@ -4,7 +4,7 @@ title: Application
 
 <script>
   import docs from '$lib/Application.svelte?raw&sveld' 
-  import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
+  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
 </script>
 
 Creates a [Pixi Application](https://pixijs.download/release/docs/PIXI.Application.html).

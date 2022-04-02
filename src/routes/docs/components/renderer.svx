@@ -4,7 +4,7 @@ title: Renderer
 
 <script>
   import docs from '$lib/Renderer.svelte?raw&sveld' 
-  import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
+  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
 </script>
 
 Creates a [Pixi Renderer](https://pixijs.download/release/docs/PIXI.Renderer.html) and a root [Container](/docs/components/container) (as the stage). This is an alternative to using the [Application](/docs/components/application) component, where you might desire more control over the rendering process.
