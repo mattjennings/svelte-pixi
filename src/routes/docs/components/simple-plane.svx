@@ -1,0 +1,43 @@
+---
+title: SimplePlane
+---
+
+<script>
+  import docs from '$lib/SimplePlane.svelte?raw&sveld' 
+  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
+</script>
+
+Creates a [PIXI.SimplePlane](https://pixijs.download/release/docs/PIXI.SimplePlane.html) object.
+
+## Usage
+
+```svelte example csr
+<script>
+  import { Application, Loader, SimplePlane, Ticker } from 'svelte-pixi'
+  import { Geometry, Shader, Texture } from '@pixi/core'
+
+  let plane
+  $: buffer = plane && plane.geometry.getBuffer('aVertexPosition')
+
+  function tick({ detail: delta }) {
+    if (buffer) {
+        // Randomize the vertice positions a bit to create movement.
+        for (let i = 0; i < buffer.data.length; i++) {
+            buffer.data[i] += (Math.random() - 0.5);
+        }
+        buffer.update();
+    }
+  }
+</script>
+
+<Application width={400} height={400} antialias>
+  <Ticker on:tick={tick} />
+  <SimplePlane
+    bind:instance={plane}
+    texture={Texture.from('/assets/bg_grass.jpg')}
+    vertices={10}
+  />
+</Application>
+```
+
+<ComponentDocs docs={docs} pixiComponentName="PIXI.SimplePlane" />

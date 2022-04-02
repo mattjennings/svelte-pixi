@@ -65,7 +65,7 @@ Creates a [Pixi Mesh](https://pixijs.download/release/docs/PIXI.Mesh.html) objec
     }`;
 
   const uniforms = {
-      uSampler2: Texture.from('/assets/mesh_bg.jpg'),
+      uSampler2: Texture.from('/assets/bg_mesh.jpg'),
       time: 0,
   };
 
