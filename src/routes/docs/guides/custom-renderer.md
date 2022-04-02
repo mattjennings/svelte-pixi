@@ -4,12 +4,13 @@ title: Custom Renderer
 
 If you want more control over the rendering process, you can use the [Renderer](/docs/components/renderer) component instead of the [Application](/docs/components/application) component
 
-`Renderer` will create the Pixi renderer and root container (the stage) for you. You are responsible for calling the `Renderer` instance's `render` method, so typically you would do that in a `Ticker`.
+`Renderer` will create the Pixi renderer and root container (the stage). However, you are responsible for calling the renderer's `render` method. Typically you would do this in a `Ticker`:
 
 ```svelte example csr
 <script>
   import { Renderer, Ticker, Text } from 'svelte-pixi'
   import { Point } from '@pixi/math'
+  import DraggableCircle from './_/DraggableCircle.svelte'
 
   let renderer
   let stage
@@ -25,20 +26,22 @@ If you want more control over the rendering process, you can use the [Renderer](
   <Ticker
     on:tick={() => {
       renderer.render(stage)
-    }} />
+    }}
+  />
   <Text
     x={200}
-    y={200}
-    text="Hello World"
+    y={300}
+    text="Click and drag"
     style={{ fill: 'white' }}
     anchor={new Point(0.5, 0.5)}
   />
+  <DraggableCircle x={200} y={200} />
 </Renderer>
 ```
 
 ## Rendering without a Ticker
 
-For one reason or another, you may not want to use a `Ticker` for rendering. Here's an example using `requestAnimationFrame` instead.
+For one reason or another, you may not want to use a `Ticker` for rendering. Here's an example using `requestAnimationFrame` instead:
 
 ```svelte example csr
 <script>
@@ -82,7 +85,7 @@ For one reason or another, you may not want to use a `Ticker` for rendering. Her
 
 ## Rendering on Svelte Updates
 
-`Renderer` emits a `componentupdate` event whenever a svelte-pixi component is updated. You could use this to lazily render only when Svelte updates are applied.
+`Renderer` emits a `componentupdate` event whenever a svelte-pixi component is updated. You can use this to lazily render only when Svelte updates are applied:
 
 ```svelte example csr
 <script>
@@ -132,4 +135,4 @@ For one reason or another, you may not want to use a `Ticker` for rendering. Her
 </Renderer>
 ```
 
-I generally would not recommend this unless you have good reason. It is more useful for apps that require few re-renders.
+I generally do not recommend this unless you have good reason. This is more useful for apps that require few re-renders.
