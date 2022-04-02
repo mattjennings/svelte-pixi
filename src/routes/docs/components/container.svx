@@ -48,4 +48,4 @@ When child components are rendered inside, their coordinates become local to the
 </Application>
 ```
 
-<ComponentDocs docs={docs} pixiDocs={{ name: "PIXI.Container", isLinkableProp: prop => !customProps.includes(prop) }}/>
+<ComponentDocs docs={docs} pixiComponentName="PIXI.Container" />

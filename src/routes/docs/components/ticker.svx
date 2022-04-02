@@ -1,0 +1,43 @@
+---
+title: Ticker
+---
+
+<script>
+  import docs from '$lib/Ticker.svelte?raw&sveld' 
+  import ComponentDocs from'$lib/website/ComponentDocs.svelte' 
+</script>
+
+Creates a [Pixi Ticker](https://pixijs.download/release/docs/PIXI.Ticker.html).
+
+Child components can use the `onTick` function from svelte-pixi to subscribe to the ticker.
+
+## Usage
+
+```svelte example csr
+<script>
+  import { Application, Ticker, Text } from 'svelte-pixi'
+
+  let delta = 0
+</script>
+
+<Application
+  width={400}
+  height={400}
+  antialias
+>
+  <Ticker
+    on:tick={(ev) => {
+      delta = ev.detail
+    }}>
+    <Text
+      x={200}
+      y={200}
+      text={`Delta: ${delta.toFixed(10)}`}
+      style={{ fill: 'white' }}
+      anchor={0.5}
+    />
+  </Ticker>
+</Application>
+```
+
+<ComponentDocs docs={docs} pixiComponentName="PIXI.Ticker"/>

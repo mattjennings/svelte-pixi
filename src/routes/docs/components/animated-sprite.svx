@@ -83,4 +83,4 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 </Application>
 ```
 
-<ComponentDocs docs={docs} pixiDocs={{ name: "PIXI.AnimatedSprite" }}/>
+<ComponentDocs docs={docs} pixiComponentName="PIXI.AnimatedSprite"/>

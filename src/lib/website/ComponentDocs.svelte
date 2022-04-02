@@ -3,12 +3,11 @@
   import 'prism-svelte'
 
   export let docs
-  export let pixiDocs:
-    | { name: string; isLinkableProp: (prop: string) => boolean }
-    | undefined
+  export let pixiComponentName: string = undefined
 
   let pixiDocsUrl =
-    pixiDocs && `https://pixijs.download/release/docs/${pixiDocs.name}.html`
+    pixiComponentName &&
+    `https://pixijs.download/release/docs/${pixiComponentName}.html`
 
   function formatCodeType(type) {
     if (type === undefined) return ''
@@ -33,7 +32,7 @@
   }
 
   function escapeHtml(text) {
-    return text.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    return text //.replace(/</g, '&lt;').replace(/>/g, '&gt;')
   }
 
   function formatSlotProps(props) {
@@ -65,20 +64,6 @@
     return props + '\n'
   }
 
-  function isLinkableProp(name: string) {
-    let isLinkable = true
-
-    if (name === 'instance') {
-      isLinkable = false
-    }
-
-    if (pixiDocs.isLinkableProp) {
-      isLinkable = pixiDocs.isLinkableProp(name)
-    }
-
-    return isLinkable
-  }
-
   // filter out context methods
   $: props = docs.props?.filter((prop) => !prop.name.startsWith('get'))
 </script>
@@ -98,6 +83,12 @@
 
 {#if props.length}
   <h2>Props</h2>
+  {#if pixiDocsUrl}
+    <p>
+      Properties from <a href={pixiDocsUrl}>{pixiComponentName}</a> are inherited,
+      as well as:
+    </p>
+  {/if}
   <table>
     <thead>
       <tr>
@@ -111,13 +102,7 @@
       {#each props as prop}
         <tr>
           <td>
-            {#if pixiDocsUrl && isLinkableProp(prop.name)}
-              <a href={`${pixiDocsUrl}#${prop.name}`} rel="external">
-                {prop.name}
-              </a>
-            {:else}
-              {prop.name}
-            {/if}
+            {prop.name}
           </td>
           <td>
             {#if prop.type}

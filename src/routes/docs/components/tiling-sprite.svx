@@ -42,4 +42,4 @@ title: TilingSprite
 </Application>
 ```
 
-<ComponentDocs docs={docs} pixiDocs={{ name: "PIXI.TilingSprite" }}/>
+<ComponentDocs docs={docs} pixiComponentName="PIXI.TilingSprite" />

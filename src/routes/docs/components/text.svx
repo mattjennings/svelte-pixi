@@ -35,4 +35,4 @@ To split a line you can use '\n' in your text string, or, on the style prop, cha
 </Application>
 ```
 
-<ComponentDocs docs={docs} pixiDocs={{ name: "PIXI.Text" }}/>
+<ComponentDocs docs={docs} pixiComponentName="PIXI.Text" />

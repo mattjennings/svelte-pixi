@@ -52,3 +52,5 @@ If you want to customize the element that the canvas is rendered into, you can u
 Pixi's `Application` class is a convenience class for creating a renderer, ticker, and root container (stage). As such, the `Application` component mimics this behaviour.
 
 If you wish to customize any of those components, e.g. taking control of rendering yourself, see the guide on [creating a custom renderer](/docs/guides/custom-renderer).
+
+<ComponentDocs docs={docs} pixiComponentName="PIXI.Application" />

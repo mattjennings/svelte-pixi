@@ -30,4 +30,4 @@ Sprites are the base for all textured objects that are rendered to the screen
 </Application>
 ```
 
-<ComponentDocs docs={docs} pixiDocs={{ name: "PIXI.Sprite" }}/>
+<ComponentDocs docs={docs} pixiComponentName="PIXI.Sprite"/>
