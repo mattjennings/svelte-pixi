@@ -11,7 +11,7 @@
 
   let links = [
     {
-      href: '/docs/',
+      href: '/docs',
       label: 'Intro',
     },
     {
