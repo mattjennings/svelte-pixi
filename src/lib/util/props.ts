@@ -1,4 +1,4 @@
-import type { ObservablePoint, Point } from '@pixi/math'
+import { ObservablePoint, Point } from '@pixi/math'
 import { parsePoint, type PointLike } from './data-types'
 
 export function applyProps<Instance, Props extends Record<string, any>>(
@@ -17,7 +17,14 @@ export function applyProps<Instance, Props extends Record<string, any>>(
         if (apply[prop]) {
           apply[prop](instance, value, prop, props)
         } else {
-          instance[prop] = value
+          if (
+            instance[prop] instanceof Point ||
+            instance[prop] instanceof ObservablePoint
+          ) {
+            instance[prop] = parsePoint(value)
+          } else {
+            instance[prop] = value
+          }
         }
       }
     }
@@ -42,7 +49,7 @@ export function shouldApplyProps(...args) {
 /* -------------------------------------------------------------------------- */
 
 export type ExtractProps<T> = Partial<
-  Pick<T, NotFunctions<T> & PublicProperties<T>>
+  SwapPoints<Pick<T, NotFunctions<T> & PublicProperties<T>>>
 >
 
 export type ApplyProp<Instance, Props, Value> = (
@@ -58,6 +65,13 @@ type FilterNotStartingWith<
 > = Set extends `${Needle}${infer _X}` ? never : Set
 
 type PublicProperties<T> = FilterNotStartingWith<keyof T, '_'>
+
+/**
+ * Converts Point or ObservablePoint types to PointLike
+ */
+type SwapPoints<T> = T extends {}
+  ? { [K in keyof T]: T[K] extends Point | ObservablePoint ? PointLike : T[K] }
+  : T
 
 type NotFunctions<T> = {
   [K in keyof T]-?: T[K] extends Function ? never : K

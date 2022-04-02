@@ -39,7 +39,7 @@ When you use `Renderer`, you are responsible for calling its instance's render m
       y={200}
       text="Hello World"
       style={{ fill: 'white' }}
-      anchor={new Point(0.5, 0.5)}
+      anchor={0.5}
     />
   </Ticker>
 </Renderer>
@@ -77,7 +77,7 @@ If you want to customize the element that the canvas is rendered into, you can u
   <Text
     x={200}
     y={200}
-    anchor={new Point(0.5, 0.5)}
+    anchor={0.5}
     text="Hello World"
     style={{ fill: 'white'}} />
 </Renderer>

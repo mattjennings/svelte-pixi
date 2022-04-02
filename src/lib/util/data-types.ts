@@ -8,6 +8,9 @@ export type PointLike =
   | Point
   | ObservablePoint
 
+/**
+ * Parses a value a Point
+ */
 export function parsePoint(point: PointLike): Point {
   if (Array.isArray(point)) {
     return new Point(point[0], point[1])

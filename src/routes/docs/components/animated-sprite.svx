@@ -34,8 +34,8 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
       animationSpeed={0.1}
       x={200}
       y={200}
-      anchor={new Point(0.5, 0.5)}
-      scale={new Point(2, 2)}
+      anchor={0.5}
+      scale={2}
     />
   </Loader>
 </Application>
@@ -77,8 +77,8 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
       animationSpeed={0.1}
       x={200}
       y={200}
-      anchor={new Point(0.5, 0.5)}
-      scale={new Point(2, 2)}
+      anchor={0.5}
+      scale={2}
       on:loop={changeAnimation}
     />
   </Loader>

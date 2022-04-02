@@ -25,7 +25,7 @@ You can show progress by using the `progress` prop from the `loading` slot.
 <Application width={400} height={400} antialias backgroundColor={0xffffff}>
   <Loader let:progress resources={['/assets/great-success.png']}>
     <slot slot="loading">
-      <Text text={`Loading... ${progress}`} x={200} y={200} anchor={new Point(0.5, 0.5)} />
+      <Text text={`Loading... ${progress}`} x={200} y={200} anchor={0.5} />
     </slot>
 
     <Sprite

@@ -33,7 +33,7 @@ If you want more control over the rendering process, you can use the [Renderer](
     y={300}
     text="Click and drag"
     style={{ fill: 'white' }}
-    anchor={new Point(0.5, 0.5)}
+    anchor={0.5}
   />
   <DraggableCircle x={200} y={200} />
 </Renderer>
@@ -76,7 +76,7 @@ For one reason or another, you may not want to use a `Ticker` for rendering. Her
     y={300}
     text="Click and drag"
     style={{ fill: 'white' }}
-    anchor={new Point(0.5, 0.5)}
+    anchor={0.5}
   />
   <DraggableCircle x={200} y={200} />
 </Renderer>
@@ -129,7 +129,7 @@ For one reason or another, you may not want to use a `Ticker` for rendering. Her
     y={300}
     text="Click and drag"
     style={{ fill: 'white' }}
-    anchor={new Point(0.5, 0.5)}
+    anchor={0.5}
   />
   <DraggableCircle x={200} y={200} />
 </Renderer>

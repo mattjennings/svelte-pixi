@@ -35,7 +35,7 @@ Child components can use the `onTick` function from svelte-pixi to subscribe to 
       y={200}
       text={`Delta: ${delta.toFixed(10)}`}
       style={{ fill: 'white' }}
-      anchor={new Point(0.5, 0.5)}
+      anchor={0.5}
     />
   </Ticker>
 </Application>
