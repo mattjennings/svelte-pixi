@@ -1,0 +1,93 @@
+---
+title: Mesh
+---
+
+<script>
+  import docs from '$lib/Mesh.svelte?raw&sveld' 
+  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
+</script>
+
+Creates a [Pixi Mesh](https://pixijs.download/release/docs/PIXI.Mesh.html) object.
+
+## Usage
+
+```svelte example csr
+<script>
+  import { Application, Loader, Mesh, Ticker } from 'svelte-pixi'
+  import { Geometry, Shader, Texture } from '@pixi/core'
+
+  let rotation = 0
+
+  const geometry = new Geometry()
+    .addAttribute('aVertexPosition', // the attribute name
+        [-100, -100, // x, y
+            100, -100, // x, y
+            100, 100,
+            -100, 100], // x, y
+        2) // the size of the attribute
+    .addAttribute('aUvs', // the attribute name
+        [0, 0, // u, v
+            1, 0, // u, v
+            1, 1,
+            0, 1], // u, v
+        2) // the size of the attribute
+    .addIndex([0, 1, 2, 0, 2, 3]);
+
+  const vertexSrc = `
+    precision mediump float;
+
+    attribute vec2 aVertexPosition;
+    attribute vec2 aUvs;
+
+    uniform mat3 translationMatrix;
+    uniform mat3 projectionMatrix;
+
+    varying vec2 vUvs;
+
+    void main() {
+
+        vUvs = aUvs;
+        gl_Position = vec4((projectionMatrix * translationMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);
+
+    }`;
+
+  const fragmentSrc = `
+    precision mediump float;
+
+    varying vec2 vUvs;
+
+    uniform sampler2D uSampler2;
+    uniform float time;
+
+    void main() {
+
+        gl_FragColor = texture2D(uSampler2, vUvs + sin( (time + (vUvs.x) * 14.) ) * 0.1 );
+    }`;
+
+  const uniforms = {
+      uSampler2: Texture.from('/assets/mesh_bg.jpg'),
+      time: 0,
+  };
+
+  const shader = Shader.from(vertexSrc, fragmentSrc, uniforms)
+
+  function tick({ detail: delta }) {
+      rotation += 0.01 * delta;
+      shader.uniforms.time += 0.1 * delta;
+  }
+</script>
+
+<Application width={400} height={400} antialias>
+  <Ticker on:tick={tick} />
+  <Mesh
+    x={200}
+    y={200}
+    scale={2}
+    {geometry}
+    {shader}
+    {rotation}
+  />
+</Application>
+```
+
+<ComponentDocs docs={docs} pixiComponentName="PIXI.Mesh" />
