@@ -13,8 +13,7 @@ Creates a [Pixi BitmapText](https://pixijs.download/release/docs/PIXI.BitmapText
 
 ```svelte example csr
 <script>
-  import { Texture } from '@pixi/core'
-  import { Application, Loader, Sprite, BitmapText } from 'svelte-pixi'
+  import { Application, Loader, BitmapText } from 'svelte-pixi'
 </script>
 
 <Application width={400} height={400} antialias backgroundColor={0xffffff}>
