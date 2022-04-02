@@ -1,25 +1,15 @@
-<script lang="ts" context="module">
-  export interface Link {
-    label: string
-    href?: string
-    base?: string
-    links?: Link[]
-  }
-</script>
-
 <script lang="ts">
   import { page } from '$app/stores'
   import { slide } from 'svelte/transition'
   import { Icon } from '@steeze-ui/svelte-icon'
   import { ChevronDown } from '@steeze-ui/heroicons'
   import { createEventDispatcher } from 'svelte'
+  import type { Link } from 'src/routes/links.json'
 
   const dispatch = createEventDispatcher()
-  export let link: Link
-  export let parent: Link = undefined
-  export let expanded = false // $page.url.pathname.startsWith(link.base)
 
-  $: href = parent?.base ? parent.base + link.href : link.href
+  export let link: Link
+  export let expanded = false // $page.url.pathname.startsWith(link.base)
 
   function fadeSlide(node, options) {
     const slideTrans = slide(node, options)
@@ -40,7 +30,7 @@
       role="group"
       on:click={() => dispatch('expand')}
     >
-      {link.label}
+      {link.title}
       <div
         class="ml-2 w-4 transition-all duration-200 opacity-0 group-hover:opacity-100"
       >
@@ -50,14 +40,16 @@
     {#if expanded}
       <ul class="ml-2 pt-1 " transition:fadeSlide|local={{ duration: 200 }}>
         {#each link.links as sublink}
-          <svelte:self link={sublink} parent={link} />
+          <svelte:self link={sublink} />
         {/each}
       </ul>
     {/if}
   </li>
 {:else}
   <li class="mb-2">
-    <a {href} class:active={$page.url.pathname === href}>{link.label}</a>
+    <a href={link.href} class:active={$page.url.pathname === link.href}
+      >{link.title}</a
+    >
   </li>
 {/if}
 

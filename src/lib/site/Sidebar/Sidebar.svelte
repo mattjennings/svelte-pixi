@@ -7,97 +7,11 @@
   import Link from './Link.svelte'
   import { focusTrap } from 'svelte-focus-trap'
 
+  export let links
+
   let isMenuOpen = false
+
   $: $page.url.pathname, (isMenuOpen = false)
-
-  let links = [
-    {
-      label: 'Intro',
-      base: '/docs/intro',
-      links: [
-        {
-          label: 'Getting Started',
-          href: '/getting-started',
-        },
-      ],
-    },
-    {
-      label: 'Components',
-      base: '/docs/components',
-      links: [
-        {
-          href: '/animated-sprite',
-          label: 'AnimatedSprite',
-        },
-        {
-          href: '/application',
-          label: 'Application',
-        },
-        {
-          href: '/bitmap-text',
-          label: 'BitmapText',
-        },
-        {
-          href: '/container',
-          label: 'Container',
-        },
-        {
-          href: '/graphics',
-          label: 'Graphics',
-        },
-        {
-          href: '/loader',
-          label: 'Loader',
-        },
-        {
-          href: '/renderer',
-          label: 'Renderer',
-        },
-        {
-          href: '/sprite',
-          label: 'Sprite',
-        },
-        {
-          href: '/ticker',
-          label: 'Ticker',
-        },
-        {
-          href: '/tiling-sprite',
-          label: 'Tiling Sprite',
-        },
-        {
-          href: '/text',
-          label: 'Text',
-        },
-      ],
-    },
-
-    {
-      label: 'Animation',
-      base: '/docs/animation',
-      links: [
-        {
-          href: '/svelte-motion',
-          label: 'svelte/motion',
-        },
-      ],
-    },
-    {
-      label: 'Guides',
-      base: '/docs/guides',
-      links: [
-        {
-          href: '/reducing-bundle-size',
-          label: 'Reducing Bundle Size',
-        },
-        {
-          href: '/custom-renderer',
-          label: 'Custom Renderer',
-        },
-      ],
-    },
-  ]
-
   $: expandedLink = links.find((link) =>
     $page.url.pathname.startsWith(link.base)
   )
