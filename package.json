@@ -1,13 +1,13 @@
 {
   "name": "svelte-pixi",
-  "version": "0.1.0-alpha.6",
+  "version": "0.1.0-alpha.7",
   "description": "Create Pixi.js apps with Svelte 3",
   "repository": "https://github.com/mattjennings/svelte-pixi",
   "author": "Matt Jennings",
   "license": "MIT",
   "scripts": {
     "dev": "svelte-kit dev",
-    "build:docs": "svelte-kit build",
+    "build:site": "svelte-kit build",
     "build": "svelte-kit package",
     "preview": "svelte-kit preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
