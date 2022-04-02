@@ -24,6 +24,9 @@ const config = {
 
   kit: {
     adapter: vercel(),
+    prerender: {
+      default: true,
+    },
     package: {
       files: (file) => !file.includes('website'),
     },
