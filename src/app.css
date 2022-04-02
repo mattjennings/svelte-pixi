@@ -6,3 +6,8 @@
 canvas {
   user-select: none;
 }
+
+pre,
+pre code {
+  @apply !text-xs md:!text-base;
+}

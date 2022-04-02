@@ -11,7 +11,7 @@
       <slot name="example" />
     </div>
   </div>
-  <div class="code text-xs md:text-base max-h-[600px] overflow-scroll">
+  <div class="code max-h-[600px] overflow-scroll">
     <pre class="!my-0 !rounded-none"><slot name="code" /></pre>
   </div>
 </div>
