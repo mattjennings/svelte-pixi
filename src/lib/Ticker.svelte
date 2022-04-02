@@ -1,8 +1,4 @@
 <script context="module" lang="ts">
-  if (typeof window !== 'undefined') {
-    registerRendererPlugin('batch', BatchRenderer)
-  }
-
   export function getTicker(): Ticker {
     return getContext('pixi/ticker')
   }
@@ -29,6 +25,7 @@
     priority?: number
   }
 
+  registerRendererPlugin('batch', BatchRenderer)
   const dispatch = createEventDispatcher()
 
   export let autoStart: $$Props['autoStart'] = true

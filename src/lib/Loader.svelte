@@ -1,9 +1,3 @@
-<script context="module" lang="ts">
-  if (typeof window !== 'undefined') {
-    registerApplicationPlugin(AppLoaderPlugin)
-  }
-</script>
-
 <script lang="ts">
   import { AppLoaderPlugin, type IAddOptions } from '@pixi/loaders'
   import type { Loader as PixiLoader } from '@pixi/loaders'
@@ -28,6 +22,7 @@
     load: CustomEvent<PixiLoader>
   }
 
+  registerApplicationPlugin(AppLoaderPlugin)
   const dispatch = createEventDispatcher()
   const app = getApp()
 

@@ -1,8 +1,4 @@
 <script context="module" lang="ts">
-  if (typeof window !== 'undefined') {
-    registerRendererPlugin('batch', BatchRenderer)
-  }
-
   export function getRenderer(): Renderer | AbstractRenderer {
     return getContext('pixi/renderer')
   }
@@ -39,6 +35,7 @@
     }
   }
 
+  registerRendererPlugin('batch', BatchRenderer)
   const dispatch = createEventDispatcher()
 
   export let instance: $$Props['instance'] = autoDetectRenderer({

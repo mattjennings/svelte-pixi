@@ -1,9 +1,4 @@
 <script context="module" lang="ts">
-  if (typeof window !== 'undefined') {
-    registerApplicationPlugin(AppLoaderPlugin)
-    registerRendererPlugin('batch', BatchRenderer)
-  }
-
   export function getApp(): Application {
     return getContext('pixi/app')
   }
@@ -15,13 +10,15 @@
   import { BatchRenderer } from '@pixi/core'
   import { AppLoaderPlugin } from '@pixi/loaders'
   import { getContext, setContext } from 'svelte'
-  import Container from './Container.svelte'
   import Renderer from './Renderer.svelte'
   import Ticker from './Ticker.svelte'
   import {
     registerApplicationPlugin,
     registerRendererPlugin,
   } from './util/plugins'
+
+  registerApplicationPlugin(AppLoaderPlugin)
+  registerRendererPlugin('batch', BatchRenderer)
 
   type $$Props = IApplicationOptions & {
     instance?: Application

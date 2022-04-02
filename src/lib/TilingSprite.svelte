@@ -7,8 +7,6 @@
   import Sprite, { type SpriteComponentProps } from './Sprite.svelte'
   import type { ExtractProps } from './util/props'
 
-  registerRendererPlugin('tilingSprite', TilingSpriteRenderer)
-
   export interface TilingSpriteComponentProps<
     Instance extends PixiTilingSprite = PixiTilingSprite
   > extends ExtractProps<PixiTilingSprite>,
@@ -20,6 +18,8 @@
 <script lang="ts">
   type T = $$Generic<PixiTilingSprite>
   type $$Props = TilingSpriteComponentProps<T> & SpriteComponentProps<T>
+
+  registerRendererPlugin('tilingSprite', TilingSpriteRenderer)
 
   /** @type {TilingSprite} TilingSprite instance to render */
   export let instance: PixiTilingSprite = new PixiTilingSprite(
