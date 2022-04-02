@@ -1,5 +1,6 @@
 export { default as Application, getApp } from './Application.svelte'
 export { default as AnimatedSprite } from './AnimatedSprite.svelte'
+export { default as BitmapText } from './BitmapText.svelte'
 export { default as Container, getContainer } from './Container.svelte'
 export { default as Loader } from './Loader.svelte'
 export { default as Sprite } from './Sprite.svelte'

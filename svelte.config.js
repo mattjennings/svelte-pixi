@@ -31,12 +31,6 @@ const config = {
       files: (file) => !file.includes('website'),
     },
     vite: {
-      ssr: {
-        // external: ['@pixi/core'],
-      },
-      optimizeDeps: {
-        // include: ['@pixi/core'],
-      },
       resolve: {
         alias: {
           'svelte-pixi': path.resolve(__dirname, './src/lib'),

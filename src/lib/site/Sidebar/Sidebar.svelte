@@ -34,6 +34,10 @@
           label: 'Application',
         },
         {
+          href: '/bitmap-text',
+          label: 'BitmapText',
+        },
+        {
           href: '/container',
           label: 'Container',
         },

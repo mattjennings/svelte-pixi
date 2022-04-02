@@ -1,24 +1,28 @@
 <script context="module" lang="ts">
   import type { ExtractProps } from './util/props'
 
-  export interface TextComponentProps<Instance extends PixiText = PixiText>
-    extends ExtractProps<PixiText>,
+  export interface BitmapTextComponentProps<
+    Instance extends PixiBitmapText = PixiBitmapText
+  > extends ExtractProps<PixiBitmapText>,
       ExtractProps<GlobalMixins.Text> {
     instance?: Instance
   }
 </script>
 
 <script lang="ts">
-  import { Text as PixiText } from '@pixi/text'
-  import Sprite, { type SpriteComponentProps } from './Sprite.svelte'
+  import { BitmapText as PixiBitmapText } from '@pixi/text-bitmap'
+  import Container, { type ContainerComponentProps } from './Container.svelte'
 
-  type T = $$Generic<PixiText>
-  type $$Props = TextComponentProps<T> & SpriteComponentProps<T>
+  type T = $$Generic<PixiBitmapText>
+  type $$Props = BitmapTextComponentProps<T> & ContainerComponentProps<T>
 
-  export let instance: PixiText = new PixiText($$props.text, $$props.style)
+  export let instance: PixiBitmapText = new PixiBitmapText(
+    $$props.text,
+    $$props.style
+  )
 </script>
 
-<Sprite
+<Container
   {...$$restProps}
   {instance}
   on:click
@@ -52,4 +56,4 @@
   on:removed
 >
   <slot />
-</Sprite>
+</Container>

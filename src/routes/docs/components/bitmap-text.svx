@@ -1,0 +1,38 @@
+---
+title: BitmapText
+---
+
+<script>
+  import docs from '$lib/BitmapText.svelte?raw&sveld' 
+  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
+</script>
+
+Creates a [Pixi BitmapText](https://pixijs.download/release/docs/PIXI.BitmapText.html) object.
+
+## Usage
+
+```svelte example csr
+<script>
+  import { Texture } from '@pixi/core'
+  import { Application, Loader, Sprite, BitmapText } from 'svelte-pixi'
+  import { Point } from '@pixi/math'
+</script>
+
+<Application width={400} height={400} antialias backgroundColor={0xffffff}>
+  <Loader
+    resources={
+      [['desyrel', '/assets/desyrel.xml']]
+    }
+  >
+    <BitmapText
+      text={"the fox jumps over\nthe lazy dog"}
+      x={200}
+      y={200}
+      anchor={0.5}
+      style={{ fontName: 'Desyrel', fontSize: 48, align: 'center' }}
+    />
+  </Loader>
+</Application>
+```
+
+<ComponentDocs docs={docs} pixiComponentName="PIXI.BitmapText" />
