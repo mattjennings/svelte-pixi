@@ -35,19 +35,24 @@
 
   onMount(() => {
     let childIndex = -1
+    // preserve reference to instance & parent, they could
+    // be lost by unmount
+    let _instance = instance
+    let _parent = parent
 
     // make sure child isn't already added to the parent
     try {
       // Container.getChildIndex throws an error if instance is not a child...
-      childIndex = parent.getChildIndex(instance)
+      childIndex = _parent.getChildIndex(_instance)
       // eslint-disable-next-line no-empty
     } catch (e) {}
 
-    if (parent && childIndex === -1) {
-      parent.addChild(instance)
+    if (_parent && childIndex === -1) {
+      _parent.addChild(_instance)
 
       return () => {
-        parent?.removeChild(instance)
+        _instance?.destroy()
+        _parent?.removeChild(_instance)
       }
     }
   })
