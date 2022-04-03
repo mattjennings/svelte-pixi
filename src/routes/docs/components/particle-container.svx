@@ -1,0 +1,117 @@
+---
+title: ParticleContainer
+---
+
+<script>
+  import docs from '$lib/ParticleContainer.svelte?raw&sveld' 
+  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
+</script>
+
+Creates a [PIXI.ParticleContainer](https://pixijs.download/release/docs/PIXI.ParticleContainer.html) object.
+
+Note: when working with thousands of components, it is **much** more performant to update the Pixi instances directly instead of through props at 60fps+.
+
+## Usage
+
+```svelte example csr hideStyle
+<script>
+  import { onMount } from 'svelte'
+  import { Texture } from '@pixi/core'
+  import { Sprite as PixiSprite } from '@pixi/sprite'
+  import { Rectangle } from '@pixi/math'
+  import { Application, ParticleContainer, Text, Ticker, Sprite } from 'svelte-pixi'
+
+  let width = 400
+  let height = 400
+  let x = 200
+  let y = 100
+
+  let bugCount = 1000
+
+  // manually create sprite instances; both for references and
+  // to properly key the #each block
+  $: bugs = new Array(bugCount).fill().map(() => new PixiSprite())
+
+  const boundsPadding = 100;
+  const bounds = new Rectangle(
+      -boundsPadding,
+      -boundsPadding,
+      width + boundsPadding * 2,
+      height + boundsPadding * 2,
+  );
+
+  let count = 0
+  function tick(bug) {
+    bugs.forEach(bug => {
+      if (bug) {
+        bug.scale.y = 0.95 + Math.sin(count + bug.offset) * 0.05;
+        bug.direction += bug.turningSpeed * 0.01;
+        bug.x += Math.sin(bug.direction) * (bug.speed * bug.scale.y);
+        bug.y += Math.cos(bug.direction) * (bug.speed * bug.scale.y);
+        bug.rotation = -bug.direction + Math.PI;
+
+        // wrap the bugs
+        if (bug.x < bounds.x) {
+            bug.x += bounds.width;
+        } else if (bug.x > bounds.x + bounds.width) {
+            bug.x -= bounds.width;
+        }
+
+        if (bug.y < bounds.y) {
+            bug.y += bounds.height;
+        } else if (bug.y > bounds.y + bounds.height) {
+            bug.y -= bounds.height;
+        }
+      }
+    })
+    count += 0.1;
+  }
+</script>
+
+<label>
+  <span>Bug count: {bugCount}</span>
+  <input type="range" min="0" max="10000" step="500" bind:value={bugCount}/>
+</label>
+
+<Application {width} {height} antialias>
+  <Ticker on:tick={tick} />
+  <ParticleContainer
+    properties={{
+      scale: true,
+      position: true,
+      rotation: true,
+      uvs: true,
+      alpha: true,
+    }}
+  >
+    {#each bugs as bug (bug)}
+      <!-- create & set initial props -->
+      <Sprite
+        instance={bug}
+        texture={Texture.from('/assets/maggot_tiny.png')}
+        anchor={0.5}
+        scale={0.8 + Math.random() * 0.3}
+        x={Math.random() * width}
+        y={Math.random() * width}
+        tint={Math.random() * 0x808080}
+        direction={Math.random() * Math.PI * 2}
+        speed={(2 + Math.random() * 2) * 0.2}
+        turningSpeed={Math.random() - 0.8}
+        offset={Math.random() * 100}
+      />
+    {/each}
+  </ParticleContainer>
+</Application>
+
+<style lang="postcss">
+  label {
+    @apply flex flex-col;
+  }
+
+  span {
+    @apply text-white;
+  }
+</style>
+```
+
+<ComponentDocs docs={docs} pixiComponentName="PIXI.ParticleContainer" />
