@@ -1,4 +1,4 @@
-import { getApp } from '$lib'
+import { getApp } from './Application.svelte'
 import { onMount } from 'svelte'
 
 export function onTick(fn: (delta: number) => any) {
