@@ -1,7 +1,6 @@
 <script>
   import { Sprite, getApp, onTick } from 'svelte-pixi'
-  import { Point } from '@pixi/math'
-  import { Texture } from '@pixi/core'
+  import * as PIXI from 'pixi.js'
 
   export let cameraZ
 
@@ -19,14 +18,17 @@
   let initY = Math.sin(deg) * distance
   let x = initX
   let y = initY
-  let scale = new Point(1, 1)
+  let scale = new PIXI.Point(1, 1)
   let rotation
   let alpha = 0
 
   function getScale() {
     const z = initZ - cameraZ
     const distanceScale = Math.max(0, (2000 - z) / 2000)
-    return new Point(distanceScale * starBaseSize, distanceScale * starBaseSize)
+    return new PIXI.Point(
+      distanceScale * starBaseSize,
+      distanceScale * starBaseSize
+    )
   }
 
   function getRotation() {
@@ -68,8 +70,8 @@
 
 <Sprite
   bind:instance
-  texture={Texture.from('/assets/star.png')}
-  anchor={new Point(0.5, 0.7)}
+  texture={PIXI.Texture.from('/assets/star.png')}
+  anchor={new PIXI.Point(0.5, 0.7)}
   {x}
   {y}
   {scale}

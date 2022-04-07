@@ -2,8 +2,8 @@
   import type { ExtractProps } from './util/props'
 
   export interface SimplePlaneComponentProps<
-    Instance extends PixiSimplePlane = PixiSimplePlane
-  > extends ExtractProps<PixiSimplePlane>,
+    Instance extends PIXI.SimplePlane = PIXI.SimplePlane
+  > extends ExtractProps<PIXI.SimplePlane>,
       ExtractProps<GlobalMixins.Mesh> {
     instance?: Instance
     vertices: PointLike
@@ -11,15 +11,15 @@
 </script>
 
 <script lang="ts">
-  import { SimplePlane as PixiSimplePlane } from '@pixi/mesh-extras'
+  import * as PIXI from 'pixi.js'
   import Mesh, { type MeshComponentProps } from './Mesh.svelte'
   import { parsePoint, type PointLike } from './util/data-types'
 
-  type T = $$Generic<PixiSimplePlane>
+  type T = $$Generic<PIXI.SimplePlane>
   type $$Props = SimplePlaneComponentProps<T> & MeshComponentProps<T>
 
   export let vertices: $$Props['vertices']
-  export let instance: PixiSimplePlane = new PixiSimplePlane(
+  export let instance: PIXI.SimplePlane = new PIXI.SimplePlane(
     ($$props as $$Props).texture,
     parsePoint(vertices).x,
     parsePoint(vertices).y

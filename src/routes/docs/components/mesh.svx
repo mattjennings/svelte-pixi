@@ -14,11 +14,11 @@ Creates a [Pixi Mesh](https://pixijs.download/release/docs/PIXI.Mesh.html) objec
 ```svelte example csr
 <script>
   import { Application, Mesh, Ticker } from 'svelte-pixi'
-  import { Geometry, Shader, Texture } from '@pixi/core'
+  import * as PIXI from 'pixi.js'
 
   let rotation = 0
 
-  const geometry = new Geometry()
+  const geometry = new PIXI.Geometry()
     .addAttribute('aVertexPosition', // the attribute name
         [-100, -100, // x, y
             100, -100, // x, y
@@ -65,11 +65,11 @@ Creates a [Pixi Mesh](https://pixijs.download/release/docs/PIXI.Mesh.html) objec
     }`;
 
   const uniforms = {
-      uSampler2: Texture.from('/assets/bg_mesh.jpg'),
+      uSampler2: PIXI.Texture.from('/assets/bg_mesh.jpg'),
       time: 0,
   };
 
-  const shader = Shader.from(vertexSrc, fragmentSrc, uniforms)
+  const shader = PIXI.Shader.from(vertexSrc, fragmentSrc, uniforms)
 
   function tick({ detail: delta }) {
       rotation += 0.01 * delta;

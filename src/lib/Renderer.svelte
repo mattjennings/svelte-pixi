@@ -1,29 +1,22 @@
 <script context="module" lang="ts">
-  export function getRenderer(): Renderer | AbstractRenderer {
+  export function getRenderer(): PIXI.Renderer | PIXI.AbstractRenderer {
     return getContext('pixi/renderer')
   }
 
-  export function getStage(): Container {
+  export function getStage(): PIXI.Container {
     return getContext('pixi/stage')
   }
 </script>
 
 <script lang="ts">
-  import type { IRendererOptions } from '@pixi/core'
-  import {
-    AbstractRenderer,
-    autoDetectRenderer,
-    BatchRenderer,
-    Renderer,
-  } from '@pixi/core'
-  import SvelteContainer from './Container.svelte'
-  import { Container } from '@pixi/display'
-  import { createEventDispatcher, getContext, setContext } from 'svelte'
-  import { registerRendererPlugin } from './util/plugins'
+  import * as PIXI from 'pixi.js'
 
-  type $$Props = IRendererOptions & {
-    instance?: AbstractRenderer
-    stage?: Container
+  import SvelteContainer from './Container.svelte'
+  import { createEventDispatcher, getContext, setContext } from 'svelte'
+
+  type $$Props = PIXI.IRendererOptions & {
+    instance?: PIXI.AbstractRenderer
+    stage?: PIXI.Container
   }
 
   type $$Slots = {
@@ -35,17 +28,16 @@
     }
   }
 
-  registerRendererPlugin('batch', BatchRenderer)
   const dispatch = createEventDispatcher()
 
-  export let instance: $$Props['instance'] = autoDetectRenderer({
+  export let instance: $$Props['instance'] = PIXI.autoDetectRenderer({
     ...$$restProps,
   })
 
   /**
    * The Container instance to use as the stage
    */
-  export let stage: Container = new Container()
+  export let stage: PIXI.Container = new PIXI.Container()
 
   function view(node: HTMLElement): void {
     if (node.childNodes.length) {

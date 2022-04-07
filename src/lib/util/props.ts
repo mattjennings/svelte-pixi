@@ -1,4 +1,5 @@
-import { ObservablePoint, Point } from '@pixi/math'
+import * as PIXI from 'pixi.js'
+
 import { parsePoint, type PointLike } from './data-types'
 
 export function applyProps<Instance, Props extends Record<string, any>>(
@@ -18,8 +19,8 @@ export function applyProps<Instance, Props extends Record<string, any>>(
           apply[prop](instance, value, prop, props)
         } else {
           if (
-            instance[prop] instanceof Point ||
-            instance[prop] instanceof ObservablePoint
+            instance[prop] instanceof PIXI.Point ||
+            instance[prop] instanceof PIXI.ObservablePoint
           ) {
             instance[prop] = parsePoint(value)
           } else {
@@ -70,7 +71,11 @@ type PublicProperties<T> = FilterNotStartingWith<keyof T, '_'>
  * Converts Point or ObservablePoint types to PointLike
  */
 type SwapPoints<T> = T extends {}
-  ? { [K in keyof T]: T[K] extends Point | ObservablePoint ? PointLike : T[K] }
+  ? {
+      [K in keyof T]: T[K] extends PIXI.Point | PIXI.ObservablePoint
+        ? PointLike
+        : T[K]
+    }
   : T
 
 type NotFunctions<T> = {

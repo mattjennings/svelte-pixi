@@ -1,24 +1,24 @@
 <script context="module" lang="ts">
   export interface ContainerComponentProps<
-    Instance extends PixiContainer = PixiContainer
-  > extends ExtractProps<PixiContainer>,
+    Instance extends PIXI.Container = PIXI.Container
+  > extends ExtractProps<PIXI.Container>,
       ExtractProps<GlobalMixins.Container> {
     instance?: Instance
     applyPropsOnMount?: boolean
   }
 
-  export function getContainer(): Container {
+  export function getContainer(): PIXI.Container {
     return getContext('pixi/container')
   }
 </script>
 
 <script lang="ts">
-  import { Container, Container as PixiContainer } from '@pixi/display'
+  import * as PIXI from 'pixi.js'
   import { getContext, onMount, setContext } from 'svelte'
   import DisplayObject from './DisplayObject.svelte'
   import type { ExtractProps } from './util/props'
 
-  type T = $$Generic<PixiContainer>
+  type T = $$Generic<PIXI.Container>
   type $$Props = ContainerComponentProps<T>
 
   /**
@@ -30,7 +30,7 @@
   export let applyPropsOnMount: $$Props['applyPropsOnMount'] = false
 
   /** @type {Container} Container instance to render */
-  export let instance: PixiContainer = new PixiContainer()
+  export let instance: PIXI.Container = new PIXI.Container()
 
   onMount(() => {
     if (applyPropsOnMount) {

@@ -1,21 +1,22 @@
 <script context="module" lang="ts">
-  export interface SpriteComponentProps<Instance extends Sprite = Sprite>
-    extends ExtractProps<Sprite>,
-      ExtractProps<GlobalMixins.Sprite> {
+  export interface SpriteComponentProps<
+    Instance extends PIXI.Sprite = PIXI.Sprite
+  > extends ExtractProps<PIXI.Sprite> {
     instance?: Instance
   }
 </script>
 
 <script lang="ts">
-  import { Sprite } from '@pixi/sprite'
+  import * as PIXI from 'pixi.js'
+
   import Container, { type ContainerComponentProps } from './Container.svelte'
   import type { ExtractProps } from './util/props'
 
-  type T = $$Generic<Sprite>
+  type T = $$Generic<PIXI.Sprite>
   type $$Props = SpriteComponentProps<T> & ContainerComponentProps<T>
 
-  /** @type {Sprite} Sprite instance to render */
-  export let instance: Sprite = new Sprite($$props.texture)
+  /** @type {PIXI.Sprite} PIXI.Sprite instance to render */
+  export let instance: PIXI.Sprite = new PIXI.Sprite($$props.texture)
 </script>
 
 <Container

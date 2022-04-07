@@ -1,20 +1,21 @@
 <script context="module" lang="ts">
   import type { ExtractProps } from './util/props'
 
-  export interface TextComponentProps<Instance extends PixiText = PixiText>
-    extends ExtractProps<PixiText> {
+  export interface TextComponentProps<Instance extends PIXI.Text = PIXI.Text>
+    extends ExtractProps<PIXI.Text> {
     instance?: Instance
   }
 </script>
 
 <script lang="ts">
-  import { Text as PixiText } from '@pixi/text'
+  import * as PIXI from 'pixi.js'
+
   import Sprite, { type SpriteComponentProps } from './Sprite.svelte'
 
-  type T = $$Generic<PixiText>
+  type T = $$Generic<PIXI.Text>
   type $$Props = TextComponentProps<T> & SpriteComponentProps<T>
 
-  export let instance: PixiText = new PixiText($$props.text, $$props.style)
+  export let instance: PIXI.Text = new PIXI.Text($$props.text, $$props.style)
 </script>
 
 <Sprite

@@ -1,9 +1,7 @@
 <script lang="ts">
-  import { AppLoaderPlugin, type IAddOptions } from '@pixi/loaders'
-  import type { Loader as PixiLoader } from '@pixi/loaders'
+  import type * as PIXI from 'pixi.js'
   import { createEventDispatcher, onMount } from 'svelte'
   import { getApp } from './Application.svelte'
-  import { registerApplicationPlugin } from './util/plugins'
 
   interface $$Slots {
     default: {
@@ -15,14 +13,13 @@
   }
 
   interface $$Events {
-    complete: CustomEvent<PixiLoader>
-    progress: CustomEvent<PixiLoader>
-    error: CustomEvent<PixiLoader>
-    start: CustomEvent<PixiLoader>
-    load: CustomEvent<PixiLoader>
+    complete: CustomEvent<PIXI.Loader>
+    progress: CustomEvent<PIXI.Loader>
+    error: CustomEvent<PIXI.Loader>
+    start: CustomEvent<PIXI.Loader>
+    load: CustomEvent<PIXI.Loader>
   }
 
-  registerApplicationPlugin(AppLoaderPlugin)
   const dispatch = createEventDispatcher()
   const app = getApp()
 
@@ -31,7 +28,7 @@
    */
   export let resources:
     | string[]
-    | Array<[string, string, IAddOptions, () => any]>
+    | Array<[string, string, PIXI.IAddOptions, () => any]>
 
   /**
    * @type {string} The base url for all resources loaded by this loader.

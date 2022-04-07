@@ -1,21 +1,21 @@
 <script context="module" lang="ts">
   import type { ExtractProps } from './util/props'
 
-  export interface MeshComponentProps<Instance extends PixiMesh = PixiMesh>
-    extends ExtractProps<PixiMesh>,
+  export interface MeshComponentProps<Instance extends PIXI.Mesh = PIXI.Mesh>
+    extends ExtractProps<PIXI.Mesh>,
       ExtractProps<GlobalMixins.Mesh> {
     instance?: Instance
   }
 </script>
 
 <script lang="ts">
-  import { Mesh as PixiMesh } from '@pixi/mesh'
+  import * as PIXI from 'pixi.js'
   import Container, { type ContainerComponentProps } from './Container.svelte'
 
-  type T = $$Generic<PixiMesh>
+  type T = $$Generic<PIXI.Mesh>
   type $$Props = MeshComponentProps<T> & ContainerComponentProps<T>
 
-  export let instance: PixiMesh = new PixiMesh(
+  export let instance: PIXI.Mesh = new PIXI.Mesh(
     ($$props as $$Props).geometry,
     ($$props as $$Props).shader,
     ($$props as $$Props).state,

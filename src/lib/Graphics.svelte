@@ -1,19 +1,20 @@
 <script context="module" lang="ts">
-  import { Graphics as PixiGraphics } from '@pixi/graphics'
   import Container, { type ContainerComponentProps } from './Container.svelte'
   import type { ExtractProps } from './util/props'
 
   export interface GraphicsComponentProps<
-    Instance extends PixiGraphics = PixiGraphics
-  > extends ExtractProps<PixiGraphics>,
+    Instance extends PIXI.Graphics = PIXI.Graphics
+  > extends ExtractProps<PIXI.Graphics>,
       ExtractProps<GlobalMixins.Graphics> {
     instance?: Instance
-    draw: (graphics: PixiGraphics) => any
+    draw: (graphics: PIXI.Graphics) => any
   }
 </script>
 
 <script lang="ts">
-  type T = $$Generic<PixiGraphics>
+  import * as PIXI from 'pixi.js'
+
+  type T = $$Generic<PIXI.Graphics>
   type $$Props = GraphicsComponentProps<T> & ContainerComponentProps<T>
 
   /**
@@ -22,7 +23,7 @@
   export let draw: $$Props['draw']
 
   /** @type {Graphics} Graphics instance to render */
-  export let instance: PixiGraphics = new PixiGraphics()
+  export let instance: PIXI.Graphics = new PIXI.Graphics()
 
   // because Graphics is not immutable, we can call draw whenever it changes
   $: draw(instance)

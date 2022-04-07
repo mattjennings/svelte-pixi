@@ -1,24 +1,22 @@
 <script context="module" lang="ts">
   export interface ParticleContainerComponentProps<
-    Instance extends PixiParticleContainer = PixiParticleContainer
-  > extends ExtractProps<PixiParticleContainer> {
+    Instance extends PIXI.ParticleContainer = PIXI.ParticleContainer
+  > extends ExtractProps<PIXI.ParticleContainer> {
     instance?: Instance
     maxSize?: number
-    properties?: IParticleProperties
+    properties?: PIXI.IParticleProperties
     batchSize?: number
     autoResize?: boolean
   }
 </script>
 
 <script lang="ts">
-  import {
-    ParticleContainer as PixiParticleContainer,
-    type IParticleProperties,
-  } from '@pixi/particle-container'
+  import * as PIXI from 'pixi.js'
+
   import Container, { type ContainerComponentProps } from './Container.svelte'
   import type { ExtractProps } from './util/props'
 
-  type T = $$Generic<PixiParticleContainer>
+  type T = $$Generic<PIXI.ParticleContainer>
   type $$Props = ParticleContainerComponentProps<T> & ContainerComponentProps<T>
 
   export let maxSize: $$Props['maxSize'] = undefined
@@ -27,7 +25,7 @@
   export let autoResize: $$Props['autoResize'] = undefined
 
   /** @type {ParticleContainer} ParticleContainer instance to render */
-  export let instance = new PixiParticleContainer(
+  export let instance = new PIXI.ParticleContainer(
     maxSize,
     properties,
     batchSize,

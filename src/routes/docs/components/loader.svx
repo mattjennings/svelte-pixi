@@ -17,8 +17,8 @@ You can show progress by using the `progress` prop from the `loading` slot.
 
 ```svelte example csr
 <script>
-  import { Texture } from '@pixi/core'
   import { Application, Loader, Sprite, Text } from 'svelte-pixi'
+  import * as PIXI from 'pixi.js'
 </script>
 
 <Application width={400} height={400} antialias backgroundColor={0xffffff}>
@@ -28,7 +28,7 @@ You can show progress by using the `progress` prop from the `loading` slot.
     </slot>
 
     <Sprite
-      texture={Texture.from('/assets/great-success.png')}
+      texture={PIXI.Texture.from('/assets/great-success.png')}
       x={20}
       y={50}
       width={360}

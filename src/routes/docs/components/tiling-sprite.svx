@@ -13,7 +13,7 @@ title: TilingSprite
 <script>
   import { onMount } from 'svelte'
   import { Application, TilingSprite, Loader, Ticker } from 'svelte-pixi'
-  import { Texture } from '@pixi/core'
+  import * as PIXI from 'pixi.js'
 
   let count = 0
   let scale = { x: 1, y: 1 }
@@ -32,7 +32,7 @@ title: TilingSprite
   <Loader resources={['/assets/tiling-sprite.jpeg']}>
     <Ticker on:tick={tick} />
     <TilingSprite
-      texture={Texture.from('/assets/tiling-sprite.jpeg')}
+      texture={PIXI.Texture.from('/assets/tiling-sprite.jpeg')}
       {tilePosition}
       {scale}
       width={400}

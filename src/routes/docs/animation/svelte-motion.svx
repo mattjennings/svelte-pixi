@@ -8,8 +8,8 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
 
 ```svelte example csr
 <script>
+  import * as PIXI from 'pixi.js'
   import { Application, Text, Sprite, Loader } from 'svelte-pixi'
-  import { Texture } from '@pixi/core'
   import { spring } from 'svelte/motion'
 
   let dragging = false
@@ -58,7 +58,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
       text="Try clicking and dragging the mushroom"
       style={{ fill: 'white', fontSize: 20 }} />
     <Sprite
-      texture={Texture.from('/assets/mushroom.png')}
+      texture={PIXI.Texture.from('/assets/mushroom.png')}
       anchor={0.5}
       x={$position.x}
       y={$position.y}

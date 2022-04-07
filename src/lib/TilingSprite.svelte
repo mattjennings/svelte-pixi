@@ -1,28 +1,23 @@
 <script context="module" lang="ts">
-  import {
-    TilingSprite as PixiTilingSprite,
-    TilingSpriteRenderer,
-  } from '@pixi/sprite-tiling'
-  import { registerRendererPlugin } from './util/plugins'
   import Sprite, { type SpriteComponentProps } from './Sprite.svelte'
   import type { ExtractProps } from './util/props'
 
   export interface TilingSpriteComponentProps<
-    Instance extends PixiTilingSprite = PixiTilingSprite
-  > extends ExtractProps<PixiTilingSprite>,
+    Instance extends PIXI.TilingSprite = PIXI.TilingSprite
+  > extends ExtractProps<PIXI.TilingSprite>,
       ExtractProps<GlobalMixins.TilingSprite> {
     instance?: Instance
   }
 </script>
 
 <script lang="ts">
-  type T = $$Generic<PixiTilingSprite>
+  import * as PIXI from 'pixi.js'
+
+  type T = $$Generic<PIXI.TilingSprite>
   type $$Props = TilingSpriteComponentProps<T> & SpriteComponentProps<T>
 
-  registerRendererPlugin('tilingSprite', TilingSpriteRenderer)
-
   /** @type {TilingSprite} TilingSprite instance to render */
-  export let instance: PixiTilingSprite = new PixiTilingSprite(
+  export let instance: PIXI.TilingSprite = new PIXI.TilingSprite(
     $$props.texture,
     $$props.width,
     $$props.height

@@ -1,40 +1,38 @@
 <script context="module" lang="ts">
-  export function getTicker(): Ticker {
+  export function getTicker(): PIXI.Ticker {
     return getContext('pixi/ticker')
   }
 </script>
 
 <script lang="ts">
-  import { BatchRenderer } from '@pixi/core'
-  import { Ticker, UPDATE_PRIORITY } from '@pixi/ticker'
+  import * as PIXI from 'pixi.js'
+
   import {
     createEventDispatcher,
     getContext,
     onMount,
     setContext,
   } from 'svelte'
-  import { registerRendererPlugin } from './util/plugins'
   import { applyProps } from './util/props'
 
   type $$Props = {
-    instance?: Ticker
-    autoStart?: Ticker['autoStart']
-    maxFPS?: Ticker['maxFPS']
-    minFPS?: Ticker['minFPS']
-    speed?: Ticker['speed']
+    instance?: PIXI.Ticker
+    autoStart?: PIXI.Ticker['autoStart']
+    maxFPS?: PIXI.Ticker['maxFPS']
+    minFPS?: PIXI.Ticker['minFPS']
+    speed?: PIXI.Ticker['speed']
     priority?: number
   }
 
-  registerRendererPlugin('batch', BatchRenderer)
   const dispatch = createEventDispatcher()
 
   export let autoStart: $$Props['autoStart'] = true
-  export let instance: $$Props['instance'] = new Ticker()
+  export let instance: $$Props['instance'] = new PIXI.Ticker()
 
   /**
-   * UPDATE_PRIORITY of the Ticker. Defaults to LOW
+   * UPDATE_PRIORITY of the PIXI.Ticker. Defaults to LOW
    */
-  export let priority = UPDATE_PRIORITY.LOW
+  export let priority = PIXI.UPDATE_PRIORITY.LOW
 
   setContext('pixi/ticker', instance)
 

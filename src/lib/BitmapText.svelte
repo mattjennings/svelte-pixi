@@ -2,20 +2,20 @@
   import type { ExtractProps } from './util/props'
 
   export interface BitmapTextComponentProps<
-    Instance extends PixiBitmapText = PixiBitmapText
-  > extends ExtractProps<PixiBitmapText> {
+    Instance extends PIXI.BitmapText = PIXI.BitmapText
+  > extends ExtractProps<PIXI.BitmapText> {
     instance?: Instance
   }
 </script>
 
 <script lang="ts">
-  import { BitmapText as PixiBitmapText } from '@pixi/text-bitmap'
+  import * as PIXI from 'pixi.js'
   import Container, { type ContainerComponentProps } from './Container.svelte'
 
-  type T = $$Generic<PixiBitmapText>
+  type T = $$Generic<PIXI.BitmapText>
   type $$Props = BitmapTextComponentProps<T> & ContainerComponentProps<T>
 
-  export let instance: PixiBitmapText = new PixiBitmapText(
+  export let instance: PIXI.BitmapText = new PIXI.BitmapText(
     $$props.text,
     $$props.style
   )

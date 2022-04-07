@@ -4,6 +4,13 @@ function readPackage(pkg) {
     pkg.dependencies['svelte-pixi'] = 'file:../../package'
   }
 
+  if (pkg.name === 'svelte-pixi') {
+    pkg.devDependencies = {
+      ...pkg.peerDependencies,
+      ...pkg.devDependencies,
+    }
+  }
+
   return pkg
 }
 

@@ -1,5 +1,5 @@
 <script>
-  import { Circle } from '@pixi/math'
+  import * as PIXI from 'pixi.js'
   import { Graphics } from 'svelte-pixi'
 
   export let x
@@ -42,7 +42,7 @@
     graphics.endFill()
   }}
   interactive
-  hitArea={new Circle(0, 0, circleSize)}
+  hitArea={new PIXI.Circle(0, 0, circleSize)}
   buttonMode
   on:pointerdown={handleDragStart}
   on:pointerup={handleDragEnd}

@@ -1,14 +1,14 @@
 <script context="module" lang="ts">
   export interface DisplayObjectComponentProps<
-    Instance extends PixiDisplayObject
-  > extends ExtractProps<PixiDisplayObject>,
+    Instance extends PIXI.DisplayObject
+  > extends ExtractProps<PIXI.DisplayObject>,
       ExtractProps<GlobalMixins.DisplayObject> {
     instance: Instance
   }
 </script>
 
 <script lang="ts">
-  import type { DisplayObject as PixiDisplayObject } from '@pixi/display'
+  import type * as PIXI from 'pixi.js'
   import {
     afterUpdate,
     createEventDispatcher,
@@ -19,13 +19,13 @@
   import { createPixiEventDispatcher } from '$lib/util/helpers'
   import { applyProps, type ExtractProps } from './util/props'
 
-  type T = $$Generic<PixiDisplayObject>
+  type T = $$Generic<PIXI.DisplayObject>
   type $$Props = DisplayObjectComponentProps<T>
 
   const { onComponentUpdate } = getContext('pixi/renderer_internal')
 
   /** @type {DisplayObject} DisplayObject instance to render */
-  export let instance: PixiDisplayObject
+  export let instance: PIXI.DisplayObject
 
   /**
    * The parent container to add this component to. Set to null

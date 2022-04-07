@@ -2,21 +2,21 @@
   import type { ExtractProps } from './util/props'
 
   export interface NineSlicePlaneComponentProps<
-    Instance extends PixiNineSlicePlane = PixiNineSlicePlane
-  > extends ExtractProps<PixiNineSlicePlane>,
+    Instance extends PIXI.NineSlicePlane = PIXI.NineSlicePlane
+  > extends ExtractProps<PIXI.NineSlicePlane>,
       ExtractProps<GlobalMixins.NineSlicePlane> {
     instance?: Instance
   }
 </script>
 
 <script lang="ts">
-  import { NineSlicePlane as PixiNineSlicePlane } from '@pixi/mesh-extras'
+  import * as PIXI from 'pixi.js'
   import Mesh, { type MeshComponentProps } from './Mesh.svelte'
 
-  type T = $$Generic<PixiNineSlicePlane>
+  type T = $$Generic<PIXI.NineSlicePlane>
   type $$Props = NineSlicePlaneComponentProps<T> & MeshComponentProps<T>
 
-  export let instance: PixiNineSlicePlane = new PixiNineSlicePlane(
+  export let instance: PIXI.NineSlicePlane = new PIXI.NineSlicePlane(
     ($$props as $$Props).texture,
     ($$props as $$Props).leftWidth,
     ($$props as $$Props).topHeight,

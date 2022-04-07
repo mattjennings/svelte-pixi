@@ -1,13 +1,13 @@
-import { getApp } from './Application.svelte'
 import { onMount } from 'svelte'
+import { getTicker } from './Ticker.svelte'
 
 export function onTick(fn: (delta: number) => any) {
-  const app = getApp()
+  const ticker = getTicker()
 
   onMount(() => {
-    app.ticker.add(fn)
+    ticker.add(fn)
     return () => {
-      app.ticker.remove(fn)
+      ticker.remove(fn)
     }
   })
 }

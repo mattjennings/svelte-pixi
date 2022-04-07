@@ -14,8 +14,7 @@ Creates a [PIXI.NineSlicePlane](https://pixijs.download/release/docs/PIXI.NineSl
 ```svelte example csr
 <script>
   import { Application, NineSlicePlane, Ticker } from 'svelte-pixi'
-  import { Texture } from '@pixi/core'
-
+  import * as PIXI from 'pixi.js'
 
   let width = 50
   let height = 50
@@ -46,7 +45,7 @@ Creates a [PIXI.NineSlicePlane](https://pixijs.download/release/docs/PIXI.NineSl
   <NineSlicePlane
     x={200}
     y={200}
-    texture={Texture.from('/assets/nine-slice-blue.png')}
+    texture={PIXI.Texture.from('/assets/nine-slice-blue.png')}
     leftWidth={12}
     topHeight={12}
     rightWidth={12}

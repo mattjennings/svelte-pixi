@@ -16,10 +16,8 @@ Note: when working with thousands of components, it is **much** more performant 
 ```svelte example csr hideStyle
 <script>
   import { onMount } from 'svelte'
-  import { Texture } from '@pixi/core'
-  import { Sprite as PixiSprite } from '@pixi/sprite'
-  import { Rectangle } from '@pixi/math'
   import { Application, ParticleContainer, Text, Ticker, Sprite } from 'svelte-pixi'
+  import * as PIXI from 'pixi.js'
 
   let width = 400
   let height = 400
@@ -30,10 +28,10 @@ Note: when working with thousands of components, it is **much** more performant 
 
   // manually create sprite instances; both for references and
   // to properly key the #each block
-  $: bugs = new Array(bugCount).fill().map(() => new PixiSprite())
+  $: bugs = new Array(bugCount).fill().map(() => new PIXI.Sprite())
 
   const boundsPadding = 100;
-  const bounds = new Rectangle(
+  const bounds = new PIXI.Rectangle(
       -boundsPadding,
       -boundsPadding,
       width + boundsPadding * 2,
@@ -88,7 +86,7 @@ Note: when working with thousands of components, it is **much** more performant 
       <!-- create & set initial props -->
       <Sprite
         instance={bug}
-        texture={Texture.from('/assets/maggot_tiny.png')}
+        texture={PIXI.Texture.from('/assets/maggot_tiny.png')}
         anchor={0.5}
         scale={0.8 + Math.random() * 0.3}
         x={Math.random() * width}

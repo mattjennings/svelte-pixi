@@ -1,19 +1,19 @@
 <script context="module" lang="ts">
   export interface AnimatedSpriteComponentProps<
-    Instance extends PixiAnimatedSprite = PixiAnimatedSprite
-  > extends ExtractProps<PixiAnimatedSprite>,
+    Instance extends PIXI.AnimatedSprite = PIXI.AnimatedSprite
+  > extends ExtractProps<PIXI.AnimatedSprite>,
       ExtractProps<GlobalMixins.Sprite> {
     instance?: Instance
   }
 </script>
 
 <script lang="ts">
-  import { AnimatedSprite as PixiAnimatedSprite } from '@pixi/sprite-animated'
+  import * as PIXI from 'pixi.js'
   import { createEventDispatcher, onMount } from 'svelte'
   import Sprite, { type SpriteComponentProps } from './Sprite.svelte'
   import { applyProps, type ExtractProps } from './util/props'
 
-  type T = $$Generic<PixiAnimatedSprite>
+  type T = $$Generic<PIXI.AnimatedSprite>
   type $$Props = AnimatedSpriteComponentProps<T> & SpriteComponentProps<T>
 
   // AnimatedSprite props
@@ -21,7 +21,7 @@
   export let textures: $$Props['textures'] = []
 
   /** @type {AnimatedSprite} AnimatedSprite instance to render */
-  export let instance: PixiAnimatedSprite = new PixiAnimatedSprite(
+  export let instance: PIXI.AnimatedSprite = new PIXI.AnimatedSprite(
     textures,
     $$props.autoUpdate
   )

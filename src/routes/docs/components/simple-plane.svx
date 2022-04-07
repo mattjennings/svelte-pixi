@@ -14,7 +14,7 @@ Creates a [PIXI.SimplePlane](https://pixijs.download/release/docs/PIXI.SimplePla
 ```svelte example csr
 <script>
   import { Application, SimplePlane, Ticker } from 'svelte-pixi'
-  import { Texture } from '@pixi/core'
+  import * as PIXI from 'pixi.js'
 
   let plane
   $: buffer = plane && plane.geometry.getBuffer('aVertexPosition')
@@ -34,7 +34,7 @@ Creates a [PIXI.SimplePlane](https://pixijs.download/release/docs/PIXI.SimplePla
   <Ticker on:tick={tick} />
   <SimplePlane
     bind:instance={plane}
-    texture={Texture.from('/assets/bg_grass.jpg')}
+    texture={PIXI.Texture.from('/assets/bg_grass.jpg')}
     vertices={10}
   />
 </Application>
