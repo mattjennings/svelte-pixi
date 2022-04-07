@@ -12,12 +12,9 @@
   "devDependencies": {
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
-    "svelte": "^3.46.4"
-  },
-  "dependencies": {
-    "keyboard-input": "^1.0.0",
-    "mdsvexamples": "^0.0.6",
-    "svelte-pixi": "latest"
+    "svelte": "^3.46.4",
+    "svelte-pixi": "next",
+    "pixi.js": "^6.3.0"
   },
   "type": "module"
 }
