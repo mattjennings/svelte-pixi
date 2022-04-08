@@ -1,6 +1,5 @@
 <script lang="ts">
   import { page } from '$app/stores'
-  import { slide } from 'svelte/transition'
   import { Icon } from '@steeze-ui/svelte-icon'
   import { ChevronDown } from '@steeze-ui/heroicons'
   import { createEventDispatcher } from 'svelte'
@@ -9,18 +8,6 @@
   const dispatch = createEventDispatcher()
 
   export let link: Link
-  export let expanded = false // $page.url.pathname.startsWith(link.base)
-
-  function fadeSlide(node, options) {
-    const slideTrans = slide(node, options)
-    return {
-      duration: options.duration,
-      css: (t, u) => `
-            ${slideTrans.css(t, u)}
-            opacity: ${t};
-        `,
-    }
-  }
 </script>
 
 {#if link.links}
@@ -37,13 +24,11 @@
         <Icon src={ChevronDown} />
       </div>
     </button>
-    {#if expanded}
-      <ul class="ml-2 pt-1 " transition:fadeSlide|local={{ duration: 200 }}>
-        {#each link.links as sublink}
-          <svelte:self link={sublink} />
-        {/each}
-      </ul>
-    {/if}
+    <ul class="ml-2 pt-1">
+      {#each link.links as sublink}
+        <svelte:self link={sublink} />
+      {/each}
+    </ul>
   </li>
 {:else}
   <li class="mb-2">

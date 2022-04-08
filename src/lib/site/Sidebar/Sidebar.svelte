@@ -12,14 +12,11 @@
   let isMenuOpen = false
 
   $: $page.url.pathname, (isMenuOpen = false)
-  $: expandedLink = links.find((link) =>
-    $page.url.pathname.startsWith(link.base)
-  )
 </script>
 
 <!-- Static sidebar for desktop -->
 <div class="hidden md:flex md:flex-shrink-0 h-screen sticky top-0">
-  <div class="w-[12rem] flex flex-col">
+  <div class="w-[15rem] flex flex-col">
     <!-- Sidebar component, swap this element with another sidebar if you like -->
     <div
       class="border-r border-gray-200  pb-4 flex flex-col flex-grow overflow-y-auto"
@@ -31,11 +28,7 @@
           </div>
           <ul>
             {#each links as link}
-              <Link
-                {link}
-                expanded={link === expandedLink}
-                on:expand={() => (expandedLink = link)}
-              />
+              <Link {link} />
             {/each}
           </ul>
         </nav>
@@ -73,11 +66,7 @@
           </div>
           <ul>
             {#each links as link}
-              <Link
-                {link}
-                expanded={link === expandedLink}
-                on:expand={() => (expandedLink = link)}
-              />
+              <Link {link} />
             {/each}
           </ul>
         </nav>
