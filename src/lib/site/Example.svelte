@@ -1,4 +1,6 @@
 <script>
+  import { browser } from '$app/env'
+
   export let src
   export let meta
 
@@ -8,7 +10,7 @@
 <div class="flex flex-col w-full overflow-hidden rounded mb-4">
   <div class="flex justify-center py-3 bg-slate-700">
     <div class="overflow-hidden rounded min-h-[400px]">
-      {#if !meta.noApp}
+      {#if !meta.noApp && browser}
         {#await import('svelte-pixi') then app}
           <svelte:component
             this={app.Application}
