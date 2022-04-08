@@ -4,7 +4,7 @@
 
 <div class="bg-black relative w-screen h-screen">
   {#if browser}
-    {#await import('$lib/site/SpaceDemo/SpaceDemo.svelte') then mod}
+    {#await import('$lib/site/SpaceDemo.svelte') then mod}
       <svelte:component this={mod.default} />
     {/await}
   {/if}
