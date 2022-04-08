@@ -13,9 +13,8 @@
     "vite": "^2.8.6"
   },
   "dependencies": {
-    "keyboard-input": "^1.0.0",
+    "svelte-check": "^1.5.2",
     "svelte-pixi": "latest",
-    "svelte-preprocess": "^4.7.3",
-    "svelte-check": "^1.5.2"
+    "svelte-preprocess": "^4.7.3"
   }
 }
