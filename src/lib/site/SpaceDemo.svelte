@@ -7,6 +7,7 @@
   import { Application, Ticker, Sprite, ParticleContainer } from 'svelte-pixi'
   import * as PIXI from 'pixi.js'
   import { onMount } from 'svelte'
+  import Loader from '$lib/Loader.svelte'
 
   let starAmount = 0
   const speed = 0.025
@@ -78,30 +79,32 @@
 
 <div class="wrapper">
   <Application bind:instance={app}>
-    <Ticker on:tick={tick} />
-    <ParticleContainer
-      {alpha}
-      properties={{
-        scale: true,
-        position: true,
-        rotation: true,
-        uvs: true,
-        alpha: true,
-      }}
-    >
-      {#each stars as star (star)}
-        {@const deg = Math.random() * Math.PI * 2}
-        {@const distance = Math.random() * 50 + 1}
-        <Sprite
-          instance={star}
-          texture={PIXI.Texture.from('/assets/star.png')}
-          anchor={{ x: 0.5, y: 0.7 }}
-          initX={Math.cos(deg) * distance}
-          initY={Math.sin(deg) * distance}
-          initZ={Math.random() * 1000 + 750}
-        />
-      {/each}
-    </ParticleContainer>
+    <Loader resources={['/assets/star.png']}>
+      <Ticker on:tick={tick} />
+      <ParticleContainer
+        {alpha}
+        properties={{
+          scale: true,
+          position: true,
+          rotation: true,
+          uvs: true,
+          alpha: true,
+        }}
+      >
+        {#each stars as star (star)}
+          {@const deg = Math.random() * Math.PI * 2}
+          {@const distance = Math.random() * 50 + 1}
+          <Sprite
+            instance={star}
+            texture={PIXI.Texture.from('/assets/star.png')}
+            anchor={{ x: 0.5, y: 0.7 }}
+            initX={Math.cos(deg) * distance}
+            initY={Math.sin(deg) * distance}
+            initZ={Math.random() * 1000 + 750}
+          />
+        {/each}
+      </ParticleContainer>
+    </Loader>
   </Application>
 </div>
 
