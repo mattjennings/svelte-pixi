@@ -14,7 +14,7 @@ npm install svelte-pixi
 
 ### Usage
 
-```svelte example csr
+```svelte example csr noApp
 <script>
   import { Application, Text } from 'svelte-pixi'
 </script>

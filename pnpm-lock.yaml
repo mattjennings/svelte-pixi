@@ -17,7 +17,7 @@ importers:
       just-camel-case: ^6.0.1
       mdsvex: ^0.10.5
       mdsvex-sveld: ^1.0.3
-      mdsvexamples: ^0.2.0
+      mdsvexamples: ^0.3.0-beta.1
       mousetrap: ^1.6.5
       pixi.js: ^6.0.0
       postcss: ^8.4.12
@@ -50,7 +50,7 @@ importers:
       just-camel-case: 6.0.1
       mdsvex: 0.10.5_svelte@3.46.4
       mdsvex-sveld: 1.0.3_e3bf6e3ebf914e8800aa5c83da00727a
-      mdsvexamples: 0.2.3_vite@2.8.6
+      mdsvexamples: 0.3.0-beta.1_vite@2.8.6
       mousetrap: 1.6.5
       pixi.js: 6.3.0
       postcss: 8.4.12
@@ -3052,14 +3052,14 @@ packages:
       vfile-message: 2.0.4
     dev: true
 
-  /mdsvexamples/0.2.3_vite@2.8.6:
-    resolution: {integrity: sha512-ElfbXmX66fh+wCJA8lp9cQW4YfGr+GVDniETQyXnyI3pl12LfODCfVcXhsq4AKsevR2g7RAHXYjNU0uKjfqAew==}
+  /mdsvexamples/0.3.0-beta.1_vite@2.8.6:
+    resolution: {integrity: sha512-bPz3IuwvypJPBELcjIZvZ9+YA4yT3Q8yD7ydjteVnepPWiwfALje/BIMB+hrhGjyBixsFWBL6Y5anrg3rkDNMg==}
     dependencies:
       abstract-syntax-tree: 2.20.5
       prism-svelte: 0.5.0
       prismjs: 1.27.0
       unist-util-visit: 4.1.0
-      unplugin: 0.5.2_vite@2.8.6
+      unplugin: 0.6.1_vite@2.8.6
       upath: 2.0.1
     transitivePeerDependencies:
       - esbuild
@@ -4122,8 +4122,8 @@ packages:
     engines: {node: '>= 10.0.0'}
     dev: true
 
-  /unplugin/0.5.2_vite@2.8.6:
-    resolution: {integrity: sha512-3SPYtus/56cxyD4jfjrnqCvb6jPxvdqJNaRXnEaG2BhNEMaoygu/39AG+LwKmiIUzj4XHyitcfZ7scGlWfEigA==}
+  /unplugin/0.6.1_vite@2.8.6:
+    resolution: {integrity: sha512-cQqRCgQ2v/Q4fPIWNVZ6sNIDdl5v8JXOnlsUOsGzT4fblTONoPWaytiYSpu5qJ9lvSDZYAQN6BRVo3XQoZMfUQ==}
     peerDependencies:
       esbuild: '>=0.13'
       rollup: ^2.50.0

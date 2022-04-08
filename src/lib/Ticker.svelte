@@ -2,6 +2,20 @@
   export function getTicker(): PIXI.Ticker {
     return getContext('pixi/ticker')
   }
+
+  export function onTick(fn: (delta: number) => any) {
+    const ticker = getTicker()
+
+    onMount(() => {
+      ticker.add(fn)
+      return () => {
+        // @ts-ignore - safely check if ticker hasn't been destroyed
+        if (ticker && ticker._head) {
+          ticker.remove(fn)
+        }
+      }
+    })
+  }
 </script>
 
 <script lang="ts">

@@ -1,7 +1,27 @@
+<script context="module" lang="ts">
+  export function getLoader(): PIXI.Loader {
+    return getContext('pixi/loader')
+  }
+
+  export function getResource<T = any>(name: string): T {
+    const loader = getLoader()
+
+    if (!loader) {
+      throw new Error('getResource requires a parent <Loader /> component')
+    }
+
+    return loader.resources[name] as any as T
+  }
+</script>
+
 <script lang="ts">
-  import type * as PIXI from 'pixi.js'
-  import { createEventDispatcher, onMount } from 'svelte'
-  import { getApp } from './Application.svelte'
+  import * as PIXI from 'pixi.js'
+  import {
+    createEventDispatcher,
+    setContext,
+    getContext,
+    onMount,
+  } from 'svelte'
 
   interface $$Slots {
     default: {
@@ -21,7 +41,6 @@
   }
 
   const dispatch = createEventDispatcher()
-  const app = getApp()
 
   /**
    * An array of urls or arguments to be passed into Pixi.js's [loader.add function](https://pixijs.download/release/docs/PIXI.Loader.html#add)
@@ -40,24 +59,28 @@
    */
   export let concurrency = 10
 
+  export let instance = new PIXI.Loader()
+
+  setContext('pixi/loader', instance)
+
   let progress = 0
   let loading = resources.length > 0
 
   onMount(() => {
     if (baseUrl) {
-      app.loader.baseUrl = baseUrl
+      instance.baseUrl = baseUrl
     }
-    app.loader.concurrency = concurrency
+    instance.concurrency = concurrency
 
     resources.forEach((url) => {
       if (Array.isArray(url)) {
         // @ts-ignore
-        app.loader.add(...url)
+        instance.add(...url)
       } else {
-        app.loader.add(url)
+        instance.add(url)
       }
     })
-    app.loader.load()
+    instance.load()
 
     function onComplete(ev) {
       dispatch('complete', ev)
@@ -81,18 +104,18 @@
       dispatch('load', ev)
     }
 
-    const onCompleteId = app.loader.onComplete.add(onComplete)
-    const onProgressId = app.loader.onProgress.add(onProgress)
-    const onErrorId = app.loader.onError.add(onError)
-    const onStartId = app.loader.onStart.add(onStart)
-    const onLoadId = app.loader.onLoad.add(onLoad)
+    const onCompleteId = instance.onComplete.add(onComplete)
+    const onProgressId = instance.onProgress.add(onProgress)
+    const onErrorId = instance.onError.add(onError)
+    const onStartId = instance.onStart.add(onStart)
+    const onLoadId = instance.onLoad.add(onLoad)
 
     return () => {
-      app.loader.onComplete.detach(onCompleteId)
-      app.loader.onProgress.detach(onProgressId)
-      app.loader.onError.detach(onErrorId)
-      app.loader.onStart.detach(onStartId)
-      app.loader.onLoad.detach(onLoadId)
+      instance.onComplete.detach(onCompleteId)
+      instance.onProgress.detach(onProgressId)
+      instance.onError.detach(onErrorId)
+      instance.onStart.detach(onStartId)
+      instance.onLoad.detach(onLoadId)
     }
   })
 </script>

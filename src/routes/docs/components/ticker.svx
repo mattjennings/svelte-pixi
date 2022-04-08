@@ -15,29 +15,45 @@ Child components can use the `onTick` function from svelte-pixi to subscribe to 
 
 ```svelte example csr
 <script>
-  import { Application, Ticker, Text } from 'svelte-pixi'
+  import { Ticker, Text } from 'svelte-pixi'
 
   let delta = 0
 </script>
 
-<Application
-  width={400}
-  height={400}
-  antialias
->
-  <Ticker
-    on:tick={(ev) => {
-      delta = ev.detail
-    }}>
-    <Text
-      x={200}
-      y={200}
-      text={`Delta: ${delta.toFixed(10)}`}
-      style={{ fill: 'white' }}
-      anchor={0.5}
-    />
-  </Ticker>
-</Application>
+<Ticker
+  on:tick={(ev) => {
+    delta = ev.detail
+  }}>
+  <Text
+    x={200}
+    y={200}
+    text={`Delta: ${delta.toFixed(10)}`}
+    style={{ fill: 'white' }}
+    anchor={0.5}
+  />
+</Ticker>
+```
+
+## onTick
+
+```svelte example csr
+<script>
+  import { Text, onTick } from 'svelte-pixi'
+
+  let text = 0
+
+  onTick((delta) => {
+    text = `Delta: ${delta.toFixed(10)}`
+  })
+</script>
+
+<Text
+  x={200}
+  y={200}
+  {text}
+  style={{ fill: 'white' }}
+  anchor={0.5}
+/>
 ```
 
 <ComponentDocs docs={docs} pixiComponentName="PIXI.Ticker"/>

@@ -13,7 +13,7 @@ Creates a [Pixi Mesh](https://pixijs.download/release/docs/PIXI.Mesh.html) objec
 
 ```svelte example csr
 <script>
-  import { Application, Mesh, Ticker } from 'svelte-pixi'
+  import { Mesh, onTick } from 'svelte-pixi'
   import * as PIXI from 'pixi.js'
 
   let rotation = 0
@@ -71,23 +71,21 @@ Creates a [Pixi Mesh](https://pixijs.download/release/docs/PIXI.Mesh.html) objec
 
   const shader = PIXI.Shader.from(vertexSrc, fragmentSrc, uniforms)
 
-  function tick({ detail: delta }) {
+  onTick((delta) => {
       rotation += 0.01 * delta;
       shader.uniforms.time += 0.1 * delta;
-  }
+  })
 </script>
 
-<Application width={400} height={400} antialias>
-  <Ticker on:tick={tick} />
-  <Mesh
-    x={200}
-    y={200}
-    scale={2}
-    {geometry}
-    {shader}
-    {rotation}
-  />
-</Application>
+
+<Mesh
+  x={200}
+  y={200}
+  scale={2}
+  {geometry}
+  {shader}
+  {rotation}
+/>
 ```
 
 <ComponentDocs docs={docs} pixiComponentName="PIXI.Mesh" />

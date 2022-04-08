@@ -13,21 +13,17 @@ Sprites are the base for all textured objects that are rendered to the screen
 
 ```svelte example csr
 <script>
-  import { Application, Sprite, Loader } from 'svelte-pixi'
+  import { Sprite, Loader } from 'svelte-pixi'
   import * as PIXI from 'pixi.js'
 </script>
 
-<Application width={400} height={400}>
-  <Loader resources={['/assets/adventurer.png']}>
-    <Sprite
-      texture={PIXI.Texture.from('/assets/adventurer.png')}
-      anchor={0.5}
-      scale={2}
-      x={200}
-      y={200}
-    />
-  </Loader>
-</Application>
+<Sprite
+  texture={PIXI.Texture.from('/assets/adventurer.png')}
+  anchor={0.5}
+  scale={2}
+  x={200}
+  y={200}
+/>
 ```
 
 <ComponentDocs docs={docs} pixiComponentName="PIXI.Sprite"/>

@@ -13,7 +13,7 @@ Just like its native Pixi counterpart, it sets up the [Renderer](/docs/component
 
 ## Usage
 
-```svelte example csr
+```svelte example csr noApp
 <script>
   import { Application, Text } from 'svelte-pixi'
 </script>
@@ -33,7 +33,7 @@ Just like its native Pixi counterpart, it sets up the [Renderer](/docs/component
 
 If you want to customize the element that the canvas is rendered into, you can use the `view` slot. The canvas will be appended as a child of the slot element.
 
-```svelte example csr
+```svelte example csr noApp
 <script>
   import { Application, Text } from 'svelte-pixi'
 </script>

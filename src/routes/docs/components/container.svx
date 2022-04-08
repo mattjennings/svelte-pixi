@@ -16,16 +16,14 @@ When child components are rendered inside, their coordinates become local to the
 ```svelte example csr
 <script>
   import { onMount } from 'svelte'
-  import { Application, Container, Text, Ticker } from 'svelte-pixi'
+  import { Container, Text, onTick } from 'svelte-pixi'
 
   let x = 200
   let y = 100
   let direction = -1
 
   // move container back and forth
-  function tick(ev) {
-    const delta = ev.detail
-
+  onTick((delta) =>{
     if (x <= 0) {
       direction = 1
     } else if (x >= 340) {
@@ -33,17 +31,14 @@ When child components are rendered inside, their coordinates become local to the
     }
 
     x += 2 * direction * delta
-  }
+  })
 
 </script>
 
-<Application width={400} height={400} antialias>
-  <Ticker on:tick={tick} />
-  <Container {x} {y}>
-    <Text text="Hello" style={{ fill: 'white' }} />
-    <Text text="World" y={60} style={{ fill: 'white' }} />
-  </Container>
-</Application>
+<Container {x} {y}>
+  <Text text="Hello" style={{ fill: 'white' }} />
+  <Text text="World" y={60} style={{ fill: 'white' }} />
+</Container>
 ```
 
 <ComponentDocs docs={docs} pixiComponentName="PIXI.Container" />

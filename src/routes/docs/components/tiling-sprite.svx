@@ -12,34 +12,28 @@ title: TilingSprite
 ```svelte example csr
 <script>
   import { onMount } from 'svelte'
-  import { Application, TilingSprite, Loader, Ticker } from 'svelte-pixi'
+  import { TilingSprite, Loader, onTick } from 'svelte-pixi'
   import * as PIXI from 'pixi.js'
 
   let count = 0
   let scale = { x: 1, y: 1 }
   let tilePosition = { x: 0, y: 0 }
 
-
-  function tick() {
-    count += 0.005
+  onTick((delta) => {
+    count += 0.01 * delta
 
     scale = { x: 2 + Math.sin(count), y: 2 + Math.cos(count) }
     tilePosition = { x: tilePosition.x + 1, y: tilePosition.y + 1 }
-  }
+  })
 </script>
 
-<Application width={400} height={400} antialias>
-  <Loader resources={['/assets/tiling-sprite.jpeg']}>
-    <Ticker on:tick={tick} />
-    <TilingSprite
-      texture={PIXI.Texture.from('/assets/tiling-sprite.jpeg')}
-      {tilePosition}
-      {scale}
-      width={400}
-      height={400}
-    />
-  </Loader>
-</Application>
+<TilingSprite
+  texture={PIXI.Texture.from('/assets/tiling-sprite.jpeg')}
+  {tilePosition}
+  {scale}
+  width={400}
+  height={400}
+/>
 ```
 
 <ComponentDocs docs={docs} pixiComponentName="PIXI.TilingSprite" />

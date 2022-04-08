@@ -13,7 +13,7 @@ const config = defineConfig({
   },
 
   remarkPlugins: [
-    [examples, { ExampleComponent: '/src/lib/site/Example.svelte' }],
+    [examples, { defaults: { Wrapper: '/src/lib/site/Example.svelte' } }],
     sveld,
   ],
 

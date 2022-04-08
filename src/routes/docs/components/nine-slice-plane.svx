@@ -13,49 +13,34 @@ Creates a [PIXI.NineSlicePlane](https://pixijs.download/release/docs/PIXI.NineSl
 
 ```svelte example csr
 <script>
-  import { Application, NineSlicePlane, Ticker } from 'svelte-pixi'
   import * as PIXI from 'pixi.js'
+  import { NineSlicePlane, onTick } from 'svelte-pixi'
 
-  let width = 50
-  let height = 50
-  let grow = false
+  let width = 100
+  let height = 100
+  let counter = 0
 
-  function tick({ detail: delta }) {
-    const amt = delta / 2
+  onTick(delta => {
+    counter += delta * 0.04
 
-    if (grow) {
-      width += amt
-      height += amt
-
-      if (width > 150) {
-        grow = false
-      }
-    } else {
-      width -= amt
-      height -= amt
-      if (width < 50) {
-        grow = true
-      }
-    }
-  }
+    width = 100 + Math.cos(counter) * 20
+    height = 100 + Math.sin(counter) * 20
+  })
 </script>
 
-<Application width={400} height={400} antialias>
-  <Ticker on:tick={tick} />
-  <NineSlicePlane
-    x={200}
-    y={200}
-    texture={PIXI.Texture.from('/assets/nine-slice-blue.png')}
-    leftWidth={12}
-    topHeight={12}
-    rightWidth={12}
-    bottomHeight={12}
-    {width}
-    {height}
-    pivot={{ x: width/2, y: height/2}}
-    scale={2}
-  />
-</Application>
+<NineSlicePlane
+  x={200}
+  y={200}
+  texture={PIXI.Texture.from('/assets/nine-slice-blue.png')}
+  leftWidth={12}
+  topHeight={12}
+  rightWidth={12}
+  bottomHeight={12}
+  {width}
+  {height}
+  pivot={{ x: width/2, y: height/2}}
+  scale={2}
+/>
 ```
 
 <ComponentDocs docs={docs} pixiComponentName="PIXI.NineSlicePlane" />

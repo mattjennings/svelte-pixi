@@ -17,70 +17,55 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 
 ```svelte example csr
 <script>
-  import { Application, AnimatedSprite, Loader } from 'svelte-pixi'
   import * as PIXI from 'pixi.js'
+  import { AnimatedSprite, getResource } from 'svelte-pixi'
 </script>
 
-<Application width={400} height={400} antialias>
-  <Loader resources={['/assets/adventurer-spritesheet.json']}>
-    <AnimatedSprite
-      textures={[
-        PIXI.Texture.from('adventurer-idle-00.png'),
-        PIXI.Texture.from('adventurer-idle-01.png'),
-        PIXI.Texture.from('adventurer-idle-02.png'),
-      ]}
-      playing
-      animationSpeed={0.1}
-      x={200}
-      y={200}
-      anchor={0.5}
-      scale={2}
-    />
-  </Loader>
-</Application>
+<Loader resources={['/assets/adventurer-spritesheet.json']}>
+  <AnimatedSprite
+    textures={[
+      PIXI.Texture.from('adventurer-idle-00.png'),
+      PIXI.Texture.from('adventurer-idle-01.png'),
+      PIXI.Texture.from('adventurer-idle-02.png'),
+    ]}
+    playing
+    animationSpeed={0.1}
+    x={200}
+    y={200}
+    anchor={0.5}
+    scale={2}
+  />
+</Loader>
 ```
 
 ### Multiple Animations from Spritesheet
 
-```svelte example csr
+```svelte example csr resources=["/assets/adventurer-spritesheet.json"]
 <script>
-  import { Application, AnimatedSprite, Loader } from 'svelte-pixi'
+  import { AnimatedSprite, Loader, getResource } from 'svelte-pixi'
 
-  let spritesheet
-  let animation = 'adventurer-idle'
-
-  function getRandomIndex(arr) {
-    return Math.floor(Math.random() * arr.length)
-  }
+  // loaded from parent <Loader />
+  const { spritesheet } = getResource('/assets/adventurer-spritesheet.json')
+  let textures = spritesheet.animations['adventurer-idle']
 
   function changeAnimation() {
-    // spritesheet.animation holds all of our animation keys, so we'll
-    // pick one at random
+    // pick an an animation from the spritesheet at random
     const keys = Object.keys(spritesheet.animations)
-    animation = keys[getRandomIndex(keys)]
+    const randomIndex = Math.floor(Math.random() * keys.length)
+    textures = spritesheet.animations[keys[randomIndex]]
   }
 </script>
 
-<Application width={400} height={400} antialias>
-  <Loader
-    resources={['/assets/adventurer-spritesheet.json']}
-    on:complete={({ detail }) => {
-      spritesheet =
-        detail.resources['/assets/adventurer-spritesheet.json'].spritesheet
-    }}
-  >
-    <AnimatedSprite
-      textures={spritesheet.animations[animation]}
-      playing
-      animationSpeed={0.1}
-      x={200}
-      y={200}
-      anchor={0.5}
-      scale={2}
-      on:loop={changeAnimation}
-    />
-  </Loader>
-</Application>
+<AnimatedSprite
+  {textures}
+  playing
+  animationSpeed={0.1}
+  x={200}
+  y={200}
+  anchor={0.5}
+  scale={2}
+  on:loop={changeAnimation}
+/>
 ```
 
 <ComponentDocs docs={docs} pixiComponentName="PIXI.AnimatedSprite"/>

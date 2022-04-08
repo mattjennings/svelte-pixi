@@ -19,20 +19,18 @@ To split a line you can use '\n' in your text string, or, on the style prop, cha
 
 ```svelte example csr
 <script>
-  import { Application, Text } from 'svelte-pixi'
+  import { Text } from 'svelte-pixi'
 </script>
 
-<Application width={400} height={400} antialias>
-  <Text
-    text="Hello World"
-    anchor={0.5}
-    x={200}
-    y={200}
-    style={{
-      fill: 'white',
-    }}
-  />
-</Application>
+<Text
+  text="Hello World"
+  anchor={0.5}
+  x={200}
+  y={200}
+  style={{
+    fill: 'white',
+  }}
+/>
 ```
 
 <ComponentDocs docs={docs} pixiComponentName="PIXI.Text" />

@@ -11,26 +11,24 @@ Creates a [Pixi BitmapText](https://pixijs.download/release/docs/PIXI.BitmapText
 
 ## Usage
 
-```svelte example csr
+```svelte example csr bg="white"
 <script>
   import { Application, Loader, BitmapText } from 'svelte-pixi'
 </script>
 
-<Application width={400} height={400} antialias backgroundColor={0xffffff}>
-  <Loader
-    resources={
-      [['desyrel', '/assets/desyrel.xml']]
-    }
-  >
-    <BitmapText
-      text={"the fox jumps over\nthe lazy dog"}
-      x={200}
-      y={200}
-      anchor={0.5}
-      style={{ fontName: 'Desyrel', fontSize: 48, align: 'center' }}
-    />
-  </Loader>
-</Application>
+<Loader
+  resources={
+    [['desyrel', '/assets/desyrel.xml']]
+  }
+>
+  <BitmapText
+    text={"the fox jumps over\nthe lazy dog"}
+    x={200}
+    y={200}
+    anchor={0.5}
+    style={{ fontName: 'Desyrel', fontSize: 48, align: 'center' }}
+  />
+</Loader>
 ```
 
 <ComponentDocs docs={docs} pixiComponentName="PIXI.BitmapText" />

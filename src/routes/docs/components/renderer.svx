@@ -13,7 +13,7 @@ Creates a [Pixi Renderer](https://pixijs.download/release/docs/PIXI.Renderer.htm
 
 When you use `Renderer`, you are responsible for calling its instance's render method. Typically you would do that with a [Ticker](/docs/components/ticker).
 
-```svelte example csr
+```svelte example csr noApp
 <script>
   import { Renderer, Ticker, Text } from 'svelte-pixi'
 
@@ -48,7 +48,7 @@ When you use `Renderer`, you are responsible for calling its instance's render m
 
 If you want to customize the element that the canvas is rendered into, you can use the `view` slot. The canvas will be appended as a child of the slot element.
 
-```svelte example csr
+```svelte example csr noApp
 <script>
   import { Renderer, Ticker, Text } from 'svelte-pixi'
 

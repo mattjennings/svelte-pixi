@@ -9,7 +9,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
 ```svelte example csr
 <script>
   import * as PIXI from 'pixi.js'
-  import { Application, Text, Sprite, Loader } from 'svelte-pixi'
+  import { Text, Sprite } from 'svelte-pixi'
   import { spring } from 'svelte/motion'
 
   let dragging = false
@@ -47,29 +47,24 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
   }
 </script>
 
-<Application
-  width={400}
-  height={400}
-  antialias>
-    <Text
-      x={200}
-      y={300}
-      anchor={0.5}
-      text="Try clicking and dragging the mushroom"
-      style={{ fill: 'white', fontSize: 20 }} />
-    <Sprite
-      texture={PIXI.Texture.from('/assets/mushroom.png')}
-      anchor={0.5}
-      x={$position.x}
-      y={$position.y}
-      rotation={($position.x - startingPosition.x) * 0.02}
-      interactive
-      buttonMode
-      on:pointerdown={handleDragStart}
-      on:pointerup={handleDragEnd}
-      on:pointerupoutside={handleDragEnd}
-      on:mousemove={handleDrag} />
-</Application>
+<Text
+  x={200}
+  y={300}
+  anchor={0.5}
+  text="Try clicking and dragging the mushroom"
+  style={{ fill: 'white', fontSize: 20 }} />
+<Sprite
+  texture={PIXI.Texture.from('/assets/mushroom.png')}
+  anchor={0.5}
+  x={$position.x}
+  y={$position.y}
+  rotation={($position.x - startingPosition.x) * 0.02}
+  interactive
+  buttonMode
+  on:pointerdown={handleDragStart}
+  on:pointerup={handleDragEnd}
+  on:pointerupoutside={handleDragEnd}
+  on:mousemove={handleDrag} />
 ```
 
 ### Tween
@@ -77,11 +72,10 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
 ```svelte example csr
 <script>
   import { onMount} from 'svelte'
-  import { Application,  Graphics, Ticker } from 'svelte-pixi'
+  import { Graphics, onTick } from 'svelte-pixi'
   import { tweened } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
 
-  let app
   const barWidth = 200
 
   const progress = tweened(barWidth / 5, {
@@ -91,7 +85,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
 
   let step = 0
 
-  function tick() {
+  onTick(() => {
     step += 1
 
     if (step > 100) {
@@ -103,25 +97,18 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
         $progress = barWidth / 5
       }
     }
-  }
+  })
 
 </script>
 
-<Application
-  bind:instance={app}
-  width={400}
-  height={400}
-  antialias>
-  <Ticker on:tick={tick} />
-  <Graphics
-    x={200}
-    y={200}
-    pivot={{ x: barWidth / 2 }}
-    draw={graphics => {
-      graphics.clear()
-      graphics.beginFill(0xff0000)
-      graphics.drawRect(0, 0, $progress, 50)
-      graphics.endFill()
-    }}/>
-</Application>
+<Graphics
+  x={200}
+  y={200}
+  pivot={{ x: barWidth / 2 }}
+  draw={graphics => {
+    graphics.clear()
+    graphics.beginFill(0xff0000)
+    graphics.drawRect(0, 0, $progress, 50)
+    graphics.endFill()
+  }}/>
 ```
