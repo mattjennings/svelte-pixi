@@ -18,7 +18,7 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 ```svelte example csr
 <script>
   import * as PIXI from 'pixi.js'
-  import { AnimatedSprite, getResource } from 'svelte-pixi'
+  import { AnimatedSprite, Loader } from 'svelte-pixi'
 </script>
 
 <Loader resources={['/assets/adventurer-spritesheet.json']}>
