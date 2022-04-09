@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
   /**
    * This is recreated from a pixi.js example
    *
@@ -9,7 +9,6 @@
   import { onMount } from 'svelte'
   import Loader from '$lib/Loader.svelte'
 
-  let starAmount = 0
   const speed = 0.025
   const fov = 20
   const starBaseSize = 0.05
@@ -17,9 +16,31 @@
   let app
   let width
   let height
+
+  let container
   let alpha = 0
   let cameraZ = 0
-  $: stars = new Array(starAmount).fill(null).map(() => new PIXI.Sprite())
+  let starAmount = 0
+  let stars = []
+
+  $: {
+    if (container) {
+      stars.forEach((star) => star.destroy())
+      stars = new Array(starAmount).fill(null).map(() => {
+        const star = new PIXI.Sprite(PIXI.Texture.from('/assets/star.png'))
+        const deg = Math.random() * Math.PI * 2
+        const distance = Math.random() * 50 + 1
+        star.anchor.set(0.5, 0.7)
+        star.initX = Math.cos(deg) * distance
+        star.initY = Math.sin(deg) * distance
+        star.initZ = Math.random() * 1000 + 750
+
+        return star
+      })
+
+      container.addChild(...stars)
+    }
+  }
 
   function tick({ detail: delta }) {
     if (alpha < 1) {
@@ -61,17 +82,14 @@
     })
   }
 
-  // set initial star amount based on device width
-  onMount(() => {
-    if (width < 700) {
-      starAmount = 500
-    } else {
-      starAmount = 3000
-    }
-  })
-
   $: if (width && height) {
     app.renderer.resize(width, height)
+
+    if (width < 700) {
+      starAmount = 1000
+    } else {
+      starAmount = 5000
+    }
   }
 </script>
 
@@ -82,7 +100,9 @@
     <Loader resources={['/assets/star.png']}>
       <Ticker on:tick={tick} />
       <ParticleContainer
+        bind:instance={container}
         {alpha}
+        autoResize
         properties={{
           scale: true,
           position: true,
@@ -90,20 +110,7 @@
           uvs: true,
           alpha: true,
         }}
-      >
-        {#each stars as star (star)}
-          {@const deg = Math.random() * Math.PI * 2}
-          {@const distance = Math.random() * 50 + 1}
-          <Sprite
-            instance={star}
-            texture={PIXI.Texture.from('/assets/star.png')}
-            anchor={{ x: 0.5, y: 0.7 }}
-            initX={Math.cos(deg) * distance}
-            initY={Math.sin(deg) * distance}
-            initZ={Math.random() * 1000 + 750}
-          />
-        {/each}
-      </ParticleContainer>
+      />
     </Loader>
   </Application>
 </div>

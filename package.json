@@ -1,6 +1,6 @@
 {
   "name": "svelte-pixi",
-  "version": "0.1.0-alpha.15",
+  "version": "0.1.0-alpha.16",
   "description": "Create Pixi.js apps with Svelte 3",
   "repository": "https://github.com/mattjennings/svelte-pixi",
   "author": "Matt Jennings",
@@ -44,6 +44,7 @@
     "svelte": "^3.46.4",
     "svelte-check": "^2.4.6",
     "svelte-focus-trap": "^1.2.0",
+    "svelte-intersection-observer": "^0.10.0",
     "svelte-preprocess": "^4.10.4",
     "svelte2tsx": "^0.5.6",
     "tailwindcss": "^3.0.23",

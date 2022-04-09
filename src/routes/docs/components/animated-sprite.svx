@@ -15,7 +15,7 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 
 ### Spritesheet
 
-```svelte example csr
+```html example csr
 <script>
   import * as PIXI from 'pixi.js'
   import { AnimatedSprite, Loader } from 'svelte-pixi'
@@ -40,7 +40,7 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 
 ### Multiple Animations from Spritesheet
 
-```svelte example csr resources=["/assets/adventurer-spritesheet.json"]
+```html example csr resources=["/assets/adventurer-spritesheet.json"]
 <script>
   import { AnimatedSprite, Loader, getResource } from 'svelte-pixi'
 
@@ -59,12 +59,12 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 <AnimatedSprite
   {textures}
   playing
-  animationSpeed={0.1}
-  x={200}
-  y={200}
-  anchor={0.5}
-  scale={2}
-  on:loop={changeAnimation}
+  animationSpeed="{0.1}"
+  x="{200}"
+  y="{200}"
+  anchor="{0.5}"
+  scale="{2}"
+  on:loop="{changeAnimation}"
 />
 ```
 

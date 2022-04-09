@@ -28,6 +28,7 @@ importers:
       svelte: ^3.46.4
       svelte-check: ^2.4.6
       svelte-focus-trap: ^1.2.0
+      svelte-intersection-observer: ^0.10.0
       svelte-preprocess: ^4.10.4
       svelte2tsx: ^0.5.6
       tailwindcss: ^3.0.23
@@ -61,6 +62,7 @@ importers:
       svelte: 3.46.4
       svelte-check: 2.4.6_116eeb6b28be41779e5e81ff686c3b09
       svelte-focus-trap: 1.2.0
+      svelte-intersection-observer: 0.10.0
       svelte-preprocess: 4.10.4_e3bf6e3ebf914e8800aa5c83da00727a
       svelte2tsx: 0.5.6_svelte@3.46.4+typescript@4.5.5
       tailwindcss: 3.0.23_autoprefixer@10.4.4
@@ -3882,6 +3884,10 @@ packages:
       svelte: '>=3.19.0'
     dependencies:
       svelte: 3.46.4
+    dev: true
+
+  /svelte-intersection-observer/0.10.0:
+    resolution: {integrity: sha512-GdOTMSrRpoBciMe+NbocsHOBvqKJ5OiL5H8Jz4mBoDGHba9VOI4oGeXAmMOmh8mi5gq95+0b0DVI+6alcQ7TCA==}
     dev: true
 
   /svelte-preprocess/4.10.4_e3bf6e3ebf914e8800aa5c83da00727a:

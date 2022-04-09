@@ -1,0 +1,178 @@
+---
+title: Optimizing Performance
+---
+
+This page will outline a few scenarios where you may be able to optimize performance of your application. Svelte is very performant so you won't have to think about it too much -- however, it does have its limits!
+
+## Rendering Many Components
+
+You may find yourself needing to render and update many components at once. Take the [app on the homepage](/), for example. If we were to recreate this, we might imagine every Star as a `<Sprite />` component that receives props every frame.
+
+```svelte example csr hideStyle
+<script>
+  import * as PIXI from 'pixi.js'
+  import { Sprite, onTick } from 'svelte-pixi'
+  import FPS from './_/FPS.svelte'
+
+  const width = 400
+  const height = 400
+  const speed = 0.025
+  const fov = 20
+  const starSize = 0.05
+
+  let cameraZ = 0
+  let amount = 100
+
+  // create an array describing each star's initial position
+  $: stars = new Array(amount).fill(null).map(() => {
+      const deg = Math.random() * Math.PI * 2
+      const distance = Math.random() * 50 + 1
+
+      return ({
+          x: Math.cos(deg) * distance,
+          y: Math.sin(deg) * distance,
+          z: Math.random() * 1000 + 750
+      })
+    })
+
+  // move the camera forward
+  onTick(delta => {
+    cameraZ += delta * 10 * speed
+  })
+</script>
+
+{#each stars as star}
+  <!-- calculate new position based on cameraZ -->
+  {@const z = star.z - cameraZ}
+  {@const distance = Math.max(0, (2000 - (z)) / 2000) }
+
+  <Sprite
+    {...star}
+    texture={PIXI.Texture.from('/assets/star.png')}
+    anchor={{ x: 0.5, y: 0.7 }}
+    scale={{ x: distance * starSize, y: distance * starSize }}
+    x={star.x * (fov / z) * width + width / 2}
+    y={star.y * (fov / z) * width + height / 2}
+  />
+{/each}
+
+<FPS />
+
+<label>
+  <span>Amount: {amount}</span>
+  <input type="range" min="0" max="10000" step="100" bind:value={amount}/>
+</label>
+
+<style lang="postcss">
+  label {
+    @apply flex flex-col;
+  }
+
+  span {
+    @apply text-white;
+  }
+</style>
+```
+
+It works pretty good for 100 stars, but try increasing the slider to around 5000.
+
+Not great is it? There are a few reasons why:
+
+1. Updating props for thousands of components is slow. Even if these were HTML elements, it would be just as bad. At this scale it's always best to mutate the underlying `PIXI.Sprite` instance.
+
+2. Mounting/unmounting thousands of components is slow. This is pretty noticeable as you move the slider around and see the app stuttering.
+
+Let's take another approach by using PIXI a bit more natively:
+
+```svelte example csr hideStyle
+<script>
+  import * as PIXI from 'pixi.js'
+  import { Sprite, onTick, Container } from 'svelte-pixi'
+  import { onMount } from 'svelte'
+  import FPS from './_/FPS.svelte'
+
+  const width = 400
+  const height = 400
+  const speed = 0.025
+  const fov = 20
+  const starSize = 0.05
+
+  let container
+  let cameraZ = 0
+  let amount = 100
+  let stars = []
+
+  // create stars
+  $: {
+    // cleanup previous stars
+    stars.forEach(star => star.destroy())
+
+    if (container) {
+      stars = new Array(amount).fill(null).map(() => {
+        const star = new PIXI.Sprite(PIXI.Texture.from('/assets/star.png'))
+
+        const deg = Math.random() * Math.PI * 2
+        const distance = Math.random() * 50 + 1
+        star.initX = Math.cos(deg) * distance
+        star.initY = Math.sin(deg) * distance
+        star.initZ = Math.random() * 1000 + 750
+
+        star.x = star.initX
+        star.y = star.initY
+        star.z = star.initZ
+        return star
+      })
+
+      if (stars.length) {
+        container.addChild(...stars)
+      }
+    }
+  }
+
+  // move the camera forward
+  onTick(delta => {
+    cameraZ += delta * 10 * speed
+
+    stars.forEach(star => {
+      const z = star.z - cameraZ
+      const distance = Math.max(0, (2000 - (z)) / 2000)
+
+      star.scale.set(distance * starSize)
+      star.anchor.set(0.5, 0.7)
+
+      star.x = star.initX * (fov / z) * width + width / 2
+      star.y = star.initY * (fov / z) * width + height / 2
+    })
+  })
+
+  onMount(() => {
+    // make sure to destroy stars on unmount
+    return () => {
+      stars.forEach(star => star.destroy())
+    }
+  })
+</script>
+
+<FPS />
+
+<Container bind:instance={container} />
+
+<label>
+  <span>Amount: {amount}</span>
+  <input type="range" min="0" max="10000" step="100" bind:value={amount}/>
+</label>
+
+<style lang="postcss">
+  label {
+    @apply flex flex-col;
+  }
+
+  span {
+    @apply text-white;
+  }
+</style>
+```
+
+Performance is much better now and there's hardly any stutter when adding/removing stars.
+
+If you wanted to squeeze out a bit more you could use a [ParticleContainer](/docs/components/particle-container) instead of a regular `Container`.

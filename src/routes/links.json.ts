@@ -12,7 +12,7 @@ const order = [
   '/docs/intro',
   '/docs/components',
   '/docs/animation',
-  '/docs/guides',
+  '/docs/advanced',
 ]
 
 // group /docs pages into categories (by folder) of links

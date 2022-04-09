@@ -23,7 +23,8 @@
     >
       <div class="flex-grow mt-5 flex flex-col">
         <nav class="flex-1 bg-white px-2 space-y-1">
-          <div class="flex justify-end">
+          <div class="flex justify-between">
+            <a href="/" class="pl-3 text-2xl font-bold"> svelte-pixi </a>
             <GitHub />
           </div>
           <ul>
@@ -61,7 +62,8 @@
     >
       <div class="mt-5 flex-1 h-0 overflow-y-auto">
         <nav class="px-2 space-y-1">
-          <div class="flex justify-end">
+          <div class="flex justify-between">
+            <a href="/" class="pl-3 text-2xl font-bold"> svelte-pixi </a>
             <GitHub />
           </div>
           <ul>

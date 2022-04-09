@@ -11,20 +11,16 @@
   <div class="flex justify-center py-3 bg-slate-700">
     <div class="overflow-hidden rounded min-h-[400px]">
       {#if !meta.noApp && browser}
-        {#await import('svelte-pixi') then app}
+        {#await import('$lib/site/ExampleApplication.svelte') then app}
           <svelte:component
-            this={app.Application}
+            this={app.default}
             width={meta.width || 400}
             height={meta.height || 400}
             backgroundColor={meta.bg === 'white' ? 0xffffff : undefined}
             antialias
+            resources={meta.resources ? meta.resources : []}
           >
-            <svelte:component
-              this={app.Loader}
-              resources={meta.resources ? meta.resources : []}
-            >
-              <slot name="example" />
-            </svelte:component>
+            <slot name="example" />
           </svelte:component>
         {/await}
       {:else}
