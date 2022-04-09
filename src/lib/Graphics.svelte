@@ -1,32 +1,61 @@
-<script context="module" lang="ts">
-  import Container, { type ContainerComponentProps } from './Container.svelte'
-  import type { ExtractProps } from './util/props'
-
-  export interface GraphicsComponentProps<
-    Instance extends PIXI.Graphics = PIXI.Graphics
-  > extends ExtractProps<PIXI.Graphics>,
-      ExtractProps<GlobalMixins.Graphics> {
-    instance?: Instance
-    draw: (graphics: PIXI.Graphics) => any
-  }
-</script>
-
 <script lang="ts">
+  /**
+   * @restProps {Container}
+   */
   import * as PIXI from 'pixi.js'
+  import Container from './Container.svelte'
+  import { applyProp } from './util/props'
 
   type T = $$Generic<PIXI.Graphics>
-  type $$Props = GraphicsComponentProps<T> & ContainerComponentProps<T>
+  type $$Props = Container<T>['$$prop_def'] & {
+    draw?: (graphics: PIXI.Graphics) => any
+    blendMode?: PIXI.Graphics['blendMode']
+    pluginName?: PIXI.Graphics['pluginName']
+    tint?: PIXI.Graphics['tint']
+  }
 
   /**
-   * @type { (graphics: Graphics) => any} Call your draw functions here
+   * Call your drawing functions on the PIXI.Graphics instance here
+   * @type { (graphics: Graphics) => any}
    */
-  export let draw: $$Props['draw']
+  export let draw: $$Props['draw'] = undefined
 
-  /** @type {Graphics} Graphics instance to render */
-  export let instance: PIXI.Graphics = new PIXI.Graphics()
+  /**
+   * The blend mode to be applied to the graphic shape.
+   * Apply a value of PIXI.BLEND_MODES.NORMAL to reset the blend mode.
+   * Note that, since each primitive in the GraphicsGeometry list is rendered sequentially,
+   * modes such as PIXI.BLEND_MODES.ADD and PIXI.BLEND_MODES.MULTIPLY will be applied per-primitive.
+   *
+   * @type {PIXI.BLEND_MODES}
+   */
+  export let blendMode: $$Props['blendMode'] = PIXI.BLEND_MODES.NORMAL
 
-  // because Graphics is not immutable, we can call draw whenever it changes
-  $: draw(instance)
+  /**
+   * Renderer plugin for batching
+   *
+   * @type {string}
+   */
+  export let pluginName: $$Props['pluginName'] = undefined
+
+  /**
+   * The tint applied to each graphic shape. This is a hex value.
+   * A value of 0xFFFFFF will remove any tint effect.
+   *
+   * @type {number}
+   */
+  export let tint: $$Props['tint'] = 0xffffff
+
+  /**
+   * The PIXI.Graphics instance. Can be set or bound to.
+   *
+   * @type {PIXI.Graphics}
+   */
+  export let instance: T = new PIXI.Graphics() as T
+
+  $: applyProp(instance, { blendMode })
+  $: applyProp(instance, { pluginName })
+  $: applyProp(instance, { tint })
+  $: draw?.(instance)
 </script>
 
 <Container

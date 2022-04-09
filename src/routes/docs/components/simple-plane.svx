@@ -1,13 +1,9 @@
 ---
 title: SimplePlane
+pixi: https://pixijs.download/release/docs/PIXI.SimplePlane.html
 ---
 
-<script>
-  import docs from '$lib/SimplePlane.svelte?raw&sveld' 
-  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
-</script>
-
-Creates a [PIXI.SimplePlane](https://pixijs.download/release/docs/PIXI.SimplePlane.html) object.
+The SimplePlane allows you to draw a texture across several points and then manipulate these points
 
 ## Usage
 
@@ -36,5 +32,3 @@ Creates a [PIXI.SimplePlane](https://pixijs.download/release/docs/PIXI.SimplePla
   vertices={10}
 />
 ```
-
-<ComponentDocs docs={docs} pixiComponentName="PIXI.SimplePlane" />

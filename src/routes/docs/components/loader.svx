@@ -1,15 +1,11 @@
 ---
 title: Loader
+pixi: https://pixijs.download/release/docs/PIXI.Loader.html
 ---
 
-<script>
-  import docs from '$lib/Loader.svelte?raw&sveld' 
-  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
-</script>
-
 Preloads the assets (textures, audio, etc) used by your components.
-It contains two slots, `loading` and default. The default slot will not
-render until loading has finished.
+It contains two slots, `loading` and the default. The default slot will not
+render until the Loader has finished.
 
 You can show progress by using the `progress` prop from the `loading` slot.
 
@@ -38,5 +34,3 @@ You can show progress by using the `progress` prop from the `loading` slot.
   </Loader>
 </Application>
 ```
-
-<ComponentDocs docs={docs} />

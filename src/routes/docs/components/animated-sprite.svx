@@ -1,13 +1,11 @@
 ---
 title: AnimatedSprite
-pixi: https://pixijs.download/release/docs/AnimatedSprite.html
+pixi: https://pixijs.download/release/docs/PIXI.AnimatedSprite.html
 ---
 
-An AnimatedSprite is a simple way to display an animation depicted by a list of textures.
+A simple way to display an animation depicted by a list of textures.
 
-I recommend using spritesheets created by TexturePacker ([they have a great tutorial on it](https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-and-animations-with-pixijs5)).
-
-If you don't want to use spritesheets, you can simply just pass in an array of your desired textures.
+I recommend using spritesheets created by TexturePacker ([they have a great tutorial on it](https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-and-animations-with-pixijs5)). If you don't want to use spritesheets, you can simply just pass in an array of your desired textures.
 
 ## Spritesheet
 

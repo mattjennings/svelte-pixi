@@ -35,7 +35,7 @@
 </script>
 
 <svelte:window bind:scrollY />
-<aside class="hidden lg:block sticky h-screen top-16 pr-2 w-[13rem]">
+<aside class="hidden lg:block sticky h-screen top-12 pt-4 pr-2 w-[13rem]">
   {#if headings.length}
     <h6 id="__sections" class="uppercase text-slate-800 font-bold text-xs">
       On This Page

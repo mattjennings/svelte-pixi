@@ -1,13 +1,9 @@
 ---
 title: NineSlicePlane
+pixi: https://pixijs.download/release/docs/PIXI.NineSlicePlane.html
 ---
 
-<script>
-  import docs from '$lib/NineSlicePlane.svelte?raw&sveld' 
-  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
-</script>
-
-Creates a [PIXI.NineSlicePlane](https://pixijs.download/release/docs/PIXI.NineSlicePlane.html) object.
+Allows you to stretch a texture using 9-slice scaling. The corners will remain unscaled (useful for buttons with rounded corners for example) and the other areas will be scaled horizontally and or vertically
 
 ## Usage
 
@@ -42,5 +38,3 @@ Creates a [PIXI.NineSlicePlane](https://pixijs.download/release/docs/PIXI.NineSl
   scale={2}
 />
 ```
-
-<ComponentDocs docs={docs} pixiComponentName="PIXI.NineSlicePlane" />

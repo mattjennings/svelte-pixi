@@ -1,5 +1,6 @@
 <script>
   export let title
+  export let pixi
 </script>
 
 <svelte:head>
@@ -7,4 +8,7 @@
 </svelte:head>
 
 <h1>{title}</h1>
+<p>
+  Creates a <a class="text-slate-800" href={pixi}>PIXI.{title}</a>
+</p>
 <slot />

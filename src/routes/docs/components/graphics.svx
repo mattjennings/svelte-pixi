@@ -1,15 +1,11 @@
 ---
 title: Graphics
+pixi: https://pixijs.download/release/docs/PIXI.Graphics.html
 ---
 
-<script>
-  import docs from '$lib/Graphics.svelte?raw&sveld' 
-  import ComponentDocs from'$lib/site/ComponentDocs.svelte'
-</script>
+Graphics can be used for any kind of drawing. Use the `draw` prop to interact with the PIXI.Graphics API.
 
 ## Usage
-
-Graphics can be used for any kind of drawing. Use the `draw` prop to interact with the graphics API.
 
 ```svelte example csr
 <script>
@@ -37,5 +33,3 @@ Graphics can be used for any kind of drawing. Use the `draw` prop to interact wi
   }}
 />
 ```
-
-<ComponentDocs docs={docs} pixiComponentName="PIXI.Graphics" />

@@ -1,6 +1,6 @@
 ---
 title: Container
-pixi: https://pixijs.download/release/docs/Container.html
+pixi: https://pixijs.download/release/docs/PIXI.Container.html
 ---
 
 A Container represents a collection of display objects. They can be used to group child components and manipulate them together.

@@ -1,24 +1,59 @@
-<script context="module" lang="ts">
-  import type { ExtractProps } from './util/props'
-
-  export interface BitmapTextComponentProps<
-    Instance extends PIXI.BitmapText = PIXI.BitmapText
-  > extends ExtractProps<PIXI.BitmapText> {
-    instance?: Instance
-  }
-</script>
-
 <script lang="ts">
+  /**
+   * @restProps {Container}
+   */
   import * as PIXI from 'pixi.js'
-  import Container, { type ContainerComponentProps } from './Container.svelte'
+  import Container from './Container.svelte'
+  import { applyProp } from './util/props'
 
   type T = $$Generic<PIXI.BitmapText>
-  type $$Props = BitmapTextComponentProps<T> & ContainerComponentProps<T>
+  type $$Props = Container<T>['$$prop_def'] & {
+    anchor?: PIXI.BitmapText['anchor']
+    roundPixels?: PIXI.BitmapText['roundPixels']
+    text: PIXI.BitmapText['text']
+    style?: PIXI.IBitmapTextStyle
+  }
 
-  export let instance: PIXI.BitmapText = new PIXI.BitmapText(
-    $$props.text,
-    $$props.style
-  )
+  /**
+   * The anchor sets the origin point of the text.
+   *
+   * @type {PointLike}
+   */
+  export let anchor: $$Props['anchor'] = undefined
+
+  /**
+   * The text of the BitmapText object.
+   *
+   * @type {string}
+   */
+  export let text: $$Props['text'] = undefined
+
+  /**
+   * If true PixiJS will Math.floor() x/y values when rendering, stopping pixel interpolation.
+   * Advantages can include sharper image quality (like text) and faster rendering on canvas.
+   * The main disadvantage is movement of objects may appear less smooth.
+   *
+   * @type {boolean}
+   */
+  export let roundPixels: $$Props['roundPixels'] = undefined
+
+  /**
+   * Sets the style
+   * @type {PIXI.IBitmapTextStyle}
+   **/
+  export let style: $$Props['style'] = undefined
+
+  /**
+   * The PIXI.BitmapText instance. Can be set or bound to.
+   *
+   * @type {PIXI.BitmapText}
+   */
+  export let instance: T = new PIXI.BitmapText(text, style) as T
+
+  $: applyProp(instance, { anchor })
+  $: applyProp(instance, { roundPixels })
+  $: applyProp(instance, { text })
+  $: applyProp(instance, { style })
 </script>
 
 <Container

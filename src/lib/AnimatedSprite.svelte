@@ -18,6 +18,8 @@
 
   /**
    * Whether to use PIXI.Ticker.shared to auto update animation time
+   *
+   * @type {boolean}
    */
   export let autoUpdate: $$Props['autoUpdate'] = undefined
 
@@ -35,9 +37,19 @@
    * Plays the animation according to the textures
    */
   export let playing: $$Props['playing'] = true
+
+  /**
+   * The array of textures to use
+   *
+   * @type {PIXI.Texture<PIXI.Resource>[] | PIXI.FrameObject[]}
+   */
   export let textures: $$Props['textures'] = []
 
-  /** @type {PIXI.AnimatedSprite} AnimatedSprite instance to render */
+  /**
+   * The PIXI.AnimatedSprite instance. Can be set or bound to.
+   *
+   * @type {PIXI.AnimatedSprite}
+   */
   export let instance: T = new PIXI.AnimatedSprite(textures, autoUpdate) as T
 
   const dispatch = createEventDispatcher()

@@ -43,22 +43,31 @@
   const dispatch = createEventDispatcher()
 
   /**
-   * An array of urls or arguments to be passed into Pixi.js's [loader.add function](https://pixijs.download/release/docs/PIXI.Loader.html#add)
+   * An array of urls or arguments to be passed into PIXI.Loader's add() function
+   * @type {string[] | Array<[string, string, PIXI.IAddOptions, () => any]>}
    */
   export let resources:
     | string[]
     | Array<[string, string, PIXI.IAddOptions, () => any]>
 
   /**
-   * @type {string} The base url for all resources loaded by this loader.
+   * The base url for all resources loaded by this loader.
+   *
+   * @type {string}
    */
   export let baseUrl = ''
 
   /**
-   * @type {number} The number of resources to load concurrently.
+   * The number of resources to load concurrently.
+   * @type {number}
    */
   export let concurrency = 10
 
+  /**
+   * The PIXI.Loader instance. Can be set or bound to.
+   *
+   * @type {PIXI.Loader}
+   */
   export let instance = new PIXI.Loader()
 
   setContext('pixi/loader', instance)

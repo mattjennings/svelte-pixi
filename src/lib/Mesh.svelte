@@ -1,26 +1,67 @@
-<script context="module" lang="ts">
-  import type { ExtractProps } from './util/props'
-
-  export interface MeshComponentProps<Instance extends PIXI.Mesh = PIXI.Mesh>
-    extends ExtractProps<PIXI.Mesh>,
-      ExtractProps<GlobalMixins.Mesh> {
-    instance?: Instance
-  }
-</script>
-
 <script lang="ts">
+  /**
+   * @restProps {Container}
+   */
   import * as PIXI from 'pixi.js'
-  import Container, { type ContainerComponentProps } from './Container.svelte'
+  import Container from './Container.svelte'
+  import { applyProp } from './util/props'
 
   type T = $$Generic<PIXI.Mesh>
-  type $$Props = MeshComponentProps<T> & ContainerComponentProps<T>
+  type $$Props = Container<T>['$$prop_def'] & {
+    geometry: PIXI.Mesh['geometry']
+    shader: PIXI.Mesh['shader']
+    state?: PIXI.Mesh['state']
+    drawMode?: PIXI.Mesh['drawMode']
+  }
 
-  export let instance: PIXI.Mesh = new PIXI.Mesh(
+  /**
+   * Includes vertex positions, face indices, normals, colors, UVs, and
+   * custom attributes within buffers, reducing the cost of passing all this data to the GPU.
+   * Can be shared between multiple Mesh objects.
+   *
+   * @type {PIXI.Geometry}
+   */
+  export let geometry: $$Props['geometry'] = undefined
+
+  /**
+   * Represents the vertex and fragment shaders that processes the geometry and runs on the GPU.
+   * Can be shared between multiple Mesh objects.
+   *
+   * @type {PIXI.Shader|PIXI.MeshMaterial}
+   */
+  export let shader: $$Props['shader'] = undefined
+
+  /**
+   * Represents the WebGL state the Mesh required to render, excludes shader and geometry.
+   * E.g., blend mode, culling, depth testing, direction of rendering triangles, backface, etc.
+   *
+   * @type {PIXI.State}
+   */
+  export let state: $$Props['state'] = undefined
+
+  /**
+   * The way the Mesh should be drawn, can be any of the PIXI.DRAW_MODES constants.
+   *
+   * @type {PIXI.DRAW_MODES}
+   */
+  export let drawMode: $$Props['drawMode'] = undefined
+
+  /**
+   * The PIXI.Mesh instance. Can be set or bound to.
+   *
+   * @type {PIXI.Mesh}
+   */
+  export let instance: T = new PIXI.Mesh(
     ($$props as $$Props).geometry,
     ($$props as $$Props).shader,
     ($$props as $$Props).state,
     ($$props as $$Props).drawMode
-  )
+  ) as T
+
+  $: applyProp(instance, { geometry })
+  $: applyProp(instance, { shader })
+  $: applyProp(instance, { state })
+  $: applyProp(instance, { drawMode })
 </script>
 
 <Container

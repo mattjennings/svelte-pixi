@@ -113,9 +113,13 @@
           <td>
             {prop.name}
           </td>
-          <td>
+          <td class="flex gap-1 flex-wrap">
             {#if prop.type}
-              <code>{formatCodeType(prop.type)}</code>
+              {#each prop.type.split(/\s?\|\s?/g) as type}
+                <code>
+                  {formatCodeType(type)}
+                </code>
+              {/each}
             {/if}
           </td>
           <td>
@@ -179,7 +183,8 @@
       <tr>
         <th>Name</th>
         <th>Type</th>
-        <th>Detail</th>
+        <!-- detail doesnt seem to be working with sveld -->
+        <!-- <th>Detail</th> -->
       </tr>
     </thead>
     <tbody>
@@ -191,11 +196,11 @@
               <code>{formatCodeValue(event.type)}</code>
             {/if}
           </td>
-          <td>
+          <!-- <td>
             {#if event.detail}
               <code>{formatEventDetail(event.detail)}</code>
             {/if}
-          </td>
+          </td> -->
         </tr>
       {/each}
     </tbody>

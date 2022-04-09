@@ -1,33 +1,81 @@
-<script context="module" lang="ts">
-  import type { ExtractProps } from './util/props'
-
-  export interface NineSlicePlaneComponentProps<
-    Instance extends PIXI.NineSlicePlane = PIXI.NineSlicePlane
-  > extends ExtractProps<PIXI.NineSlicePlane>,
-      ExtractProps<GlobalMixins.NineSlicePlane> {
-    instance?: Instance
-  }
-</script>
-
 <script lang="ts">
+  /**
+   * @restProps {SimplePlane}
+   */
   import * as PIXI from 'pixi.js'
-  import Mesh, { type MeshComponentProps } from './Mesh.svelte'
+  import SimplePlane from './SimplePlane.svelte'
+  import { applyProps } from './util/props'
 
   type T = $$Generic<PIXI.NineSlicePlane>
-  type $$Props = NineSlicePlaneComponentProps<T> & MeshComponentProps<T>
+  type $$Props = Omit<SimplePlane<T>['$$prop_def'], 'vertices'> & {
+    texture: PIXI.NineSlicePlane['texture']
+    leftWidth: PIXI.NineSlicePlane['leftWidth']
+    rightWidth: PIXI.NineSlicePlane['rightWidth']
+    topHeight: PIXI.NineSlicePlane['topHeight']
+    bottomHeight: PIXI.NineSlicePlane['bottomHeight']
+  }
 
-  export let instance: PIXI.NineSlicePlane = new PIXI.NineSlicePlane(
-    ($$props as $$Props).texture,
-    ($$props as $$Props).leftWidth,
-    ($$props as $$Props).topHeight,
-    ($$props as $$Props).rightWidth,
-    ($$props as $$Props).bottomHeight
-  )
+  /**
+   * The texture to use on the NineSlicePlane.
+   *
+   * @type {PIXI.Texture}
+   */
+  export let texture: $$Props['texture']
+
+  /**
+   * The width of the left column.
+   *
+   * @type {number}
+   */
+  export let leftWidth: $$Props['leftWidth']
+
+  /**
+   * The width of the right column.
+   *
+   * @type {number}
+   */
+  export let rightWidth: $$Props['rightWidth']
+
+  /**
+   * The height of the top row.
+   *
+   * @type {number}
+   */
+  export let topHeight: $$Props['topHeight']
+
+  /**
+   * The height of the bottom row.
+   *
+   * @type {number}
+   */
+  export let bottomHeight: $$Props['bottomHeight']
+
+  /**
+   * The PIXI.NineSlicePlane instance. Can be set or bound to.
+   *
+   * @type {PIXI.NineSlicePlane}
+   */
+  export let instance: T = new PIXI.NineSlicePlane(
+    texture,
+    leftWidth,
+    topHeight,
+    rightWidth,
+    bottomHeight
+  ) as T
+
+  $: applyProps(instance, {
+    leftWidth,
+    rightWidth,
+    topHeight,
+    bottomHeight,
+  })
 </script>
 
-<Mesh
+<SimplePlane
+  vertices={undefined}
   {...$$restProps}
   {instance}
+  {texture}
   on:click
   on:mousedown
   on:mousemove
@@ -59,4 +107,4 @@
   on:removed
 >
   <slot />
-</Mesh>
+</SimplePlane>
