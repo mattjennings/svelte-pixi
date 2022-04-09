@@ -1,5 +1,11 @@
 <script context="module" lang="ts">
-  export function getRenderer(): PIXI.Renderer | PIXI.AbstractRenderer {
+  interface RendererContext<T extends PIXI.Renderer | PIXI.AbstractRenderer> {
+    renderer: T
+    invalidate: () => void
+  }
+  export function getRenderer<
+    T extends PIXI.Renderer | PIXI.AbstractRenderer
+  >(): RendererContext<T> {
     return getContext('pixi/renderer')
   }
 
@@ -10,13 +16,18 @@
 
 <script lang="ts">
   import * as PIXI from 'pixi.js'
+  import {
+    createEventDispatcher,
+    getContext,
+    onMount,
+    setContext,
+  } from 'svelte'
 
-  import SvelteContainer from './Container.svelte'
-  import { createEventDispatcher, getContext, setContext } from 'svelte'
-
-  type $$Props = PIXI.IRendererOptions & {
-    instance?: PIXI.AbstractRenderer
+  type T = $$Generic<PIXI.Renderer | PIXI.AbstractRenderer>
+  type $$Props = PIXI.IRendererOptionsAuto & {
+    instance?: T
     stage?: PIXI.Container
+    renderOnDemand?: boolean
   }
 
   type $$Slots = {
@@ -30,14 +41,107 @@
 
   const dispatch = createEventDispatcher()
 
-  export let instance: $$Props['instance'] = PIXI.autoDetectRenderer({
-    ...$$restProps,
-  })
+  /**
+   * The width of the renderers view.
+   *
+   **/
+  export let width: $$Props['width'] = 800
 
   /**
-   * The Container instance to use as the stage
+   * The height of the renderers view.
+   **/
+  export let height: $$Props['height'] = 600
+
+  /**
+   * Pass-through value for canvas' context alpha property.
+   * If you want to set transparency, please use backgroundAlpha.
+   * This option is for cases where the canvas needs to be opaque,
+   * possibly for performance reasons on some older devices.
+   *
+   * @type {boolean | "notMultiplied"}
    */
-  export let stage: PIXI.Container = new PIXI.Container()
+  export let useContextAlpha: $$Props['useContextAlpha'] = undefined
+
+  /**
+   * Resizes renderer view in CSS pixels to allow for resolutions other than 1.
+   */
+  export let autoDensity: $$Props['autoDensity'] = true
+
+  /**
+   * Sets antialias
+   */
+  export let antialias: $$Props['antialias'] = false
+
+  /**
+   * Enables drawing buffer preservation, enable this if you
+   * need to call toDataUrl on the WebGL context.
+   */
+  export let preserveDrawingBuffer: $$Props['preserveDrawingBuffer'] = false
+
+  /**
+   * The resolution / device pixel ratio of the renderer.
+   *
+   * @type {number}
+   */
+  export let resolution: $$Props['resolution'] = PIXI.settings.RESOLUTION
+
+  /**
+   * prevents selection of WebGL renderer, even if such is present, this option only is available
+   * when using pixi.js-legacy or @pixi/canvas-renderer modules,
+   * otherwise it is ignored.
+   */
+  export let forceCanvas: $$Props['forceCanvas'] = false
+
+  /**
+   * The background color of the rendered area (shown if not transparent).
+   */
+  export let backgroundColor: $$Props['backgroundColor'] = 0x000000
+
+  /**
+   * Value from 0 (fully transparent) to 1 (fully opaque).
+   */
+  export let backgroundAlpha: $$Props['backgroundAlpha'] = 1
+
+  /**
+   * This sets if the renderer will clear the canvas or not before the new render pass.
+   *
+   * @type {boolean}
+   */
+  export let clearBeforeRender: $$Props['clearBeforeRender'] = undefined
+
+  /**
+   * Parameter passed to webgl context, set to "high-performance"
+   * for devices with dual graphics card. (WebGL only).
+   *
+   * @type {WebGLPowerPreference}
+   */
+  export let powerPreference: $$Props['powerPreference'] = undefined
+
+  /**
+   * The PIXI.Renderer instance. Can be set or bound to. By default
+   * it uses PIXI.autoDetectRenderer()
+   */
+  export let instance: T = PIXI.autoDetectRenderer({
+    width: width,
+    height: height,
+    useContextAlpha: useContextAlpha,
+    autoDensity: autoDensity,
+    antialias: antialias,
+    preserveDrawingBuffer: preserveDrawingBuffer,
+    resolution: resolution,
+    forceCanvas: forceCanvas,
+    backgroundColor: backgroundColor,
+    backgroundAlpha: backgroundAlpha,
+    clearBeforeRender: clearBeforeRender,
+    powerPreference: powerPreference,
+  }) as T
+
+  setContext('pixi/renderer', {
+    renderer: instance,
+    invalidate: () => {
+      dispatch('invalidate')
+    },
+  })
 
   function view(node: HTMLElement): void {
     if (node.childNodes.length) {
@@ -47,13 +151,9 @@
     }
   }
 
-  setContext('pixi/renderer', instance)
-
-  // internal functions that I dont want to expose in pixi context
-  setContext('pixi/renderer_internal', {
-    onComponentUpdate: () => {
-      dispatch('componentupdate')
-    },
+  onMount(() => {
+    instance.on('prerender', (ev) => dispatch('prerender', ev))
+    instance.on('postrender', (ev) => dispatch('postrender', ev))
   })
 </script>
 
@@ -65,6 +165,4 @@
   <div use:view />
 {/if}
 
-<SvelteContainer instance={stage}>
-  <slot />
-</SvelteContainer>
+<slot />

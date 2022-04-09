@@ -1,7 +1,7 @@
 <script>
   import { Text, onTick, getTicker } from 'svelte-pixi'
 
-  const ticker = getTicker()
+  const { ticker } = getTicker()
   let fps = 0
 
   onTick(() => {

@@ -1,6 +1,9 @@
 <script context="module" lang="ts">
-  export function getApp(): PIXI.Application {
-    return getContext('pixi/app')
+  interface ApplicationContext<T extends PIXI.Application> {
+    app: T
+  }
+  export function getApp<T extends PIXI.Application>() {
+    return getContext<ApplicationContext<T>>('pixi/app') ?? {}
   }
 </script>
 
@@ -8,11 +11,14 @@
   import * as PIXI from 'pixi.js'
 
   import { getContext, setContext } from 'svelte'
+  import Container from './Container.svelte'
   import Renderer from './Renderer.svelte'
   import Ticker from './Ticker.svelte'
 
+  type T = $$Generic<PIXI.Application>
   type $$Props = PIXI.IApplicationOptions & {
-    instance?: PIXI.Application
+    instance?: T
+    render?: 'auto' | 'demand'
   }
 
   /**
@@ -98,19 +104,21 @@
   export let powerPreference: $$Props['powerPreference'] = undefined
 
   /**
-   * true to use PIXI.Ticker.shared, false to create new ticker.
-   * If set to false, you cannot register a handler to occur before
-   * anything that runs on the shared ticker. The system ticker will
-   * always run before both the shared ticker and the app ticker.
-   */
-  export let sharedTicker: $$Props['sharedTicker'] = false
-
-  /**
    * Element to automatically resize stage to.
    *
    * @type {Window | HTMLElement}
    */
   export let resizeTo: $$Props['resizeTo'] = undefined
+
+  /**
+   * Changes the rendering method
+   *
+   * auto - render on each tick at the target FPS
+   * demand - render only when components have been updated
+   *
+   * @type {'auto' | 'demand'}
+   */
+  export let render: 'auto' | 'demand' = 'auto'
 
   /**
    * The PIXI.Application instance. This can be manually set or bound to.
@@ -119,7 +127,7 @@
    *
    * @type {PIXI.Application}
    */
-  export let instance: $$Props['instance'] = new PIXI.Application({
+  export let instance: T = new PIXI.Application({
     autoStart: autoStart,
     width: width,
     height: height,
@@ -133,22 +141,47 @@
     backgroundAlpha: backgroundAlpha,
     clearBeforeRender: clearBeforeRender,
     powerPreference: powerPreference,
-    sharedTicker: sharedTicker,
     resizeTo: resizeTo,
-  })
+  }) as T
 
-  setContext('pixi/app', instance)
+  let invalidated = true
+  setContext<ApplicationContext<T>>('pixi/app', { app: instance })
+
+  // remove rendering on tick
+  if (render === 'demand') {
+    instance.ticker.remove(instance.render, instance)
+  }
 </script>
 
 <Renderer
   instance={instance.renderer}
   stage={instance.stage}
-  on:componentupdate
+  on:invalidate={() => {
+    invalidated = true
+  }}
+  on:prerender
+  on:postrender
 >
   <slot name="view" slot="view">
     <div />
   </slot>
-  <Ticker instance={sharedTicker ? PIXI.Ticker.shared : instance.ticker}>
-    <slot />
+  {#if render}
+    <Ticker
+      on:tick={() => {
+        if (render === 'demand') {
+          if (invalidated) {
+            invalidated = false
+            instance.renderer.render(instance.stage)
+          }
+        } else if (render === 'auto') {
+          instance.renderer.render(instance.stage)
+        }
+      }}
+    />
+  {/if}
+  <Ticker instance={instance.ticker}>
+    <Container instance={instance.stage}>
+      <slot />
+    </Container>
   </Ticker>
 </Renderer>

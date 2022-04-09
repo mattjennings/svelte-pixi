@@ -1,21 +1,15 @@
 ---
 title: Renderer
+pixi: https://pixijs.download/release/docs/PIXI.Renderer.html
 ---
 
-<script>
-  import docs from '$lib/Renderer.svelte?raw&sveld' 
-  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
-</script>
-
-Creates a [Pixi Renderer](https://pixijs.download/release/docs/PIXI.Renderer.html) and a root [Container](/docs/components/container) (as the stage). This is an alternative to using the [Application](/docs/components/application) component, where you might desire more control over the rendering process.
+This is an alternative to using the [Application](/docs/components/application) component, where you might desire more control over the renderer. It does not automatically render for you nor does it create the root Container, so you will have to set those up as well.
 
 ## Usage
 
-When you use `Renderer`, you are responsible for calling its instance's render method. Typically you would do that with a [Ticker](/docs/components/ticker).
-
 ```svelte example csr noApp
 <script>
-  import { Renderer, Ticker, Text } from 'svelte-pixi'
+  import { Renderer, Container, Ticker, Text } from 'svelte-pixi'
 
   let renderer
   let stage
@@ -29,18 +23,20 @@ When you use `Renderer`, you are responsible for calling its instance's render m
   height={400}
   antialias
 >
-  <Ticker
-    on:tick={() => {
-      renderer.render(stage)
-    }}>
-    <Text
-      x={200}
-      y={200}
-      text="Hello World"
-      style={{ fill: 'white' }}
-      anchor={0.5}
-    />
-  </Ticker>
+  <Container bind:instance={stage}>
+    <Ticker
+      on:tick={() => {
+        renderer.render(stage)
+      }}>
+      <Text
+        x={200}
+        y={200}
+        text="Hello World"
+        style={{ fill: 'white' }}
+        anchor={0.5}
+      />
+    </Ticker>
+  </Container>
 </Renderer>
 ```
 
@@ -50,7 +46,7 @@ If you want to customize the element that the canvas is rendered into, you can u
 
 ```svelte example csr noApp
 <script>
-  import { Renderer, Ticker, Text } from 'svelte-pixi'
+  import { Renderer, Container, Ticker, Text } from 'svelte-pixi'
 
   let renderer
   let stage
@@ -68,16 +64,18 @@ If you want to customize the element that the canvas is rendered into, you can u
   </div>
 
   <!-- pixi components go here -->
-  <Ticker
-    on:tick={() => {
-      renderer.render(stage)
-    }} />
-  <Text
-    x={200}
-    y={200}
-    anchor={0.5}
-    text="Hello World"
-    style={{ fill: 'white'}} />
+  <Container bind:instance={stage}>
+    <Ticker
+      on:tick={() => {
+        renderer.render(stage)
+      }} />
+    <Text
+      x={200}
+      y={200}
+      anchor={0.5}
+      text="Hello World"
+      style={{ fill: 'white'}} />
+    </Container>
 </Renderer>
 
 <style>
@@ -87,9 +85,3 @@ If you want to customize the element that the canvas is rendered into, you can u
   }
 </style>
 ```
-
-## Advanced Usage
-
-See [Custom Renderer](/docs/advanced/custom-renderer).
-
-<ComponentDocs docs={docs} pixiComponentName="PIXI.Renderer" />
