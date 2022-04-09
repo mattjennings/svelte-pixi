@@ -22,16 +22,3 @@ export function warning(condition: boolean, message: string): void {
     // eslint-disable-next-line no-empty
   } catch (x) {}
 }
-
-export const createPixiEventDispatcher = (
-  instance,
-  dispatch,
-  event,
-  makeArgs: (...args: any[]) => any = (event) => event
-) => {
-  const callback = (...args) => dispatch(event, makeArgs(...args))
-
-  instance.on(event, callback)
-
-  return () => instance.off(event, callback)
-}

@@ -3,17 +3,30 @@
   import 'prism-svelte'
 
   export let docs
-  export let pixiComponentName: string = undefined
 
-  let pixiDocsUrl =
-    pixiComponentName &&
-    `https://pixijs.download/release/docs/${pixiComponentName}.html`
+  function slugify(str) {
+    str = str.replace(/^\s+|\s+$/g, '') // trim
+    str = str.toLowerCase()
+
+    // remove accents, swap ñ for n, etc
+    var from = 'àáäâèéëêìíïîòóöôùúüûñç·/_,:;'
+    var to = 'aaaaeeeeiiiioooouuuunc------'
+    for (var i = 0, l = from.length; i < l; i++) {
+      str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i))
+    }
+
+    str = str
+      .replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+      .replace(/\s+/g, '-') // collapse whitespace and replace by -
+      .replace(/-+/g, '-') // collapse dashes
+
+    return str
+  }
 
   function formatCodeType(type) {
     if (type === undefined) return ''
-    return type
-      .replace(/[{}]/g, (c) => ({ '{': '&#123;', '}': '&#125;' }[c]))
-      .replace(/\|/g, '&#124;')
+    return type.replace(/[{}]/g, (c) => ({ '{': '&#123;', '}': '&#125;' }[c]))
+    // .replace(/\|/g, '&#124;')
   }
 
   function formatCodeValue(value) {
@@ -85,12 +98,6 @@
   <h2 id="props">
     <a href="#props">Props</a>
   </h2>
-  {#if pixiDocsUrl}
-    <p>
-      Properties from <a href={pixiDocsUrl}>{pixiComponentName}</a> are inherited,
-      as well as:
-    </p>
-  {/if}
   <table>
     <thead>
       <tr>
@@ -121,6 +128,14 @@
       {/each}
     </tbody>
   </table>
+  {#if docs.rest_props}
+    <p>
+      Additional props are passed on to <a
+        href={`/docs/components/${slugify(docs.rest_props.name)}`}
+        >{docs.rest_props.name}</a
+      >
+    </p>
+  {/if}
 {/if}
 
 {#if docs.slots.length}

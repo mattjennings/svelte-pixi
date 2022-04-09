@@ -1,11 +1,7 @@
 ---
 title: Application
+pixi: https://pixijs.download/release/docs/PIXI.Application.html
 ---
-
-<script>
-  import docs from '$lib/Application.svelte?raw&sveld' 
-  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
-</script>
 
 Creates a [Pixi Application](https://pixijs.download/release/docs/PIXI.Application.html).
 
@@ -60,5 +56,3 @@ If you want to customize the element that the canvas is rendered into, you can u
   }
 </style>
 ```
-
-<ComponentDocs docs={docs} pixiComponentName="PIXI.Application" />

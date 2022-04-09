@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   /**
    * This is recreated from a pixi.js example
    *
@@ -21,13 +21,22 @@
   let alpha = 0
   let cameraZ = 0
   let starAmount = 0
-  let stars = []
+  let stars: Star[] = []
+
+  interface Star extends PIXI.Sprite {
+    initX?: number
+    initY?: number
+    initZ?: number
+  }
 
   $: {
     if (container) {
       stars.forEach((star) => star.destroy())
       stars = new Array(starAmount).fill(null).map(() => {
-        const star = new PIXI.Sprite(PIXI.Texture.from('/assets/star.png'))
+        const star = new PIXI.Sprite(
+          PIXI.Texture.from('/assets/star.png')
+        ) as Star
+
         const deg = Math.random() * Math.PI * 2
         const distance = Math.random() * 50 + 1
         star.anchor.set(0.5, 0.7)
@@ -98,6 +107,7 @@
 <div class="wrapper">
   <Application bind:instance={app}>
     <Loader resources={['/assets/star.png']}>
+      <Sprite instance={stars[0]} initX={1} />
       <Ticker on:tick={tick} />
       <ParticleContainer
         bind:instance={container}

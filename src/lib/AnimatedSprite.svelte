@@ -1,53 +1,64 @@
-<script context="module" lang="ts">
-  export interface AnimatedSpriteComponentProps<
-    Instance extends PIXI.AnimatedSprite = PIXI.AnimatedSprite
-  > extends ExtractProps<PIXI.AnimatedSprite>,
-      ExtractProps<GlobalMixins.Sprite> {
-    instance?: Instance
-  }
-</script>
-
 <script lang="ts">
+  /**
+   * @restProps {Sprite}
+   */
   import * as PIXI from 'pixi.js'
   import { createEventDispatcher, onMount } from 'svelte'
-  import Sprite, { type SpriteComponentProps } from './Sprite.svelte'
-  import { applyProps, type ExtractProps } from './util/props'
+  import Sprite from './Sprite.svelte'
+  import { applyProp } from './util/props'
 
   type T = $$Generic<PIXI.AnimatedSprite>
-  type $$Props = AnimatedSpriteComponentProps<T> & SpriteComponentProps<T>
+  type $$Props = Sprite<T>['$$prop_def'] & {
+    playing?: boolean
+    textures?: PIXI.AnimatedSprite['textures']
+    autoUpdate?: PIXI.AnimatedSprite['autoUpdate']
+    animationSpeed?: PIXI.AnimatedSprite['animationSpeed']
+    loop?: PIXI.AnimatedSprite['loop']
+  }
 
-  // AnimatedSprite props
+  /**
+   * Whether to use PIXI.Ticker.shared to auto update animation time
+   */
+  export let autoUpdate: $$Props['autoUpdate'] = undefined
+
+  /**
+   * The speed that the AnimatedSprite will play at. Higher is faster, lower is slower.
+   */
+  export let animationSpeed: $$Props['animationSpeed'] = 1
+
+  /**
+   * Whether or not the animate sprite repeats after playing.
+   */
+  export let loop: $$Props['loop'] = true
+
+  /**
+   * Plays the animation according to the textures
+   */
   export let playing: $$Props['playing'] = true
   export let textures: $$Props['textures'] = []
 
-  /** @type {AnimatedSprite} AnimatedSprite instance to render */
-  export let instance: PIXI.AnimatedSprite = new PIXI.AnimatedSprite(
-    textures,
-    $$props.autoUpdate
-  )
+  /** @type {PIXI.AnimatedSprite} AnimatedSprite instance to render */
+  export let instance: T = new PIXI.AnimatedSprite(textures, autoUpdate) as T
 
   const dispatch = createEventDispatcher()
 
-  $: {
-    const props = { playing, textures }
-    applyProps(instance, props, {
-      apply: {
-        playing: (instance, value) => {
-          if (value) {
-            instance.play()
-          } else {
-            instance.stop()
-          }
-        },
-        textures: (instance, textures) => {
-          instance.textures = textures
-          if (playing) {
-            instance.play()
-          }
-        },
-      },
-    })
-  }
+  $: applyProp(instance, { autoUpdate })
+  $: applyProp(instance, { animationSpeed })
+  $: applyProp(instance, { loop })
+  $: applyProp(instance, { textures }, (textures) => {
+    instance.textures = textures
+    if (playing) {
+      instance.play()
+    }
+  })
+
+  $: applyProp(instance, { playing }, (playing) => {
+    if (playing) {
+      instance.play()
+    } else {
+      instance.stop()
+    }
+  })
 
   onMount(() => {
     instance.onComplete = () => dispatch('complete')

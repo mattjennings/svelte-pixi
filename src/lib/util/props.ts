@@ -2,21 +2,33 @@ import * as PIXI from 'pixi.js'
 
 import { parsePoint, type PointLike } from './data-types'
 
+/**
+ * Applies alll props to the instance if its value is not undefined and
+ * is not equal to the instance's value of the prop.
+ *
+ * Usage:
+ *
+ * ```js
+ * applyProps(instance, { x, y })
+ * // or
+ * applyProps(instance, { x }, {
+ *  x: value => instance.x = value,
+ *  y: value => instance.y = value,
+ * })
+ * ```
+ */
 export function applyProps<Instance, Props extends Record<string, any>>(
   instance: Instance,
   props: Props,
-  opts?: {
-    apply?: {
-      [PropKey in keyof Props]: ApplyProp<Instance, Props, Props[PropKey]>
-    }
+  apply?: {
+    [PropKey in keyof Props]?: ApplyProp<Instance, Props, Props[PropKey]>
   }
 ) {
-  const apply = opts?.apply ?? {}
   if (instance) {
     for (const [prop, value] of Object.entries(props)) {
-      if (instance[prop] !== value) {
-        if (apply[prop]) {
-          apply[prop](instance, value, prop, props)
+      if (instance[prop] !== value && typeof value !== 'undefined') {
+        if (apply?.[prop]) {
+          apply[prop](value, prop, instance)
         } else {
           if (
             instance[prop] instanceof PIXI.Point ||
@@ -33,18 +45,35 @@ export function applyProps<Instance, Props extends Record<string, any>>(
 }
 
 /**
- * Returns true if any of the values are not undefined
+ * Applies a single prop to the instance if the value is not undefined and
+ * is not equal to the instance's value of the prop.
+ *
+ * Usage:
+ *
+ * ```js
+ * applyProp(instance, { x })
+ * // or
+ * applyProp(instance, { x }, value => instance.x = value)
+ * ```
+ *
+ * The 2nd parameter is an object to decrease tediousness of describing
+ * the prop name & value, as they are often the same. It will only apply
+ * the first key of the object. Use applyProps() if you need to apply more than 1
+ * at the same time.
  */
-export function shouldApplyProps(...args) {
-  for (const arg of args) {
-    if (typeof arg !== 'undefined') {
-      return true
-    }
-  }
-
-  return false
+export function applyProp<Instance, Props extends Record<string, any>>(
+  instance: Instance,
+  props: Props,
+  apply?: ApplyProp<Instance, Props, Props[keyof Props]>
+) {
+  const prop = Object.keys(props)[0]
+  return applyProps(
+    instance,
+    props,
+    // @ts-ignore
+    { [prop]: apply }
+  )
 }
-
 /* -------------------------------------------------------------------------- */
 /*                                    TYPES                                   */
 /* -------------------------------------------------------------------------- */
@@ -53,11 +82,12 @@ export type ExtractProps<T> = Partial<
   SwapPoints<Pick<T, NotFunctions<T> & PublicProperties<T>>>
 >
 
+export type ExtractPropKeys<T> = Pick<T, NotFunctions<T> & PublicProperties<T>>
+
 export type ApplyProp<Instance, Props, Value> = (
-  instance: Instance,
   value: Value,
   key: keyof Props,
-  props: Props
+  instance: Instance
 ) => any
 
 type FilterNotStartingWith<

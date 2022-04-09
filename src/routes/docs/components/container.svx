@@ -1,11 +1,7 @@
 ---
 title: Container
+pixi: https://pixijs.download/release/docs/Container.html
 ---
-
-<script>
-  import docs from '$lib/Container.svelte?raw&sveld' 
-  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
-</script>
 
 A Container represents a collection of display objects. They can be used to group child components and manipulate them together.
 
@@ -40,5 +36,3 @@ When child components are rendered inside, their coordinates become local to the
   <Text text="World" y={60} style={{ fill: 'white' }} />
 </Container>
 ```
-
-<ComponentDocs docs={docs} pixiComponentName="PIXI.Container" />

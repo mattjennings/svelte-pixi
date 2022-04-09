@@ -25,7 +25,9 @@
   <Sidebar {links} />
   <main class="flex-1 w-0 flex flex-col md:px-8 xl:px-0 ">
     <div class="max-w-full flex-1 relative focus:outline-none">
-      <slot />
+      <article class="py-6 pb-24 px-4 sm:px-6 prose prose-slate max-w-5xl">
+        <slot />
+      </article>
     </div>
   </main>
   <ToC />

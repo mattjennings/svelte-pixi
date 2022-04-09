@@ -1,11 +1,7 @@
 ---
 title: Sprite
+pixi: https://pixijs.download/release/docs/Sprite.html
 ---
-
-<script>
-  import docs from '$lib/Sprite.svelte?raw&sveld' 
-  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
-</script>
 
 Sprites are the base for all textured objects that are rendered to the screen
 
@@ -26,4 +22,4 @@ Sprites are the base for all textured objects that are rendered to the screen
 />
 ```
 
-<ComponentDocs docs={docs} pixiComponentName="PIXI.Sprite"/>
+<!-- <ComponentDocs docs={docs} extends="Container"/> -->

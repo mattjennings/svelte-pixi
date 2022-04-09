@@ -1,22 +1,35 @@
-<script context="module" lang="ts">
-  export interface SpriteComponentProps<
-    Instance extends PIXI.Sprite = PIXI.Sprite
-  > extends ExtractProps<PIXI.Sprite> {
-    instance?: Instance
-  }
-</script>
-
 <script lang="ts">
+  /**
+   * @restProps {Container}
+   */
   import * as PIXI from 'pixi.js'
 
-  import Container, { type ContainerComponentProps } from './Container.svelte'
-  import type { ExtractProps } from './util/props'
+  import Container from './Container.svelte'
+  import { applyProp } from './util/props'
 
   type T = $$Generic<PIXI.Sprite>
-  type $$Props = SpriteComponentProps<T> & ContainerComponentProps<T>
+  type $$Props = Container<T>['$$prop_def'] & {
+    anchor?: PIXI.Sprite['anchor']
+    blendMode?: PIXI.Sprite['blendMode']
+    pluginName?: PIXI.Sprite['pluginName']
+    roundPixels?: PIXI.Sprite['roundPixels']
+    texture?: PIXI.Sprite['texture']
+  }
+
+  export let anchor: $$Props['anchor'] = undefined
+  export let blendMode: $$Props['blendMode'] = undefined
+  export let pluginName: $$Props['pluginName'] = undefined
+  export let roundPixels: $$Props['roundPixels'] = undefined
+  export let texture: $$Props['texture'] = undefined
 
   /** @type {PIXI.Sprite} PIXI.Sprite instance to render */
-  export let instance: PIXI.Sprite = new PIXI.Sprite($$props.texture)
+  export let instance: T = new PIXI.Sprite($$props.texture) as T
+
+  $: applyProp(instance, { anchor })
+  $: applyProp(instance, { blendMode })
+  $: applyProp(instance, { pluginName })
+  $: applyProp(instance, { roundPixels })
+  $: applyProp(instance, { texture })
 </script>
 
 <Container

@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-  import type { ExtractProps } from './util/props'
+  import { applyProps, type ExtractProps } from './util/props'
 
   export interface TextComponentProps<Instance extends PIXI.Text = PIXI.Text>
     extends ExtractProps<PIXI.Text> {
@@ -8,14 +8,25 @@
 </script>
 
 <script lang="ts">
+  /**
+   * @restProps {Sprite}
+   */
   import * as PIXI from 'pixi.js'
 
-  import Sprite, { type SpriteComponentProps } from './Sprite.svelte'
+  import Sprite from './Sprite.svelte'
 
   type T = $$Generic<PIXI.Text>
-  type $$Props = TextComponentProps<T> & SpriteComponentProps<T>
+  type $$Props = Sprite<T>['$$prop_def'] & {
+    text: PIXI.Text['text']
+    style: PIXI.Text['style']
+  }
 
-  export let instance: PIXI.Text = new PIXI.Text($$props.text, $$props.style)
+  export let text: PIXI.Text['text']
+  export let style: PIXI.Text['style']
+
+  export let instance: T = new PIXI.Text($$props.text, $$props.style) as T
+
+  $: applyProps(instance, { text, style })
 </script>
 
 <Sprite

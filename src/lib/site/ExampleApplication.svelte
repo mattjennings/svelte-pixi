@@ -7,7 +7,7 @@
   export let resources = []
 
   let element
-  let intersecting
+  let intersecting = true
   let app
 
   // only render while in view

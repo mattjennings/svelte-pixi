@@ -65,6 +65,6 @@
   <div use:view />
 {/if}
 
-<SvelteContainer instance={stage} parent={null}>
+<SvelteContainer instance={stage}>
   <slot />
 </SvelteContainer>

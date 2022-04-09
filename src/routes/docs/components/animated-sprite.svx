@@ -1,11 +1,7 @@
 ---
 title: AnimatedSprite
+pixi: https://pixijs.download/release/docs/AnimatedSprite.html
 ---
-
-<script>
-  import docs from '$lib/AnimatedSprite.svelte?raw&sveld' 
-  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
-</script>
 
 An AnimatedSprite is a simple way to display an animation depicted by a list of textures.
 
@@ -67,5 +63,3 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
   on:loop="{changeAnimation}"
 />
 ```
-
-<ComponentDocs docs={docs} pixiComponentName="PIXI.AnimatedSprite"/>
