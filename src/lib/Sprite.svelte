@@ -3,8 +3,10 @@
    * @restProps {Container}
    */
   import * as PIXI from 'pixi.js'
+  import { afterUpdate } from 'svelte'
 
   import Container from './Container.svelte'
+  import { getRenderer } from './Renderer.svelte'
   import { applyProp } from './util/props'
 
   type T = $$Generic<PIXI.Sprite>
@@ -24,6 +26,12 @@
 
   /** @type {PIXI.Sprite} PIXI.Sprite instance to render */
   export let instance: T = new PIXI.Sprite($$props.texture) as T
+
+  const { invalidate } = getRenderer()
+
+  afterUpdate(() => {
+    invalidate()
+  })
 
   $: applyProp(instance, { anchor })
   $: applyProp(instance, { blendMode })

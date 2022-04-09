@@ -1,10 +1,13 @@
 <script context="module" lang="ts">
-  export function getLoader(): PIXI.Loader {
-    return getContext('pixi/loader')
+  interface LoaderContext<T extends PIXI.Loader> {
+    loader?: T
+  }
+  export function getLoader<T extends PIXI.Loader>() {
+    return getContext<LoaderContext<T>>('pixi/loader') ?? {}
   }
 
   export function getResource<T = any>(name: string): T {
-    const loader = getLoader()
+    const { loader } = getLoader()
 
     if (!loader) {
       throw new Error('getResource requires a parent <Loader /> component')
@@ -40,37 +43,42 @@
     load: CustomEvent<PIXI.Loader>
   }
 
+  type T = $$Generic<PIXI.Loader>
+  type $$Props = {
+    instance: T
+    resources?: string[] | Array<[string, string, PIXI.IAddOptions, () => any]>
+    baseUrl?: string
+    concurrency?: number
+  }
   const dispatch = createEventDispatcher()
 
   /**
    * An array of urls or arguments to be passed into PIXI.Loader's add() function
    * @type {string[] | Array<[string, string, PIXI.IAddOptions, () => any]>}
    */
-  export let resources:
-    | string[]
-    | Array<[string, string, PIXI.IAddOptions, () => any]>
+  export let resources: $$Props['resources'] = []
 
   /**
    * The base url for all resources loaded by this loader.
    *
    * @type {string}
    */
-  export let baseUrl = ''
+  export let baseUrl: $$Props['baseUrl'] = ''
 
   /**
    * The number of resources to load concurrently.
    * @type {number}
    */
-  export let concurrency = 10
+  export let concurrency: $$Props['concurrency'] = 10
 
   /**
    * The PIXI.Loader instance. Can be set or bound to.
    *
    * @type {PIXI.Loader}
    */
-  export let instance = new PIXI.Loader()
+  export let instance: T = new PIXI.Loader() as T
 
-  setContext('pixi/loader', instance)
+  setContext<LoaderContext<T>>('pixi/loader', { loader: instance })
 
   let progress = 0
   let loading = resources.length > 0

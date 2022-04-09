@@ -3,7 +3,8 @@
    * @restProps {Sprite}
    */
   import * as PIXI from 'pixi.js'
-  import { createEventDispatcher, onMount } from 'svelte'
+  import { afterUpdate, createEventDispatcher, onMount } from 'svelte'
+  import { getRenderer } from './Renderer.svelte'
   import Sprite from './Sprite.svelte'
   import { applyProp } from './util/props'
 
@@ -53,6 +54,11 @@
   export let instance: T = new PIXI.AnimatedSprite(textures, autoUpdate) as T
 
   const dispatch = createEventDispatcher()
+  const { invalidate } = getRenderer()
+
+  afterUpdate(() => {
+    invalidate()
+  })
 
   $: applyProp(instance, { autoUpdate })
   $: applyProp(instance, { animationSpeed })

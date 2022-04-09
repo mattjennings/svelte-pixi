@@ -1,6 +1,17 @@
 <script context="module" lang="ts">
-  export function getContainer<T extends PIXI.Container = PIXI.Container>(): T {
-    return getContext('pixi/container')
+  interface ContainerContext<T extends PIXI.Container = PIXI.Container> {
+    container: T
+  }
+  interface StageContext<T extends PIXI.Container = PIXI.Container> {
+    stage: T
+  }
+
+  export function getContainer<T extends PIXI.Container = PIXI.Container>() {
+    return getContext<ContainerContext<T>>('pixi/container')
+  }
+
+  export function getStage<T extends PIXI.Container = PIXI.Container>() {
+    return getContext<StageContext<T>>('pixi/stage')
   }
 </script>
 
@@ -13,6 +24,7 @@
     onMount,
     setContext,
   } from 'svelte'
+  import { getRenderer } from './Renderer.svelte'
   import type { PointLike } from './util/data-types'
   import { applyProp } from './util/props'
 
@@ -60,10 +72,6 @@
     applyPropOnMount?: boolean
   }
 
-  const { onComponentUpdate } = getContext('pixi/renderer_internal')
-  const dispatch = createEventDispatcher()
-  const parent = getContainer()
-
   export let accessible: $$Props['accessible'] = undefined
   export let accessibleChildren: $$Props['accessibleChildren'] = true
   export let accessibleHint: $$Props['accessibleHint'] = undefined
@@ -106,6 +114,10 @@
 
   export let instance: T = new PIXI.Container() as T
 
+  const { invalidate } = getRenderer()
+  const { container: parent } = getContainer() ?? {}
+  const dispatch = createEventDispatcher()
+
   onMount(() => {
     let childIndex = -1
 
@@ -140,6 +152,7 @@
 
     instance.on('click', (ev) => dispatch('click', ev))
     instance.on('mousedown', (ev) => dispatch('mousedown', ev))
+    instance.on('mousemove', (ev) => dispatch('mousemove', ev))
     instance.on('mouseout', (ev) => dispatch('mouseout', ev))
     instance.on('mouseover', (ev) => dispatch('mouseover', ev))
     instance.on('mouseup', (ev) => dispatch('mouseup', ev))
@@ -174,7 +187,7 @@
   })
 
   afterUpdate(() => {
-    onComponentUpdate()
+    invalidate()
   })
 
   $: applyProp(instance, { accessible })
@@ -217,10 +230,10 @@
 
   // if no parent, this is the stage (root container)
   if (!parent) {
-    setContext('pixi/stage', instance)
+    setContext<StageContext<T>>('pixi/stage', { stage: instance })
   }
 
-  setContext('pixi/container', instance)
+  setContext<ContainerContext<T>>('pixi/container', { container: instance })
 </script>
 
 <slot />

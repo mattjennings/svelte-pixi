@@ -3,7 +3,9 @@
    * @restProps {Container}
    */
   import * as PIXI from 'pixi.js'
+  import { afterUpdate } from 'svelte'
   import Container from './Container.svelte'
+  import { getRenderer } from './Renderer.svelte'
 
   type T = $$Generic<PIXI.ParticleContainer>
   type $$Props = Container<T>['$$prop_def'] & {
@@ -47,6 +49,12 @@
     batchSize,
     autoResize
   ) as T
+
+  const { invalidate } = getRenderer()
+
+  afterUpdate(() => {
+    invalidate()
+  })
 </script>
 
 <Container

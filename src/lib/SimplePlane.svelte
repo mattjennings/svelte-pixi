@@ -3,7 +3,9 @@
    * @restProps {Mesh}
    */
   import * as PIXI from 'pixi.js'
+  import { afterUpdate } from 'svelte'
   import Mesh from './Mesh.svelte'
+  import { getRenderer } from './Renderer.svelte'
   import { parsePoint, type PointLike } from './util/data-types'
   import { applyProp } from './util/props'
 
@@ -41,6 +43,12 @@
     parsePoint(vertices).x,
     parsePoint(vertices).y
   ) as T
+
+  const { invalidate } = getRenderer()
+
+  afterUpdate(() => {
+    invalidate()
+  })
 
   $: applyProp(instance, { texture })
 </script>

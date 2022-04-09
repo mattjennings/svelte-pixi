@@ -3,7 +3,9 @@
    * @restProps {Container}
    */
   import * as PIXI from 'pixi.js'
+  import { afterUpdate } from 'svelte'
   import Container from './Container.svelte'
+  import { getRenderer } from './Renderer.svelte'
   import { applyProp } from './util/props'
 
   type T = $$Generic<PIXI.Mesh>
@@ -57,6 +59,12 @@
     ($$props as $$Props).state,
     ($$props as $$Props).drawMode
   ) as T
+
+  const { invalidate } = getRenderer()
+
+  afterUpdate(() => {
+    invalidate()
+  })
 
   $: applyProp(instance, { geometry })
   $: applyProp(instance, { shader })

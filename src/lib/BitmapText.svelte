@@ -3,7 +3,9 @@
    * @restProps {Container}
    */
   import * as PIXI from 'pixi.js'
+  import { afterUpdate } from 'svelte'
   import Container from './Container.svelte'
+  import { getRenderer } from './Renderer.svelte'
   import { applyProp } from './util/props'
 
   type T = $$Generic<PIXI.BitmapText>
@@ -49,6 +51,12 @@
    * @type {PIXI.BitmapText}
    */
   export let instance: T = new PIXI.BitmapText(text, style) as T
+
+  const { invalidate } = getRenderer()
+
+  afterUpdate(() => {
+    invalidate()
+  })
 
   $: applyProp(instance, { anchor })
   $: applyProp(instance, { roundPixels })

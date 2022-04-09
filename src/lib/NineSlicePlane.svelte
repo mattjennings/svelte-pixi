@@ -3,6 +3,8 @@
    * @restProps {SimplePlane}
    */
   import * as PIXI from 'pixi.js'
+  import { afterUpdate } from 'svelte'
+  import { getRenderer } from './Renderer.svelte'
   import SimplePlane from './SimplePlane.svelte'
   import { applyProps } from './util/props'
 
@@ -62,6 +64,12 @@
     rightWidth,
     bottomHeight
   ) as T
+
+  const { invalidate } = getRenderer()
+
+  afterUpdate(() => {
+    invalidate()
+  })
 
   $: applyProps(instance, {
     leftWidth,
