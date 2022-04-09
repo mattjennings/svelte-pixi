@@ -4,7 +4,7 @@ title: svelte/motion
 
 You can animate using `svelte/motion` just like you would in other Svelte application.
 
-### Spring
+## Spring
 
 ```svelte example csr
 <script>
@@ -67,7 +67,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
   on:mousemove={handleDrag} />
 ```
 
-### Tween
+## Tween
 
 ```svelte example csr
 <script>

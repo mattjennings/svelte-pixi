@@ -90,6 +90,6 @@ If you want to customize the element that the canvas is rendered into, you can u
 
 ## Advanced Usage
 
-See the guide on [custom rendering](/docs/guides/custom-renderer) to view more advanced usage of the renderer.
+See [Custom Renderer](/docs/advanced/custom-renderer).
 
 <ComponentDocs docs={docs} pixiComponentName="PIXI.Renderer" />

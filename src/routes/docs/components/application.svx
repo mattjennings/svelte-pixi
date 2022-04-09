@@ -9,7 +9,7 @@ title: Application
 
 Creates a [Pixi Application](https://pixijs.download/release/docs/PIXI.Application.html).
 
-Just like its native Pixi counterpart, it sets up the [Renderer](/docs/components/renderer), [Ticker](/docs/components/ticker) and root [Container](/docs/components/container). If you wish, you can manually render those components instead. [Check out the guide on creating a custom renderer](/docs/guides/custom-renderer).
+Just like its native Pixi counterpart, it sets up the [Renderer](/docs/components/renderer), [Ticker](/docs/components/ticker) and root [Container](/docs/components/container). If you wish, you can manually render those components instead.
 
 ## Usage
 
@@ -60,11 +60,5 @@ If you want to customize the element that the canvas is rendered into, you can u
   }
 </style>
 ```
-
-## Custom Renderer
-
-Pixi's `Application` class is a convenience class for creating a renderer, ticker, and root container (stage). As such, the `Application` component mimics this behaviour.
-
-If you wish to customize any of those components, e.g. taking control of rendering yourself, see the guide on [creating a custom renderer](/docs/guides/custom-renderer).
 
 <ComponentDocs docs={docs} pixiComponentName="PIXI.Application" />

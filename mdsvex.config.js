@@ -1,6 +1,8 @@
 import { defineMDSveXConfig as defineConfig } from 'mdsvex'
 import sveld from 'mdsvex-sveld'
 import examples from 'mdsvexamples'
+import autolinkHeadings from 'rehype-autolink-headings'
+import slugPlugin from 'rehype-slug'
 
 const config = defineConfig({
   layout: {
@@ -17,7 +19,15 @@ const config = defineConfig({
     sveld,
   ],
 
-  rehypePlugins: [],
+  rehypePlugins: [
+    slugPlugin,
+    [
+      autolinkHeadings,
+      {
+        behavior: 'wrap',
+      },
+    ],
+  ],
 })
 
 export default config

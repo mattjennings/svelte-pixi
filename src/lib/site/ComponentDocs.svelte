@@ -82,7 +82,9 @@
 {/if}
 
 {#if props.length}
-  <h2>Props</h2>
+  <h2 id="props">
+    <a href="#props">Props</a>
+  </h2>
   {#if pixiDocsUrl}
     <p>
       Properties from <a href={pixiDocsUrl}>{pixiComponentName}</a> are inherited,
@@ -122,7 +124,9 @@
 {/if}
 
 {#if docs.slots.length}
-  <h2>Slots</h2>
+  <h2 id="slots">
+    <a href="#slots">Slots</a>
+  </h2>
   <table>
     <thead>
       <tr>
@@ -152,7 +156,9 @@
 {/if}
 
 {#if docs.events.length}
-  <h2>Events</h2>
+  <h2 id="events">
+    <a href="#events">Events</a>
+  </h2>
   <table>
     <thead>
       <tr>

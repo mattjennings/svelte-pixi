@@ -15,7 +15,7 @@
 </script>
 
 <!-- Static sidebar for desktop -->
-<div class="hidden md:flex md:flex-shrink-0 h-screen sticky top-0">
+<div class="hidden lg:flex md:flex-shrink-0 h-screen sticky top-0">
   <div class="w-[15rem] flex flex-col">
     <!-- Sidebar component, swap this element with another sidebar if you like -->
     <div
@@ -41,7 +41,7 @@
 <!-- Mobile sidebar -->
 {#if isMenuOpen}
   <div
-    class="fixed inset-0 z-40 flex md:hidden"
+    class="fixed inset-0 z-40 flex lg:hidden"
     role="dialog"
     aria-modal="true"
     use:focusTrap
@@ -81,7 +81,7 @@
   </div>
 {/if}
 
-<div class="md:hidden fixed bottom-0 right-4 z-50 flex-shrink-0 h-16 flex">
+<div class="lg:hidden fixed bottom-0 right-4 z-50 flex-shrink-0 h-16 flex">
   <button
     on:click={() => (isMenuOpen = !isMenuOpen)}
     class="unstyled bg-white text-gray-800 border border-gray-300 rounded-full h-10 w-10 flex items-center justify-center shadow"

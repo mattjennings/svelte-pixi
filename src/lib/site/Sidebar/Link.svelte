@@ -1,7 +1,5 @@
 <script lang="ts">
   import { page } from '$app/stores'
-  import { Icon } from '@steeze-ui/svelte-icon'
-  import { ChevronDown } from '@steeze-ui/heroicons'
   import { createEventDispatcher } from 'svelte'
   import type { Link } from 'src/routes/links.json'
 
@@ -12,18 +10,13 @@
 
 {#if link.links}
   <li class="ml-2 mt-4">
-    <button
-      class="flex items-center p-1 w-full rounded text-left font-medium text-slate-800 group"
+    <span
+      class="flex items-center p-1 w-full rounded text-left font-medium text-slate-800"
       role="group"
       on:click={() => dispatch('expand')}
     >
       {link.title}
-      <div
-        class="ml-2 w-4 transition-all duration-200 opacity-0 group-hover:opacity-100"
-      >
-        <Icon src={ChevronDown} />
-      </div>
-    </button>
+    </span>
     <ul class="ml-2 pt-1">
       {#each link.links as sublink}
         <svelte:self link={sublink} />

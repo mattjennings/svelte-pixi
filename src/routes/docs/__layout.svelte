@@ -12,6 +12,7 @@
 
 <script>
   import Sidebar from '$lib/site/Sidebar/Sidebar.svelte'
+  import ToC from '$lib/site/ToC.svelte'
 
   export let links
 </script>
@@ -24,4 +25,5 @@
       <slot />
     </div>
   </main>
+  <ToC />
 </div>

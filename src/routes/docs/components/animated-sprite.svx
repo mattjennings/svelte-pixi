@@ -13,7 +13,7 @@ I recommend using spritesheets created by TexturePacker ([they have a great tuto
 
 If you don't want to use spritesheets, you can simply just pass in an array of your desired textures.
 
-### Spritesheet
+## Spritesheet
 
 ```html example csr
 <script>
@@ -38,7 +38,7 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 </Loader>
 ```
 
-### Multiple Animations from Spritesheet
+## Multiple Animations from Spritesheet
 
 ```html example csr resources=["/assets/adventurer-spritesheet.json"]
 <script>
