@@ -27,7 +27,6 @@
   type $$Props = PIXI.IRendererOptionsAuto & {
     instance?: T
     stage?: PIXI.Container
-    renderOnDemand?: boolean
   }
 
   type $$Slots = {
