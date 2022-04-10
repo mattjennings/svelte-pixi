@@ -8,7 +8,7 @@ This page will outline a few scenarios where you may be able to optimize perform
 
 You may find yourself needing to render and update many components at once. Take the [app on the homepage](/), for example. If we were to recreate this, we might imagine every Star as a `<Sprite />` component that receives props every frame.
 
-```svelte example csr hideStyle
+```svelte csr hideStyle
 <script>
   import * as PIXI from 'pixi.js'
   import { Sprite, onTick } from 'svelte-pixi'
@@ -102,11 +102,12 @@ Let's take another approach by using PIXI a bit more natively:
   let amount = 100
   let stars = []
 
-  // create stars
+  // create stars for amount value
   $: {
     // cleanup previous stars
     stars.forEach(star => star.destroy())
 
+    // create stars
     if (container) {
       stars = new Array(amount).fill(null).map(() => {
         const star = new PIXI.Sprite(PIXI.Texture.from('/assets/star.png'))
@@ -120,6 +121,9 @@ Let's take another approach by using PIXI a bit more natively:
         star.x = star.initX
         star.y = star.initY
         star.z = star.initZ
+
+        updateStar(star)
+
         return star
       })
 
@@ -129,20 +133,22 @@ Let's take another approach by using PIXI a bit more natively:
     }
   }
 
+  function updateStar(star) {
+    const z = star.z - cameraZ
+    const distance = Math.max(0, (2000 - (z)) / 2000)
+
+    star.scale.set(distance * starSize)
+    star.anchor.set(0.5, 0.7)
+
+    star.x = star.initX * (fov / z) * width + width / 2
+    star.y = star.initY * (fov / z) * width + height / 2
+  }
+
   // move the camera forward
   onTick(delta => {
     cameraZ += delta * 10 * speed
 
-    stars.forEach(star => {
-      const z = star.z - cameraZ
-      const distance = Math.max(0, (2000 - (z)) / 2000)
-
-      star.scale.set(distance * starSize)
-      star.anchor.set(0.5, 0.7)
-
-      star.x = star.initX * (fov / z) * width + width / 2
-      star.y = star.initY * (fov / z) * width + height / 2
-    })
+    stars.forEach(updateStar)
   })
 
   onMount(() => {
