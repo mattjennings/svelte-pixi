@@ -45,7 +45,7 @@
 
   type T = $$Generic<PIXI.Loader>
   type $$Props = {
-    instance: T
+    instance?: T
     resources?: string[] | Array<[string, string, PIXI.IAddOptions, () => any]>
     baseUrl?: string
     concurrency?: number
