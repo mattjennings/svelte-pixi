@@ -26,7 +26,7 @@
   } from 'svelte'
   import { getRenderer } from './Renderer.svelte'
   import type { PointLike } from './util/data-types'
-  import { applyProp } from './util/props'
+  import { applyProp, applyProps } from './util/props'
 
   type T = $$Generic<PIXI.Container>
 
@@ -442,8 +442,8 @@
     // initial props before its children are mounted.
     // so, if we have children, re-apply props
     if ($$slots.default) {
-      // re-assigning instance will trigger prop effects
-      instance = instance
+      const { instance, ...props } = $$props
+      applyProps(instance, props)
     }
 
     instance.on('click', (ev) => dispatch('click', ev))
