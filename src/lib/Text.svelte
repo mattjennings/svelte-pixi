@@ -6,6 +6,8 @@
 
   import { applyProps } from './util/props'
   import Sprite from './Sprite.svelte'
+  import { afterUpdate } from 'svelte'
+  import { getRenderer } from './Renderer.svelte'
 
   type T = $$Generic<PIXI.Text>
   type $$Props = Sprite<T>['$$prop_def'] & {
@@ -33,6 +35,12 @@
    * @type {PIXI.Text}
    */
   export let instance: T = new PIXI.Text($$props.text, $$props.style) as T
+
+  const { invalidate } = getRenderer()
+
+  afterUpdate(() => {
+    invalidate()
+  })
 
   $: applyProps(instance, { text, style })
 </script>

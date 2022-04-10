@@ -4,6 +4,8 @@
    */
 
   import * as PIXI from 'pixi.js'
+  import { afterUpdate } from 'svelte'
+  import { getRenderer } from './Renderer.svelte'
   import Sprite from './Sprite.svelte'
   import type { PointLike } from './util/data-types'
   import { applyProp } from './util/props'
@@ -79,6 +81,12 @@
    * @type {PIXI.TilingSprite}
    */
   export let instance: T = new PIXI.TilingSprite(texture, width, height) as T
+
+  const { invalidate } = getRenderer()
+
+  afterUpdate(() => {
+    invalidate()
+  })
 
   $: applyProp(instance, { clampMargin })
   $: applyProp(instance, { height })
