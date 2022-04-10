@@ -1,18 +1,10 @@
-<script context="module" lang="ts">
-  import { applyProps, type ExtractProps } from './util/props'
-
-  export interface TextComponentProps<Instance extends PIXI.Text = PIXI.Text>
-    extends ExtractProps<PIXI.Text> {
-    instance?: Instance
-  }
-</script>
-
 <script lang="ts">
   /**
    * @restProps {Sprite}
    */
   import * as PIXI from 'pixi.js'
 
+  import { applyProps } from './util/props'
   import Sprite from './Sprite.svelte'
 
   type T = $$Generic<PIXI.Text>
@@ -21,9 +13,25 @@
     style: PIXI.Text['style']
   }
 
+  /**
+   * The text to display
+   *
+   * @type {string}
+   */
   export let text: PIXI.Text['text']
+
+  /**
+   * Sets the style of the text
+   *
+   * @type {PIXI.TextStyle}
+   */
   export let style: PIXI.Text['style']
 
+  /**
+   * The PIXI.Text instance. Can be set or bound to.
+   *
+   * @type {PIXI.Text}
+   */
   export let instance: T = new PIXI.Text($$props.text, $$props.style) as T
 
   $: applyProps(instance, { text, style })

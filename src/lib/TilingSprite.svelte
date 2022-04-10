@@ -1,32 +1,101 @@
-<script context="module" lang="ts">
-  import Sprite, { type SpriteComponentProps } from './Sprite.svelte'
-  import type { ExtractProps } from './util/props'
-
-  export interface TilingSpriteComponentProps<
-    Instance extends PIXI.TilingSprite = PIXI.TilingSprite
-  > extends ExtractProps<PIXI.TilingSprite>,
-      ExtractProps<GlobalMixins.TilingSprite> {
-    instance?: Instance
-  }
-</script>
-
 <script lang="ts">
+  /**
+   * @restProps {Sprite}
+   */
+
   import * as PIXI from 'pixi.js'
+  import Sprite from './Sprite.svelte'
+  import type { PointLike } from './util/data-types'
+  import { applyProp } from './util/props'
 
   type T = $$Generic<PIXI.TilingSprite>
-  type $$Props = TilingSpriteComponentProps<T> & SpriteComponentProps<T>
+  type $$Props = Sprite<T>['$$prop_def'] & {
+    clampMargin?: PIXI.TilingSprite['clampMargin']
+    tileTransform?: PIXI.TilingSprite['tileTransform']
+    uvMatrix?: PIXI.TilingSprite['uvMatrix']
+    uvRespectAnchor?: PIXI.TilingSprite['uvRespectAnchor']
+    tilePosition?: PointLike
+    texture: PIXI.TilingSprite['texture']
+    height: PIXI.TilingSprite['height']
+  }
 
-  /** @type {TilingSprite} TilingSprite instance to render */
-  export let instance: PIXI.TilingSprite = new PIXI.TilingSprite(
-    $$props.texture,
-    $$props.width,
-    $$props.height
-  )
+  /**
+   * Changes frame clamping in corresponding textureTransform, shortcut.
+   * Change to -0.5 to add a pixel to the edge, recommended for transparent trimmed textures in atlas
+   */
+  export let clampMargin: $$Props['clampMargin'] = 0.5
+
+  /**
+   * The height of the TilingSprite, setting this will actually modify the scale to achieve the value set.
+   *
+   * @type {number}
+   */
+  export let height: $$Props['height'] = undefined
+
+  export let texture: $$Props['texture']
+
+  /**
+   * The offset of the image that is being tiled.
+   *
+   * @type {PointLike}
+   */
+  export let tilePosition: $$Props['tilePosition'] = undefined
+
+  /**
+   * Tile transform
+   *
+   * @type {PIXI.Transform}
+   */
+  export let tileTransform: $$Props['tileTransform'] = undefined
+
+  /**
+   * Matrix that is applied to UV to get the coords in Texture normalized space to coords in BaseTexture space.
+   *
+   * @type {PIXI.TextureMatrix}
+   */
+  export let uvMatrix: $$Props['uvMatrix'] = undefined
+
+  /**
+   * Flags whether the tiling pattern should originate from the origin instead
+   * of the top-left corner in local space.
+   *
+   * This will make the texture coordinates assigned to each vertex dependent on the value of the anchor.
+   * Without this, the top-left corner always gets the (0, 0) texture coordinate.
+   *
+   * @type {boolean}
+   */
+  export let uvRespectAnchor: $$Props['uvRespectAnchor'] = undefined
+
+  /**
+   * The width of the sprite, setting this will actually modify the scale to achieve the value set.
+   *
+   * @type {number}
+   */
+  export let width: $$Props['width'] = undefined
+
+  /**
+   * The PIXI.TilingSprite instance. Can be set or bound to.
+   *
+   * @type {PIXI.TilingSprite}
+   */
+  export let instance: T = new PIXI.TilingSprite(texture, width, height) as T
+
+  $: applyProp(instance, { clampMargin })
+  $: applyProp(instance, { height })
+  $: applyProp(instance, { texture })
+  $: applyProp(instance, { tilePosition })
+  $: applyProp(instance, { tileTransform })
+  $: applyProp(instance, { uvMatrix })
+  $: applyProp(instance, { uvRespectAnchor })
+  $: applyProp(instance, { width })
 </script>
 
 <Sprite
   {...$$restProps}
   {instance}
+  {texture}
+  {width}
+  {height}
   on:click
   on:mousedown
   on:mousemove

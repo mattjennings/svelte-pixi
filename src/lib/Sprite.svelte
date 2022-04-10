@@ -7,24 +7,59 @@
 
   import Container from './Container.svelte'
   import { getRenderer } from './Renderer.svelte'
+  import type { PointLike } from './util/data-types'
   import { applyProp } from './util/props'
 
   type T = $$Generic<PIXI.Sprite>
   type $$Props = Container<T>['$$prop_def'] & {
-    anchor?: PIXI.Sprite['anchor']
+    anchor?: PointLike
     blendMode?: PIXI.Sprite['blendMode']
     pluginName?: PIXI.Sprite['pluginName']
     roundPixels?: PIXI.Sprite['roundPixels']
     texture?: PIXI.Sprite['texture']
   }
 
+  /**
+   * The anchor sets the origin point of the text.
+   *
+   * @type {PointLike}
+   */
   export let anchor: $$Props['anchor'] = undefined
-  export let blendMode: $$Props['blendMode'] = undefined
+
+  /**
+   * The blend mode to be applied to the sprite.
+   * Apply a value of PIXI.BLEND_MODES.NORMAL to reset the blend mode.
+   */
+  export let blendMode: $$Props['blendMode'] = PIXI.BLEND_MODES.NORMAL
+
+  /**
+   * Plugin that is responsible for rendering this element.
+   *
+   * @type {string}
+   */
   export let pluginName: $$Props['pluginName'] = undefined
+
+  /**
+   * If true PixiJS will Math.floor() x/y values when rendering, stopping pixel interpolation.
+   * Advantages can include sharper image quality (like text) and faster rendering on canvas.
+   * The main disadvantage is movement of objects may appear less smooth.
+   *
+   * @type {boolean}
+   */
   export let roundPixels: $$Props['roundPixels'] = undefined
+
+  /**
+   * The texture that the sprite is using.
+   *
+   * @type {PIXI.Texture}
+   */
   export let texture: $$Props['texture'] = undefined
 
-  /** @type {PIXI.Sprite} PIXI.Sprite instance to render */
+  /**
+   * The PIXI.Sprite instance. Can be set or bound to.
+   *
+   * @type {PIXI.Sprite}
+   */
   export let instance: T = new PIXI.Sprite($$props.texture) as T
 
   const { invalidate } = getRenderer()

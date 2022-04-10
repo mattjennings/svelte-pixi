@@ -21,5 +21,3 @@ Sprites are the base for all textured objects that are rendered to the screen
   y={200}
 />
 ```
-
-<!-- <ComponentDocs docs={docs} extends="Container"/> -->

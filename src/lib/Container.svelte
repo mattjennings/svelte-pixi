@@ -43,6 +43,7 @@
     cacheAsBitmap?: PIXI.Container['cacheAsBitmap']
     cacheAsBitmapMultisample?: PIXI.Container['cacheAsBitmapMultisample']
     cacheAsBitmapResolution?: PIXI.Container['cacheAsBitmapResolution']
+    cullable?: PIXI.Container['cullable']
     cullArea?: PIXI.Container['cullArea']
     cursor?: PIXI.Container['cursor']
     filterArea?: PIXI.Container['filterArea']
@@ -56,7 +57,7 @@
     mask?: PIXI.Container['mask']
     name?: PIXI.Container['name']
     pivot?: PointLike
-    position?: PIXI.Container['position']
+    position?: PointLike
     renderable?: PIXI.Container['renderable']
     rotation?: PIXI.Container['rotation']
     scale?: PointLike
@@ -72,46 +73,341 @@
     applyPropOnMount?: boolean
   }
 
-  export let accessible: $$Props['accessible'] = undefined
+  /**
+   * Flag for if the object is accessible.
+   * If true AccessibilityManager will overlay a shadow div with attributes set
+   *
+   * @type {boolean}
+   */
+  export let accessible: $$Props['accessible'] = false
+
+  /**
+   * Setting to false will prevent any children inside this container to be accessible.
+   *
+   * @type {boolean}
+   */
   export let accessibleChildren: $$Props['accessibleChildren'] = true
+
+  /**
+   * Sets the aria-label attribute of the shadow div
+   *
+   * @type {string}
+   */
   export let accessibleHint: $$Props['accessibleHint'] = undefined
+
+  /**
+   * Specify the pointer-events the accessible div will use Defaults to auto.
+   *
+   * @type {string}
+   */
   export let accessiblePointerEvents: $$Props['accessiblePointerEvents'] =
     'auto'
+
+  /**
+   * Sets the title attribute of the shadow div If accessibleTitle AND accessibleHint
+   * has not been this will default to 'displayObject [tabIndex]'
+   *
+   * @type {string}
+   */
   export let accessibleTitle: $$Props['accessibleTitle'] = undefined
+
+  /**
+   * Specify the type of div the accessible layer is.
+   * Screen readers treat the element differently depending on this type.
+   *
+   * @type {string}
+   */
   export let accessibleType: $$Props['accessibleType'] = 'button'
+
+  /**
+   * The opacity of the object.
+   *
+   * @type {number}
+   */
   export let alpha: $$Props['alpha'] = undefined
+
+  /**
+   * The angle of the object in degrees.
+   * 'rotation' and 'angle' have the same effect on a display object;
+   * rotation is in radians, angle is in degrees.
+   *
+   * @type {number}
+   */
   export let angle: $$Props['angle'] = undefined
+
+  /**
+   * If enabled, the mouse cursor use the pointer behavior when hovered over the displayObject
+   * if it is interactive Setting this changes the 'cursor' property to 'pointer'.
+   *
+   * @type {boolean}
+   */
   export let buttonMode: $$Props['buttonMode'] = undefined
+
+  /**
+   * Set this to true if you want this display object to be cached as a bitmap.
+   * This basically takes a snap shot of the display object as it is at that moment.
+   * It can provide a performance benefit for complex static displayObjects.
+   * To remove simply set this property to false
+   *
+   * IMPORTANT GOTCHA - Make sure that all your textures are preloaded BEFORE
+   * setting this property to true as it will take a snapshot of what is currently there.
+   *  If the textures have not loaded then they will not appear.
+   *
+   * @type {boolean}
+   */
   export let cacheAsBitmap: $$Props['cacheAsBitmap'] = undefined
+
+  /**
+   * The number of samples to use for cacheAsBitmap. If set to null, the renderer's sample count is used.
+   * If cacheAsBitmap is set to true, this will re-render with the new number of samples.
+   *
+   * @type {PIXI.MSAA_QUALITY}
+   */
   export let cacheAsBitmapMultisample: $$Props['cacheAsBitmapMultisample'] =
     PIXI.MSAA_QUALITY.NONE
+
+  /**
+   * The resolution to use for cacheAsBitmap.
+   * By default this will use the renderer's resolution but can be overriden for performance.
+   * Lower values will reduce memory usage at the expense of render quality.
+   * A falsey value of null or 0 will default to the renderer's resolution.
+   * If cacheAsBitmap is set to true, this will re-render with the new resolution.
+   */
   export let cacheAsBitmapResolution: $$Props['cacheAsBitmapResolution'] = null
+
+  /**
+   * Should this object be rendered if the bounds of this object are out of frame?
+   *
+   * Culling has no effect on whether updateTransform is called.
+   *
+   * @type {boolean}
+   */
+  export let cullable: $$Props['cullable'] = undefined
+
+  /**
+   * If set, this shape is used for culling instead of the bounds of this object.
+   * It can improve the culling performance of objects with many children.
+   * The culling area is defined in local space.
+   *
+   * @type {PIXI.Rectangle}
+   */
   export let cullArea: $$Props['cullArea'] = undefined
+
+  /**
+   * This defines what cursor mode is used when the mouse cursor is hovered over the displayObject.
+   *
+   * @type {string}
+   */
   export let cursor: $$Props['cursor'] = undefined
+
+  /**
+   * The area the filter is applied to.
+   * This is used as more of an optimization rather than figuring out the dimensions of
+   * the displayObject each frame you can set this rectangle.
+   *
+   * Also works as an interaction mask.
+   *
+   * @type {PIXI.Rectangle}
+   */
   export let filterArea: $$Props['filterArea'] = undefined
+
+  /**
+   * Sets the filters for the displayObject.
+   *
+   * IMPORTANT: This is a WebGL only feature and will be ignored by the canvas renderer. To remove filters simply set this property to 'null'.
+   *
+   * @type {PIXI.Filter[] | null}
+   */
   export let filters: $$Props['filters'] = undefined
+
+  /**
+   * The height of the Container, setting this will actually modify the scale to achieve the value set.
+   *
+   * @type {number}
+   */
   export let height: $$Props['height'] = undefined
+
+  /**
+   * Interaction shape. Children will be hit first, then this shape will be checked.
+   * Setting this will cause this shape to be checked in hit tests rather than the displayObject's bounds.
+   *
+   * @type {PIXI.IHitArea}
+   */
   export let hitArea: $$Props['hitArea'] = undefined
-  export let interactive: $$Props['interactive'] = undefined
+
+  /**
+   * Enable interaction events for the DisplayObject.
+   * Touch, pointer and mouse events will not be emitted unless interactive is set to true.
+   *
+   * @type {boolean}
+   */
+  export let interactive: $$Props['interactive'] = false
+
+  /**
+   * Determines if the children to the displayObject can be clicked/touched.
+   * Setting this to false allows PixiJS to bypass a recursive hitTest function
+   *
+   * @type {boolean}
+   */
   export let interactiveChildren: $$Props['interactiveChildren'] = true
+
+  /**
+   * Does any other displayObject use this object as a mask?
+   *
+   * @type {boolean}
+   */
   export let isMask: $$Props['isMask'] = undefined
+
+  /**
+   * Used to fast check if a sprite is.. a sprite!
+   *
+   * @type {boolean}
+   */
   export let isSprite: $$Props['isSprite'] = undefined
+
+  /**
+   * Sets a mask for the displayObject.
+   * A mask is an object that limits the visibility of an object to the shape
+   * of the mask applied to it. In PixiJS a regular mask must be a
+   * PIXI.Graphics or a PIXI.Sprite object.
+   * This allows for much faster masking in canvas as it utilities shape clipping.
+   * To remove a mask, set this property to null.
+   *
+   * For sprite mask both alpha and red channel are used. Black mask is the same as transparent mask.
+   *
+   * At the moment, PIXI.CanvasRenderer doesn't support PIXI.Sprite as mask.
+   *
+   * @type {PIXI.Container | PIXI.MaskData | null}
+   */
   export let mask: $$Props['mask'] = undefined
+
+  /**
+   * The instance name of the object.
+   *
+   * @type {string}
+   */
   export let name: $$Props['name'] = undefined
+
+  /**
+   * The center of rotation, scaling, and skewing for this display object in its local space.
+   * The position is the projection of pivot in the parent's local space.
+   *
+   * By default, the pivot is the origin (0, 0).
+   *
+   * @type {PointLike}
+   */
   export let pivot: $$Props['pivot'] = undefined
+
+  /**
+   * The coordinate of the object relative to the local coordinates of the parent.
+   *
+   * @type {PointLike}
+   */
   export let position: $$Props['position'] = undefined
+
+  /**
+   * Can this object be rendered, if false the object will not be drawn but
+   * the updateTransform methods will still be called.
+   *
+   * Only affects recursive calls from parent. You can ask for bounds manually
+   *
+   * @type {boolean}
+   */
   export let renderable: $$Props['renderable'] = undefined
+
+  /**
+   * The rotation of the object in radians. 'rotation' and 'angle' have the
+   * same effect on a display object; rotation is in radians, angle is in degrees.
+   *
+   * @type {number}
+   */
   export let rotation: $$Props['rotation'] = undefined
+
+  /**
+   * The scale factors of this object along the local coordinate axes.
+   *
+   * The default scale is (1, 1).
+   *
+   * @type {PointLike}
+   */
   export let scale: $$Props['scale'] = undefined
+
+  /**
+   * The skew factor for the object in radians.
+   *
+   * @type {PointLiek}
+   */
   export let skew: $$Props['skew'] = undefined
+
+  /**
+   * If set to true, the container will sort its children by zIndex value when
+   * updateTransform() is called, or manually if sortChildren() is called.
+   *
+   * This actually changes the order of elements in the array, so should be
+   * treated as a basic solution that is not performant compared to other solutions, such as @link https://github.com/pixijs/pixi-display
+   *
+   * Also be aware of that this may not work nicely with the addChildAt() function,
+   * as the zIndex sorting may cause the child to automatically sorted to another position.
+   *
+   * @type {boolean}
+   */
   export let sortableChildren: $$Props['sortableChildren'] = undefined
+
+  /**
+   * The width of the Container, setting this will actually modify the scale to achieve the value set.
+   *
+   * @type {number}
+   */
   export let width: $$Props['width'] = undefined
+
+  /**
+   * World transform and local transform of this object. This will become read-only later,
+   * please do not assign anything there unless you know what are you doing.
+   *
+   * @type {PIXI.Transform}
+   */
   export let transform: $$Props['transform'] = undefined
+
+  /**
+   * The visibility of the object. If false the object will not be drawn,
+   * and the updateTransform function will not be called.
+   *
+   * Only affects recursive calls from parent. You can ask for bounds
+   * or call updateTransform manually.
+   *
+   * @type {boolean}
+   */
   export let visible: $$Props['visible'] = undefined
+
+  /**
+   * The position of the displayObject on the x axis relative to the
+   * local coordinates of the parent. An alias to position.x
+   *
+   * @type {number}
+   */
   export let x: $$Props['x'] = undefined
+
+  /**
+   * The position of the displayObject on the y axis relative
+   * to the local coordinates of the parent. An alias to position.y
+   *
+   * @type {number}
+   */
   export let y: $$Props['y'] = undefined
+
+  /**
+   * The zIndex of the displayObject.
+   *
+   * If a container has the sortableChildren property set to true,
+   * children will be automatically sorted by zIndex value; a higher value will mean it will be moved towards the end of the array, and thus rendered on top of other display objects within the same container.
+   **/
   export let zIndex: $$Props['zIndex'] = undefined
 
+  /**
+   * The PIXI.Container instance. Can be set or bound to.
+   *
+   * @type {PIXI.Container}
+   */
   export let instance: T = new PIXI.Container() as T
 
   const { invalidate } = getRenderer()
@@ -203,6 +499,7 @@
   $: applyProp(instance, { cacheAsBitmapResolution })
   $: applyProp(instance, { cacheAsBitmapMultisample })
   $: applyProp(instance, { cursor })
+  $: applyProp(instance, { cullable })
   $: applyProp(instance, { cullArea })
   $: applyProp(instance, { filterArea })
   $: applyProp(instance, { hitArea })

@@ -1,15 +1,7 @@
 ---
 title: Ticker
+pixi: https://pixijs.download/release/docs/Ticker.html
 ---
-
-<script>
-  import docs from '$lib/Ticker.svelte?raw&sveld' 
-  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
-</script>
-
-Creates a [Pixi Ticker](https://pixijs.download/release/docs/PIXI.Ticker.html).
-
-Child components can use the `onTick` function from svelte-pixi to subscribe to the ticker.
 
 ## Usage
 
@@ -36,6 +28,8 @@ Child components can use the `onTick` function from svelte-pixi to subscribe to 
 
 ## onTick
 
+Child components can use `onTick` to subscribe to the ticker
+
 ```svelte example csr
 <script>
   import { Text, onTick } from 'svelte-pixi'
@@ -55,5 +49,3 @@ Child components can use the `onTick` function from svelte-pixi to subscribe to 
   anchor={0.5}
 />
 ```
-
-<ComponentDocs docs={docs} pixiComponentName="PIXI.Ticker"/>

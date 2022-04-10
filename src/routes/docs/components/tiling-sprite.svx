@@ -1,11 +1,7 @@
 ---
 title: TilingSprite
+pixi: https://pixijs.download/release/docs/TilingSprite.html
 ---
-
-<script>
-  import docs from '$lib/TilingSprite.svelte?raw&sveld' 
-  import ComponentDocs from'$lib/site/ComponentDocs.svelte' 
-</script>
 
 ## Usage
 
@@ -35,5 +31,3 @@ title: TilingSprite
   height={400}
 />
 ```
-
-<ComponentDocs docs={docs} pixiComponentName="PIXI.TilingSprite" />

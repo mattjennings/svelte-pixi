@@ -48,11 +48,42 @@
 
   const dispatch = createEventDispatcher()
 
+  /**
+   * Whether or not this ticker starts automatically
+   */
   export let autoStart: $$Props['autoStart'] = true
+
+  /**
+   * Manages the minimum amount of milliseconds required to elapse between invoking PIXI.Ticker#update.
+   * This will effect the measured value of PIXI.Ticker#FPS.
+   * If it is set to 0, then there is no limit; PixiJS will render as many frames as it can.
+   * Otherwise it will be at least minFPS
+   */
+  export let maxFPS: $$Props['maxFPS'] = 0
+
+  /**
+   * Manages the maximum amount of milliseconds allowed to elapse between invoking PIXI.Ticker#update.
+   * This value is used to cap PIXI.Ticker#deltaTime, but does not effect the measured value of PIXI.Ticker#FPS.
+   * When setting this property it is clamped to a value between 0 and PIXI.settings.TARGET_FPMS * 1000.
+   */
+  export let minFPS: $$Props['minFPS'] = 10
+
+  /**
+   * Factor of current PIXI.Ticker#deltaTime.
+   */
+  export let speed: $$Props['speed'] = 1
+
+  /**
+   * The PIXI.Ticker instance. Can be set or bound to.
+   *
+   * @type {PIXI.Ticker}
+   */
   export let instance: T = new PIXI.Ticker() as T
 
   /**
-   * UPDATE_PRIORITY of the PIXI.Ticker. Defaults to LOW
+   * Priority of the ticker for on:tick event. Defaults to LOW
+   *
+   * @type {PIXI.UPDATE_PRIORITY}
    */
   export let priority = PIXI.UPDATE_PRIORITY.LOW
 
@@ -68,9 +99,10 @@
     }
   })
 
-  $: {
-    applyProps(instance, { ...$$restProps, autoStart })
-  }
+  $: applyProps(instance, { autoStart })
+  $: applyProps(instance, { maxFPS })
+  $: applyProps(instance, { minFPS })
+  $: applyProps(instance, { speed })
 </script>
 
 <slot />
