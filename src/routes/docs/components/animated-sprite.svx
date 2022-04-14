@@ -9,7 +9,7 @@ I recommend using spritesheets created by TexturePacker ([they have a great tuto
 
 ## Spritesheet
 
-```html example csr
+```svelte example csr
 <script>
   import * as PIXI from 'pixi.js'
   import { AnimatedSprite, Loader } from 'svelte-pixi'
@@ -34,7 +34,7 @@ I recommend using spritesheets created by TexturePacker ([they have a great tuto
 
 ## Multiple Animations from Spritesheet
 
-```html example csr resources=["/assets/adventurer-spritesheet.json"]
+```svelte example csr resources=["/assets/adventurer-spritesheet.json"]
 <script>
   import { AnimatedSprite, Loader, getResource } from 'svelte-pixi'
 
@@ -53,11 +53,11 @@ I recommend using spritesheets created by TexturePacker ([they have a great tuto
 <AnimatedSprite
   {textures}
   playing
-  animationSpeed="{0.1}"
-  x="{200}"
-  y="{200}"
-  anchor="{0.5}"
-  scale="{2}"
-  on:loop="{changeAnimation}"
+  animationSpeed={0.1}
+  x={200}
+  y={200}
+  anchor={0.5}
+  scale={2}
+  on:loop={changeAnimation}
 />
 ```

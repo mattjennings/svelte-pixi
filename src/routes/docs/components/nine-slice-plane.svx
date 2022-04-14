@@ -34,7 +34,7 @@ Allows you to stretch a texture using 9-slice scaling. The corners will remain u
   bottomHeight={12}
   {width}
   {height}
-  pivot={{ x: width/2, y: height/2}}
+  pivot={{ x: width / 2, y: height / 2}}
   scale={2}
 />
 ```
