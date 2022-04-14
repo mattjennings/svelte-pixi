@@ -8,7 +8,7 @@ export type PointLike =
   | PIXI.ObservablePoint
 
 /**
- * Parses a value a Point
+ * Parses a value to a Point
  */
 export function parsePoint(point: PointLike): PIXI.Point {
   if (Array.isArray(point)) {
@@ -17,6 +17,10 @@ export function parsePoint(point: PointLike): PIXI.Point {
 
   if (typeof point === 'number') {
     return new PIXI.Point(point, point)
+  }
+
+  if (point instanceof PIXI.Point || point instanceof PIXI.ObservablePoint) {
+    return point
   }
 
   return new PIXI.Point(point.x, point.y)

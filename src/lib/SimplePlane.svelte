@@ -39,7 +39,7 @@
    * @type {PIXI.SimplePlane}
    */
   export let instance: T = new PIXI.SimplePlane(
-    ($$props as $$Props).texture,
+    texture,
     parsePoint(vertices).x,
     parsePoint(vertices).y
   ) as T
