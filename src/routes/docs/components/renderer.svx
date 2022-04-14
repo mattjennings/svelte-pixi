@@ -3,13 +3,14 @@ title: Renderer
 pixi: https://pixijs.download/release/docs/PIXI.Renderer.html
 ---
 
-This is an alternative to using the [Application](/docs/components/application) component, where you might desire more control over the renderer. It does not automatically render for you nor does it create the root Container, so you will have to set those up as well.
+This is an alternative to using the [Application](/docs/components/application) component, where you might desire more control over the renderer. As a result, the render loop is not setup nor is a root `<Container />` - so you will have to set those up yourself.
 
 ## Usage
 
 ```svelte example csr noApp
 <script>
   import { Renderer, Container, Ticker, Text } from 'svelte-pixi'
+  import DraggableCircle from '$lib/site/DraggableCircle.svelte'
 
   let renderer
   let stage
@@ -23,20 +24,26 @@ This is an alternative to using the [Application](/docs/components/application) 
   height={400}
   antialias
 >
-  <Container bind:instance={stage}>
-    <Ticker
-      on:tick={() => {
-        renderer.render(stage)
-      }}>
-      <Text
-        x={200}
-        y={200}
-        text="Hello World"
-        style={{ fill: 'white' }}
-        anchor={0.5}
-      />
-    </Ticker>
-  </Container>
+  <!-- use our own ticker to control the render loop -->
+  <Ticker
+    on:tick={() => {
+      renderer.render(stage)
+    }}>
+    <!--
+      the root container is referred to as the "stage", child components
+      can access it with getStage()
+    -->
+    <Container bind:instance={stage}>
+        <Text
+          x={200}
+          y={300}
+          text="Click and drag"
+          style={{ fill: 'white' }}
+          anchor={0.5}
+        />
+        <DraggableCircle x={200} y={200}/>
+    </Container>
+  </Ticker>
 </Renderer>
 ```
 
@@ -85,3 +92,53 @@ If you want to customize the element that the canvas is rendered into, you can u
   }
 </style>
 ```
+
+## Render on Demand
+
+The `Application` component supports [rendering on demand](/docs/components/application#render-on-demand). While `Renderer` doesn't offer the same `render="demand"` prop,
+we can still implement this ourselves:
+
+```svelte example csr noApp
+<script>
+  import { Renderer, Container, Ticker, Text } from 'svelte-pixi'
+  import DraggableCircle from '$lib/site/DraggableCircle.svelte'
+
+  let renderer
+  let stage
+  let needsRender = true
+
+</script>
+
+<Renderer
+  bind:instance={renderer}
+  bind:stage={stage}
+  width={400}
+  height={400}
+  antialias
+  on:invalidate={() => {
+    needsRender = true
+  }}
+>
+  <Ticker
+    on:tick={() => {
+      if (needsRender) {
+        renderer.render(stage)
+        needsRender = false
+        // check out the console
+        console.log('render')
+      }
+    }} />
+  <Container bind:instance={stage}>
+    <Text
+      x={200}
+      y={300}
+      text="Click and drag"
+      style={{ fill: 'white' }}
+      anchor={0.5}
+    />
+    <DraggableCircle x={200} y={200}/>
+  </Container>
+</Renderer>
+```
+
+See [Render on Demand](/docs/advanced/optimizing-performance#render-on-demand) for more information.

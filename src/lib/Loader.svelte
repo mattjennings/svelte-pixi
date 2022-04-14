@@ -25,6 +25,7 @@
     getContext,
     onMount,
   } from 'svelte'
+  import { getRenderer } from './Renderer.svelte'
 
   interface $$Slots {
     default: {
@@ -80,6 +81,8 @@
 
   setContext<LoaderContext<T>>('pixi/loader', { loader: instance })
 
+  const { invalidate } = getRenderer()
+
   let progress = 0
   let loading = resources.length > 0
 
@@ -101,24 +104,29 @@
 
     function onComplete(ev) {
       dispatch('complete', ev)
+      invalidate()
       loading = false
     }
 
     function onProgress(ev) {
       dispatch('progress', ev)
+      invalidate()
       progress = ev.progress
     }
 
     function onError(ev) {
       dispatch('error', ev)
+      invalidate()
     }
 
     function onStart(ev) {
       dispatch('start', ev)
+      invalidate()
     }
 
     function onLoad(ev) {
       dispatch('load', ev)
+      invalidate()
     }
 
     const onCompleteId = instance.onComplete.add(onComplete)

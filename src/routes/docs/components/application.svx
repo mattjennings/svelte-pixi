@@ -81,3 +81,5 @@ If you want to customize the element that the canvas is rendered into, you can u
   <DraggableCircle x={200} y={200} />
 </Application>
 ```
+
+See [Render on Demand](/docs/advanced/optimizing-performance#render-on-demand) for more information.
