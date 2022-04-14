@@ -13,14 +13,14 @@
   // only render while in view
   $: if (app) {
     if (!intersecting) {
-      app.ticker.stop()
+      app.stop()
     } else {
-      app.ticker.start()
+      app.start()
     }
   }
 </script>
 
-<Application bind:instance={app} {...$$restProps}>
+<Application bind:instance={app} autoStart={false} {...$$restProps}>
   <div bind:this={element} slot="view">
     <IntersectionObserver {element} bind:intersecting />
   </div>

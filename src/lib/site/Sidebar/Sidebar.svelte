@@ -24,7 +24,7 @@
       <div class="flex-grow mt-5 flex flex-col">
         <nav class="flex-1 bg-white px-2 space-y-1">
           <div class="flex justify-between">
-            <a href="/" class="pl-3 text-2xl font-bold"> svelte-pixi </a>
+            <a href="/" class="pl-3 text-2xl font-bold"> SveltePixi </a>
             <GitHub />
           </div>
           <ul>

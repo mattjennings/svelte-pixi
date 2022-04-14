@@ -183,8 +183,7 @@
       <tr>
         <th>Name</th>
         <th>Type</th>
-        <!-- detail doesnt seem to be working with sveld -->
-        <!-- <th>Detail</th> -->
+        <th>Detail</th>
       </tr>
     </thead>
     <tbody>
@@ -196,11 +195,11 @@
               <code>{formatCodeValue(event.type)}</code>
             {/if}
           </td>
-          <!-- <td>
+          <td>
             {#if event.detail}
               <code>{formatEventDetail(event.detail)}</code>
             {/if}
-          </td> -->
+          </td>
         </tr>
       {/each}
     </tbody>

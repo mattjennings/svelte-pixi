@@ -35,7 +35,7 @@
 </script>
 
 <svelte:window bind:scrollY />
-<aside class="hidden lg:block sticky h-screen top-12 pt-4 pr-2 w-[13rem]">
+<aside class="hidden lg:block sticky h-screen top-12 right-4 pt-4 w-[13rem]">
   {#if headings.length}
     <h6 id="__sections" class="uppercase text-slate-800 font-bold text-xs">
       On This Page
@@ -43,10 +43,11 @@
 
     <ul class="mt-3 space-y-3">
       {#each headings as heading}
+        {@const depth = +heading.tagName[1] - 2}
         <li
-          class="list-none !pl-0 text-sm text-slate-400 hover:text-slate-900 transition-colors"
+          class="heading list-none !pl-0 text-sm text-slate-400 hover:text-slate-900 transition-colors"
           class:active={activeHeading === heading}
-          style={`--depth: ${+heading.tagName[1] - 2}`}
+          style={`--depth: ${depth}`}
         >
           <a
             class="!no-underline"
@@ -62,7 +63,7 @@
 
 <style lang="postcss">
   .heading {
-    margin-left: calc(var(--depth, 0) * 0.75rem);
+    margin-left: calc(var(--depth, 0) * 0.5rem);
   }
 
   .active {

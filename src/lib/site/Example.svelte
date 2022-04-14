@@ -28,7 +28,9 @@
       {/if}
     </div>
   </div>
-  <div class="code max-h-[600px] overflow-scroll">
-    <pre class="!my-0 !rounded-none"><slot name="code" /></pre>
+  <div class="max-h-[600px] overflow-scroll">
+    <pre class="!my-0 !rounded-tl-none !rounded-tr-none language-svelte"><slot
+        name="code"
+      /></pre>
   </div>
 </div>

@@ -8,7 +8,10 @@
 </svelte:head>
 
 <h1>{title}</h1>
-<p>
-  Creates a <a class="text-slate-800" href={pixi}>PIXI.{title}</a>
-</p>
+
+{#if pixi}
+  <p>
+    Creates a <a class="text-slate-800" href={pixi}>PIXI.{title}</a>
+  </p>
+{/if}
 <slot />

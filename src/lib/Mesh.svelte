@@ -9,9 +9,10 @@
   import { applyProp } from './util/props'
 
   type T = $$Generic<PIXI.Mesh>
+
   type $$Props = Container<T>['$$prop_def'] & {
     geometry: PIXI.Mesh['geometry']
-    shader: PIXI.Mesh['shader']
+    shader: PIXI.MeshMaterial | PIXI.Shader
     state?: PIXI.Mesh['state']
     drawMode?: PIXI.Mesh['drawMode']
   }
@@ -53,12 +54,7 @@
    *
    * @type {PIXI.Mesh}
    */
-  export let instance: T = new PIXI.Mesh(
-    ($$props as $$Props).geometry,
-    ($$props as $$Props).shader,
-    ($$props as $$Props).state,
-    ($$props as $$Props).drawMode
-  ) as T
+  export let instance: T = new PIXI.Mesh(geometry, shader, state, drawMode) as T
 
   const { invalidate } = getRenderer()
 
