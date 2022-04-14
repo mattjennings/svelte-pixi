@@ -155,7 +155,6 @@
 
 <Renderer
   instance={instance.renderer}
-  stage={instance.stage}
   on:invalidate={() => {
     invalidated = true
   }}
