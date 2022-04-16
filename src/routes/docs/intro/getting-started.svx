@@ -9,7 +9,7 @@ SveltePixi is a Svelte component library for creating Pixi applications.
 ## Install
 
 ```cli
-npm install svelte-pixi
+npm install pixi.js svelte-pixi
 ```
 
 ## Usage
