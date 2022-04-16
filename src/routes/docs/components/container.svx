@@ -36,3 +36,31 @@ When child components are rendered inside, their coordinates become local to the
   <Text text="World" y={60} style={{ fill: 'white' }} />
 </Container>
 ```
+
+## getContainer()
+
+Container provides context that can be consumed by child components
+
+```js
+import { getContainer } from 'svelte-pixi'
+
+const { container } = getContainer()
+```
+
+| Name        | Type             | Description                        |
+| ----------- | ---------------- | ---------------------------------- |
+| `container` | `PIXI.Container` | The parent PIXI.Container instance |
+
+## getStage()
+
+Returns the root Container instance
+
+```js
+import { getStage } from 'svelte-pixi'
+
+const { stage } = getStage()
+```
+
+| Name    | Type             | Description                      |
+| ------- | ---------------- | -------------------------------- |
+| `stage` | `PIXI.Container` | The root PIXI.Container instance |

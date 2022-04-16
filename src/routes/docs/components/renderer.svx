@@ -3,9 +3,11 @@ title: Renderer
 pixi: https://pixijs.download/release/docs/PIXI.Renderer.html
 ---
 
-This is an alternative to using the [Application](/docs/components/application) component, where you might desire more control over the renderer. As a result, the render loop is not setup nor is a root `<Container />` - so you will have to set those up yourself.
+This is an alternative to using the [Application](/docs/components/application) component. It allows you to use a custom `PIXI.Renderer` instance but -- like its native class -- it will not start the render loop or create the root container for you. You will need to do this yourself.
 
 ## Usage
+
+### Basic
 
 ```svelte example csr noApp
 <script>
@@ -47,7 +49,7 @@ This is an alternative to using the [Application](/docs/components/application) 
 </Renderer>
 ```
 
-## Custom View
+### Custom View
 
 If you want to customize the element that the canvas is rendered into, you can use the `view` slot. The canvas will be appended as a child of the slot element.
 
@@ -93,7 +95,7 @@ If you want to customize the element that the canvas is rendered into, you can u
 </style>
 ```
 
-## Render on Demand
+### Render on Demand
 
 The `Application` component supports [rendering on demand](/docs/components/application#render-on-demand). While `Renderer` doesn't offer the same `render="demand"` prop,
 we can still implement this ourselves:
@@ -142,3 +144,18 @@ we can still implement this ourselves:
 ```
 
 See [Render on Demand](/docs/advanced/optimizing-performance#render-on-demand) for more information.
+
+## getRenderer()
+
+Renderer provides context that can be consumed by child components
+
+```js
+import { getRenderer } from 'svelte-pixi'
+
+const { renderer, invalidate } = getRenderer()
+```
+
+| Name         | Type            | Description                                                        |
+| ------------ | --------------- | ------------------------------------------------------------------ |
+| `renderer`   | `PIXI.Renderer` | The PIXI.Renderer instance                                         |
+| `invalidate` | `() => void`    | Manually dispatches `invalidate` event, triggering a manual render |

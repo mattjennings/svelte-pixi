@@ -81,8 +81,10 @@
   $: props = docs.props?.filter((prop) => !prop.name.startsWith('get'))
 </script>
 
+<h2>Component API</h2>
+
 {#if docs.typedefs.length}
-  <h2>Types</h2>
+  <h3>Types</h3>
   <div class="text-sm md:text-base">
     <pre class="!my-0 !rounded-none">
     {@html Prism.highlight(
@@ -95,9 +97,9 @@
 {/if}
 
 {#if props.length}
-  <h2 id="props">
+  <h3 id="props">
     <a href="#props">Props</a>
-  </h2>
+  </h3>
   <table>
     <thead>
       <tr>
@@ -143,9 +145,9 @@
 {/if}
 
 {#if docs.slots.length}
-  <h2 id="slots">
+  <h3 id="slots">
     <a href="#slots">Slots</a>
-  </h2>
+  </h3>
   <table>
     <thead>
       <tr>
@@ -175,9 +177,9 @@
 {/if}
 
 {#if docs.events.length}
-  <h2 id="events">
+  <h3 id="events">
     <a href="#events">Events</a>
-  </h2>
+  </h3>
   <table>
     <thead>
       <tr>

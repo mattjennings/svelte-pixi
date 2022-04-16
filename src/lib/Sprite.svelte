@@ -60,7 +60,7 @@
    *
    * @type {PIXI.Sprite}
    */
-  export let instance: T = new PIXI.Sprite($$props.texture) as T
+  export let instance: T = new PIXI.Sprite(texture) as T
 
   const { invalidate } = getRenderer()
 

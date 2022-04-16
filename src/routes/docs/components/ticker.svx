@@ -26,9 +26,25 @@ pixi: https://pixijs.download/release/docs/Ticker.html
 </Ticker>
 ```
 
-## onTick
+## getTicker()
 
-Child components can use `onTick` to subscribe to the ticker
+Ticker provides context that can be consumed by child components
+
+```svelte
+<script>
+  import { getTicker } from 'svelte-pixi'
+
+  const { ticker } = getTicker()
+</script>
+```
+
+| Name   | Type          | Description              |
+| ------ | ------------- | ------------------------ |
+| ticker | `PIXI.Ticker` | The PIXI.Ticker instance |
+
+## onTick()
+
+Child components can use `onTick` to add a callback to the ticker. It will automatically remove itself on unmount.
 
 ```svelte example csr
 <script>

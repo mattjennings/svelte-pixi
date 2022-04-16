@@ -11,6 +11,7 @@ export interface Link {
 const order = [
   '/docs/intro',
   '/docs/components',
+  '/docs/utilities',
   '/docs/animation',
   '/docs/advanced',
 ]
