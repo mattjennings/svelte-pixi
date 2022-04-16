@@ -22,3 +22,16 @@ export function warning(condition: boolean, message: string): void {
     // eslint-disable-next-line no-empty
   } catch (x) {}
 }
+
+export function omitUndefined<T>(object: T) {
+  return Object.keys(object).reduce((acc, key) => {
+    if (typeof object[key] === 'undefined') {
+      return acc
+    }
+
+    return {
+      ...acc,
+      [key]: object[key],
+    }
+  }, {})
+}
