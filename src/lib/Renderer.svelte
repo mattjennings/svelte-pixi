@@ -1,8 +1,11 @@
 <script context="module" lang="ts">
-  interface RendererContext<T extends PIXI.Renderer | PIXI.AbstractRenderer> {
+  export interface RendererContext<
+    T extends PIXI.Renderer | PIXI.AbstractRenderer
+  > {
     renderer: T
     invalidate: () => void
   }
+
   export function getRenderer<
     T extends PIXI.Renderer | PIXI.AbstractRenderer
   >(): RendererContext<T> {
@@ -22,6 +25,7 @@
     onMount,
     setContext,
   } from 'svelte'
+  import { omitUndefined } from './util/helpers'
 
   type T = $$Generic<PIXI.Renderer | PIXI.AbstractRenderer>
   type $$Props = PIXI.IRendererOptionsAuto & {
@@ -120,20 +124,22 @@
    * The PIXI.Renderer instance. Can be set or bound to. By default
    * it uses PIXI.autoDetectRenderer()
    */
-  export let instance: T = PIXI.autoDetectRenderer({
-    width: width,
-    height: height,
-    useContextAlpha: useContextAlpha,
-    autoDensity: autoDensity,
-    antialias: antialias,
-    preserveDrawingBuffer: preserveDrawingBuffer,
-    resolution: resolution,
-    forceCanvas: forceCanvas,
-    backgroundColor: backgroundColor,
-    backgroundAlpha: backgroundAlpha,
-    clearBeforeRender: clearBeforeRender,
-    powerPreference: powerPreference,
-  }) as T
+  export let instance: T = PIXI.autoDetectRenderer(
+    omitUndefined({
+      width,
+      height,
+      useContextAlpha,
+      autoDensity,
+      antialias,
+      preserveDrawingBuffer,
+      resolution,
+      forceCanvas,
+      backgroundColor,
+      backgroundAlpha,
+      clearBeforeRender,
+      powerPreference,
+    })
+  ) as T
 
   setContext('pixi/renderer', {
     renderer: instance,

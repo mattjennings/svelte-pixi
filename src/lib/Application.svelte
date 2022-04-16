@@ -2,6 +2,7 @@
   interface ApplicationContext<T extends PIXI.Application> {
     app: T
   }
+
   export function getApp<T extends PIXI.Application>() {
     return getContext<ApplicationContext<T>>('pixi/app') ?? {}
   }
@@ -14,6 +15,7 @@
   import Container from './Container.svelte'
   import Renderer from './Renderer.svelte'
   import Ticker from './Ticker.svelte'
+  import { omitUndefined } from './util/helpers'
 
   type T = $$Generic<PIXI.Application>
   type $$Props = PIXI.IApplicationOptions & {
@@ -116,9 +118,9 @@
    * auto - render on each tick at the target FPS
    * demand - render only when components have been updated
    *
-   * @type {'auto' | 'demand'}
+   * @type {'auto' | 'demand' | false}
    */
-  export let render: 'auto' | 'demand' = 'auto'
+  export let render: 'auto' | 'demand' | false = 'auto'
 
   /**
    * The PIXI.Application instance. This can be manually set or bound to.
@@ -127,28 +129,32 @@
    *
    * @type {PIXI.Application}
    */
-  export let instance: T = new PIXI.Application({
-    autoStart: autoStart,
-    width: width,
-    height: height,
-    useContextAlpha: useContextAlpha,
-    autoDensity: autoDensity,
-    antialias: antialias,
-    preserveDrawingBuffer: preserveDrawingBuffer,
-    resolution: resolution,
-    forceCanvas: forceCanvas,
-    backgroundColor: backgroundColor,
-    backgroundAlpha: backgroundAlpha,
-    clearBeforeRender: clearBeforeRender,
-    powerPreference: powerPreference,
-    resizeTo: resizeTo,
-  }) as T
+  export let instance: T = new PIXI.Application(
+    // some props being explicitly undefined different behaviour than implicit
+    // undefined
+    omitUndefined({
+      autoStart,
+      width,
+      height,
+      useContextAlpha,
+      autoDensity,
+      antialias,
+      preserveDrawingBuffer,
+      resolution,
+      forceCanvas,
+      backgroundColor,
+      backgroundAlpha,
+      clearBeforeRender,
+      powerPreference,
+      resizeTo,
+    })
+  ) as T
 
   let invalidated = true
   setContext<ApplicationContext<T>>('pixi/app', { app: instance })
 
   // remove rendering on tick
-  if (render === 'demand') {
+  if (render) {
     instance.ticker.remove(instance.render, instance)
   }
 </script>
@@ -164,6 +170,7 @@
   <slot name="view" slot="view">
     <div />
   </slot>
+
   {#if render}
     <Ticker
       on:tick={() => {
