@@ -23,14 +23,22 @@ const config = {
   ],
 
   kit: {
-    adapter: vercel(),
+    adapter: vercel({
+      external: ['sveld', 'svelte-preprocess'],
+    }),
     prerender: {
       default: true,
     },
     package: {
-      files: (file) => !file.includes('site') && !file.includes('routes'),
+      files: (file) => !file.includes('site'),
     },
     vite: {
+      ssr: {
+        external: ['sveld', 'svelte-preprocess'],
+      },
+      optimizeDeps: {
+        exclude: ['sveld', 'svelte-preprocess'],
+      },
       resolve: {
         alias: {
           'svelte-pixi': path.resolve(__dirname, './src/lib'),

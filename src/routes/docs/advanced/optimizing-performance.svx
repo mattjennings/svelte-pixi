@@ -217,7 +217,7 @@ You can set `render="demand"` on the `Application` component to opt into this be
 </Application>
 ```
 
-If you are using the `Renderer` component, see [this example](/docs/components/optimizing-performance#render-on-demand).
+If you are using the `Renderer` component, see [this example](/docs/components/renderer#render-on-demand).
 
 ### Triggering Renders Manually
 

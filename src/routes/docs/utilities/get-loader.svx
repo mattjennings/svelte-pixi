@@ -2,7 +2,7 @@
 title: getLoader
 ---
 
-Returns the context for the parent [Loader](/docs/component/loader) component
+Returns the context for the parent [Loader](/docs/components/loader) component
 
 ```js
 import { getLoader } from 'svelte-pixi'

@@ -2,7 +2,7 @@
 title: getResource
 ---
 
-Gets a loaded resource from the parent [Loader](/docs/component/loader)
+Gets a loaded resource from the parent [Loader](/docs/components/loader)
 
 ```js
 import { getResource } from 'svelte-pixi'

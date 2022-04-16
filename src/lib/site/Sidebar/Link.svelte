@@ -7,7 +7,7 @@
   export let link
 
   let anchorEl: HTMLAnchorElement
-  let active = $page.url.pathname === link.href
+  $: active = $page.url.pathname === link.href
 
   function updateScroll() {
     if (active && anchorEl) {
@@ -41,7 +41,9 @@
   </li>
 {:else}
   <li class="mb-2">
-    <a bind:this={anchorEl} href={link.href} class:active>{link.title}</a>
+    <a bind:this={anchorEl} sveltekit:prefetch href={link.href} class:active
+      >{link.title}</a
+    >
   </li>
 {/if}
 

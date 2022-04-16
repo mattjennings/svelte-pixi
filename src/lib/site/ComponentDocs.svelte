@@ -1,27 +1,9 @@
 <script lang="ts">
   import Prism from 'prismjs'
   import 'prism-svelte'
+  import dashify from 'dashify'
 
   export let docs
-
-  function slugify(str) {
-    str = str.replace(/^\s+|\s+$/g, '') // trim
-    str = str.toLowerCase()
-
-    // remove accents, swap ñ for n, etc
-    var from = 'àáäâèéëêìíïîòóöôùúüûñç·/_,:;'
-    var to = 'aaaaeeeeiiiioooouuuunc------'
-    for (var i = 0, l = from.length; i < l; i++) {
-      str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i))
-    }
-
-    str = str
-      .replace(/[^a-z0-9 -]/g, '') // remove invalid chars
-      .replace(/\s+/g, '-') // collapse whitespace and replace by -
-      .replace(/-+/g, '-') // collapse dashes
-
-    return str
-  }
 
   function formatCodeType(type) {
     if (type === undefined) return ''
@@ -137,7 +119,7 @@
   {#if docs.rest_props}
     <p>
       Additional props are passed on to <a
-        href={`/docs/components/${slugify(docs.rest_props.name)}`}
+        href={`/docs/components/${dashify(docs.rest_props.name)}`}
         >{docs.rest_props.name}</a
       >
     </p>

@@ -2,12 +2,12 @@
   import ComponentDocs from '$lib/site/ComponentDocs.svelte'
   import type { Load } from '@sveltejs/kit'
 
-  export const load: Load = async ({ url }) => {
+  export const load: Load = async ({ url, fetch }) => {
     const component = humanize(url.pathname.split('/').pop())
 
-    const docs = await import(
-      `../../../lib/${component}.svelte?raw&sveld`
-    ).then((res) => res.default)
+    const docs = await fetch(`/sveld/${component}.json`).then((res) =>
+      res.json()
+    )
 
     return {
       props: {
