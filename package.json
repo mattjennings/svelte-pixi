@@ -1,7 +1,7 @@
 {
   "name": "svelte-pixi",
-  "version": "0.1.0-alpha.17",
-  "description": "Create Pixi.js apps with Svelte 3",
+  "version": "0.1.0-alpha.18",
+  "description": "Create PixiJS apps with Svelte",
   "repository": "https://github.com/mattjennings/svelte-pixi",
   "author": "Matt Jennings",
   "license": "MIT",
