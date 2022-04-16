@@ -1,25 +1,59 @@
 <script lang="ts">
   /**
-   * @restProps {Sprite}
+   * @restProps {Container}
    */
 
   import * as PIXI from 'pixi.js'
   import { afterUpdate } from 'svelte'
   import { getRenderer } from './Renderer.svelte'
-  import Sprite from './Sprite.svelte'
+  import Container from './Container.svelte'
   import type { PointLike } from './util/data-types'
-  import { applyProp } from './util/props'
+  import { createApplyProps } from './util/props'
 
   type T = $$Generic<PIXI.TilingSprite>
-  type $$Props = Sprite<T>['$$prop_def'] & {
+  type $$Props = Container<T>['$$prop_def'] & {
+    texture: PIXI.Sprite['texture']
+    height: PIXI.TilingSprite['height']
+    width: PIXI.TilingSprite['width']
     clampMargin?: PIXI.TilingSprite['clampMargin']
     tileTransform?: PIXI.TilingSprite['tileTransform']
     uvMatrix?: PIXI.TilingSprite['uvMatrix']
     uvRespectAnchor?: PIXI.TilingSprite['uvRespectAnchor']
     tilePosition?: PointLike
-    texture: PIXI.TilingSprite['texture']
-    height: PIXI.TilingSprite['height']
+    anchor?: PointLike
+    blendMode?: PIXI.Sprite['blendMode']
+    pluginName?: PIXI.Sprite['pluginName']
+    roundPixels?: PIXI.Sprite['roundPixels']
   }
+
+  /**
+   * The anchor sets the origin point of the text.
+   *
+   * @type {PointLike}
+   */
+  export let anchor: $$Props['anchor'] = undefined
+
+  /**
+   * The blend mode to be applied to the sprite.
+   * Apply a value of PIXI.BLEND_MODES.NORMAL to reset the blend mode.
+   */
+  export let blendMode: $$Props['blendMode'] = PIXI.BLEND_MODES.NORMAL
+
+  /**
+   * Plugin that is responsible for rendering this element.
+   *
+   * @type {string}
+   */
+  export let pluginName: $$Props['pluginName'] = undefined
+
+  /**
+   * If true PixiJS will Math.floor() x/y values when rendering, stopping pixel interpolation.
+   * Advantages can include sharper image quality (like text) and faster rendering on canvas.
+   * The main disadvantage is movement of objects may appear less smooth.
+   *
+   * @type {boolean}
+   */
+  export let roundPixels: $$Props['roundPixels'] = undefined
 
   /**
    * Changes frame clamping in corresponding textureTransform, shortcut.
@@ -32,8 +66,12 @@
    *
    * @type {number}
    */
-  export let height: $$Props['height'] = undefined
+  export let height: $$Props['height']
 
+  /**
+   * The texture of the tiling sprite.
+   * @type {PIXI.Texture}
+   */
   export let texture: $$Props['texture']
 
   /**
@@ -73,7 +111,7 @@
    *
    * @type {number}
    */
-  export let width: $$Props['width'] = undefined
+  export let width: $$Props['width']
 
   /**
    * The PIXI.TilingSprite instance. Can be set or bound to.
@@ -82,31 +120,31 @@
    */
   export let instance: T = new PIXI.TilingSprite(texture, width, height) as T
 
+  const { applyProp } = createApplyProps<PIXI.TilingSprite>(instance)
   const { invalidate } = getRenderer()
 
   afterUpdate(() => {
     invalidate()
   })
 
-  $: applyProp(instance, { clampMargin })
-  $: applyProp(instance, { height })
-  $: applyProp(instance, { texture }, (texture) => {
-    instance.texture = texture
-    texture.on('update', () => invalidate())
-  })
-  $: applyProp(instance, { tilePosition })
-  $: applyProp(instance, { tileTransform })
-  $: applyProp(instance, { uvMatrix })
-  $: applyProp(instance, { uvRespectAnchor })
-  $: applyProp(instance, { width })
+  $: applyProp('anchor', anchor)
+  $: applyProp('blendMode', blendMode)
+  $: applyProp('pluginName', pluginName)
+  $: applyProp('roundPixels', roundPixels)
+  $: applyProp('clampMargin', clampMargin)
+  $: applyProp('height', height)
+  $: applyProp('texture', texture)
+  $: applyProp('tilePosition', tilePosition)
+  $: applyProp('tileTransform', tileTransform)
+  $: applyProp('uvMatrix', uvMatrix)
+  $: applyProp('uvRespectAnchor', uvRespectAnchor)
+  $: applyProp('width', width)
+  $: texture.on('update', () => invalidate())
 </script>
 
-<Sprite
+<Container
   {...$$restProps}
   {instance}
-  {texture}
-  {width}
-  {height}
   on:click
   on:mousedown
   on:mousemove
@@ -138,4 +176,4 @@
   on:removed
 >
   <slot />
-</Sprite>
+</Container>

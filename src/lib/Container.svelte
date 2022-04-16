@@ -26,7 +26,7 @@
   } from 'svelte'
   import { getRenderer } from './Renderer.svelte'
   import type { PointLike } from './util/data-types'
-  import { applyProp, applyProps } from './util/props'
+  import { createApplyProps } from './util/props'
 
   type T = $$Generic<PIXI.Container>
 
@@ -172,8 +172,11 @@
    * Lower values will reduce memory usage at the expense of render quality.
    * A falsey value of null or 0 will default to the renderer's resolution.
    * If cacheAsBitmap is set to true, this will re-render with the new resolution.
+   *
+   * @type {number}
    */
-  export let cacheAsBitmapResolution: $$Props['cacheAsBitmapResolution'] = null
+  export let cacheAsBitmapResolution: $$Props['cacheAsBitmapResolution'] =
+    undefined
 
   /**
    * Should this object be rendered if the bounds of this object are out of frame?
@@ -410,6 +413,8 @@
    */
   export let instance: T = new PIXI.Container() as T
 
+  const { applyProp, applyProps } = createApplyProps<PIXI.Container>(instance)
+
   const { invalidate } = getRenderer()
   const { container: parent } = getContainer() ?? {}
   const dispatch = createEventDispatcher()
@@ -443,7 +448,7 @@
     // so, if we have children, re-apply props
     if ($$slots.default) {
       const { instance, ...props } = $$props
-      applyProps(instance, props)
+      applyProps(props)
     }
 
     instance.on('click', (ev) => dispatch('click', ev))
@@ -486,44 +491,44 @@
     invalidate()
   })
 
-  $: applyProp(instance, { accessible })
-  $: applyProp(instance, { accessibleChildren })
-  $: applyProp(instance, { accessibleHint })
-  $: applyProp(instance, { accessiblePointerEvents })
-  $: applyProp(instance, { accessibleTitle })
-  $: applyProp(instance, { accessibleType })
-  $: applyProp(instance, { alpha })
-  $: applyProp(instance, { angle })
-  $: applyProp(instance, { buttonMode })
-  $: applyProp(instance, { cacheAsBitmap })
-  $: applyProp(instance, { cacheAsBitmapResolution })
-  $: applyProp(instance, { cacheAsBitmapMultisample })
-  $: applyProp(instance, { cursor })
-  $: applyProp(instance, { cullable })
-  $: applyProp(instance, { cullArea })
-  $: applyProp(instance, { filterArea })
-  $: applyProp(instance, { hitArea })
-  $: applyProp(instance, { filters })
-  $: applyProp(instance, { height })
-  $: applyProp(instance, { isMask })
-  $: applyProp(instance, { isSprite })
-  $: applyProp(instance, { interactive })
-  $: applyProp(instance, { interactiveChildren })
-  $: applyProp(instance, { mask })
-  $: applyProp(instance, { name })
-  $: applyProp(instance, { pivot })
-  $: applyProp(instance, { position })
-  $: applyProp(instance, { renderable })
-  $: applyProp(instance, { rotation })
-  $: applyProp(instance, { scale })
-  $: applyProp(instance, { skew })
-  $: applyProp(instance, { sortableChildren })
-  $: applyProp(instance, { transform })
-  $: applyProp(instance, { visible })
-  $: applyProp(instance, { x })
-  $: applyProp(instance, { y })
-  $: applyProp(instance, { width })
-  $: applyProp(instance, { zIndex })
+  $: applyProp('accessible', accessible)
+  $: applyProp('accessibleChildren', accessibleChildren)
+  $: applyProp('accessibleHint', accessibleHint)
+  $: applyProp('accessiblePointerEvents', accessiblePointerEvents)
+  $: applyProp('accessibleTitle', accessibleTitle)
+  $: applyProp('accessibleType', accessibleType)
+  $: applyProp('alpha', alpha)
+  $: applyProp('angle', angle)
+  $: applyProp('buttonMode', buttonMode)
+  $: applyProp('cacheAsBitmap', cacheAsBitmap)
+  $: applyProp('cacheAsBitmapResolution', cacheAsBitmapResolution)
+  $: applyProp('cacheAsBitmapMultisample', cacheAsBitmapMultisample)
+  $: applyProp('cursor', cursor)
+  $: applyProp('cullable', cullable)
+  $: applyProp('cullArea', cullArea)
+  $: applyProp('filterArea', filterArea)
+  $: applyProp('hitArea', hitArea)
+  $: applyProp('filters', filters)
+  $: applyProp('height', height)
+  $: applyProp('isMask', isMask)
+  $: applyProp('isSprite', isSprite)
+  $: applyProp('interactive', interactive)
+  $: applyProp('interactiveChildren', interactiveChildren)
+  $: applyProp('mask', mask)
+  $: applyProp('name', name)
+  $: applyProp('pivot', pivot)
+  $: applyProp('position', position)
+  $: applyProp('renderable', renderable)
+  $: applyProp('rotation', rotation)
+  $: applyProp('scale', scale)
+  $: applyProp('skew', skew)
+  $: applyProp('sortableChildren', sortableChildren)
+  $: applyProp('transform', transform)
+  $: applyProp('visible', visible)
+  $: applyProp('x', x)
+  $: applyProp('y', y)
+  $: applyProp('width', width)
+  $: applyProp('zIndex', zIndex)
 
   // if no parent, this is the stage (root container)
   if (!parent) {

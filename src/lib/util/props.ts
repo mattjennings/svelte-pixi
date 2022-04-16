@@ -3,7 +3,26 @@ import * as PIXI from 'pixi.js'
 import { parsePoint, type PointLike } from './data-types'
 
 /**
- * Applies alll props to the instance if its value is not undefined and
+ * Returns apply prop functions that are bound to the instance
+ */
+export function createApplyProps<Instance>(instance: Instance) {
+  return {
+    applyProps: <Props extends Partial<Record<keyof Instance, any>>>(
+      props: Props,
+      apply?: {
+        [PropKey in keyof Props]?: Apply<Instance, Props[PropKey]>
+      }
+    ) => applyProps(instance, props, apply),
+    applyProp: <Prop extends keyof Instance, Value>(
+      prop: Prop | null,
+      value: Value,
+      apply?: Apply<Instance, Value>
+    ) => applyProp(instance, prop, value, apply),
+  }
+}
+
+/**
+ * Applies all props to the instance if its value is not undefined and
  * is not equal to the instance's value of the prop.
  *
  * Usage:
@@ -17,29 +36,19 @@ import { parsePoint, type PointLike } from './data-types'
  * })
  * ```
  */
-export function applyProps<Instance, Props extends Record<string, any>>(
+export function applyProps<
+  Instance,
+  Props extends Partial<Record<keyof Instance, any>>
+>(
   instance: Instance,
   props: Props,
   apply?: {
-    [PropKey in keyof Props]?: ApplyProp<Instance, Props, Props[PropKey]>
+    [Prop in keyof Props]?: Apply<Instance, Props[Prop]>
   }
 ) {
   if (instance) {
     for (const [prop, value] of Object.entries(props)) {
-      if (instance[prop] !== value && typeof value !== 'undefined') {
-        if (apply?.[prop]) {
-          apply[prop](value, prop, instance)
-        } else {
-          if (
-            instance[prop] instanceof PIXI.Point ||
-            instance[prop] instanceof PIXI.ObservablePoint
-          ) {
-            instance[prop] = parsePoint(value)
-          } else {
-            instance[prop] = value
-          }
-        }
-      }
+      applyProp(instance, prop as keyof Instance, value, apply?.[prop])
     }
   }
 }
@@ -51,9 +60,9 @@ export function applyProps<Instance, Props extends Record<string, any>>(
  * Usage:
  *
  * ```js
- * applyProp(instance, { x })
+ * applyProp(instance, 'x', x)
  * // or
- * applyProp(instance, { x }, value => instance.x = value)
+ * applyProp(instance, 'x', x, () => instance.x = x)
  * ```
  *
  * The 2nd parameter is an object to decrease tediousness of describing
@@ -61,19 +70,35 @@ export function applyProps<Instance, Props extends Record<string, any>>(
  * the first key of the object. Use applyProps() if you need to apply more than 1
  * at the same time.
  */
-export function applyProp<Instance, Props extends Record<string, any>>(
+export function applyProp<Instance, Prop extends keyof Instance, Value>(
   instance: Instance,
-  props: Props,
-  apply?: ApplyProp<Instance, Props, Props[keyof Props]>
+  prop: Prop | null,
+  value: Value,
+  apply?: Apply<Instance, Value>
 ) {
-  const prop = Object.keys(props)[0]
-  return applyProps(
-    instance,
-    props,
-    // @ts-ignore
-    { [prop]: apply }
-  )
+  if (instance) {
+    if (prop === null) {
+      apply?.(value, instance)
+    } else {
+      const instanceValue = instance[prop] as any
+      if (instanceValue !== value && typeof value !== 'undefined') {
+        if (apply) {
+          apply(value, instance)
+        } else {
+          if (
+            instance[prop] instanceof PIXI.Point ||
+            instance[prop] instanceof PIXI.ObservablePoint
+          ) {
+            instance[prop as any] = parsePoint(value as any)
+          } else {
+            instance[prop as any] = value
+          }
+        }
+      }
+    }
+  }
 }
+
 /* -------------------------------------------------------------------------- */
 /*                                    TYPES                                   */
 /* -------------------------------------------------------------------------- */
@@ -84,11 +109,7 @@ export type ExtractProps<T> = Partial<
 
 export type ExtractPropKeys<T> = Pick<T, NotFunctions<T> & PublicProperties<T>>
 
-export type ApplyProp<Instance, Props, Value> = (
-  value: Value,
-  key: keyof Props,
-  instance: Instance
-) => any
+export type Apply<Instance, Value> = (value: Value, instance: Instance) => any
 
 type FilterNotStartingWith<
   Set,

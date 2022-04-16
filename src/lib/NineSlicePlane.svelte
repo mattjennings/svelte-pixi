@@ -1,20 +1,24 @@
 <script lang="ts">
   /**
-   * @restProps {SimplePlane}
+   * @restProps {Container}
    */
   import * as PIXI from 'pixi.js'
   import { afterUpdate } from 'svelte'
+  import Container from './Container.svelte'
   import { getRenderer } from './Renderer.svelte'
-  import SimplePlane from './SimplePlane.svelte'
-  import { applyProps } from './util/props'
+  import { createApplyProps } from './util/props'
 
   type T = $$Generic<PIXI.NineSlicePlane>
-  type $$Props = Omit<SimplePlane<T>['$$prop_def'], 'vertices'> & {
+  type $$Props = Container<T>['$$prop_def'] & {
     texture: PIXI.NineSlicePlane['texture']
     leftWidth: PIXI.NineSlicePlane['leftWidth']
     rightWidth: PIXI.NineSlicePlane['rightWidth']
     topHeight: PIXI.NineSlicePlane['topHeight']
     bottomHeight: PIXI.NineSlicePlane['bottomHeight']
+    geometry?: PIXI.NineSlicePlane['geometry']
+    shader?: PIXI.MeshMaterial | PIXI.Shader
+    state?: PIXI.NineSlicePlane['state']
+    drawMode?: PIXI.NineSlicePlane['drawMode']
   }
 
   /**
@@ -53,6 +57,38 @@
   export let bottomHeight: $$Props['bottomHeight']
 
   /**
+   * Includes vertex positions, face indices, normals, colors, UVs, and
+   * custom attributes within buffers, reducing the cost of passing all this data to the GPU.
+   * Can be shared between multiple Mesh objects.
+   *
+   * @type {PIXI.Geometry}
+   */
+  export let geometry: $$Props['geometry'] = undefined
+
+  /**
+   * Represents the vertex and fragment shaders that processes the geometry and runs on the GPU.
+   * Can be shared between multiple Mesh objects.
+   *
+   * @type {PIXI.Shader|PIXI.MeshMaterial}
+   */
+  export let shader: $$Props['shader'] = undefined
+
+  /**
+   * Represents the WebGL state the Mesh required to render, excludes shader and geometry.
+   * E.g., blend mode, culling, depth testing, direction of rendering triangles, backface, etc.
+   *
+   * @type {PIXI.State}
+   */
+  export let state: $$Props['state'] = undefined
+
+  /**
+   * The way the Mesh should be drawn, can be any of the PIXI.DRAW_MODES constants.
+   *
+   * @type {PIXI.DRAW_MODES}
+   */
+  export let drawMode: $$Props['drawMode'] = undefined
+
+  /**
    * The PIXI.NineSlicePlane instance. Can be set or bound to.
    *
    * @type {PIXI.NineSlicePlane}
@@ -67,23 +103,35 @@
 
   const { invalidate } = getRenderer()
 
+  const { applyProps, applyProp } =
+    createApplyProps<PIXI.NineSlicePlane>(instance)
+
   afterUpdate(() => {
     invalidate()
   })
 
-  $: applyProps(instance, {
+  $: applyProp('geometry', geometry)
+  $: applyProp('shader', shader)
+  $: applyProp('state', state)
+  $: applyProp('drawMode', drawMode)
+
+  $: applyProp('texture', texture, () => {
+    instance.texture = texture
+  })
+
+  $: applyProps({
     leftWidth,
     rightWidth,
     topHeight,
     bottomHeight,
   })
+
+  $: texture.on('update', () => invalidate())
 </script>
 
-<SimplePlane
-  vertices={undefined}
+<Container
   {...$$restProps}
   {instance}
-  {texture}
   on:click
   on:mousedown
   on:mousemove
@@ -115,4 +163,4 @@
   on:removed
 >
   <slot />
-</SimplePlane>
+</Container>

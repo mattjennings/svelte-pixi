@@ -1,21 +1,56 @@
 <script lang="ts">
   /**
-   * @restProps {Sprite}
+   * @restProps {Container}
    */
   import * as PIXI from 'pixi.js'
   import { afterUpdate, createEventDispatcher, onMount } from 'svelte'
   import { getRenderer } from './Renderer.svelte'
-  import Sprite from './Sprite.svelte'
-  import { applyProp } from './util/props'
+  import Container from './Container.svelte'
+  import { createApplyProps } from './util/props'
+  import type { PointLike } from './util/data-types'
 
   type T = $$Generic<PIXI.AnimatedSprite>
-  type $$Props = Sprite<T>['$$prop_def'] & {
+  type $$Props = Container<T>['$$prop_def'] & {
     playing?: boolean
-    textures?: PIXI.AnimatedSprite['textures']
+    textures: PIXI.AnimatedSprite['textures']
     autoUpdate?: PIXI.AnimatedSprite['autoUpdate']
     animationSpeed?: PIXI.AnimatedSprite['animationSpeed']
     loop?: PIXI.AnimatedSprite['loop']
+    anchor?: PointLike
+    blendMode?: PIXI.Sprite['blendMode']
+    pluginName?: PIXI.Sprite['pluginName']
+    roundPixels?: PIXI.Sprite['roundPixels']
+    texture: PIXI.Sprite['texture']
   }
+
+  /**
+   * The anchor sets the origin point of the text.
+   *
+   * @type {PointLike}
+   */
+  export let anchor: $$Props['anchor'] = undefined
+
+  /**
+   * The blend mode to be applied to the sprite.
+   * Apply a value of PIXI.BLEND_MODES.NORMAL to reset the blend mode.
+   */
+  export let blendMode: $$Props['blendMode'] = PIXI.BLEND_MODES.NORMAL
+
+  /**
+   * Plugin that is responsible for rendering this element.
+   *
+   * @type {string}
+   */
+  export let pluginName: $$Props['pluginName'] = undefined
+
+  /**
+   * If true PixiJS will Math.floor() x/y values when rendering, stopping pixel interpolation.
+   * Advantages can include sharper image quality (like text) and faster rendering on canvas.
+   * The main disadvantage is movement of objects may appear less smooth.
+   *
+   * @type {boolean}
+   */
+  export let roundPixels: $$Props['roundPixels'] = undefined
 
   /**
    * Whether to use PIXI.Ticker.shared to auto update animation time
@@ -53,6 +88,8 @@
    */
   export let instance: T = new PIXI.AnimatedSprite(textures, autoUpdate) as T
 
+  const { applyProp } = createApplyProps<PIXI.AnimatedSprite>(instance)
+
   const dispatch = createEventDispatcher()
   const { invalidate } = getRenderer()
 
@@ -60,27 +97,31 @@
     invalidate()
   })
 
-  $: applyProp(instance, { autoUpdate })
-  $: applyProp(instance, { animationSpeed })
-  $: applyProp(instance, { loop })
-  $: applyProp(instance, { textures }, (textures) => {
+  $: applyProp('anchor', anchor)
+  $: applyProp('blendMode', blendMode)
+  $: applyProp('pluginName', pluginName)
+  $: applyProp('roundPixels', roundPixels)
+  $: applyProp('autoUpdate', autoUpdate)
+  $: applyProp('animationSpeed', animationSpeed)
+  $: applyProp('loop', loop)
+  $: applyProp('textures', textures, () => {
     instance.textures = textures
-
-    // trigger render if texture loads (was not preloaded)
-    textures.forEach((texture) => texture.on('update', invalidate))
 
     if (playing) {
       instance.play()
     }
   })
 
-  $: applyProp(instance, { playing }, (playing) => {
+  $: applyProp('playing', playing, () => {
     if (playing) {
       instance.play()
     } else {
       instance.stop()
     }
   })
+
+  // trigger render if texture loads (was not preloaded)
+  $: textures.forEach((texture) => texture.on('update', invalidate))
 
   onMount(() => {
     instance.onComplete = () => dispatch('complete')
@@ -92,7 +133,7 @@
   })
 </script>
 
-<Sprite
+<Container
   {...$$restProps}
   {instance}
   on:click
@@ -126,4 +167,4 @@
   on:removed
 >
   <slot />
-</Sprite>
+</Container>

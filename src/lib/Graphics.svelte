@@ -6,7 +6,7 @@
   import { afterUpdate } from 'svelte'
   import Container from './Container.svelte'
   import { getRenderer } from './Renderer.svelte'
-  import { applyProp } from './util/props'
+  import { createApplyProps } from './util/props'
 
   type T = $$Generic<PIXI.Graphics>
   type $$Props = Container<T>['$$prop_def'] & {
@@ -60,9 +60,11 @@
     invalidate()
   })
 
-  $: applyProp(instance, { blendMode })
-  $: applyProp(instance, { pluginName })
-  $: applyProp(instance, { tint })
+  const { applyProp } = createApplyProps<PIXI.Graphics>(instance)
+
+  $: applyProp('blendMode', blendMode)
+  $: applyProp('pluginName', pluginName)
+  $: applyProp('tint', tint)
   $: draw?.(instance)
 </script>
 

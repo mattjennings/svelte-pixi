@@ -57,7 +57,9 @@
    * An array of urls or arguments to be passed into PIXI.Loader's add() function
    * @type {string[] | Array<[string, string, PIXI.IAddOptions, () => any]>}
    */
-  export let resources: $$Props['resources'] = []
+  export let resources:
+    | string[]
+    | Array<[string, string, PIXI.IAddOptions, () => any]> = []
 
   /**
    * The base url for all resources loaded by this loader.
@@ -90,8 +92,9 @@
     if (baseUrl) {
       instance.baseUrl = baseUrl
     }
-    instance.concurrency = concurrency
-
+    if (concurrency) {
+      instance.concurrency = concurrency
+    }
     resources.forEach((url) => {
       if (Array.isArray(url)) {
         // @ts-ignore

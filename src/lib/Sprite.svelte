@@ -8,7 +8,7 @@
   import Container from './Container.svelte'
   import { getRenderer } from './Renderer.svelte'
   import type { PointLike } from './util/data-types'
-  import { applyProp } from './util/props'
+  import { createApplyProps } from './util/props'
 
   type T = $$Generic<PIXI.Sprite>
   type $$Props = Container<T>['$$prop_def'] & {
@@ -16,7 +16,7 @@
     blendMode?: PIXI.Sprite['blendMode']
     pluginName?: PIXI.Sprite['pluginName']
     roundPixels?: PIXI.Sprite['roundPixels']
-    texture?: PIXI.Sprite['texture']
+    texture: PIXI.Sprite['texture']
   }
 
   /**
@@ -53,7 +53,7 @@
    *
    * @type {PIXI.Texture}
    */
-  export let texture: $$Props['texture'] = undefined
+  export let texture: $$Props['texture']
 
   /**
    * The PIXI.Sprite instance. Can be set or bound to.
@@ -62,20 +62,19 @@
    */
   export let instance: T = new PIXI.Sprite(texture) as T
 
+  const { applyProp } = createApplyProps<PIXI.Sprite>(instance)
   const { invalidate } = getRenderer()
 
   afterUpdate(() => {
     invalidate()
   })
 
-  $: applyProp(instance, { anchor })
-  $: applyProp(instance, { blendMode })
-  $: applyProp(instance, { pluginName })
-  $: applyProp(instance, { roundPixels })
-  $: applyProp(instance, { texture }, (texture) => {
-    instance.texture = texture
-    texture.on('update', () => invalidate())
-  })
+  $: applyProp('anchor', anchor)
+  $: applyProp('blendMode', blendMode)
+  $: applyProp('pluginName', pluginName)
+  $: applyProp('roundPixels', roundPixels)
+  $: applyProp('texture', texture)
+  $: texture.on('update', () => invalidate())
 </script>
 
 <Container

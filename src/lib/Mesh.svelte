@@ -6,7 +6,7 @@
   import { afterUpdate } from 'svelte'
   import Container from './Container.svelte'
   import { getRenderer } from './Renderer.svelte'
-  import { applyProp } from './util/props'
+  import { createApplyProps } from './util/props'
 
   type T = $$Generic<PIXI.Mesh>
 
@@ -24,7 +24,7 @@
    *
    * @type {PIXI.Geometry}
    */
-  export let geometry: $$Props['geometry'] = undefined
+  export let geometry: $$Props['geometry']
 
   /**
    * Represents the vertex and fragment shaders that processes the geometry and runs on the GPU.
@@ -32,7 +32,7 @@
    *
    * @type {PIXI.Shader|PIXI.MeshMaterial}
    */
-  export let shader: $$Props['shader'] = undefined
+  export let shader: $$Props['shader']
 
   /**
    * Represents the WebGL state the Mesh required to render, excludes shader and geometry.
@@ -56,16 +56,17 @@
    */
   export let instance: T = new PIXI.Mesh(geometry, shader, state, drawMode) as T
 
+  const { applyProp } = createApplyProps<PIXI.Mesh>(instance)
   const { invalidate } = getRenderer()
 
   afterUpdate(() => {
     invalidate()
   })
 
-  $: applyProp(instance, { geometry })
-  $: applyProp(instance, { shader })
-  $: applyProp(instance, { state })
-  $: applyProp(instance, { drawMode })
+  $: applyProp('geometry', geometry)
+  $: applyProp('shader', shader)
+  $: applyProp('state', state)
+  $: applyProp('drawMode', drawMode)
 </script>
 
 <Container

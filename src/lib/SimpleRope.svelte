@@ -1,20 +1,22 @@
 <script lang="ts">
   /**
-   * @restProps {Mesh}
+   * @restProps {Container}
    */
   import * as PIXI from 'pixi.js'
   import { afterUpdate } from 'svelte'
-  import Mesh from './Mesh.svelte'
+  import Container from './Container.svelte'
   import { getRenderer } from './Renderer.svelte'
   import { parsePoint, type PointLike } from './util/data-types'
-  import { applyProp } from './util/props'
+  import { createApplyProps } from './util/props'
 
   type T = $$Generic<PIXI.SimpleRope>
-  type $$Props = Omit<Mesh<T>['$$prop_def'], 'shader' | 'geometry'> & {
+  type $$Props = Container<T>['$$prop_def'] & {
     texture: PIXI.SimpleRope['texture']
     points: PointLike[]
     geometry?: PIXI.SimpleRope['geometry']
     shader?: PIXI.SimpleRope['shader']
+    state?: PIXI.SimpleRope['state']
+    drawMode?: PIXI.SimpleRope['drawMode']
     textureScale?: number
   }
 
@@ -45,6 +47,38 @@
   export let textureScale: $$Props['textureScale'] = 0
 
   /**
+   * Includes vertex positions, face indices, normals, colors, UVs, and
+   * custom attributes within buffers, reducing the cost of passing all this data to the GPU.
+   * Can be shared between multiple Mesh objects.
+   *
+   * @type {PIXI.Geometry}
+   */
+  export let geometry: $$Props['geometry'] = undefined
+
+  /**
+   * Represents the vertex and fragment shaders that processes the geometry and runs on the GPU.
+   * Can be shared between multiple Mesh objects.
+   *
+   * @type {PIXI.Shader|PIXI.MeshMaterial}
+   */
+  export let shader: $$Props['shader'] = undefined
+
+  /**
+   * Represents the WebGL state the Mesh required to render, excludes shader and geometry.
+   * E.g., blend mode, culling, depth testing, direction of rendering triangles, backface, etc.
+   *
+   * @type {PIXI.State}
+   */
+  export let state: $$Props['state'] = undefined
+
+  /**
+   * The way the Mesh should be drawn, can be any of the PIXI.DRAW_MODES constants.
+   *
+   * @type {PIXI.DRAW_MODES}
+   */
+  export let drawMode: $$Props['drawMode'] = undefined
+
+  /**
    * The PIXI.SimpleRope instance. Can be set or bound to.
    *
    * @type {PIXI.SimpleRope}
@@ -59,31 +93,33 @@
     return points.map(parsePoint)
   }
 
+  const { applyProp } = createApplyProps<PIXI.SimpleRope>(instance)
   const { invalidate } = getRenderer()
 
   afterUpdate(() => {
     invalidate()
   })
 
-  $: applyProp(instance, { texture }, (texture) => {
-    instance.texture = texture
-    texture.on('update', () => invalidate())
-  })
+  $: applyProp('geometry', geometry)
+  $: applyProp('shader', shader)
+  $: applyProp('state', state)
+  $: applyProp('drawMode', drawMode)
+  $: applyProp('texture', texture)
 
   // PIXI.SimpleRope only uses points to create the geometry on construction,
   // so we need to recreate it whenever points change
-  $: applyProp(instance, { points: parsePoints(points) }, (value) => {
+  $: applyProp(null, parsePoints(points), (value) => {
     instance.geometry = new PIXI.RopeGeometry(
       texture.height,
       value,
       textureScale
     )
   })
+
+  $: texture.on('update', () => invalidate())
 </script>
 
-<Mesh
-  geometry={undefined}
-  shader={undefined}
+<Container
   {...$$restProps}
   {instance}
   on:click
@@ -117,4 +153,4 @@
   on:removed
 >
   <slot />
-</Mesh>
+</Container>

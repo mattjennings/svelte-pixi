@@ -6,7 +6,8 @@
   import { afterUpdate } from 'svelte'
   import Container from './Container.svelte'
   import { getRenderer } from './Renderer.svelte'
-  import { applyProp } from './util/props'
+  import { omitUndefined } from './util/helpers'
+  import { createApplyProps } from './util/props'
 
   type T = $$Generic<PIXI.BitmapText>
   type $$Props = Container<T>['$$prop_def'] & {
@@ -28,7 +29,7 @@
    *
    * @type {string}
    */
-  export let text: $$Props['text'] = undefined
+  export let text: $$Props['text']
 
   /**
    * If true PixiJS will Math.floor() x/y values when rendering, stopping pixel interpolation.
@@ -52,16 +53,26 @@
    */
   export let instance: T = new PIXI.BitmapText(text, style) as T
 
+  const { applyProp, applyProps } = createApplyProps<PIXI.BitmapText>(instance)
   const { invalidate } = getRenderer()
 
   afterUpdate(() => {
     invalidate()
   })
 
-  $: applyProp(instance, { anchor })
-  $: applyProp(instance, { roundPixels })
-  $: applyProp(instance, { text })
-  $: applyProp(instance, { style })
+  $: applyProp('anchor', anchor)
+  $: applyProp('roundPixels', roundPixels)
+  $: applyProp('text', text)
+  $: applyProps(
+    omitUndefined({
+      align: style?.align,
+      fontName: style?.fontName,
+      fontSize: style?.fontSize,
+      tint: style?.tint,
+      letterSpacing: style?.letterSpacing,
+      maxWidth: style?.maxWidth,
+    })
+  )
 </script>
 
 <Container

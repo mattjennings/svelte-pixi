@@ -34,7 +34,7 @@
     onMount,
     setContext,
   } from 'svelte'
-  import { applyProps } from './util/props'
+  import { createApplyProps } from './util/props'
 
   type T = $$Generic<PIXI.Ticker>
   type $$Props = {
@@ -89,6 +89,8 @@
 
   setContext<TickerContext<T>>('pixi/ticker', { ticker: instance })
 
+  const { applyProp } = createApplyProps<PIXI.Ticker>(instance)
+
   onMount(() => {
     instance.add((delta) => {
       dispatch('tick', delta)
@@ -99,10 +101,10 @@
     }
   })
 
-  $: applyProps(instance, { autoStart })
-  $: applyProps(instance, { maxFPS })
-  $: applyProps(instance, { minFPS })
-  $: applyProps(instance, { speed })
+  $: applyProp('autoStart', autoStart)
+  $: applyProp('maxFPS', maxFPS)
+  $: applyProp('minFPS', minFPS)
+  $: applyProp('speed', speed)
 </script>
 
 <slot />
