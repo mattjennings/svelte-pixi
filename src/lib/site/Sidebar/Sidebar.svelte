@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { page } from '$app/stores'
   import { fade, fly } from 'svelte/transition'
   import { Icon } from '@steeze-ui/svelte-icon'
@@ -10,15 +10,19 @@
   export let links
 
   let isMenuOpen = false
+  let sidebarEl: HTMLDivElement
+  let mobileSidebarEl: HTMLDivElement
 
-  $: $page.url.pathname, (isMenuOpen = false)
+  $: if ($page.url.pathname) {
+    isMenuOpen = false
+  }
 </script>
 
 <!-- Static sidebar for desktop -->
 <div class="hidden lg:flex md:flex-shrink-0 h-screen sticky top-0">
   <div class="w-[15rem] flex flex-col">
-    <!-- Sidebar component, swap this element with another sidebar if you like -->
     <div
+      bind:this={sidebarEl}
       class="border-r border-gray-200  pb-4 flex flex-col flex-grow overflow-y-auto"
     >
       <div class="flex-grow mt-5 flex flex-col">
@@ -60,7 +64,7 @@
         y: 0,
       }}
     >
-      <div class="mt-5 flex-1 h-0 overflow-y-auto">
+      <div bind:this={mobileSidebarEl} class="mt-5 flex-1 h-0 overflow-y-auto">
         <nav class="px-2 space-y-1">
           <div class="flex justify-between">
             <a href="/" class="pl-3 text-2xl font-bold"> svelte-pixi </a>

@@ -144,18 +144,3 @@ we can still implement this ourselves:
 ```
 
 See [Render on Demand](/docs/advanced/optimizing-performance#render-on-demand) for more information.
-
-## getRenderer()
-
-Renderer provides context that can be consumed by child components
-
-```js
-import { getRenderer } from 'svelte-pixi'
-
-const { renderer, invalidate } = getRenderer()
-```
-
-| Name         | Type            | Description                                                        |
-| ------------ | --------------- | ------------------------------------------------------------------ |
-| `renderer`   | `PIXI.Renderer` | The PIXI.Renderer instance                                         |
-| `invalidate` | `() => void`    | Manually dispatches `invalidate` event, triggering a manual render |

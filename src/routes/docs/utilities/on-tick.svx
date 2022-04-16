@@ -1,0 +1,25 @@
+---
+title: onTick
+---
+
+Child components can use `onTick` to add a callback to the ticker. It will automatically remove itself on unmount.
+
+```svelte example csr
+<script>
+  import { Text, onTick } from 'svelte-pixi'
+
+  let text = 0
+
+  onTick((delta) => {
+    text = `Delta: ${delta.toFixed(10)}`
+  })
+</script>
+
+<Text
+  x={200}
+  y={200}
+  {text}
+  style={{ fill: 'white' }}
+  anchor={0.5}
+/>
+```

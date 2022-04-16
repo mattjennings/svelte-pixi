@@ -1,10 +1,27 @@
 <script lang="ts">
   import { page } from '$app/stores'
-  import { createEventDispatcher } from 'svelte'
+  import { createEventDispatcher, onMount } from 'svelte'
 
   const dispatch = createEventDispatcher()
 
-  export let link: any
+  export let link
+
+  let anchorEl: HTMLAnchorElement
+  let active = $page.url.pathname === link.href
+
+  function updateScroll() {
+    if (active && anchorEl) {
+      anchorEl.scrollIntoView({
+        block: 'center',
+      })
+    }
+  }
+
+  onMount(() => {
+    updateScroll()
+  })
+
+  $: $page, updateScroll()
 </script>
 
 {#if link.links}
@@ -24,9 +41,7 @@
   </li>
 {:else}
   <li class="mb-2">
-    <a href={link.href} class:active={$page.url.pathname === link.href}
-      >{link.title}</a
-    >
+    <a bind:this={anchorEl} href={link.href} class:active>{link.title}</a>
   </li>
 {/if}
 

@@ -1,0 +1,16 @@
+---
+title: getRenderer
+---
+
+Returns the context of the parent [Renderer](/docs/components/renderer) component
+
+```js
+import { getRenderer } from 'svelte-pixi'
+
+const { renderer, invalidate } = getRenderer()
+```
+
+| Name         | Type            | Description                                                                                                           |
+| ------------ | --------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `renderer`   | `PIXI.Renderer` | The PIXI.Renderer instance                                                                                            |
+| `invalidate` | `() => void`    | Dispatches the `invalidate` event on the Renderer component. If using Application, this will trigger a manual render. |
