@@ -1,11 +1,10 @@
 <script lang="ts">
   import { page } from '$app/stores'
   import { createEventDispatcher } from 'svelte'
-  import type { Link } from 'src/routes/links.json'
 
   const dispatch = createEventDispatcher()
 
-  export let link: Link
+  export let link: any
 </script>
 
 {#if link.links}

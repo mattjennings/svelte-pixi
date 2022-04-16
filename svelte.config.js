@@ -28,7 +28,7 @@ const config = {
       default: true,
     },
     package: {
-      files: (file) => !file.includes('website'),
+      files: (file) => !file.includes('site') && !file.includes('routes'),
     },
     vite: {
       resolve: {
