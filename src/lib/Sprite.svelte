@@ -72,7 +72,10 @@
   $: applyProp(instance, { blendMode })
   $: applyProp(instance, { pluginName })
   $: applyProp(instance, { roundPixels })
-  $: applyProp(instance, { texture })
+  $: applyProp(instance, { texture }, (texture) => {
+    instance.texture = texture
+    texture.on('update', () => invalidate())
+  })
 </script>
 
 <Container

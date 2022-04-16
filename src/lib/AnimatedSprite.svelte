@@ -65,6 +65,10 @@
   $: applyProp(instance, { loop })
   $: applyProp(instance, { textures }, (textures) => {
     instance.textures = textures
+
+    // trigger render if texture loads (was not preloaded)
+    textures.forEach((texture) => texture.on('update', invalidate))
+
     if (playing) {
       instance.play()
     }
@@ -80,7 +84,10 @@
 
   onMount(() => {
     instance.onComplete = () => dispatch('complete')
-    instance.onFrameChange = () => dispatch('frameChange')
+    instance.onFrameChange = () => {
+      dispatch('frameChange')
+      invalidate()
+    }
     instance.onLoop = () => dispatch('loop')
   })
 </script>

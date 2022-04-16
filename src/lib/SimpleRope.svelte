@@ -65,7 +65,10 @@
     invalidate()
   })
 
-  $: applyProp(instance, { texture })
+  $: applyProp(instance, { texture }, (texture) => {
+    instance.texture = texture
+    texture.on('update', () => invalidate())
+  })
 
   // PIXI.SimpleRope only uses points to create the geometry on construction,
   // so we need to recreate it whenever points change

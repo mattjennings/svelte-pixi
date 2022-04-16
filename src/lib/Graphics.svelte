@@ -18,7 +18,7 @@
 
   /**
    * Call your drawing functions on the PIXI.Graphics instance here
-   * @type { (graphics: Graphics) => any}
+   * @type {(graphics: Graphics) => any}
    */
   export let draw: $$Props['draw'] = undefined
 

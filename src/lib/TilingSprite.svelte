@@ -90,7 +90,10 @@
 
   $: applyProp(instance, { clampMargin })
   $: applyProp(instance, { height })
-  $: applyProp(instance, { texture })
+  $: applyProp(instance, { texture }, (texture) => {
+    instance.texture = texture
+    texture.on('update', () => invalidate())
+  })
   $: applyProp(instance, { tilePosition })
   $: applyProp(instance, { tileTransform })
   $: applyProp(instance, { uvMatrix })

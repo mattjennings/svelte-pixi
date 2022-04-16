@@ -50,7 +50,10 @@
     invalidate()
   })
 
-  $: applyProp(instance, { texture })
+  $: applyProp(instance, { texture }, (texture) => {
+    instance.texture = texture
+    texture.on('update', () => invalidate())
+  })
 </script>
 
 <Mesh
