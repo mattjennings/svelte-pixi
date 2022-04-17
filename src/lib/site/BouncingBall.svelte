@@ -25,17 +25,17 @@
     }
 
     if (bounds.left <= viewBounds.left) {
-      x = bounds.left + bounds.width / 2
+      x = viewBounds.left + bounds.width / 2
       vx *= -1
     } else if (bounds.right > viewBounds.right) {
-      x = bounds.right - bounds.width / 2
+      x = viewBounds.right - bounds.width / 2
       vx *= -1
     }
     if (bounds.bottom > viewBounds.bottom) {
-      y = bounds.bottom - bounds.height / 2
+      y = viewBounds.bottom - bounds.height / 2
       vy *= -1
     } else if (bounds.top <= viewBounds.top) {
-      y = bounds.top + bounds.height / 2
+      y = viewBounds.top + bounds.height / 2
       vy *= -1
     }
 
