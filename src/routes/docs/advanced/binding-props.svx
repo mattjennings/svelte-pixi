@@ -7,11 +7,9 @@ title: Binding Props
   import bballSrc from '$lib/site/BouncingBall.svelte?raw'
 </script>
 
-You may want to bind to properties of the underlying PxiJS instance, such as `x` or `y`. Unfortunately, SveltePixi does not support binding to instance props as it causes too much performance overhead (it would have to eagerly sync all props on every tick, regardless if they are using `bind:`)
+You may want to bind to properties of the underlying PxiJS instance, such as `x` or `y`. Unfortunately, SveltePixi does not support binding to instance props as it causes too much performance overhead (it would have to sync all props on every tick, regardless of which ones have `bind:`)
 
-As a workaround, most SveltePixi components provide a `track` prop that can be used to achieve similar behaviour. It should be an object of writable stores, where each key is the prop you want to "bind" to. Those stores get updated to match the instance after each tick. When you pass these stores back down as props, you are effectively binding them.
-
-It's not as nice as using `bind:` syntax but it is significantly more performant.
+As a workaround, most SveltePixi components provide a `track` prop that can help achieve this. It should be an object of writable stores, where each key is the prop you want to "bind" to. Those stores get updated to match the instance's value after every tick. You can effectively bind by passing those stores back down as a prop.
 
 ```svelte example csr
 <script>
@@ -39,12 +37,14 @@ It's not as nice as using `bind:` syntax but it is significantly more performant
 
 <Code src={'<!-- BouncingBall.svelte -->\n'+bballSrc} />
 
-## Caveats
+It's not as nice as using `bind:` syntax but it is significantly more performant.
 
-There are a few caveats to be aware of:
+## Caveats
 
 - Only instance properties are trackable
 
   - If a component exposes a prop that is not assigned to the underlying PixiJS instance, it will not be tracked.
 
 - Custom components need to pass `track` to their child SveltePixi components if you want to track through them (as BouncingBall does)
+
+- If no Ticker exists in your application then `track` will update during the Renderer's `postrender` event.
