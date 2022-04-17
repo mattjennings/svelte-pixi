@@ -4,25 +4,28 @@
   import { page } from '$app/stores'
 
   let scrollY = 0
-  let headings = []
+  let headings: HTMLHeadingElement[] = []
   let activeHeading
 
   function updateHeadings() {
     if (browser) {
       headings = Array.from(
-        document.querySelectorAll('article h2, article h3, article h4')
+        document.querySelectorAll(
+          'article h1, article h2, article h3, article h4'
+        )
       )
     }
   }
   afterNavigate(() => {
     updateHeadings()
   })
+
   $: $page, updateHeadings()
 
   $: if (headings) {
-    activeHeading = [...headings]
-      .reverse()
-      .find((heading) => heading.offsetTop <= scrollY)
+    activeHeading = [...headings].reverse().find((heading) => {
+      return heading.offsetTop - 24 <= scrollY
+    })
   }
 
   function handleClick(event, heading: HTMLElement) {
@@ -35,7 +38,9 @@
 </script>
 
 <svelte:window bind:scrollY />
-<aside class="hidden lg:block sticky h-screen top-12 right-4 pt-4 w-[13rem]">
+<aside
+  class="hidden lg:block sticky h-screen top-12 right-4 px-2 pt-4 w-[13rem]"
+>
   {#if headings.length}
     <h6 id="__sections" class="uppercase text-slate-800 font-bold text-xs">
       On This Page
@@ -43,7 +48,7 @@
 
     <ul class="mt-3 space-y-3">
       {#each headings as heading}
-        {@const depth = +heading.tagName[1] - 2}
+        {@const depth = +heading.tagName[1] - 1}
         <li
           class="heading list-none !pl-0 text-sm text-slate-400 hover:text-slate-900 transition-colors"
           class:active={activeHeading === heading}
