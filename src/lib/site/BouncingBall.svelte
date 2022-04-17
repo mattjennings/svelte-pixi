@@ -4,6 +4,9 @@
 
   const { renderer } = getRenderer()
 
+  export let x
+  export let y
+
   export let speed = 5
   export let size = 50
   export let color = 0xde3249
@@ -13,7 +16,7 @@
   let vy = Math.random()
 
   onTick((delta) => {
-    const bounds = new PIXI.Circle(instance.x, instance.y, size).getBounds()
+    const bounds = new PIXI.Circle(x, y, size).getBounds()
     const viewBounds = {
       left: 0,
       top: 0,
@@ -22,22 +25,22 @@
     }
 
     if (bounds.left <= viewBounds.left) {
-      instance.x = bounds.left + bounds.width / 2
+      x = bounds.left + bounds.width / 2
       vx *= -1
     } else if (bounds.right > viewBounds.right) {
-      instance.x = bounds.right - bounds.width / 2
+      x = bounds.right - bounds.width / 2
       vx *= -1
     }
     if (bounds.bottom > viewBounds.bottom) {
-      instance.y = bounds.bottom - bounds.height / 2
+      y = bounds.bottom - bounds.height / 2
       vy *= -1
     } else if (bounds.top <= viewBounds.top) {
-      instance.y = bounds.top + bounds.height / 2
+      y = bounds.top + bounds.height / 2
       vy *= -1
     }
 
-    instance.x += vx * speed * delta
-    instance.y += vy * speed * delta
+    x += vx * speed * delta
+    y += vy * speed * delta
   })
 </script>
 
@@ -50,6 +53,8 @@
     graphics.drawCircle(0, 0, size)
     graphics.endFill()
   }}
+  {x}
+  {y}
   {...$$restProps}
 >
   <slot />

@@ -23,6 +23,7 @@
     getContext,
     onMount,
     setContext,
+    tick,
   } from 'svelte'
   import type { Writable } from 'svelte/store'
   import { getRenderer } from './Renderer.svelte'
@@ -468,11 +469,15 @@
     }
 
     function updateBindings() {
-      if (instance && track) {
-        Object.entries(track).forEach(([key, store]) => {
-          store.set(instance[key])
-        })
-      }
+      // svelte tick() first incase stores were updated
+      // and passed down as a prop between pixi ticks
+      tick().then(() => {
+        if (instance && track) {
+          Object.entries(track).forEach(([key, store]) => {
+            store.set(instance[key])
+          })
+        }
+      })
     }
 
     if (track) {

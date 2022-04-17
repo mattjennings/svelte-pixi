@@ -5,12 +5,13 @@ title: Binding Props
 <script>
   import Code from '$lib/site/Code.svelte'
   import bballSrc from '$lib/site/BouncingBall.svelte?raw'
-  
 </script>
 
-You may want to bind to properties of the underlying PxiJS instance, such as `x` or `y`. Unfortunately this is not possible with the `bind:` syntax because SveltePixi would have to track each properly eagerly (whether or not `bind:` is used), and that causes too much performance overhead.
+You may want to bind to properties of the underlying PxiJS instance, such as `x` or `y`. Unfortunately, SveltePixi does not support binding to instance props as it causes too much performance overhead (it would have to eagerly sync all props on every tick, regardless if they are using `bind:`)
 
-Instead, every Container and Container-based component provide a `track` prop that can be used to achieve similar behaviour. `track` is used to pass back up the current value of the instance properties through writable stores. This allows SveltePixi to track properties on an as-needed basis.
+As a workaround, most SveltePixi components provide a `track` prop that can be used to achieve similar behaviour. It should be an object of writable stores, where each key is the prop you want to "bind" to. Those stores get updated to match the instance after each tick. When you pass these stores back down as props, you are effectively binding them.
+
+It's not as nice as using `bind:` syntax but it is significantly more performant.
 
 ```svelte example csr
 <script>
@@ -21,7 +22,7 @@ Instead, every Container and Container-based component provide a `track` prop th
 
   let instance
 
-  // tracked properties must be a writable store
+  // tracked properties must be writables
   let x = writable(200)
   let y = writable(200)
 </script>
@@ -37,3 +38,13 @@ Instead, every Container and Container-based component provide a `track` prop th
 ```
 
 <Code src={'<!-- BouncingBall.svelte -->\n'+bballSrc} />
+
+## Caveats
+
+There are a few caveats to be aware of:
+
+- Only instance properties are trackable
+
+  - If a component exposes a prop that is not assigned to the underlying PixiJS instance, it will not be tracked.
+
+- Custom components need to pass `track` to their child SveltePixi components if you want to track through them (as BouncingBall does)
