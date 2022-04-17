@@ -2,6 +2,12 @@
 title: Binding Props
 ---
 
+<script>
+  import Code from '$lib/site/Code.svelte'
+  import bballSrc from '$lib/site/BouncingBall.svelte?raw'
+  
+</script>
+
 You may want to bind to properties of the underlying PxiJS instance, such as `x` or `y`. Unfortunately this is not possible with the `bind:` syntax because SveltePixi would have to track each properly eagerly (whether or not `bind:` is used), and that causes too much performance overhead.
 
 Instead, every Container and Container-based component provide a `track` prop that can be used to achieve similar behaviour. `track` is used to pass back up the current value of the instance properties through writable stores. This allows SveltePixi to track properties on an as-needed basis.
@@ -20,7 +26,6 @@ Instead, every Container and Container-based component provide a `track` prop th
   let y = writable(200)
 </script>
 
-<!-- BouncingBall moves by mutating its instance's x/y properties-->
 <BouncingBall x={$x} y={$y} track={{ x, y }} >
   <Text
     y={$y > 200 ? -75 : 75}
@@ -30,3 +35,5 @@ Instead, every Container and Container-based component provide a `track` prop th
   />
 </BouncingBall>
 ```
+
+<Code src={'<!-- BouncingBall.svelte -->\n'+bballSrc} />

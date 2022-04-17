@@ -1,5 +1,6 @@
 <script>
   import { browser } from '$app/env'
+  import Code from './Code.svelte'
 
   export let src
   export let meta
@@ -28,9 +29,5 @@
       {/if}
     </div>
   </div>
-  <div class="max-h-[600px] overflow-scroll">
-    <pre class="!my-0 !rounded-tl-none !rounded-tr-none language-svelte"><slot
-        name="code"
-      /></pre>
-  </div>
+  <Code class=""><slot name="code" /></Code>
 </div>

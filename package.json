@@ -28,6 +28,7 @@
     "@typescript-eslint/eslint-plugin": "^5.16.0",
     "@typescript-eslint/parser": "^5.16.0",
     "autoprefixer": "^10.4.4",
+    "dashify": "^2.0.0",
     "eslint": "^8.11.0",
     "eslint-plugin-svelte3": "^3.4.1",
     "just-camel-case": "^6.0.1",
@@ -55,8 +56,7 @@
     "typescript": "~4.5.5",
     "unist-util-visit": "^4.1.0",
     "vite": "^2.8.6",
-    "vite-plugin-sveld": "^1.0.3",
-    "dashify": "^2.0.0"
+    "vite-plugin-sveld": "^1.0.3"
   },
   "peerDependencies": {
     "pixi.js": "^6.0.0"

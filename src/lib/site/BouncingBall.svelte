@@ -9,19 +9,17 @@
   export let color = 0xde3249
 
   let instance
-
   let vx = Math.random()
   let vy = Math.random()
 
-  let viewBounds = {
-    left: 0,
-    top: 0,
-    right: renderer.width,
-    bottom: renderer.height,
-  }
-
   onTick((delta) => {
     const bounds = new PIXI.Circle(instance.x, instance.y, size).getBounds()
+    const viewBounds = {
+      left: 0,
+      top: 0,
+      right: renderer.width,
+      bottom: renderer.height,
+    }
 
     if (bounds.left <= viewBounds.left) {
       instance.x = bounds.left + bounds.width / 2
