@@ -67,6 +67,7 @@
   $: applyProp('shader', shader)
   $: applyProp('state', state)
   $: applyProp('drawMode', drawMode)
+  $: applyProp('drawMode', drawMode)
 </script>
 
 <Container

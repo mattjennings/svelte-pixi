@@ -103,8 +103,10 @@
 
   const { invalidate } = getRenderer()
 
-  const { applyProps, applyProp } =
-    createApplyProps<PIXI.NineSlicePlane>(instance)
+  const { applyProps, applyProp } = createApplyProps<
+    PIXI.NineSlicePlane,
+    $$Props
+  >(instance)
 
   afterUpdate(() => {
     invalidate()
@@ -114,10 +116,7 @@
   $: applyProp('shader', shader)
   $: applyProp('state', state)
   $: applyProp('drawMode', drawMode)
-
-  $: applyProp('texture', texture, () => {
-    instance.texture = texture
-  })
+  $: applyProp('texture', texture)
 
   $: applyProps({
     leftWidth,

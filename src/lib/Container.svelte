@@ -24,7 +24,9 @@
     onMount,
     setContext,
   } from 'svelte'
+  import type { Writable } from 'svelte/store'
   import { getRenderer } from './Renderer.svelte'
+  import { getTicker } from './Ticker.svelte'
   import type { PointLike } from './util/data-types'
   import { createApplyProps } from './util/props'
 
@@ -71,6 +73,7 @@
     zIndex?: PIXI.Container['zIndex']
     instance?: T
     applyPropOnMount?: boolean
+    track?: { [Key in keyof T]?: Writable<T[Key]> }
   }
 
   /**
@@ -403,6 +406,8 @@
    *
    * If a container has the sortableChildren property set to true,
    * children will be automatically sorted by zIndex value; a higher value will mean it will be moved towards the end of the array, and thus rendered on top of other display objects within the same container.
+   *
+   * @type {number}
    **/
   export let zIndex: $$Props['zIndex'] = undefined
 
@@ -413,9 +418,20 @@
    */
   export let instance: T = new PIXI.Container() as T
 
-  const { applyProp, applyProps } = createApplyProps<PIXI.Container>(instance)
+  /**
+   * A mapping of instance properties to writable stores from svelte/store. It will
+   * update each store to match the instance's value in either a ticker (if one exists), or in the renderer's "postrender" event.
+   *
+   * @type {Record<string, Writable>}
+   */
+  export let track: $$Props['track'] = undefined
 
-  const { invalidate } = getRenderer()
+  const { applyProp, applyProps } = createApplyProps<PIXI.Container, $$Props>(
+    instance
+  )
+
+  const { invalidate, renderer } = getRenderer()
+  const { ticker } = getTicker()
   const { container: parent } = getContainer() ?? {}
   const dispatch = createEventDispatcher()
 
@@ -451,6 +467,22 @@
       applyProps(props)
     }
 
+    function updateBindings() {
+      if (instance && track) {
+        Object.entries(track).forEach(([key, store]) => {
+          store.set(instance[key])
+        })
+      }
+    }
+
+    if (track) {
+      if (ticker) {
+        ticker.add(updateBindings, null, -Infinity)
+      } else {
+        renderer.on('postrender', updateBindings)
+      }
+    }
+
     instance.on('click', (ev) => dispatch('click', ev))
     instance.on('mousedown', (ev) => dispatch('mousedown', ev))
     instance.on('mousemove', (ev) => dispatch('mousemove', ev))
@@ -484,6 +516,12 @@
     return () => {
       _instance?.destroy()
       _parent?.removeChild(_instance)
+      renderer?.off('postrender', updateBindings)
+
+      // @ts-ignore - safely check if ticker hasnt been destroyed
+      if (ticker._head) {
+        ticker?.remove(updateBindings)
+      }
     }
   })
 

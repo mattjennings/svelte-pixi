@@ -11,10 +11,6 @@
   >(): RendererContext<T> {
     return getContext('pixi/renderer')
   }
-
-  export function getStage(): PIXI.Container {
-    return getContext('pixi/stage')
-  }
 </script>
 
 <script lang="ts">

@@ -88,7 +88,25 @@
    */
   export let instance: T = new PIXI.AnimatedSprite(textures, autoUpdate) as T
 
-  const { applyProp } = createApplyProps<PIXI.AnimatedSprite>(instance)
+  const { applyProp } = createApplyProps<PIXI.AnimatedSprite, $$Props>(
+    instance,
+    {
+      textures: (value, instance) => {
+        instance.textures = value
+
+        if (playing) {
+          instance.play()
+        }
+      },
+      playing: (value, instance) => {
+        if (playing) {
+          instance.play()
+        } else {
+          instance.stop()
+        }
+      },
+    }
+  )
 
   const dispatch = createEventDispatcher()
   const { invalidate } = getRenderer()
@@ -104,21 +122,8 @@
   $: applyProp('autoUpdate', autoUpdate)
   $: applyProp('animationSpeed', animationSpeed)
   $: applyProp('loop', loop)
-  $: applyProp('textures', textures, () => {
-    instance.textures = textures
-
-    if (playing) {
-      instance.play()
-    }
-  })
-
-  $: applyProp('playing', playing, () => {
-    if (playing) {
-      instance.play()
-    } else {
-      instance.stop()
-    }
-  })
+  $: applyProp('textures', textures)
+  $: applyProp('playing', playing)
 
   // trigger render if texture loads (was not preloaded)
   $: textures.forEach((texture) => texture.on('update', invalidate))

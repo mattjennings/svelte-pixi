@@ -5,19 +5,31 @@ import { parsePoint, type PointLike } from './data-types'
 /**
  * Returns apply prop functions that are bound to the instance
  */
-export function createApplyProps<Instance>(instance: Instance) {
+export function createApplyProps<
+  Instance,
+  Props extends Partial<Record<keyof Instance, any>> = {
+    [Key in keyof Instance]?: Instance[Key]
+  }
+>(
+  instance: Instance,
+  apply?: {
+    [PropKey in keyof Props]?: Apply<Instance, Props[PropKey]>
+  }
+) {
+  const defaultApply = apply
   return {
-    applyProps: <Props extends Partial<Record<keyof Instance, any>>>(
-      props: Props,
-      apply?: {
-        [PropKey in keyof Props]?: Apply<Instance, Props[PropKey]>
-      }
-    ) => applyProps(instance, props, apply),
-    applyProp: <Prop extends keyof Instance, Value>(
+    applyProps: (props: Partial<Props>) =>
+      applyProps(instance, props, { ...defaultApply, ...apply }),
+    applyProp: <Prop extends keyof Props, Value>(
       prop: Prop | null,
-      value: Value,
-      apply?: Apply<Instance, Value>
-    ) => applyProp(instance, prop, value, apply),
+      value: Value
+    ) =>
+      applyProp(
+        instance,
+        prop as any,
+        value,
+        prop !== null ? defaultApply?.[prop] : undefined
+      ),
   }
 }
 

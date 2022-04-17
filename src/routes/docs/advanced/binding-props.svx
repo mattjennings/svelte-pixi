@@ -1,0 +1,32 @@
+---
+title: Binding Props
+---
+
+You may want to bind to properties of the underlying PxiJS instance, such as `x` or `y`. Unfortunately this is not possible with the `bind:` syntax because SveltePixi would have to track each properly eagerly (whether or not `bind:` is used), and that causes too much performance overhead.
+
+Instead, every Container and Container-based component provide a `track` prop that can be used to achieve similar behaviour. `track` is used to pass back up the current value of the instance properties through writable stores. This allows SveltePixi to track properties on an as-needed basis.
+
+```svelte example csr
+<script>
+  import { onMount } from 'svelte'
+  import { Container, Text, onTick } from 'svelte-pixi'
+  import { writable } from 'svelte/store'
+  import BouncingBall from '$lib/site/BouncingBall.svelte'
+
+  let instance
+
+  // tracked properties must be a writable store
+  let x = writable(200)
+  let y = writable(200)
+</script>
+
+<!-- BouncingBall moves by mutating its instance's x/y properties-->
+<BouncingBall x={$x} y={$y} track={{ x, y }} >
+  <Text
+    y={$y > 200 ? -75 : 75}
+    text={`${Math.round($x)}, ${Math.round($y)}`}
+    style={{ fill: 'white' }}
+    anchor={0.5}
+  />
+</BouncingBall>
+```

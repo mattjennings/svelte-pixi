@@ -93,7 +93,17 @@
     return points.map(parsePoint)
   }
 
-  const { applyProp } = createApplyProps<PIXI.SimpleRope>(instance)
+  const { applyProp } = createApplyProps<PIXI.SimpleRope, $$Props>(instance, {
+    // PIXI.SimpleRope only uses points to create the geometry on construction,
+    // so we need to recreate it whenever points change
+    points: (value, instance) => {
+      instance.geometry = new PIXI.RopeGeometry(
+        texture.height,
+        parsePoints(value),
+        textureScale
+      )
+    },
+  })
   const { invalidate } = getRenderer()
 
   afterUpdate(() => {
@@ -105,16 +115,7 @@
   $: applyProp('state', state)
   $: applyProp('drawMode', drawMode)
   $: applyProp('texture', texture)
-
-  // PIXI.SimpleRope only uses points to create the geometry on construction,
-  // so we need to recreate it whenever points change
-  $: applyProp(null, parsePoints(points), (value) => {
-    instance.geometry = new PIXI.RopeGeometry(
-      texture.height,
-      value,
-      textureScale
-    )
-  })
+  $: applyProp('points', points)
 
   $: texture.on('update', () => invalidate())
 </script>

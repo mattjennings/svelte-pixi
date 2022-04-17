@@ -48,4 +48,7 @@
   on:pointerup={handleDragEnd}
   on:pointerupoutside={handleDragEnd}
   on:mousemove={handleDrag}
-/>
+  {...$$restProps}
+>
+  <slot />
+</Graphics>

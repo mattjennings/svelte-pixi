@@ -29,7 +29,16 @@ export const get: RequestHandler = async ({ params }) => {
   })
 
   return {
-    status: 200,
-    body: JSON.stringify(data),
+    body: JSON.stringify({
+      ...data,
+      props: data.props.sort((a, b) => a.name.localeCompare(b.name)),
+      slots: data.slots.sort((a, b) => {
+        if (a.default) return -1
+        if (b.default) return 1
+        return a.name!.localeCompare(b.name!)
+      }),
+      events: data.events.sort((a, b) => a.name.localeCompare(b.name)),
+      typedefs: data.typedefs.sort((a, b) => a.name.localeCompare(b.name)),
+    }),
   }
 }
