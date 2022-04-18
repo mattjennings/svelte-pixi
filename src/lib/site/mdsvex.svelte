@@ -1,6 +1,6 @@
 <script>
   export let title
-  export let pixi
+  export let pixi = undefined
 </script>
 
 <svelte:head>

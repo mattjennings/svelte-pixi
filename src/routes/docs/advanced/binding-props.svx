@@ -22,10 +22,10 @@ It's not as nice as the `bind:` syntax but it is significantly more performant.
 ```svelte example csr
 <script>
   import { onMount } from 'svelte'
-  import { Container, Text, onTick } from 'svelte-pixi'
+  import { Container, Text, onTick, Graphics } from 'svelte-pixi'
   import { writable } from 'svelte/store'
-  import BouncingBall from '$lib/site/BouncingBall.svelte'
-
+  import * as PIXI from 'pixi.js'
+  import BouncePhysics from '$lib/site/BouncePhysics.svelte'
   let instance
 
   // tracked properties must be writables
@@ -33,17 +33,34 @@ It's not as nice as the `bind:` syntax but it is significantly more performant.
   let y = writable(200)
 </script>
 
-<BouncingBall x={$x} y={$y} track={{ x, y }} >
-  <Text
-    y={$y > 200 ? -75 : 75}
-    text={`${Math.round($x)}, ${Math.round($y)}`}
-    style={{ fill: 'white' }}
-    anchor={0.5}
+<Graphics
+  x={$x}
+  y={$y}
+  track={{ x, y }}
+  pivot={0.5}
+  draw={(graphics) => {
+    graphics.clear()
+    graphics.beginFill(0xde3249)
+    graphics.drawCircle(0, 0, 50)
+    graphics.endFill()
+  }}
+>
+  <!-- adds velocity to parent container instance -->
+  <BouncePhysics
+    velocity={{
+      x: Math.random() + 2,
+      y: Math.random() + 2
+    }}
   />
-</BouncingBall>
+</Graphics>
+<Text
+  x={$x}
+  y={$y > 200 ? $y - 75 : $y + 75}
+  text={`${Math.round($x)}, ${Math.round($y)}`}
+  style={{ fill: 'white' }}
+  anchor={0.5}
+/>
 ```
-
-<Code src={'<!-- BouncingBall.svelte -->\n'+bballSrc} />
 
 ## Caveats
 
