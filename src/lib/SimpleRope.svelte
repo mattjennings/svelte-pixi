@@ -123,6 +123,7 @@
 <Container
   {...$$restProps}
   {instance}
+  on:create
   on:click
   on:mousedown
   on:mousemove
