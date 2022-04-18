@@ -23,3 +23,9 @@ Child components can use `onTick` to add a callback to the ticker. It will autom
   anchor={0.5}
 />
 ```
+
+## Type Definition
+
+```ts
+function onTick(fn: (delta: number) => any, priority?: number | undefined): void
+```

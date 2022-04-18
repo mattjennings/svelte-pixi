@@ -2,14 +2,9 @@
 title: Binding Props
 ---
 
-<script>
-  import Code from '$lib/site/Code.svelte'
-  import bballSrc from '$lib/site/BouncingBall.svelte?raw'
-</script>
+There are times when the underlying PixiJS instance of a component gets updated externally (e.g, a physics system that applies forces on collision). In such a scenario, it would be helpful to bind our component props to the instance properties so that they are in sync. However, the `bind:` syntax will have no effect for instance-related properties on SveltePixi components (such as `x` or `y`) . This is to improve performance as the components would have to sync all props all the time regardless if they are bound, causing a large performance hit.
 
-When a component's PixiJS instance is mutated it would be helpful have its props stay in sync (for example, if you're using a physics system where forces can be applied externally). You might expect to be able to use the `bind:` syntax on SveltePixi components... but it won't work! The only bindable property is `instance`. This is because it would have to track each available prop in a ticker, regardless if they are bound or not, and that would cause notable performance degradation at scale.
-
-Instead, SveltePixi provides a `track` utility function that will allow you to achieve similiar behaviour. It returns a writable store that updates with the instance property after every tick. You can pass that store back down as a prop to effectively achieve binding in a performant way.
+Instead, SveltePixi provides a [track](/docs/utilities/track) utility function that will allow you to achieve similar behaviour. It returns a writable store that updates on every tick with the passed in function. We can use this to grab instance values and pass them back down as props (effectively creating a bind).
 
 ```svelte example csr hideStyle
 <script>
@@ -20,8 +15,8 @@ Instead, SveltePixi provides a `track` utility function that will allow you to a
 
   let instance
 
-  let x = track(() => instance, 'x', 200)
-  let y = track(() => instance, 'y', 200)
+  let x = track(() => instance.x, 200)
+  let y = track(() => instance.y, 200)
 
   function reset() {
     $x = 200
