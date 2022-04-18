@@ -21,12 +21,10 @@ It's not as nice as the `bind:` syntax but it is significantly more performant.
 
 ```svelte example csr
 <script>
-  import { onMount } from 'svelte'
+  import * as PIXI from 'pixi.js'
   import { Container, Text, onTick, Graphics } from 'svelte-pixi'
   import { writable } from 'svelte/store'
-  import * as PIXI from 'pixi.js'
   import BouncePhysics from '$lib/site/BouncePhysics.svelte'
-  let instance
 
   // tracked properties must be writables
   let x = writable(200)
@@ -45,7 +43,7 @@ It's not as nice as the `bind:` syntax but it is significantly more performant.
     graphics.endFill()
   }}
 >
-  <!-- adds velocity to parent container instance -->
+  <!-- adds velocity to parent instance -->
   <BouncePhysics
     velocity={{
       x: Math.random() + 2,
@@ -55,7 +53,7 @@ It's not as nice as the `bind:` syntax but it is significantly more performant.
 </Graphics>
 <Text
   x={$x}
-  y={$y > 200 ? $y - 75 : $y + 75}
+  y={$y >= 200 ? $y - 75 : $y + 75}
   text={`${Math.round($x)}, ${Math.round($y)}`}
   style={{ fill: 'white' }}
   anchor={0.5}
