@@ -7,34 +7,32 @@ title: Binding Props
   import bballSrc from '$lib/site/BouncingBall.svelte?raw'
 </script>
 
-When PixiJS instances are mutated externally it would be helpful have its component props stay in sync (e.g. a physics system). Since we're using Svelte you might expect to be able to use the `bind:` syntax... but it won't work! The only bindable property for SveltePixi components is `instance`. Binding will have no effect for instance-related props.
+When a component's PixiJS instance is mutated it would be helpful have its props stay in sync (for example, if you're using a physics system where forces can be applied externally). You might expect to be able to use the `bind:` syntax on SveltePixi components... but it won't work! The only bindable property is `instance`. This is because it would have to track each available prop in a ticker, regardless if they are bound or not, and that would cause notable performance degradation at scale.
 
-Due to the nature of how `bind:` works, bound props are only updated when the Svelte component updates it internally. For SveltePixi, this would mean having to update each prop after every frame according to the instance value. Unfortunately this causes notable performance overhead because these components have a lot of props, and Svelte offers no way to do this on a per-bounded-prop bases.
+Instead, SveltePixi provides a `track` utility function that will allow you to achieve similiar behaviour. It returns a writable store that updates with the instance property after every tick. You can pass that store back down as a prop to effectively achieve binding in a performant way.
 
-As a workaround, most SveltePixi components provide a `track` prop. This lets us opt-in to "binding per-prop" -- however, it does work a bit differently.
-
-## The Track Prop
-
-`track` takes an object of writable stores where each key is the prop you want to "bind" to. Those stores get updated to match the instance's value after every tick. You can use those same stores for its props, effectively achieving binding behaviour.
-
-It's not as nice as the `bind:` syntax but it is significantly more performant.
-
-```svelte example csr
+```svelte example csr hideStyle
 <script>
   import * as PIXI from 'pixi.js'
-  import { Container, Text, onTick, Graphics } from 'svelte-pixi'
+  import { Container, Text, track, Graphics } from 'svelte-pixi'
   import { writable } from 'svelte/store'
   import BouncePhysics from '$lib/site/BouncePhysics.svelte'
 
-  // tracked properties must be writables
-  let x = writable(200)
-  let y = writable(200)
+  let instance
+
+  let x = track(() => instance, 'x', 200)
+  let y = track(() => instance, 'y', 200)
+
+  function reset() {
+    $x = 200
+    $y = 200
+  }
 </script>
 
 <Graphics
+  bind:instance
   x={$x}
   y={$y}
-  track={{ x, y }}
   pivot={0.5}
   draw={(graphics) => {
     graphics.clear()
@@ -43,7 +41,7 @@ It's not as nice as the `bind:` syntax but it is significantly more performant.
     graphics.endFill()
   }}
 >
-  <!-- adds velocity to parent instance -->
+  <!-- adds velocity to Graphics instance -->
   <BouncePhysics
     velocity={{
       x: Math.random() + 2,
@@ -58,14 +56,12 @@ It's not as nice as the `bind:` syntax but it is significantly more performant.
   style={{ fill: 'white' }}
   anchor={0.5}
 />
+
+<button on:click={reset}>Reset</button>
+
+<style lang="postcss">
+  button {
+    @apply bg-slate-200 font-medium rounded mt-2 w-full;
+  }
+</style>
 ```
-
-## Caveats
-
-- Only instance properties are trackable
-
-  - If a component exposes a prop that is not assigned to the underlying PixiJS instance, it will not be tracked.
-
-- Custom components need to pass `track` to their child SveltePixi components if you want to track through them (as BouncingBall does)
-
-- If no Ticker exists in your application then `track` will update during the Renderer's `postrender` event.

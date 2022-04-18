@@ -1,4 +1,8 @@
+import { getRenderer } from '$lib/Renderer.svelte'
+import { getTicker, onTick } from '$lib/Ticker.svelte'
 import * as PIXI from 'pixi.js'
+import { onMount, tick } from 'svelte'
+import { writable } from 'svelte/store'
 
 import { parsePoint, type PointLike } from './data-types'
 
@@ -111,6 +115,47 @@ export function applyProp<Instance, Prop extends keyof Instance, Value>(
   }
 }
 
+export function track<T extends PIXI.DisplayObject, Key extends keyof T>(
+  instance: () => T,
+  property: Key,
+  initial?: T[Key]
+) {
+  const { renderer } = getRenderer()
+  const { ticker } = getTicker()
+
+  const value = writable(initial)
+  let i = instance()
+
+  function update() {
+    if (i && !i.destroyed) {
+      // svelte tick() first incase stores were updated
+      // and passed down as a prop between pixi ticks
+      tick().then(() => {
+        value.set(i[property])
+      })
+    }
+  }
+
+  onMount(() => {
+    i = instance()
+    if (!ticker) {
+      renderer.on('postrender', update)
+      return () => {
+        renderer.off('postrender', update)
+      }
+    }
+  })
+
+  if (ticker) {
+    onTick(() => {
+      if (i && !i.destroyed) {
+        update()
+      }
+    }, -Infinity)
+  }
+
+  return value
+}
 /* -------------------------------------------------------------------------- */
 /*                                    TYPES                                   */
 /* -------------------------------------------------------------------------- */
