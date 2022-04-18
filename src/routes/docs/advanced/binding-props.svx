@@ -7,9 +7,17 @@ title: Binding Props
   import bballSrc from '$lib/site/BouncingBall.svelte?raw'
 </script>
 
-You may want to bind to properties of the underlying PxiJS instance, such as `x` or `y`. Unfortunately, SveltePixi does not support binding to instance props as it causes too much performance overhead (it would have to sync all props on every tick, regardless of which ones have `bind:`)
+When PixiJS instances are mutated externally it would be helpful have its component props stay in sync (e.g. a physics system). Since we're using Svelte you might expect to be able to use the `bind:` syntax... but it won't work! The only bindable property for SveltePixi components is `instance`. Binding will have no effect for instance-related props.
 
-As a workaround, most SveltePixi components provide a `track` prop that can help achieve this. It should be an object of writable stores, where each key is the prop you want to "bind" to. Those stores get updated to match the instance's value after every tick. You can effectively bind by passing those stores back down as a prop.
+Due to the nature of how `bind:` works, bound props are only updated when the Svelte component updates it internally. For SveltePixi, this would mean having to update each prop after every frame according to the instance value. Unfortunately this causes notable performance overhead because these components have a lot of props, and Svelte offers no way to do this on a per-bounded-prop bases.
+
+As a workaround, most SveltePixi components provide a `track` prop. This lets us opt-in to "binding per-prop" -- however, it does work a bit differently.
+
+## The Track Prop
+
+`track` takes an object of writable stores where each key is the prop you want to "bind" to. Those stores get updated to match the instance's value after every tick. You can use those same stores for its props, effectively achieving binding behaviour.
+
+It's not as nice as the `bind:` syntax but it is significantly more performant.
 
 ```svelte example csr
 <script>
@@ -36,8 +44,6 @@ As a workaround, most SveltePixi components provide a `track` prop that can help
 ```
 
 <Code src={'<!-- BouncingBall.svelte -->\n'+bballSrc} />
-
-It's not as nice as using `bind:` syntax but it is significantly more performant.
 
 ## Caveats
 
