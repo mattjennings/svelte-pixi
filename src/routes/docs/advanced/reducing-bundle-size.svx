@@ -4,7 +4,7 @@ title: Reducing Bundle Size
 
 PixiJS is about [100kb~ minified + gzipped](https://bundlephobia.com/package/pixi.js) when using the `pixi.js` package. If you're only using a few features, this may be a lot more than you need.
 
-If you're using a modern bundler (and since you're using Svelte, you likely are), you can create a custom `pixi.js` file that only exports the features you're using and setup an alias so that `svelte-pixi` uses it.
+If you're using a modern bundler (and since you're using Svelte, you likely are), you can create a custom `pixi.js` file that only exports the features you're using and setup an alias so that SveltePixi uses it.
 
 ## Creating a Custom pixi.js
 
@@ -89,7 +89,7 @@ This has most of the packages from "Core" (minus `@pixi/polyfill` and the `-extr
 
 ## Aliasing
 
-In order for `svelte-pixi` to make use of this custom file we'll need to create an alias. Most bundlers will either have a plugin or a config option to do this.
+In order for SveltePixi to make use of this custom file we'll need to create an alias. Most bundlers will either have a plugin or a config option to do this.
 
 Here are some examples:
 
