@@ -15,6 +15,7 @@ importers:
       dashify: ^2.0.0
       eslint: ^8.11.0
       eslint-plugin-svelte3: ^3.4.1
+      fathom-client: ^3.4.1
       just-camel-case: ^6.0.1
       mdsvex: ^0.10.5
       mdsvex-sveld: ^1.0.3
@@ -53,6 +54,7 @@ importers:
       dashify: 2.0.0
       eslint: 8.11.0
       eslint-plugin-svelte3: 3.4.1_eslint@8.11.0+svelte@3.46.4
+      fathom-client: 3.4.1
       just-camel-case: 6.0.1
       mdsvex: 0.10.5_svelte@3.46.4
       mdsvex-sveld: 1.0.3_e3bf6e3ebf914e8800aa5c83da00727a
@@ -2915,6 +2917,10 @@ packages:
     resolution: {integrity: sha512-YpkpUnK8od0o1hmeSc7UUs/eB/vIPWJYjKck2QKIzAf71Vm1AAQ3EbuZB3g2JIy+pg+ERD0vqI79KyZiB2e2Nw==}
     dependencies:
       reusify: 1.0.4
+    dev: true
+
+  /fathom-client/3.4.1:
+    resolution: {integrity: sha512-iQFKx9B9RDeGLzgNqsaXWg3Fvu7yfq1Z8GjpAG3DP8IoGoPRWOOktpM7DUKiUzoE3d37hdvDQvkqUHfNzVwimg==}
     dev: true
 
   /file-entry-cache/6.0.1:

@@ -17,7 +17,7 @@
   export let links
 </script>
 
-<title>svelte-pixi</title>
+<title>SveltePixi</title>
 <meta name="author" content="Matt Jennings" />
 <meta name="description" content="Create PixiJS apps with Svelte" />
 
