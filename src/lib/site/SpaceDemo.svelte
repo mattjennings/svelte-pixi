@@ -4,10 +4,9 @@
    *
    * https://github.com/pixijs/examples/blob/gh-pages/examples/js/demos-advanced/star-warp.js
    */
-  import { Application, Ticker, Sprite, ParticleContainer } from 'svelte-pixi'
-  import * as PIXI from 'pixi.js'
-  import { onMount } from 'svelte'
   import Loader from '$lib/Loader.svelte'
+  import * as PIXI from 'pixi.js'
+  import { Application, ParticleContainer, Ticker } from 'svelte-pixi'
 
   const speed = 0.025
   const fov = 20
@@ -24,9 +23,9 @@
   let stars: Star[] = []
 
   interface Star extends PIXI.Sprite {
-    initX?: number
-    initY?: number
-    initZ?: number
+    initX: number
+    initY: number
+    initZ: number
   }
 
   $: {
@@ -107,7 +106,6 @@
 <div class="wrapper">
   <Application bind:instance={app}>
     <Loader resources={['/assets/star.png']}>
-      <Sprite instance={stars[0]} initX={1} />
       <Ticker on:tick={tick} />
       <ParticleContainer
         bind:instance={container}
