@@ -103,7 +103,7 @@ export default defineConfig({
   /* ... */
   resolve: {
     alias: {
-      'svelte-pixi': 'src/path/to/pixi.js',
+      'pixi.js': 'src/path/to/pixi.js',
     },
   },
 })
@@ -120,7 +120,7 @@ const config = {
     vite: {
       resolve: {
         alias: {
-          'svelte-pixi': 'src/path/to/pixi.js',
+          'pixi.js': 'src/path/to/pixi.js',
         },
       },
     },
