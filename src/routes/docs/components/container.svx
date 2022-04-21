@@ -12,27 +12,27 @@ When child components are rendered inside, their coordinates become local to the
 ```svelte csr example
 <script>
   import { onMount } from 'svelte'
-  import { Container, Text, onTick, track } from 'svelte-pixi'
+  import { Container, Text, onTick } from 'svelte-pixi'
 
   let instance
-  let x = track(() => instance, 'x', 200)
-  let y = track(() => instance, 'y', 100)
+  let x = 200
+  let y = 150
   let direction = -1
 
   // move container back and forth
   onTick((delta) =>{
-    if ($x <= 0) {
+    if (x <= 0) {
       direction = 1
-    } else if ($x >= 340) {
+    } else if (x >= 340) {
       direction = -1
     }
 
-    instance.x += 2 * direction * delta
+    x += 2 * direction * delta
   })
 
 </script>
 
-<Container bind:instance x={$x} y={$y}>
+<Container bind:instance {x} {y}>
   <Text text="Hello" style={{ fill: 'white' }} />
   <Text text="World" y={60} style={{ fill: 'white' }} />
 </Container>

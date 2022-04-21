@@ -113,7 +113,6 @@ we can still implement this ourselves:
 
 <Renderer
   bind:instance={renderer}
-  bind:stage={stage}
   width={400}
   height={400}
   antialias
@@ -129,17 +128,19 @@ we can still implement this ourselves:
         // check out the console
         console.log('render')
       }
-    }} />
-  <Container bind:instance={stage}>
-    <Text
-      x={200}
-      y={300}
-      text="Click and drag"
-      style={{ fill: 'white' }}
-      anchor={0.5}
-    />
-    <DraggableCircle x={200} y={200}/>
-  </Container>
+    }}
+  >
+    <Container bind:instance={stage}>
+      <Text
+        x={200}
+        y={300}
+        text="Click and drag"
+        style={{ fill: 'white' }}
+        anchor={0.5}
+      />
+      <DraggableCircle x={200} y={200}/>
+    </Container>
+  </Ticker>
 </Renderer>
 ```
 

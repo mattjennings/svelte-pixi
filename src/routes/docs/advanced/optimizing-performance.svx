@@ -21,7 +21,7 @@ You may find yourself needing to render and update many components at once. Take
   const starSize = 0.05
 
   let cameraZ = 0
-  let amount = 5000
+  let amount = 100
 
   // create an array describing each star's initial position
   $: stars = new Array(amount).fill(null).map(() => {
@@ -97,7 +97,7 @@ Let's take another approach by using Pixi a bit more directly:
 
   let container
   let cameraZ = 0
-  let amount = 100
+  let amount = 5000
   let stars = []
 
   // create stars for amount value
