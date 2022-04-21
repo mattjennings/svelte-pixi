@@ -12,6 +12,10 @@ pre code {
   @apply !text-xs md:!text-sm;
 }
 
+pre code[class*='language-'] {
+  white-space: pre-wrap;
+}
+
 a {
   @apply focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-400;
 }

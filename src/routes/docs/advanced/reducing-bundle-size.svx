@@ -87,6 +87,12 @@ Loader.registerPlugin(BitmapFontLoader)
 
 This has most of the packages from "Core" (minus `@pixi/polyfill` and the `-extras` packages), but nothing from "Filters" or "Canvas".
 
+Make sure to install the needed `@pixi` dependencies:
+
+```sh
+npm install @pixi/constants @pixi/core @pixi/math @pixi/runner @pixi/settings @pixi/ticker @pixi/utils @pixi/accessibility @pixi/app @pixi/basis @pixi/compressed-textures @pixi/display @pixi/events @pixi/extract @pixi/graphics @pixi/graphics-extras @pixi/interaction @pixi/loaders @pixi/mesh @pixi/mixin-cache-as-bitmap @pixi/mixin-get-child-by-name @pixi/mixin-get-global-position @pixi/particle-container @pixi/prepare @pixi/sprite @pixi/sprite-animated @pixi/sprite-tiling @pixi/spritesheet @pixi/text @pixi/text-bitmap @pixi/unsafe-eval
+```
+
 ## Aliasing
 
 In order for SveltePixi to make use of this custom file we'll need to create an alias. Most bundlers will either have a plugin or a config option to do this.
@@ -102,11 +108,13 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   /* ... */
   optimizeDeps: {
-    include: ['pixi.js'],
+    // required so svelte-pixi will use pixi.js alias
+    exclude: ['svelte-pixi'],
   },
   resolve: {
     alias: {
-      'pixi.js': 'src/path/to/pixi.js',
+      // update path to wherever your pixi.js is
+      'pixi.js': '/src/pixi.js',
     },
   },
 })
@@ -122,11 +130,13 @@ const config = {
     /* ... */
     vite: {
       optimizeDeps: {
-        include: ['pixi.js'],
+        // required so svelte-pixi will use pixi.js alias
+        exclude: ['svelte-pixi'],
       },
       resolve: {
         alias: {
-          'pixi.js': 'src/path/to/pixi.js',
+          // update path to wherever your pixi.js is
+          'pixi.js': '/src/lib/pixi.js',
         },
       },
     },
