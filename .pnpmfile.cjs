@@ -1,6 +1,6 @@
-function readPackage(pkg) {
+function readPackage(pkg, ctx) {
   // point svelte-pixi to ./package output for examples
-  if (pkg.name.endsWith('-example')) {
+  if (pkg.name.endsWith('-example') || pkg.name.startsWith('with-')) {
     pkg.dependencies['svelte-pixi'] = 'file:../../package'
   }
 

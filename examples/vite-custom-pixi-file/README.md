@@ -1,1 +1,1 @@
-A simple example demonstrating using svelte-pixi with vite
+Demonstrates using a custom pixi.js file with vite
