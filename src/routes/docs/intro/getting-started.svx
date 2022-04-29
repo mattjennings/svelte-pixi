@@ -30,3 +30,15 @@ npm install pixi.js svelte-pixi
     }} />
 </Application>
 ```
+
+## Vite
+
+If you're using Vite or SvelteKit, you'll need to add this to your Vite config:
+
+```js
+optimizeDeps: {
+  include: ['pixi.js'],
+}
+```
+
+Check out the [starting templates](https://github.com/mattjennings/svelte-pixi/tree/master/examples) if you have any troubles.
