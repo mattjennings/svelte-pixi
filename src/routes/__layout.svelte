@@ -8,12 +8,16 @@
 
   onMount(() => {
     Fathom.load('ONEYTNPR', {
-      includedDomains: ['svelte-pixi.mattjennin.gs'],
+      includedDomains: ['svelte-pixi.com', 'svelte-pixi.mattjennin.gs'],
     })
   })
 
   $: $page.url.pathname, browser && Fathom.trackPageview()
 </script>
 
-<title>SveltePixi</title>
+<svelte:head>
+  <title>SveltePixi</title>
+  <meta name="author" content="Matt Jennings" />
+  <meta name="description" content="Create PixiJS apps with Svelte" />
+</svelte:head>
 <slot />

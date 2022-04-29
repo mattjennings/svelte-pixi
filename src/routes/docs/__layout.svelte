@@ -17,10 +17,6 @@
   export let links
 </script>
 
-<title>SveltePixi</title>
-<meta name="author" content="Matt Jennings" />
-<meta name="description" content="Create PixiJS apps with Svelte" />
-
 <div class="bg-white flex max-w-[1600px] mx-auto">
   <Sidebar {links} />
   <main class="flex-1 w-0 flex flex-col md:px-8 xl:px-0 ">
