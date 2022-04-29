@@ -1,0 +1,15 @@
+---
+title: getLoader
+---
+
+Returns the context for the parent [Loader](/docs/components/loader) component
+
+```js
+import { getLoader } from 'svelte-pixi'
+
+const { loader } = getLoader()
+```
+
+| Name     | Type          | Description              |
+| -------- | ------------- | ------------------------ |
+| `loader` | `PIXI.Loader` | The PIXI.Loader instance |
