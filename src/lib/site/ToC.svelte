@@ -16,6 +16,7 @@
       )
     }
   }
+
   afterNavigate(() => {
     updateHeadings()
   })

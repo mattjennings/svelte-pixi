@@ -1,6 +1,19 @@
 <script>
+  import { onMount } from 'svelte'
+  import { page } from '$app/stores'
+
   export let title
   export let pixi = undefined
+
+  onMount(() => {
+    const {
+      url: { hash },
+    } = $page
+
+    if (hash) {
+      document.querySelector(hash)?.scrollIntoView()
+    }
+  })
 </script>
 
 <svelte:head>
