@@ -27,8 +27,6 @@
 
   $: nextLink = currentLinkCategory?.links[currentLinkIndex + 1]
   $: prevLink = currentLinkCategory?.links[currentLinkIndex - 1]
-
-  $: console.log({ prevLink, nextLink })
 </script>
 
 <div class="bg-white flex max-w-[1600px] mx-auto">
