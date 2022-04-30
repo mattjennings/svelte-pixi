@@ -17,8 +17,8 @@
     "prepare": "svelte-kit sync && husky install",
     "release": "release-it --npm.tag=latest",
     "prerelease": "release-it --preRelease=beta --npm.tag=next",
-    "lint": "prettier --ignore-path .gitignore --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
-    "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
+    "lint": "npm run format && eslint .",
+    "format": "prettier --ignore-path .eslintignore --write --plugin-search-dir=. . "
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.4",
@@ -36,7 +36,7 @@
     "eslint": "^8.11.0",
     "eslint-plugin-svelte3": "^3.4.1",
     "fathom-client": "^3.4.1",
-    "husky": "^7.0.4",
+    "husky": "^7.0.0",
     "just-camel-case": "^6.0.1",
     "mdsvex": "^0.10.5",
     "mdsvex-sveld": "^1.0.3",
