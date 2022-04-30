@@ -488,6 +488,7 @@
     return () => {
       _instance?.destroy()
       _parent?.removeChild(_instance)
+      invalidate()
     }
   })
 
