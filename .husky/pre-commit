@@ -1,0 +1,5 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npm run format -- --loglevel silent
+npm run lint -- --quiet

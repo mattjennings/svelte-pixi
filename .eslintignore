@@ -1,3 +1,7 @@
+.vercel/**
+**/.svelte-kit/**
+**/dist/**
+**/build/**
 .DS_Store
 node_modules
 /build
