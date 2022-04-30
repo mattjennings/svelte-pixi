@@ -13,6 +13,7 @@
   >
     <h1 class="text-6xl font-bold">SveltePixi</h1>
     <a
+      sveltekit:prefetch
       class="px-5 py-3 bg-slate-500/60 rounded text-2xl font-medium "
       href="/docs">Get Started</a
     >
