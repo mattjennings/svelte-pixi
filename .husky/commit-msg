@@ -10,5 +10,4 @@ v=${b%%[)| ]*}
 export PATH="$NVM_DIR/versions/node/$v/bin:$PATH"
 
 . "$(dirname "$0")/_/husky.sh"
-
-npx --no -- commitlint --edit ""
+npx --no -- commitlint --edit 
