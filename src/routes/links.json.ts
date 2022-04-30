@@ -1,11 +1,13 @@
-import type { RequestHandler } from '@sveltejs/kit'
 import path from 'path'
 
 export interface Link {
   title: string
-  href?: string
-  base?: string
-  links?: Link[]
+  href: string
+}
+export interface Category {
+  title: string
+  base: string
+  links: Link[]
 }
 
 const order = [
@@ -18,7 +20,7 @@ const order = [
 
 // group /docs pages into categories (by folder) of links
 const links = Object.entries(import.meta.globEager('./docs/**/*.svx'))
-  .reduce((acc, [filepath, mod]) => {
+  .reduce((acc: Category[], [filepath, mod]) => {
     const href = filepath.slice(1)
     const { dir: base, ext } = path.parse(href)
 
@@ -40,7 +42,9 @@ const links = Object.entries(import.meta.globEager('./docs/**/*.svx'))
       return acc
     } else {
       const parent = acc.find((link) => link.base === base)
-      parent.links.push(link)
+      if (parent?.links) {
+        parent.links.push(link)
+      }
       return acc
     }
   }, [])
@@ -54,7 +58,7 @@ function toCapitalizedWords(name) {
   return words.map(capitalize).join(' ')
 }
 
-export const get: RequestHandler = async () => {
+export const get = async () => {
   return {
     status: 200,
     body: links,
