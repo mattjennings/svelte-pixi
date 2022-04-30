@@ -47,7 +47,6 @@ You may find yourself needing to render and update many components at once. Take
   {@const distance = Math.max(0, (2000 - (z)) / 2000) }
 
   <Sprite
-    {...star}
     texture={PIXI.Texture.from('/assets/star.png')}
     anchor={{ x: 0.5, y: 0.7 }}
     scale={{ x: distance * starSize, y: distance * starSize }}
