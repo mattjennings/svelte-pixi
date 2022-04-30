@@ -10,9 +10,6 @@
   export let links
 
   let isMenuOpen = false
-  let sidebarEl: HTMLDivElement
-  let mobileSidebarEl: HTMLDivElement
-
   $: if ($page.url.pathname) {
     isMenuOpen = false
   }
@@ -22,7 +19,6 @@
 <div class="hidden lg:flex md:flex-shrink-0 h-screen sticky top-0">
   <div class="w-[15rem] flex flex-col">
     <div
-      bind:this={sidebarEl}
       class="border-r border-gray-200  pb-4 flex flex-col flex-grow overflow-y-auto"
     >
       <div class="flex-grow mt-5 flex flex-col">
@@ -64,7 +60,7 @@
         y: 0,
       }}
     >
-      <div bind:this={mobileSidebarEl} class="mt-5 flex-1 h-0 overflow-y-auto">
+      <div class="mt-5 flex-1 h-0 overflow-y-auto">
         <nav class="px-2 space-y-1">
           <div class="flex justify-between">
             <a href="/" class="pl-3 text-2xl font-bold"> svelte-pixi </a>
