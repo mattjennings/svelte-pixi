@@ -20,7 +20,7 @@
   <title>{title}</title>
 </svelte:head>
 
-<h1>{title}</h1>
+<h1><a href="#">{title}</a></h1>
 
 {#if pixi}
   <p>

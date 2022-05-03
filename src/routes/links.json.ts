@@ -3,6 +3,7 @@ import path from 'path'
 export interface Link {
   title: string
   href: string
+  order?: number
 }
 export interface Category {
   title: string
@@ -11,7 +12,7 @@ export interface Category {
 }
 
 const order = [
-  '/docs/intro',
+  '/docs/getting-started',
   '/docs/components',
   '/docs/utilities',
   '/docs/animation',
@@ -27,6 +28,7 @@ const links = Object.entries(import.meta.globEager('./docs/**/*.svx'))
     const link = {
       href: href.replace(ext, ''),
       title: mod.metadata?.title,
+      order: mod.metadata?.order,
     }
 
     if (!acc.find((link) => link.base === base)) {
@@ -48,6 +50,19 @@ const links = Object.entries(import.meta.globEager('./docs/**/*.svx'))
       return acc
     }
   }, [])
+  .map((category) => {
+    category.links.sort((a, b) => {
+      const aOrder = a.order ?? 0
+      const bOrder = b.order ?? 0
+
+      if (aOrder || bOrder) {
+        return aOrder - bOrder
+      }
+
+      return a.title.localeCompare(b.title)
+    })
+    return category
+  })
   .sort((a, b) => order.indexOf(a.base) - order.indexOf(b.base))
 
 function toCapitalizedWords(name) {

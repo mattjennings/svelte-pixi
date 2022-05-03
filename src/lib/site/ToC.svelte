@@ -10,9 +10,7 @@
   function updateHeadings() {
     if (browser) {
       headings = Array.from(
-        document.querySelectorAll(
-          'article h1, article h2, article h3, article h4'
-        )
+        document.querySelectorAll('article h2, article h3, article h4')
       )
     }
   }
@@ -49,7 +47,7 @@
 
     <ul class="mt-3 space-y-3">
       {#each headings as heading}
-        {@const depth = +heading.tagName[1] - 1}
+        {@const depth = +heading.tagName[1] - 2}
         <li
           class="heading list-none !pl-0 text-sm text-slate-400 hover:text-slate-900 transition-colors"
           class:active={activeHeading === heading}

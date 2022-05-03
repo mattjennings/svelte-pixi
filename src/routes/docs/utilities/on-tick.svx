@@ -2,7 +2,7 @@
 title: onTick
 ---
 
-Child components can use `onTick` to add a callback to the ticker. It will automatically remove itself on unmount.
+Child components of [Ticker](/docs/components/ticker) can use `onTick` to add a callback to the ticker. It will automatically remove itself on unmount.
 
 ```svelte example csr
 <script>

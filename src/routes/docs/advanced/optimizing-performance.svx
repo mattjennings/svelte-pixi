@@ -220,7 +220,7 @@ If you are using the `Renderer` component, see [this example](/docs/components/r
 
 ### Triggering Renders Manually
 
-Every SveltePixi component will automatically trigger renders when they are updated when rendering on demand. If you are mutating Pixi instances directly or adding functionality to a base component you will need to mark that an update is required manually.
+Every Svelte Pixi component will automatically trigger renders when they are updated when rendering on demand. If you are mutating Pixi instances directly or adding functionality to a base component you will need to mark that an update is required manually.
 
 ```svelte
 <script>

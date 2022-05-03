@@ -11,7 +11,7 @@
   <div
     class="absolute inset-0 flex flex-col gap-8 pb-[35vh] justify-center items-center text-white"
   >
-    <h1 class="text-6xl font-bold">SveltePixi</h1>
+    <h1 class="text-6xl font-bold">Svelte Pixi</h1>
     <a
       sveltekit:prefetch
       class="px-5 py-3 bg-slate-500/60 rounded text-2xl font-medium "

@@ -4,7 +4,7 @@ title: track
 
 Returns a writable store that gets updated during a low-priority tick. If there's no Ticker, it will run during the PIXI.Renderer's `postrender` event.
 
-This is useful for watching a property on a PixiJS instance that is getting updated outside of the component (e.g. a physics system). It can also be used to [bind props](/docs/advanced/binding-props), as SveltePixi components don't support `bind:` syntax for instance properties.
+This is useful for watching a property on a PixiJS instance that is getting updated outside of the component (e.g. a physics system). It can also be used to [bind props](/docs/advanced/binding-props), as Svelte Pixi components don't support `bind:` syntax for instance properties.
 
 ```svelte
 <script>

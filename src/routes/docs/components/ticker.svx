@@ -3,6 +3,8 @@ title: Ticker
 pixi: https://pixijs.download/release/docs/Ticker.html
 ---
 
+Children of this component can use [onTick](/docs/utilities/on-tick) to hook into the update loop.
+
 ## Usage
 
 ```svelte example csr
