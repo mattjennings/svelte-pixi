@@ -13,7 +13,7 @@
   type T = $$Generic<PIXI.Text>
   type $$Props = Container<T>['$$prop_def'] & {
     text: PIXI.Text['text']
-    style: PIXI.Text['style']
+    style?: PIXI.Text['style']
     anchor?: PointLike
     blendMode?: PIXI.Sprite['blendMode']
     pluginName?: PIXI.Sprite['pluginName']
