@@ -25,14 +25,14 @@
    *
    * @type {string}
    */
-  export let text: PIXI.Text['text']
+  export let text: $$Props['text']
 
   /**
    * Sets the style of the text
    *
    * @type {PIXI.TextStyle}
    */
-  export let style: PIXI.Text['style']
+  export let style: $$Props['style'] = undefined
 
   /**
    * The anchor sets the origin point of the text.
