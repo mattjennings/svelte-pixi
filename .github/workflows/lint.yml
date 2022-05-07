@@ -1,0 +1,31 @@
+name: Lint
+
+# on:
+#   pull_request:
+#     branches: [master]
+
+jobs:
+  lint:
+    name: Svelte Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: pnpm/action-setup@v2.1.0
+      - run: pnpm install
+      - run: pnpm run validate
+
+  prettier:
+    name: Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: pnpm/action-setup@v2.1.0
+      - run: pnpm install
+      - run: pnpm run prettier
+
+  commits:
+    name: Conventional Commits
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: webiny/action-conventional-commits@v1.0.3

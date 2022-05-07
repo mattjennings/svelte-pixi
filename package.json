@@ -13,12 +13,13 @@
     "preview": "svelte-kit preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
-    "validate": "svelte-check --threshold error --ignore \"dist\"",
+    "validate": "svelte-check --tsconfig ./tsconfig.json --threshold error --ignore \"dist\"",
     "prepare": "svelte-kit sync && husky install",
     "release": "release-it --npm.tag=latest",
     "prerelease": "release-it --preRelease=beta --npm.tag=next",
     "lint": "eslint .",
-    "format": "prettier --ignore-path .eslintignore --write --plugin-search-dir=. . "
+    "prettier": "prettier --ignore-path .eslintignore --plugin-search-dir=. . ",
+    "format": "npm run prettier -- --write"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.4",
