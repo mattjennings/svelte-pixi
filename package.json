@@ -18,8 +18,8 @@
     "release": "release-it --npm.tag=latest",
     "prerelease": "release-it --preRelease=beta --npm.tag=next",
     "lint": "eslint .",
-    "prettier": "prettier --ignore-path .eslintignore --plugin-search-dir=. . ",
-    "format": "npm run prettier -- --write"
+    "prettier": "prettier --ignore-path .eslintignore --plugin-search-dir=. . --check",
+    "format": "prettier --ignore-path .eslintignore --plugin-search-dir=. . --write"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.4",
