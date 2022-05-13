@@ -11,16 +11,15 @@
 
   type T = $$Generic<PIXI.AnimatedSprite>
   type $$Props = Container<T>['$$prop_def'] & {
-    playing?: boolean
     textures: PIXI.AnimatedSprite['textures']
+    playing?: boolean
     autoUpdate?: PIXI.AnimatedSprite['autoUpdate']
     animationSpeed?: PIXI.AnimatedSprite['animationSpeed']
     loop?: PIXI.AnimatedSprite['loop']
     anchor?: PointLike
-    blendMode?: PIXI.Sprite['blendMode']
-    pluginName?: PIXI.Sprite['pluginName']
-    roundPixels?: PIXI.Sprite['roundPixels']
-    texture: PIXI.Sprite['texture']
+    blendMode?: PIXI.AnimatedSprite['blendMode']
+    pluginName?: PIXI.AnimatedSprite['pluginName']
+    roundPixels?: PIXI.AnimatedSprite['roundPixels']
   }
 
   /**
