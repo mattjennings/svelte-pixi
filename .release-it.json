@@ -13,11 +13,5 @@
     "publish": true,
     "publishPath": "./package",
     "tag": "latest"
-  },
-  "plugins": {
-    "@release-it/conventional-changelog": {
-      "preset": "conventionalcommits",
-      "infile": "CHANGELOG.md"
-    }
   }
 }
