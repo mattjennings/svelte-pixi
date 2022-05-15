@@ -1,9 +1,18 @@
+const fs = require('fs')
+const path = require('path')
+
 function readPackage(pkg, ctx) {
   // point svelte-pixi to ./package output for examples
   if (pkg.name.endsWith('-example') || pkg.name.startsWith('with-')) {
-    pkg.dependencies['svelte-pixi'] = 'file:../../package'
+    const dir = path.resolve(__dirname, './package')
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir)
+    }
+
+    pkg.dependencies['svelte-pixi'] = 'workspace:../../package'
   }
 
+  // install peer as dev dependencies
   if (pkg.name === 'svelte-pixi') {
     pkg.devDependencies = {
       ...pkg.peerDependencies,
