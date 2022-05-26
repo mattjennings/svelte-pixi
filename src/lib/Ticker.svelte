@@ -6,16 +6,20 @@
     return getContext<TickerContext<T>>('pixi/ticker')
   }
 
-  export function onTick(fn: (delta: number) => any, priority?: number) {
+  export function onTick(
+    fn: (delta: number) => any,
+    priority?: number,
+    context?: any
+  ) {
     const { ticker } = getTicker()
 
     onMount(() => {
       if (ticker) {
-        ticker.add(fn, priority)
+        ticker.add(fn, context, priority)
         return () => {
           // @ts-ignore - safely check if ticker hasn't been destroyed
           if (ticker && ticker._head) {
-            ticker.remove(fn)
+            ticker.remove(fn, context)
           }
         }
       } else {
