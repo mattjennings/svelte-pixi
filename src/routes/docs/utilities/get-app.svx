@@ -7,9 +7,9 @@ Returns the context of the parent [Application](/docs/components/application) co
 Application creates a [Renderer](/docs/components/renderer), [Ticker](/docs/components/ticker) and [Container](/docs/components/container), so you can consume their contexts as well.
 
 ```js
-import { getApplication } from 'svelte-pixi'
+import { getApp } from 'svelte-pixi'
 
-const { app } = getApplication()
+const { app } = getApp()
 ```
 
 | Name  | Type               | Description                   |
