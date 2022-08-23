@@ -1,23 +1,11 @@
-<script context="module" lang="ts">
-  import type { Load } from '@sveltejs/kit'
-
-  export const load: Load = async ({ fetch }) => {
-    return {
-      props: {
-        links: await fetch('/links.json').then((res) => res.json()),
-      },
-    }
-  }
-</script>
-
-<script>
+<script lang="ts">
   import Sidebar from '$lib/site/Sidebar/Sidebar.svelte'
   import ToC from '$lib/site/ToC.svelte'
   import { page } from '$app/stores'
 
-  export let links
+  export let data: import('./$types').LayoutData
 
-  $: currentLinkCategory = links.find((link) =>
+  $: currentLinkCategory = data.links.find((link) =>
     $page.url.pathname.startsWith(link.base)
   )
 
@@ -30,7 +18,7 @@
 </script>
 
 <div class="bg-white flex max-w-[1600px] mx-auto">
-  <Sidebar {links} />
+  <Sidebar links={data.links} />
   <main class="flex-1 w-0 flex flex-col md:px-8 xl:px-0">
     <div class="max-w-full flex-1 relative focus:outline-none">
       <article class="py-6 pb-24 px-4 sm:px-6 prose prose-slate max-w-5xl">

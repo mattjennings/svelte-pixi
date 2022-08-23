@@ -120,32 +120,6 @@ export default defineConfig({
 })
 ```
 
-### SvelteKit
-
-```js
-// svelte.config.js
-
-const config = {
-  kit: {
-    /* ... */
-    vite: {
-      optimizeDeps: {
-        // required so svelte-pixi will use pixi.js alias
-        exclude: ['svelte-pixi'],
-      },
-      resolve: {
-        alias: {
-          // update path to wherever your pixi.js is
-          'pixi.js': '/src/lib/pixi.js',
-        },
-      },
-    },
-  },
-}
-
-export default config
-```
-
 ### Parcel
 
 ```js

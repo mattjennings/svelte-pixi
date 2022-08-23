@@ -12,7 +12,7 @@ You may find yourself needing to render and update many components at once. Take
 <script>
   import * as PIXI from 'pixi.js'
   import { Sprite, onTick } from 'svelte-pixi'
-  import FPS from './_/FPS.svelte'
+  import FPS from '../_/FPS.svelte'
 
   const width = 400
   const height = 400
@@ -86,7 +86,7 @@ Let's take another approach by using Pixi a bit more directly:
   import * as PIXI from 'pixi.js'
   import { Sprite, onTick, Container } from 'svelte-pixi'
   import { onMount } from 'svelte'
-  import FPS from './_/FPS.svelte'
+  import FPS from '../_/FPS.svelte'
 
   const width = 400
   const height = 400
@@ -257,7 +257,7 @@ Every Svelte Pixi component will automatically trigger renders when they are upd
   import { afterUpdate } from 'svelte'
 
   // imagine we have a custom Sprite class that extends PIXI.Sprite
-  import CustomSprite from './CustomSprite.js'
+  import CustomSprite from '../CustomSprite.js'
 
   export let customProp
   export let customProp2

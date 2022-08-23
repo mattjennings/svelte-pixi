@@ -2,12 +2,6 @@ import { mdsvex } from 'mdsvex'
 import mdsvexConfig from './mdsvex.config.js'
 import vercel from '@sveltejs/adapter-vercel'
 import preprocess from 'svelte-preprocess'
-import sveld from 'vite-plugin-sveld'
-import path from 'path'
-import { fileURLToPath } from 'url'
-import examples from 'mdsvexamples/vite'
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -21,6 +15,9 @@ const config = {
     }),
     mdsvex(mdsvexConfig),
   ],
+  package: {
+    files: (file) => !file.includes('site'),
+  },
 
   kit: {
     adapter: vercel({
@@ -28,23 +25,6 @@ const config = {
     }),
     prerender: {
       default: true,
-    },
-    package: {
-      files: (file) => !file.includes('site'),
-    },
-    vite: {
-      ssr: {
-        external: ['sveld', 'svelte-preprocess'],
-      },
-      optimizeDeps: {
-        exclude: ['sveld', 'svelte-preprocess'],
-      },
-      resolve: {
-        alias: {
-          'svelte-pixi': path.resolve(__dirname, './src/lib'),
-        },
-      },
-      plugins: [sveld(), examples],
     },
   },
 }
