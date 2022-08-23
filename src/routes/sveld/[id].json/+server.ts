@@ -5,8 +5,9 @@ import sveltePreprocess from 'svelte-preprocess'
 import * as svelte from 'svelte/compiler'
 
 const raw = Object.entries(
-  import.meta.globEager('../../lib/*.svelte', {
+  import.meta.glob('../../../lib/*.svelte', {
     as: 'raw',
+    eager: true,
   })
 ).reduce(
   (acc, [filepath, mod]) => ({
@@ -16,7 +17,7 @@ const raw = Object.entries(
   {}
 )
 
-export const get: RequestHandler = async ({ params }) => {
+export const GET: RequestHandler = async ({ params }) => {
   const { id } = params
   const { code } = await svelte.preprocess(raw[id], sveltePreprocess(), {
     filename: id,
@@ -28,8 +29,8 @@ export const get: RequestHandler = async ({ params }) => {
     moduleName: id,
   })
 
-  return {
-    body: JSON.stringify({
+  return new Response(
+    JSON.stringify({
       ...data,
       props: data.props.sort((a, b) => a.name.localeCompare(b.name)),
       slots: data.slots.sort((a, b) => {
@@ -39,6 +40,6 @@ export const get: RequestHandler = async ({ params }) => {
       }),
       events: data.events.sort((a, b) => a.name.localeCompare(b.name)),
       typedefs: data.typedefs.sort((a, b) => a.name.localeCompare(b.name)),
-    }),
-  }
+    })
+  )
 }

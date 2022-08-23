@@ -20,15 +20,18 @@ const order = [
 ]
 
 // group /docs pages into categories (by folder) of links
-const links = Object.entries(import.meta.globEager('./docs/**/*.svx'))
+const links = Object.entries(
+  import.meta.glob('../docs/**/+page.svx', { eager: true })
+)
   .reduce((acc: Category[], [filepath, mod]) => {
-    const href = filepath.slice(1)
+    const href = filepath.slice(2, -10)
+
     const { dir: base, ext } = path.parse(href)
 
     const link = {
       href: href.replace(ext, ''),
-      title: mod.metadata?.title,
-      order: mod.metadata?.order,
+      title: (mod as any).metadata?.title,
+      order: (mod as any).metadata?.order,
     }
 
     if (!acc.find((link) => link.base === base)) {
@@ -73,9 +76,6 @@ function toCapitalizedWords(name) {
   return words.map(capitalize).join(' ')
 }
 
-export const get = async () => {
-  return {
-    status: 200,
-    body: links,
-  }
+export const GET = async () => {
+  return new Response(JSON.stringify(links))
 }
