@@ -30,16 +30,4 @@ If you're using Vite or SvelteKit, you'll need to add this to your Vite config:
     include: ['pixi.js'],
   },
 }
-
-// svelte.config.js
-{
-  kit: {
-    /* ... */
-    vite: {
-      optimizeDeps: {
-        include: ['pixi.js'],
-      },
-    },
-  },
-}
 ```
