@@ -25,7 +25,9 @@ If you're using Vite or SvelteKit, you'll need to add this to your Vite config:
 
 ```js
 // vite.config.js
-{
+const config = {
+  /* ... */
+
   optimizeDeps: {
     include: ['pixi.js'],
   },
