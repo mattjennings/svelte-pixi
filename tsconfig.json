@@ -32,6 +32,7 @@
     "paths": {
       "$lib": ["src/lib"],
       "$lib/*": ["src/lib/*"],
+      "$lib-site/*": ["src/lib-site/*"],
       "svelte-pixi": ["src/lib"],
       "svelte-pixi/*": ["src/lib/*"]
     }

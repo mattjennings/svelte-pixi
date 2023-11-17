@@ -195,7 +195,7 @@ You can set `render="demand"` on the `Application` component to opt into this be
 <script>
   import { onMount } from 'svelte'
   import { Text, Application } from 'svelte-pixi'
-  import DraggableCircle from '$lib/site/DraggableCircle.svelte'
+  import DraggableCircle from '$lib-site/DraggableCircle.svelte'
 </script>
 
 <Application

@@ -11,7 +11,7 @@ Instead, Svelte Pixi provides a [track](/docs/utilities/track) utility function 
   import * as PIXI from 'pixi.js'
   import { Container, Text, track, Graphics } from 'svelte-pixi'
   import { writable } from 'svelte/store'
-  import BouncePhysics from '$lib/site/BouncePhysics.svelte'
+  import BouncePhysics from '$lib-site/BouncePhysics.svelte'
 
   let instance
 

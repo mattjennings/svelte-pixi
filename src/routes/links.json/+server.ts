@@ -1,5 +1,7 @@
 import path from 'path'
 
+export const prerender = true
+
 export interface Link {
   title: string
   href: string
@@ -21,7 +23,7 @@ const order = [
 
 // group /docs pages into categories (by folder) of links
 const links = Object.entries(
-  import.meta.glob('../docs/**/+page.svx', { eager: true })
+  import.meta.glob('../docs/**/+page.svx', { eager: true }),
 )
   .reduce((acc: Category[], [filepath, mod]) => {
     const href = filepath.slice(2, -10)

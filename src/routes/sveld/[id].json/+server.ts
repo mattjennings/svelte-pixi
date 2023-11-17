@@ -4,20 +4,22 @@ import path from 'path'
 import sveltePreprocess from 'svelte-preprocess'
 import * as svelte from 'svelte/compiler'
 
+// export const prerender = true;
+
 const raw = Object.entries(
   import.meta.glob('../../../lib/*.svelte', {
     as: 'raw',
     eager: true,
-  })
+  }),
 ).reduce(
   (acc, [filepath, mod]) => ({
     ...acc,
     [path.parse(filepath).name]: mod,
   }),
-  {}
+  {},
 )
 
-export const GET: RequestHandler = async ({ params }) => {
+export const GET: RequestHandler<{ id: string }> = async ({ params }) => {
   const { id } = params
   const { code } = await svelte.preprocess(raw[id], sveltePreprocess(), {
     filename: id,
@@ -40,6 +42,6 @@ export const GET: RequestHandler = async ({ params }) => {
       }),
       events: data.events.sort((a, b) => a.name.localeCompare(b.name)),
       typedefs: data.typedefs.sort((a, b) => a.name.localeCompare(b.name)),
-    })
+    }),
   )
 }

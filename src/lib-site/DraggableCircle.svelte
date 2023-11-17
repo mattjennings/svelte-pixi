@@ -17,7 +17,7 @@
     }
   }
 
-  function handleDragEnd({ detail }) {
+  function handleDragEnd() {
     dragging = false
   }
 

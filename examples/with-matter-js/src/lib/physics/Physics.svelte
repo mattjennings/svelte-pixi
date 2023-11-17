@@ -1,6 +1,4 @@
 <script>
-  import { Render } from 'matter-js'
-
   import { Engine, Bodies, World, Runner } from 'matter-js'
   import { onMount } from 'svelte'
   import { setContext } from 'svelte'

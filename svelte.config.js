@@ -15,17 +15,11 @@ const config = {
     }),
     mdsvex(mdsvexConfig),
   ],
-  package: {
-    files: (file) => !file.includes('site'),
-  },
 
   kit: {
     adapter: vercel({
       external: ['sveld', 'svelte-preprocess'],
     }),
-    prerender: {
-      default: true,
-    },
   },
 }
 

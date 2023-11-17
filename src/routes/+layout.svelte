@@ -4,7 +4,7 @@
   import { page } from '$app/stores'
   import * as Fathom from 'fathom-client'
   import { onMount } from 'svelte'
-  import { browser } from '$app/env'
+  import { browser } from '$app/environment'
 
   onMount(() => {
     Fathom.load('ONEYTNPR', {

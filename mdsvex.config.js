@@ -6,7 +6,7 @@ import slugPlugin from 'rehype-slug'
 
 const config = defineConfig({
   layout: {
-    _: './src/lib/site/mdsvex.svelte',
+    _: './src/lib-site/mdsvex.svelte',
   },
   extensions: ['.svelte.md', '.md', '.svx'],
 
@@ -15,7 +15,7 @@ const config = defineConfig({
   },
 
   remarkPlugins: [
-    [examples, { defaults: { Wrapper: '/src/lib/site/Example.svelte' } }],
+    [examples, { defaults: { Wrapper: '/src/lib-site/Example.svelte' } }],
     sveld,
   ],
 

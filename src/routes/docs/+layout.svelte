@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Sidebar from '$lib/site/Sidebar/Sidebar.svelte'
-  import ToC from '$lib/site/ToC.svelte'
+  import Sidebar from '$lib-site/Sidebar/Sidebar.svelte'
+  import ToC from '$lib-site/ToC.svelte'
   import { page } from '$app/stores'
 
   export let data: import('./$types').LayoutData

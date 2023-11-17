@@ -1,5 +1,5 @@
 <script>
-  import { browser } from '$app/env'
+  import { browser } from '$app/environment'
   import Code from './Code.svelte'
 
   export let src
@@ -12,7 +12,7 @@
   <div class="flex justify-center py-3 bg-slate-700">
     <div class="overflow-hidden rounded min-h-[400px]">
       {#if !meta.noApp && browser}
-        {#await import('$lib/site/ExampleApplication.svelte') then app}
+        {#await import('$lib-site/ExampleApplication.svelte') then app}
           <svelte:component
             this={app.default}
             width={meta.width || 400}

@@ -12,7 +12,7 @@ This is an alternative to using the [Application](/docs/components/application) 
 ```svelte example csr noApp
 <script>
   import { Renderer, Container, Ticker, Text } from 'svelte-pixi'
-  import DraggableCircle from '$lib/site/DraggableCircle.svelte'
+  import DraggableCircle from '$lib-site/DraggableCircle.svelte'
 
   let renderer
   let stage
@@ -103,7 +103,7 @@ we can still implement this ourselves:
 ```svelte example csr noApp
 <script>
   import { Renderer, Container, Ticker, Text } from 'svelte-pixi'
-  import DraggableCircle from '$lib/site/DraggableCircle.svelte'
+  import DraggableCircle from '$lib-site/DraggableCircle.svelte'
 
   let renderer
   let stage
