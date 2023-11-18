@@ -5,6 +5,8 @@
 [PIXI.Loader has been replaced by PIXI.Assets](https://github.com/pixijs/pixijs/wiki/v7-Migration-Guide#-replaces-loader-with-assets) so the `Loader` component has been replaced by `AssetsLoader`. It works similarly but has a few notable differences:
 
 - The `resources` prop is now `assets`. It accepts an array of urls or objects matching the [PIXI.UnresolvedAssetObject](https://pixijs.download/dev/docs/PIXI.html#UnresolvedAssetObject) type.
+- `getResource()` has been removed, use `PIXI.Assets.get()` instead
+- `getLoader()` has been removed, use `PIXI.Assets` instead
 - Any Asset configurations should be set by calling `PIXI.Assets.init()` before rendering this component.
 
 ```svelte
