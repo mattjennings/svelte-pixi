@@ -91,7 +91,7 @@
 
         dispatch('progress', progress)
       })
-      console.log(Assets)
+
       progress = 1
       dispatch('complete')
     }
