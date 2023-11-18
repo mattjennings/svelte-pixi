@@ -130,7 +130,6 @@
     scale={2}
     interactive
     hitArea={new PIXI.Circle(0, 0, circleSize)}
-    buttonMode
     on:pointerdown={handleDragStart}
     on:pointerup={handleDragEnd}
     on:pointerupoutside={handleDragEnd}

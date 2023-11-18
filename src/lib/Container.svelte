@@ -39,7 +39,6 @@
     accessibleType?: PIXI.Container['accessibleType']
     alpha?: PIXI.Container['alpha']
     angle?: PIXI.Container['angle']
-    buttonMode?: PIXI.Container['buttonMode']
     cacheAsBitmap?: PIXI.Container['cacheAsBitmap']
     cacheAsBitmapMultisample?: PIXI.Container['cacheAsBitmapMultisample']
     cacheAsBitmapResolution?: PIXI.Container['cacheAsBitmapResolution']
@@ -134,14 +133,6 @@
    * @type {number}
    */
   export let angle: $$Props['angle'] = undefined
-
-  /**
-   * If enabled, the mouse cursor use the pointer behavior when hovered over the displayObject
-   * if it is interactive Setting this changes the 'cursor' property to 'pointer'.
-   *
-   * @type {boolean}
-   */
-  export let buttonMode: $$Props['buttonMode'] = undefined
 
   /**
    * Set this to true if you want this display object to be cached as a bitmap.
@@ -504,7 +495,6 @@
   $: applyProp('accessibleType', accessibleType)
   $: applyProp('alpha', alpha)
   $: applyProp('angle', angle)
-  $: applyProp('buttonMode', buttonMode)
   $: applyProp('cacheAsBitmap', cacheAsBitmap)
   $: applyProp('cacheAsBitmapResolution', cacheAsBitmapResolution)
   $: applyProp('cacheAsBitmapMultisample', cacheAsBitmapMultisample)
