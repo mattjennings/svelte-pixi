@@ -18,7 +18,7 @@
   import { omitUndefined } from './util/helpers'
 
   type T = $$Generic<PIXI.Application>
-  type $$Props = PIXI.IApplicationOptions & {
+  type $$Props = Partial<PIXI.IApplicationOptions> & {
     instance?: T
     render?: 'auto' | 'demand'
   }

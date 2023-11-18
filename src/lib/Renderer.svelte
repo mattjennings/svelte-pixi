@@ -1,13 +1,11 @@
 <script context="module" lang="ts">
-  export interface RendererContext<
-    T extends PIXI.Renderer | PIXI.AbstractRenderer
-  > {
+  export interface RendererContext<T extends PIXI.Renderer | PIXI.IRenderer> {
     renderer: T
     invalidate: () => void
   }
 
   export function getRenderer<
-    T extends PIXI.Renderer | PIXI.AbstractRenderer
+    T extends PIXI.Renderer | PIXI.IRenderer
   >(): RendererContext<T> {
     return getContext('pixi/renderer')
   }
@@ -23,19 +21,15 @@
   } from 'svelte'
   import { omitUndefined } from './util/helpers'
 
-  type T = $$Generic<PIXI.Renderer | PIXI.AbstractRenderer>
-  type $$Props = PIXI.IRendererOptionsAuto & {
+  type T = $$Generic<PIXI.Renderer | PIXI.IRenderer>
+  type $$Props = Partial<PIXI.IRendererOptionsAuto> & {
     instance?: T
     stage?: PIXI.Container
   }
 
   type $$Slots = {
-    default: {
-      view: (node: HTMLElement) => void
-    }
-    view: {
-      view: (node: HTMLElement) => void
-    }
+    default: {}
+    view: {}
   }
 
   const dispatch = createEventDispatcher()
@@ -145,6 +139,12 @@
   })
 
   function view(node: HTMLElement): void {
+    if (!(instance.view instanceof HTMLElement)) {
+      throw new Error(
+        'PIXI.Renderer.view is not an HTMLElement, cannot append to node'
+      )
+    }
+
     if (node.childNodes.length) {
       node.childNodes[0].appendChild(instance.view)
     } else {
