@@ -75,7 +75,7 @@
           // filter out assets that are already loaded to prevent warning
           .filter((r) => {
             const key = typeof r === 'string' ? r : r.alias
-            return cache.has(key)
+            return !cache.has(key)
           })
           .map((r) => {
             if (typeof r === 'string') {
@@ -91,6 +91,7 @@
 
         dispatch('progress', progress)
       })
+      console.log(Assets)
       progress = 1
       dispatch('complete')
     }
