@@ -1,0 +1,20 @@
+{
+  "name": "offscreen-canvas",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@pixi/webworker": "^7.3.2",
+    "@sveltejs/vite-plugin-svelte": "^3.0.0",
+    "happy-dom": "^12.10.3",
+    "pixi.js": "^7.3.2",
+    "svelte": "^4.2.3",
+    "svelte-pixi": "workspace:*",
+    "vite": "^5.0.0"
+  }
+}

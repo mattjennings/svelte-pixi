@@ -130,6 +130,12 @@
   export let render: 'auto' | 'demand' | false = 'auto'
 
   /**
+   * The canvas to use as the view. If omitted, a new canvas will be created.
+   * @type {HTMLCanvasElement | PIXI.ICanvas | undefined}
+   */
+  export let view: $$Props['view'] = undefined
+
+  /**
    * The PIXI.Application instance. This can be manually set or bound to.
    *
    * Note: if manually set, props will not be applied.
@@ -155,6 +161,7 @@
       clearBeforeRender,
       powerPreference,
       resizeTo,
+      view,
     })
   ) as T
 
@@ -169,6 +176,7 @@
 
 <Renderer
   instance={instance.renderer}
+  {view}
   on:invalidate={() => {
     invalidated = true
   }}

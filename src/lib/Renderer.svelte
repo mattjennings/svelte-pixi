@@ -118,6 +118,12 @@
   export let premultipliedAlpha: $$Props['premultipliedAlpha'] = undefined
 
   /**
+   * The canvas to use as the view. If omitted, a new canvas will be created.
+   * @type {HTMLCanvasElement | PIXI.ICanvas | undefined}
+   */
+  export let view: $$Props['view'] = undefined
+
+  /**
    * The PIXI.Renderer instance. Can be set or bound to. By default
    * it uses PIXI.autoDetectRenderer()
    */
@@ -136,9 +142,11 @@
       backgroundAlpha,
       clearBeforeRender,
       powerPreference,
+      view,
     })
   ) as T
 
+  console.log(instance)
   setContext('pixi/renderer', {
     renderer: instance,
     invalidate: () => {
@@ -146,7 +154,10 @@
     },
   })
 
-  function view(node: HTMLElement): void {
+  function appendView(node: HTMLElement): void {
+    if (instance.view instanceof OffscreenCanvas) {
+      return
+    }
     if (!(instance.view instanceof HTMLElement)) {
       throw new Error(
         'PIXI.Renderer.view is not an HTMLElement, cannot append to node'
@@ -167,11 +178,11 @@
 </script>
 
 {#if $$slots.view}
-  <div use:view>
+  <div use:appendView>
     <slot name="view" />
   </div>
 {:else}
-  <div use:view />
+  <div use:appendView />
 {/if}
 
 <slot />
