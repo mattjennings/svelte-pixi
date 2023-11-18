@@ -67,14 +67,22 @@
 
   onMount(() => {
     async function load() {
+      const { cache } = Assets
+
       Assets.addBundle(
         bundleName,
-        assets.map((r) => {
-          if (typeof r === 'string') {
-            return { alias: r, src: r }
-          }
-          return r
-        })
+        assets
+          // filter out assets that are already loaded to prevent warning
+          .filter((r) => {
+            const key = typeof r === 'string' ? r : r.alias
+            return cache.has(key)
+          })
+          .map((r) => {
+            if (typeof r === 'string') {
+              return { alias: r, src: r }
+            }
+            return r
+          })
       )
 
       dispatch('start')
