@@ -41,8 +41,11 @@
   </li>
 {:else}
   <li class="mb-2">
-    <a bind:this={anchorEl} sveltekit:prefetch href={link.href} class:active
-      >{link.title}</a
+    <a
+      bind:this={anchorEl}
+      data-sveltekit-preload-data="hover"
+      href={link.href}
+      class:active>{link.title}</a
     >
   </li>
 {/if}

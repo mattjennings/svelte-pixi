@@ -19,7 +19,7 @@
             height={meta.height || 400}
             backgroundColor={meta.bg === 'white' ? 0xffffff : undefined}
             antialias
-            assets={meta.resources ? meta.resources : []}
+            assets={meta.assets ? meta.assets : []}
           >
             <slot name="example" />
           </svelte:component>
