@@ -51,6 +51,7 @@
    * This option is for cases where the canvas needs to be opaque,
    * possibly for performance reasons on some older devices.
    *
+   * @deprecated since 7.0.0, use premultipliedAlpha and backgroundAlpha instead.
    * @type {boolean | "notMultiplied"}
    */
   export let useContextAlpha: $$Props['useContextAlpha'] = undefined
@@ -111,6 +112,12 @@
   export let powerPreference: $$Props['powerPreference'] = undefined
 
   /**
+   * **WebGL Only.** Whether the compositor will assume the drawing buffer contains colors with premultiplied alpha.
+   * @type {boolean | undefined}
+   */
+  export let premultipliedAlpha: $$Props['premultipliedAlpha'] = undefined
+
+  /**
    * The PIXI.Renderer instance. Can be set or bound to. By default
    * it uses PIXI.autoDetectRenderer()
    */
@@ -122,6 +129,7 @@
       autoDensity,
       antialias,
       preserveDrawingBuffer,
+      premultipliedAlpha,
       resolution,
       forceCanvas,
       backgroundColor,
