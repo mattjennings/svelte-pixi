@@ -13,7 +13,6 @@ render until the loading has completed. You can show progress by using the `prog
 <script>
   import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi'
   import * as PIXI from 'pixi.js'
-
 </script>
 
 <Application width={400} height={400} antialias backgroundColor={0xffffff}>
@@ -31,4 +30,30 @@ render until the loading has completed. You can show progress by using the `prog
     />
   </AssetsLoader>
 </Application>
+```
+
+## Assets init options
+
+You may call [`PIXI.Assets.init()`](https://pixijs.download/dev/docs/PIXI.Assets.html#init) to configure the behaviour of the Assets loader, but you must do it before the first
+time you render an `AssetsLoader` component.
+
+```svelte
+<script>
+  import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi'
+  import * as PIXI from 'pixi.js'
+
+  // init is async, so we must await it
+  const initPromise = PIXI.Assets.init({
+    baseUrl: '/assets'
+  })
+</script>
+
+{#await initPromise}
+{:then}
+  <Application>
+    <AssetsLoader assets={['/great-success.png']}>
+      <Sprite texture={PIXI.Texture.from('/great-success.png')} />
+    </AssetsLoader>
+  </Application>
+{/await}
 ```
