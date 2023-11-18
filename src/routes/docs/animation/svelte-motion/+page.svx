@@ -60,6 +60,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
   y={$position.y}
   rotation={($position.x - startingPosition.x) * 0.02}
   interactive
+  cursor="pointer"
   on:pointerdown={handleDragStart}
   on:pointerup={handleDragEnd}
   on:pointerupoutside={handleDragEnd}
