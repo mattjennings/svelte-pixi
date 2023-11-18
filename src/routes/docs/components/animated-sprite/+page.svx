@@ -12,10 +12,10 @@ I recommend using spritesheets created by TexturePacker ([they have a great tuto
 ```svelte example csr
 <script>
   import * as PIXI from 'pixi.js'
-  import { AnimatedSprite, Loader } from 'svelte-pixi'
+  import { AnimatedSprite, AssetsLoader } from 'svelte-pixi'
 </script>
 
-<Loader resources={['/assets/adventurer-spritesheet.json']}>
+<AssetsLoader assets={['/assets/adventurer-spritesheet.json']}>
   <AnimatedSprite
     textures={[
       PIXI.Texture.from('adventurer-idle-00.png'),
@@ -29,16 +29,16 @@ I recommend using spritesheets created by TexturePacker ([they have a great tuto
     anchor={0.5}
     scale={2}
   />
-</Loader>
+</AssetsLoader>
 ```
 
 ## Multiple Animations from Spritesheet
 
-```svelte example csr resources=["/assets/adventurer-spritesheet.json"]
+```svelte example csr assets=["/assets/adventurer-spritesheet.json"]
 <script>
-  import { AnimatedSprite, Loader, getResource } from 'svelte-pixi'
+  import { AnimatedSprite, AssetsLoader, getResource } from 'svelte-pixi'
 
-  // loaded from parent <Loader />
+  // loaded from parent <AssetsLoader />
   const { spritesheet } = getResource('/assets/adventurer-spritesheet.json')
   let textures = spritesheet.animations['adventurer-idle']
 

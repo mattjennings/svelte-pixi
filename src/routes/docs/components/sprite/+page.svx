@@ -9,7 +9,7 @@ Sprites are the base for all textured objects that are rendered to the screen
 
 ```svelte example csr
 <script>
-  import { Sprite, Loader } from 'svelte-pixi'
+  import { Sprite } from 'svelte-pixi'
   import * as PIXI from 'pixi.js'
 </script>
 

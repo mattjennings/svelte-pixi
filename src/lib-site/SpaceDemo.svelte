@@ -4,7 +4,7 @@
    *
    * https://github.com/pixijs/examples/blob/gh-pages/examples/js/demos-advanced/star-warp.js
    */
-  import Loader from '$lib/Loader.svelte'
+  import AssetsLoader from '$lib/AssetsLoader.svelte'
   import * as PIXI from 'pixi.js'
   import { Application, ParticleContainer, Ticker } from 'svelte-pixi'
 
@@ -105,7 +105,7 @@
 
 <div class="wrapper">
   <Application bind:instance={app}>
-    <Loader resources={['/assets/star.png']}>
+    <AssetsLoader assets={['/assets/star.png']}>
       <Ticker on:tick={tick} />
       <ParticleContainer
         bind:instance={container}
@@ -119,7 +119,7 @@
           alpha: true,
         }}
       />
-    </Loader>
+    </AssetsLoader>
   </Application>
 </div>
 

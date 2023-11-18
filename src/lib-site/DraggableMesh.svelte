@@ -1,6 +1,6 @@
 <script>
   import * as PIXI from 'pixi.js'
-  import { Mesh, Graphics, Loader } from 'svelte-pixi'
+  import { Mesh, Graphics, AssetsLoader } from 'svelte-pixi'
 
   let mask
 
@@ -120,7 +120,7 @@
   updateShader()
 </script>
 
-<Loader resources={['/assets/bg_mesh.jpg']}>
+<AssetsLoader assets={['/assets/bg_mesh.jpg']}>
   <Mesh
     {x}
     {y}
@@ -146,4 +146,4 @@
       }}
     />
   </Mesh>
-</Loader>
+</AssetsLoader>

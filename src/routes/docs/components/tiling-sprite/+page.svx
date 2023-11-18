@@ -8,7 +8,7 @@ pixi: https://pixijs.download/release/docs/TilingSprite.html
 ```svelte example csr
 <script>
   import { onMount } from 'svelte'
-  import { TilingSprite, Loader, onTick } from 'svelte-pixi'
+  import { TilingSprite, AssetsLoader, onTick } from 'svelte-pixi'
   import * as PIXI from 'pixi.js'
 
   let count = 0

@@ -21,13 +21,11 @@ A BitmapText can only be created when the font is loaded.
 
 ```svelte example csr bg="white"
 <script>
-  import { Application, Loader, BitmapText } from 'svelte-pixi'
+  import { Application, AssetsLoader, BitmapText } from 'svelte-pixi'
 </script>
 
-<Loader
-  resources={
-    [['desyrel', '/assets/desyrel.xml']]
-  }
+<AssetsLoader
+  assets={['/assets/desyrel.xml']}
 >
   <BitmapText
     text={"the fox jumps over\nthe lazy dog"}
@@ -36,5 +34,5 @@ A BitmapText can only be created when the font is loaded.
     anchor={0.5}
     style={{ fontName: 'Desyrel', fontSize: 48, align: 'center' }}
   />
-</Loader>
+</AssetsLoader>
 ```

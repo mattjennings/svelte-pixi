@@ -4,6 +4,8 @@
 
   export let title
   export let pixi = undefined
+  export let data
+  export let form
 
   onMount(() => {
     const {

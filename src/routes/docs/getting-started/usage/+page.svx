@@ -57,7 +57,7 @@ _Note: You may want to enable network throttling in your browser dev tools to ac
 ```svelte example csr noApp
 <script>
   import * as PIXI from 'pixi.js'
-  import { Application, Text, Sprite, Loader } from 'svelte-pixi'
+  import { Application, Text, Sprite, AssetsLoader } from 'svelte-pixi'
 
   let images = [
     '/assets/food/lemonpie.png',
@@ -67,7 +67,7 @@ _Note: You may want to enable network throttling in your browser dev tools to ac
 </script>
 
 <Application width={400} height={400}>
-  <Loader resources={images}>
+  <AssetsLoader assets={images}>
     <slot slot="loading">
       <Text
         text="Loading..."
@@ -89,11 +89,11 @@ _Note: You may want to enable network throttling in your browser dev tools to ac
         scale={2}
       />
     {/each}
-  </Loader>
+  </AssetsLoader>
 </Application>
 ```
 
-You can have multiple Loader components as well, which could be useful if you wanted to render a fallbacks at a component-level instead.
+You can have multiple AssetsLoader components as well, which could be useful if you wanted to render a fallbacks at a component-level instead.
 
 ## Ticker
 

@@ -1,10 +1,10 @@
 <script>
   import { Application } from 'svelte-pixi'
   import IntersectionObserver from 'svelte-intersection-observer'
-  import Loader from '$lib/Loader.svelte'
+  import AssetsLoader from '$lib/AssetsLoader.svelte'
   import Container from '$lib/Container.svelte'
 
-  export let resources = []
+  export let assets = []
 
   let element
   let intersecting = true
@@ -24,9 +24,9 @@
   <div bind:this={element} slot="view">
     <IntersectionObserver {element} bind:intersecting />
   </div>
-  <Loader {resources}>
+  <AssetsLoader {assets}>
     <Container sortableChildren>
       <slot />
     </Container>
-  </Loader>
+  </AssetsLoader>
 </Application>
