@@ -66,27 +66,28 @@
   $: loading = progress < 1
 
   onMount(() => {
-    Assets.addBundle(
-      bundleName,
-      assets.map((r) => {
-        if (typeof r === 'string') {
-          return { alias: r, src: r }
-        }
-        return r
+    async function load() {
+      Assets.addBundle(
+        bundleName,
+        assets.map((r) => {
+          if (typeof r === 'string') {
+            return { alias: r, src: r }
+          }
+          return r
+        })
+      )
+
+      dispatch('start')
+      await Assets.loadBundle(bundleName, (prog) => {
+        progress = prog
+
+        dispatch('progress', progress)
       })
-    )
-
-    dispatch('start')
-    Assets.loadBundle(bundleName, (prog) => {
-      progress = prog
-
-      dispatch('progress', progress)
-    }).then(() => {
-      console.log(Assets)
       progress = 1
       dispatch('complete')
-    })
+    }
 
+    load()
     return () => {
       if (unload) {
         Assets.unloadBundle(bundleName)
