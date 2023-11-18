@@ -15,7 +15,7 @@
   "dependencies": {
     "svelte-check": "^1.5.2",
     "svelte-pixi": "latest",
-    "pixi.js": "^6.3.2",
+    "pixi.js": "^7.3.2",
     "svelte-preprocess": "^4.7.3"
   }
 }
