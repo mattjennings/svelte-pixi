@@ -1,0 +1,7 @@
+{
+  "*.{js,ts,tsx,svelte}": [
+    "eslint --ignore-path .eslintignore --fix",
+    "prettier --ignore-path .eslintignore . --write"
+  ],
+  "*.{html,css,json,yml}": ["prettier --ignore-path .eslintignore --write"]
+}
