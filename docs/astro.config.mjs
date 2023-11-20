@@ -10,6 +10,7 @@ import mdx from '@astrojs/mdx'
 import remarkExamples, {
   EXAMPLE_MODULE_PREFIX,
 } from './remark-svelte-example.mjs'
+import recast from 'recast'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // https://astro.build/config
@@ -32,7 +33,7 @@ export default defineConfig({
       remarkPlugins: [remarkExamples],
       recmaPlugins: [
         () => (tree) => {
-          // console.log(recast.print(tree, { tabWidth: 2, quote: 'single' }))
+          console.log(recast.print(tree, { tabWidth: 2, quote: 'single' }))
         },
       ],
     }),
@@ -80,7 +81,7 @@ function examplesVite() {
   return {
     name: 'astro-examples', // required, will show up in warnings and errors
     resolveId(id) {
-      if (id.includes(EXAMPLE_MODULE_PREFIX) && id.includes('?src')) {
+      if (id.includes(EXAMPLE_MODULE_PREFIX) && id.includes('?src=')) {
         const [name, srcAttr] = id.split('?src=')
 
         // decode from base64

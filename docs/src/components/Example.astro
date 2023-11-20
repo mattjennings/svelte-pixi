@@ -1,22 +1,7 @@
 ---
-import { Code } from 'astro:components'
-import ExampleApplication from './ExampleApplication.svelte'
-const { code } = Astro.props
+console.log('props', Astro.props)
+console.log(typeof Astro.props.meta)
 ---
 
-<div class="flex flex-col w-full overflow-hidden rounded mb-4">
-  <div class="flex justify-center py-3 bg-slate-700">
-    <div class="overflow-hidden rounded min-h-[400px]">
-      <!-- <ExampleApplication client:only="svelte" width={400} height={400}> -->
-      <slot />
-      <!-- </ExampleApplication> -->
-    </div>
-  </div>
-  <Code {code} lang="svelte" />
-</div>
-
-<style is:global>
-  pre {
-    margin-top: 0 !important;
-  }
-</style>
+<slot name="example" />
+<slot name="code" />

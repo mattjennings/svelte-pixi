@@ -1,27 +1,12 @@
 import { visitParents as unistVisit } from 'unist-util-visit-parents'
 import { visit as estreeVisit } from 'estree-util-visit'
-import path from 'upath'
-import { fileURLToPath } from 'url'
-
-const _dirname =
-  typeof __dirname !== 'undefined'
-    ? __dirname
-    : path.dirname(fileURLToPath(import.meta.url))
-
-// regex to find <script> block in svelte
-const RE_SCRIPT_START =
-  /<script(?:\s+?[a-zA-z]+(=(?:["']){0,1}[a-zA-Z0-9]+(?:["']){0,1}){0,1})*\s*?>/
-const RE_SCRIPT_BLOCK = /(<script[\s\S]*?>)([\s\S]*?)(<\/script>)/g
-const RE_STYLE_BLOCK = /(<style[\s\S]*?>)([\s\S]*?)(<\/style>)/g
-
-// parses key=value pairs from a string. supports strings, numbers, booleans, and arrays
-const RE_PARSE_META = /(\w+=\d+|\w+="[^"]*"|\w+=\[[^\]]*\]|\w+)/g
 
 export const EXAMPLE_MODULE_PREFIX = '___astro_example___'
 export const EXAMPLE_COMPONENT_PREFIX = 'AE___'
 
 /**
  * @typedef {{
+ * WrapperComponent?: string
  * theme?: string
  * }} Options
  */
@@ -31,29 +16,13 @@ export const EXAMPLE_COMPONENT_PREFIX = 'AE___'
  * @param {Options} options
  * @returns
  */
-export default function examples(options = {}) {
+export default function examples(
+  options = {
+    WrapperComponent: '/src/components/Example.astro',
+  },
+) {
   return function transformer(tree, file) {
-    const examples = processExamples(tree, options)
-
-    const generatedFiles = examples.map((example, i) => {
-      const filename = `${EXAMPLE_MODULE_PREFIX}${i}.svelte`
-      const src = example.data._src
-
-      return {
-        filename,
-        src,
-      }
-    })
-
-    generatedFiles.forEach((file, i) => {
-      // base64 encode src
-      const src = Buffer.from(file.src).toString('base64')
-      ensureImport(tree, {
-        default: true,
-        name: EXAMPLE_COMPONENT_PREFIX + i,
-        from: `${file.filename}?src=${src}`,
-      })
-    })
+    processExamples(tree, file, options)
   }
 }
 
@@ -62,24 +31,51 @@ export default function examples(options = {}) {
  * @param {*} tree
  * @param {Options} options
  */
-function processExamples(tree, options) {
+function processExamples(tree, file, options) {
   let examples = []
 
   ensureImport(tree, { from: 'astro:components', name: 'Code' })
 
-  // find all code blocks and turn into <Code src={content} lang={lang} />
   unistVisit(tree, 'code', (node, parents) => {
     const parent = parents[parents.length - 1]
     const childIndex = parent.children.indexOf(node)
 
     if (node.meta && node.meta.includes('example')) {
+      const mainFilename = toPOSIX(file.history[0]).split('/').pop()
+      const filename = `${mainFilename}${EXAMPLE_MODULE_PREFIX}${examples.length}.svelte`
+
+      const wrapperComponent =
+        getExampleWrapperPathFromMeta(node.meta) || options.WrapperComponent
+      const wrapperComponentName =
+        wrapperComponent === options.WrapperComponent
+          ? 'Example'
+          : `Example${examples.length}`
+
+      examples.push({ filename, src: node.value })
+
+      ensureImport(tree, {
+        from: wrapperComponent,
+        name: wrapperComponentName,
+        default: true,
+      })
+
+      // base64 encode src
+      const src = Buffer.from(node.value).toString('base64')
+      const exampleComponentName = EXAMPLE_COMPONENT_PREFIX + examples.length
+      ensureImport(tree, {
+        default: true,
+        name: exampleComponentName,
+        from: `${filename}?src=${src}`,
+      })
+
       node = {
         type: 'mdxJsxFlowElement',
-        name: 'Code',
+        name: wrapperComponentName,
+        data: { _mdxExplicitJsx: true, _example: true },
         attributes: [
           {
             type: 'mdxJsxAttribute',
-            name: 'code',
+            name: 'src',
             value: node.value,
           },
           {
@@ -87,31 +83,122 @@ function processExamples(tree, options) {
             name: 'lang',
             value: node.lang,
           },
-          ...(options.theme
-            ? [
-                {
-                  type: 'mdxJsxAttribute',
-                  name: 'theme',
-                  value: options.theme,
+          {
+            type: 'mdxJsxAttribute',
+            name: 'filename',
+            value: filename,
+          },
+          {
+            type: 'mdxJsxAttribute',
+            name: 'meta',
+            value: {
+              type: 'mdxJsxAttributeValueExpression',
+              data: {
+                estree: {
+                  type: 'Program',
+                  body: [
+                    {
+                      type: 'ExpressionStatement',
+                      expression: {
+                        type: 'ArrayExpression',
+                        elements: node.meta.split(' ').map((value) => ({
+                          type: 'Literal',
+                          value,
+                        })),
+                      },
+                    },
+                  ],
+                  sourceType: 'module',
                 },
-              ]
-            : []),
+              },
+            },
+          },
         ],
-        children: [],
-        data: { _mdxExplicitJsx: true, _codeBlock: true, _src: node.value },
+        children: [
+          {
+            type: 'mdxJsxFlowElement',
+            name: 'slot',
+            data: { _mdxExplicitJsx: true },
+            attributes: [
+              {
+                type: 'mdxJsxAttribute',
+                name: 'slot',
+                value: 'example',
+              },
+            ],
+            children: [
+              {
+                type: 'mdxJsxFlowElement',
+                name: exampleComponentName,
+                attributes: [
+                  ...(node.meta.includes('client:only')
+                    ? [
+                        {
+                          type: 'mdxJsxAttribute',
+                          name: 'client:only',
+                          value: node.lang,
+                        },
+                      ]
+                    : []),
+                ],
+                children: [],
+              },
+            ],
+          },
+          {
+            type: 'mdxJsxFlowElement',
+            name: 'slot',
+            data: { _mdxExplicitJsx: true },
+            attributes: [
+              {
+                type: 'mdxJsxAttribute',
+                name: 'slot',
+                value: 'code',
+              },
+            ],
+            children: [
+              {
+                type: 'mdxJsxFlowElement',
+                name: 'Code',
+                attributes: [
+                  {
+                    type: 'mdxJsxAttribute',
+                    name: 'code',
+                    value: node.value,
+                  },
+                  {
+                    type: 'mdxJsxAttribute',
+                    name: 'lang',
+                    value: node.lang,
+                  },
+                  ...(options.theme
+                    ? [
+                        {
+                          type: 'mdxJsxAttribute',
+                          name: 'theme',
+                          value: options.theme,
+                        },
+                      ]
+                    : []),
+                ],
+                children: [],
+                data: {
+                  _mdxExplicitJsx: true,
+                  _src: node.value,
+                },
+              },
+            ],
+          },
+        ],
       }
 
       parent.children.splice(childIndex, 1, node)
-
-      examples.push(node)
     }
   })
 
-  // console.log(tree)
-
   unistVisit(tree, 'mdxJsxFlowElement', (node, parents) => {
     if (node.name === 'div') {
-      // console.log(node)
+      console.log(JSON.stringify(node.attributes[0], null, 2))
     }
   })
 
@@ -179,140 +266,14 @@ function ensureImport(tree, imp) {
   }
 }
 
-function old(options = {}) {
-  const { defaults = {} } = options
+function getExampleWrapperPathFromMeta(meta) {
+  const part = meta.split(' ').find((part) => part.startsWith('wrapper='))
 
-  return function transformer(tree, file) {
-    let examples = []
-    unist.visit(tree, 'code', (node) => {
-      const languages = ['svelte', 'html']
-      /**
-       * @type {Record<string, any>}
-       */
-      const meta = {
-        Wrapper: path.resolve(_dirname, 'Example.svelte'),
-        cwd: file.cwd,
-        ...defaults,
-        ...parseMeta(node.meta || ''),
-      }
-      const { csr, example, Wrapper } = meta
-
-      // find svelte code blocks with meta to trigger example
-      if (example && languages.includes(node.lang)) {
-        const value = createExampleComponent(node.value, meta, examples.length)
-        examples.push({ csr, Wrapper: meta.Wrapper || Wrapper, value })
-        node.type = 'paragaph'
-        node.children = [
-          {
-            type: 'text',
-            value,
-          },
-        ]
-        delete node.lang
-        delete node.meta
-        delete node.value
-      }
-    })
-
-    console.log(examples)
-    // // add imports for each generated example
-    // let imports = []
-    // examples.forEach((example, i) => {
-    //   const imp =
-    //     typeof example.Wrapper === 'string'
-    //       ? `import Example from "${example.Wrapper}"`
-    //       : `import { ${example.Wrapper[1]} as Example } from "${example.Wrapper[0]}"`
-    //   if (!imports.includes(imp)) {
-    //     imports.push(imp)
-    //   }
-    //   if (!example.csr) {
-    //     imports.push(
-    //       `import ${EXAMPLE_COMPONENT_PREFIX}${i} from "${EXAMPLE_MODULE_PREFIX}${i}.svelte"`,
-    //     )
-    //   }
-    // })
-    // unist.visit(tree, 'mdxFlowExpression', (node) => {
-    //   estree.visit(node.data.estree, (node) => {
-    //     if (node.value === 'abc') {
-    //       node.raw = "'hello'"
-    //     }
-    //   })
-    // })
-    // imports.forEach((imp) => {
-    //   tree.children.unshift({
-    //     type: 'mdxjsEsm',
-    //     value: imp,
-    //   })
-    // })
-    // tree.children.push({
-    //   type: 'mdxFlowExpression',
-    //   value: 'console.log("hello world")',
-    // })
+  if (part) {
+    return part.split('=')[1]
   }
-}
-
-function parseMeta(meta) {
-  const result = {}
-  const meta_parts = meta.match(RE_PARSE_META) ?? []
-
-  for (let i = 0; i < meta_parts.length; i++) {
-    const [key, value = 'true'] = meta_parts[i].split('=')
-
-    try {
-      result[key] = JSON.parse(value)
-    } catch (e) {
-      const error = new Error(
-        `Unable to parse meta \`${key}=${value}\` - ${e.message}`,
-      )
-      error.stack = e.stack
-      throw error
-    }
-  }
-
-  return result
-}
-
-function formatCode(code, meta) {
-  if (meta.hideScript) {
-    code = code.replace(RE_SCRIPT_BLOCK, '')
-  }
-
-  if (meta.hideStyle) {
-    code = code.replace(RE_STYLE_BLOCK, '')
-  }
-
-  // remove leading/trailing whitespace and line breaks
-  return code.replace(/^\s+|\s+$/g, '')
-}
-
-function createExampleComponent(value, meta, index) {
-  const mdsvexampleComponentName = `${EXAMPLE_COMPONENT_PREFIX}${index}`
-
-  const code = formatCode(value, meta)
-
-  const props = {
-    src: `String.raw\`${escape(code)}\``,
-    meta: escape(JSON.stringify(meta)),
-  }
-
-  return `<Example
-						src={${props.src}}
-						meta={${props.meta}}
-					>
-						<slot slot="example">${`<${mdsvexampleComponentName} />`}</slot
-			</Example>`
 }
 
 function toPOSIX(path) {
   return path.replace(/\\/g, '/')
-}
-
-function escape(src) {
-  const res = src.replace(/`/g, '\\`').replace(/\$\{/g, '\\$\\{')
-  return res
-}
-
-function unescape(src) {
-  const res = src.replace(/\\`/g, '`').replace(/\\\$\\\{/g, '${')
-  return res
 }

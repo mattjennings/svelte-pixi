@@ -3,17 +3,12 @@ title: Welcome to Starlight
 description: Get started building your docs site with Starlight.
 ---
 
-<div>
-  <span />
-  <span />
-</div>
-
-<AE___0 />
-
-```svelte example
+```svelte example client:only wrapper=/src/components/Example.astro
 <script>
-  const greeting = 'Hellooo'
+import { Application } from 'svelte-pixi'
+  const greeting = 'Helloo'
 </script>
 
+<Application width={800} height={800} />
 <div class="bg-red-500">{greeting}</div>
 ```
