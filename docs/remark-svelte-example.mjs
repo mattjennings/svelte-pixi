@@ -90,6 +90,28 @@ function processExamples(tree, file, options) {
           },
           {
             type: 'mdxJsxAttribute',
+            name: 'ExampleComponent',
+            value: {
+              type: 'mdxJsxAttributeValueExpression',
+              data: {
+                estree: {
+                  type: 'Program',
+                  body: [
+                    {
+                      type: 'ExpressionStatement',
+                      expression: {
+                        type: 'Identifier',
+                        name: exampleComponentName,
+                      },
+                    },
+                  ],
+                  sourceType: 'module',
+                },
+              },
+            },
+          },
+          {
+            type: 'mdxJsxAttribute',
             name: 'meta',
             value: {
               type: 'mdxJsxAttributeValueExpression',
@@ -131,12 +153,51 @@ function processExamples(tree, file, options) {
                 type: 'mdxJsxFlowElement',
                 name: exampleComponentName,
                 attributes: [
+                  ...(node.meta.includes('client:load')
+                    ? [
+                        {
+                          type: 'mdxJsxAttribute',
+                          name: 'client:load',
+                          value: 'true',
+                        },
+                      ]
+                    : []),
+                  ...(node.meta.includes('client:idle')
+                    ? [
+                        {
+                          type: 'mdxJsxAttribute',
+                          name: 'client:idle',
+                          value: 'true',
+                        },
+                      ]
+                    : []),
+                  ...(node.meta.includes('client:visible')
+                    ? [
+                        {
+                          type: 'mdxJsxAttribute',
+                          name: 'client:visible',
+                          value: 'true',
+                        },
+                      ]
+                    : []),
                   ...(node.meta.includes('client:only')
                     ? [
                         {
                           type: 'mdxJsxAttribute',
                           name: 'client:only',
                           value: node.lang,
+                        },
+                      ]
+                    : []),
+                  ...(node.meta.includes('client:media')
+                    ? [
+                        {
+                          type: 'mdxJsxAttribute',
+                          name: 'client:media',
+                          value: node.meta
+                            .split(' ')
+                            .find((m) => m.startsWith('client:media'))
+                            .split('=')[1],
                         },
                       ]
                     : []),
