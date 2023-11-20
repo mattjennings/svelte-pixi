@@ -19,6 +19,7 @@ export const EXAMPLE_COMPONENT_PREFIX = 'AE___'
 export default function examples(
   options = {
     layout: '/src/components/ExampleLayout.astro',
+    wrapper: '/src/components/ExampleWrapper.svelte',
   },
 ) {
   return function transformer(tree, file) {
@@ -37,6 +38,8 @@ export default function examples(
         const layout = getLayoutPathFromMeta(node.meta) || options.layout
         const layoutName =
           layout === options.layout ? 'Example' : `Example${examples.length}`
+
+        const wrapper = getWrapperPathFromMeta(node.meta) || options.wrapper
 
         examples.push({ filename, src: node.value })
 
@@ -309,6 +312,14 @@ function ensureImport(tree, imp) {
 
 function getLayoutPathFromMeta(meta) {
   const part = meta.split(' ').find((part) => part.startsWith('layout='))
+
+  if (part) {
+    return part.split('=')[1]
+  }
+}
+
+function getWrapperPathFromMeta(meta) {
+  const part = meta.split(' ').find((part) => part.startsWith('wrapper='))
 
   if (part) {
     return part.split('=')[1]
