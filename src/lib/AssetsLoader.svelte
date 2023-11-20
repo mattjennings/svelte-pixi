@@ -64,6 +64,7 @@
   export let progress = 0
 
   $: loading = progress < 1
+  $: progress, invalidate()
 
   onMount(() => {
     async function load() {
@@ -87,12 +88,16 @@
 
       dispatch('start')
       await Assets.loadBundle(bundleName, (prog) => {
-        progress = prog
-
-        dispatch('progress', progress)
+        // loading isn't totally complete until this promise resolves,
+        // so we'll track progress up to 1 and then set it to 1 ourselves afterwards
+        if (prog < 1) {
+          progress = prog
+          dispatch('progress', progress)
+        }
       })
 
       progress = 1
+      dispatch('progress', progress)
       dispatch('complete')
     }
 
@@ -103,8 +108,6 @@
       }
     }
   })
-
-  $: progress, invalidate()
 </script>
 
 {#if loading}

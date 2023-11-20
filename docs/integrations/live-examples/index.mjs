@@ -4,10 +4,20 @@ import vite from './vite.mjs'
 import mdx from '@astrojs/mdx'
 
 /**
+ * @typedef {{
+ * layout?: string
+ * wrapper?: string
+ * theme?: string
+ * commonMeta?: string
+ * }} LiveExamplesOptions
+ */
+
+/**
  *
+ * @param {LiveExamplesOptions} options
  * @returns {import('astro').AstroIntegration}
  */
-export default function () {
+export default function (options) {
   return {
     name: 'live-examples',
     hooks: {
@@ -19,11 +29,11 @@ export default function () {
               shikiConfig: {
                 theme: 'dracula',
               },
-              remarkPlugins: [remark],
+              remarkPlugins: [[remark, options]],
               recmaPlugins: [
                 () => (tree) => {
                   console.log(
-                    recast.print(tree, {
+                    recast.prettyPrint(tree, {
                       tabWidth: 2,
                       quote: 'single',
                     }),
@@ -33,7 +43,7 @@ export default function () {
             }),
           ],
           vite: {
-            plugins: [vite()],
+            plugins: [vite(options)],
           },
         })
       },

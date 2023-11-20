@@ -1,10 +1,10 @@
 import { EXAMPLE_MODULE_PREFIX } from './remark.mjs'
-
+import MagicString from 'magic-string'
 export const virtualFiles = new Map()
+/**
+ * @returns {import('vite').Plugin}
+ */
 export default function liveExamplesVitePlugin() {
-  /**
-   * @type {import('vite').Plugin}
-   */
   return {
     name: 'live-examples',
     resolveId(id) {
@@ -12,9 +12,18 @@ export default function liveExamplesVitePlugin() {
         return id
       }
     },
-    load(id) {
+    async load(id) {
       if (virtualFiles.has(id)) {
-        return virtualFiles.get(id)
+        const s = new MagicString(virtualFiles.get(id))
+
+        return {
+          code: s.toString(),
+          map: s.generateMap({
+            source: id,
+            file: `${id}.map`,
+            includeContent: true,
+          }),
+        }
       }
     },
     handleHotUpdate(ctx) {

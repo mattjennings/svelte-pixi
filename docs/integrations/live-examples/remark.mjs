@@ -6,24 +6,20 @@ export const EXAMPLE_MODULE_PREFIX = '___astro_example___'
 export const EXAMPLE_COMPONENT_PREFIX = 'AE___'
 
 /**
- * @typedef {{
- * layout?: string
- * wrapper?: string
- * theme?: string
- * }} Options
- */
-
-/**
  *
- * @param {Options} options
+ * @param {import('./index.mjs').LiveExamplesOptions} options
  * @returns
  */
-export default function examples(
-  options = {
-    layout: '/src/components/ExampleLayout.astro',
-    wrapper: '/src/components/ExampleWrapper.svelte',
-  },
-) {
+export default function examples(options) {
+  Object.assign(
+    options,
+    {
+      layout: '/src/components/ExampleLayout.astro',
+      wrapper: '/src/components/ExampleWrapper.svelte',
+    },
+    { ...options },
+  )
+
   return function transformer(tree, file) {
     let examples = []
 
@@ -33,7 +29,8 @@ export default function examples(
       const parent = parents[parents.length - 1]
       const childIndex = parent.children.indexOf(node)
 
-      if (node.meta && node.meta.includes('render')) {
+      if (node.meta && node.meta.split(' ').includes('render')) {
+        const meta = [options.commonMeta ?? '', node.meta].join(' ')
         const src = node.value
         const i = examples.length
         const mdFilename = toPOSIX(file.history[0]).split('/').pop()
@@ -41,11 +38,11 @@ export default function examples(
         examples.push({ filename, src })
         virtualFiles.set(filename, src)
 
-        const layout = getLayoutPathFromMeta(node.meta) || options.layout
+        const layout = getLayoutPathFromMeta(meta) || options.layout
         const layoutName = layout === options.layout ? 'Example' : `Example${i}`
         const exampleComponentName = EXAMPLE_COMPONENT_PREFIX + i
 
-        const wrapper = getWrapperPathFromMeta(node.meta) || options.wrapper
+        const wrapper = getWrapperPathFromMeta(meta) || options.wrapper
         const wrapperFilename = wrapper
           ? `WRAPPER_${EXAMPLE_MODULE_PREFIX}${i}.svelte`
           : null
@@ -78,6 +75,7 @@ export default function examples(
           default: true,
         })
 
+        console.log(meta)
         const commonProps = [
           {
             type: 'mdxJsxAttribute',
@@ -130,7 +128,7 @@ export default function examples(
                       type: 'ExpressionStatement',
                       expression: {
                         type: 'ArrayExpression',
-                        elements: node.meta.split(' ').map((value) => ({
+                        elements: meta.split(' ').map((value) => ({
                           type: 'Literal',
                           value,
                         })),
@@ -167,55 +165,36 @@ export default function examples(
                   name: exampleComponentName,
                   attributes: [
                     ...commonProps,
-                    ...(node.meta.includes('client:load')
-                      ? [
-                          {
-                            type: 'mdxJsxAttribute',
-                            name: 'client:load',
-                            value: 'true',
-                          },
-                        ]
-                      : []),
-                    ...(node.meta.includes('client:idle')
-                      ? [
-                          {
-                            type: 'mdxJsxAttribute',
-                            name: 'client:idle',
-                            value: 'true',
-                          },
-                        ]
-                      : []),
-                    ...(node.meta.includes('client:visible')
-                      ? [
-                          {
-                            type: 'mdxJsxAttribute',
-                            name: 'client:visible',
-                            value: 'true',
-                          },
-                        ]
-                      : []),
-                    ...(node.meta.includes('client:only')
-                      ? [
-                          {
-                            type: 'mdxJsxAttribute',
-                            name: 'client:only',
-                            value: node.lang,
-                          },
-                        ]
-                      : []),
-                    ...(node.meta.includes('client:media')
-                      ? [
-                          {
-                            type: 'mdxJsxAttribute',
-                            name: 'client:media',
-                            value: node.meta
-                              .split(' ')
-                              .find((m) => m.startsWith('client:media'))
-                              .split('=')[1],
-                          },
-                        ]
-                      : []),
-                  ],
+                    meta.includes('client:load') && {
+                      type: 'mdxJsxAttribute',
+                      name: 'client:load',
+                      value: 'true',
+                    },
+                    meta.includes('client:idle') && {
+                      type: 'mdxJsxAttribute',
+                      name: 'client:idle',
+                      value: 'true',
+                    },
+
+                    meta.includes('client:visible') && {
+                      type: 'mdxJsxAttribute',
+                      name: 'client:visible',
+                      value: 'true',
+                    },
+                    meta.includes('client:only') && {
+                      type: 'mdxJsxAttribute',
+                      name: 'client:only',
+                      value: node.lang,
+                    },
+                    meta.includes('client:media') && {
+                      type: 'mdxJsxAttribute',
+                      name: 'client:media',
+                      value: meta
+                        .split(' ')
+                        .find((m) => m.startsWith('client:media'))
+                        .split('=')[1],
+                    },
+                  ].filter(Boolean),
                   children: [],
                 },
               ],
@@ -363,7 +342,7 @@ function createWrapperSrc({ lang, inner, outer }) {
     import Outer from ${JSON.stringify(outer)}
 </script>
 
-<Outer {...$$props}>
+<Outer {...$$restProps}>    
     <Inner />
 </Outer>`
     case 'jsx':

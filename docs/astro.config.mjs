@@ -19,7 +19,9 @@ export default defineConfig({
     },
   },
   integrations: [
-    liveExamples(),
+    liveExamples({
+      commonMeta: 'client:only',
+    }),
     starlight({
       title: 'My Docs',
       customCss: ['./src/tailwind.css'],
@@ -28,12 +30,12 @@ export default defineConfig({
       },
       sidebar: [
         {
-          label: 'Guides',
+          label: 'Components',
           items: [
             // Each item here is one entry in the navigation menu.
             {
-              label: 'Example Guide',
-              link: '/guides/example/',
+              label: 'Animated Sprite',
+              link: '/components/animated-sprite',
             },
           ],
         },

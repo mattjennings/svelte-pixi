@@ -27,16 +27,11 @@
   }
 </script>
 
-<Application
-  bind:instance={app}
-  autoStart={false}
-  {width}
-  {height}
-  {...$$restProps}
->
+<Application bind:instance={app} autoStart={false} {width} {height}>
   <div bind:this={element} slot="view">
     <IntersectionObserver {element} bind:intersecting />
   </div>
+
   <AssetsLoader {assets}>
     <Container sortableChildren>
       <slot />
