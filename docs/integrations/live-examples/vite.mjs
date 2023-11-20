@@ -1,20 +1,15 @@
 import { EXAMPLE_MODULE_PREFIX } from './remark.mjs'
-export default function liveExamplesVitePlugin() {
-  const virtualFiles = new Map()
 
+export const virtualFiles = new Map()
+export default function liveExamplesVitePlugin() {
   /**
    * @type {import('vite').Plugin}
    */
   return {
     name: 'live-examples',
     resolveId(id) {
-      if (id.includes(EXAMPLE_MODULE_PREFIX) && id.includes('?src=')) {
-        const [name, srcAttr] = id.split('?src=')
-
-        // decode from base64
-        const src = Buffer.from(srcAttr, 'base64').toString('utf8')
-        virtualFiles.set(name, src)
-        return name
+      if (id.includes(EXAMPLE_MODULE_PREFIX)) {
+        return id
       }
     },
     load(id) {

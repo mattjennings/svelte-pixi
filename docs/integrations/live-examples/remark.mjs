@@ -1,5 +1,6 @@
 import { visitParents as unistVisit } from 'unist-util-visit-parents'
 import { visit as estreeVisit } from 'estree-util-visit'
+import { virtualFiles } from './vite.mjs'
 
 export const EXAMPLE_MODULE_PREFIX = '___astro_example___'
 export const EXAMPLE_COMPONENT_PREFIX = 'AE___'
@@ -32,16 +33,16 @@ export default function examples(
       const childIndex = parent.children.indexOf(node)
 
       if (node.meta && node.meta.includes('example')) {
+        const src = node.value
+        const i = examples.length
         const mainFilename = toPOSIX(file.history[0]).split('/').pop()
-        const filename = `${mainFilename}${EXAMPLE_MODULE_PREFIX}${examples.length}.${node.lang}`
+        const filename = `${mainFilename}${EXAMPLE_MODULE_PREFIX}${i}.${node.lang}`
+        examples.push({ filename, src })
+        virtualFiles.set(filename, src)
 
         const layout = getLayoutPathFromMeta(node.meta) || options.layout
-        const layoutName =
-          layout === options.layout ? 'Example' : `Example${examples.length}`
-
-        const wrapper = getWrapperPathFromMeta(node.meta) || options.wrapper
-
-        examples.push({ filename, src: node.value })
+        const layoutName = layout === options.layout ? 'Example' : `Example${i}`
+        const exampleComponentName = EXAMPLE_COMPONENT_PREFIX + i
 
         ensureImport(tree, {
           from: layout,
@@ -49,13 +50,10 @@ export default function examples(
           default: true,
         })
 
-        // base64 encode src
-        const src = Buffer.from(node.value).toString('base64')
-        const exampleComponentName = EXAMPLE_COMPONENT_PREFIX + examples.length
         ensureImport(tree, {
           default: true,
           name: exampleComponentName,
-          from: `${filename}?src=${src}`,
+          from: filename,
         })
 
         node = {
