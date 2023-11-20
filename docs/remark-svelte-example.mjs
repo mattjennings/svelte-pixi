@@ -42,7 +42,7 @@ function processExamples(tree, file, options) {
 
     if (node.meta && node.meta.includes('example')) {
       const mainFilename = toPOSIX(file.history[0]).split('/').pop()
-      const filename = `${mainFilename}${EXAMPLE_MODULE_PREFIX}${examples.length}.svelte`
+      const filename = `${mainFilename}${EXAMPLE_MODULE_PREFIX}${examples.length}.${node.lang}`
 
       const wrapperComponent =
         getExampleWrapperPathFromMeta(node.meta) || options.WrapperComponent

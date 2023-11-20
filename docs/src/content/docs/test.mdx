@@ -1,14 +1,44 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
+title: Button
 ---
 
-```svelte example client:only wrapper=/src/components/Example.astro
+```svelte example
+<button class="bg-blue-500 rounded">
+  Button
+</button>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* 
+
+```svelte example client:only
 <script>
-import { Application } from 'svelte-pixi'
-  const greeting = 'Helloo'
+  import { Application, Text } from 'svelte-pixi'
 </script>
 
-<Application width={800} height={800} />
-<div class="bg-red-500">{greeting}</div>
-```
+<Application width={400} height={400}>
+  <Text x={140} y={180} text="Hello world!" style={{ fill: "white" }} />
+</Application> 
+``` */}

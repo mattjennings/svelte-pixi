@@ -1,7 +1,5 @@
 import { defineConfig } from 'astro/config'
 import starlight from '@astrojs/starlight'
-import { mdsvex } from 'mdsvex'
-import mdsvexConfig from './mdsvex.config.js'
 import svelte from '@astrojs/svelte'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -11,6 +9,7 @@ import remarkExamples, {
   EXAMPLE_MODULE_PREFIX,
 } from './remark-svelte-example.mjs'
 import recast from 'recast'
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // https://astro.build/config
@@ -28,12 +27,19 @@ export default defineConfig({
   integrations: [
     mdx({
       syntaxHighlight: 'shiki',
-      shikiConfig: { theme: 'dracula' },
+      shikiConfig: {
+        theme: 'dracula',
+      },
       // remarkPlugins: [plug],
       remarkPlugins: [remarkExamples],
       recmaPlugins: [
         () => (tree) => {
-          console.log(recast.print(tree, { tabWidth: 2, quote: 'single' }))
+          console.log(
+            recast.print(tree, {
+              tabWidth: 2,
+              quote: 'single',
+            }),
+          )
         },
       ],
     }),
@@ -63,15 +69,13 @@ export default defineConfig({
       ],
     }),
     svelte({
-      extensions: ['.svelte', '.svx', '.svelte'],
-      preprocess: mdsvex(mdsvexConfig),
+      extensions: ['.svelte'],
     }),
     tailwind({
       applyBaseStyles: false,
     }),
   ],
 })
-
 function examplesVite() {
   const virtualFiles = new Map()
 
@@ -79,14 +83,13 @@ function examplesVite() {
    * @type {import('vite').Plugin}
    */
   return {
-    name: 'astro-examples', // required, will show up in warnings and errors
+    name: 'astro-examples',
     resolveId(id) {
       if (id.includes(EXAMPLE_MODULE_PREFIX) && id.includes('?src=')) {
         const [name, srcAttr] = id.split('?src=')
 
         // decode from base64
         const src = Buffer.from(srcAttr, 'base64').toString('utf8')
-
         virtualFiles.set(name, src)
         return name
       }
@@ -99,13 +102,11 @@ function examplesVite() {
     handleHotUpdate(ctx) {
       const { server } = ctx
       const modules = []
-
       const extensions = ['.md', '.mdx']
 
       // return virtual file modules for parent file
       if (extensions.some((ext) => ctx.file.endsWith(ext))) {
         const files = [...virtualFiles.entries()]
-
         files
           .map(([id, file]) => ({
             id,
@@ -126,7 +127,6 @@ function examplesVite() {
             }
           })
       }
-
       return [...modules, ...ctx.modules]
     },
   }

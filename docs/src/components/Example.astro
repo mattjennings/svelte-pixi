@@ -1,7 +1,6 @@
----
-console.log('props', Astro.props)
-console.log(typeof Astro.props.meta)
----
-
-<slot name="example" />
-<slot name="code" />
+<div class="flex flex-col">
+  <div class="flex items-center justify-center bg-gray-800 p-4 min-h-[100px]">
+    <slot name="example" />
+  </div>
+  <slot name="code" />
+</div>
