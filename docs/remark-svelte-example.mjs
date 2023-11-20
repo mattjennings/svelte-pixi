@@ -6,7 +6,7 @@ export const EXAMPLE_COMPONENT_PREFIX = 'AE___'
 
 /**
  * @typedef {{
- * WrapperComponent?: string
+ * layout?: string
  * theme?: string
  * }} Options
  */
@@ -18,252 +18,232 @@ export const EXAMPLE_COMPONENT_PREFIX = 'AE___'
  */
 export default function examples(
   options = {
-    WrapperComponent: '/src/components/Example.astro',
+    layout: '/src/components/ExampleLayout.astro',
   },
 ) {
   return function transformer(tree, file) {
-    processExamples(tree, file, options)
-  }
-}
+    let examples = []
 
-/**
- *
- * @param {*} tree
- * @param {Options} options
- */
-function processExamples(tree, file, options) {
-  let examples = []
+    ensureImport(tree, { from: 'astro:components', name: 'Code' })
 
-  ensureImport(tree, { from: 'astro:components', name: 'Code' })
+    unistVisit(tree, 'code', (node, parents) => {
+      const parent = parents[parents.length - 1]
+      const childIndex = parent.children.indexOf(node)
 
-  unistVisit(tree, 'code', (node, parents) => {
-    const parent = parents[parents.length - 1]
-    const childIndex = parent.children.indexOf(node)
+      if (node.meta && node.meta.includes('example')) {
+        const mainFilename = toPOSIX(file.history[0]).split('/').pop()
+        const filename = `${mainFilename}${EXAMPLE_MODULE_PREFIX}${examples.length}.${node.lang}`
 
-    if (node.meta && node.meta.includes('example')) {
-      const mainFilename = toPOSIX(file.history[0]).split('/').pop()
-      const filename = `${mainFilename}${EXAMPLE_MODULE_PREFIX}${examples.length}.${node.lang}`
+        const layout = getLayoutPathFromMeta(node.meta) || options.layout
+        const layoutName =
+          layout === options.layout ? 'Example' : `Example${examples.length}`
 
-      const wrapperComponent =
-        getExampleWrapperPathFromMeta(node.meta) || options.WrapperComponent
-      const wrapperComponentName =
-        wrapperComponent === options.WrapperComponent
-          ? 'Example'
-          : `Example${examples.length}`
+        examples.push({ filename, src: node.value })
 
-      examples.push({ filename, src: node.value })
+        ensureImport(tree, {
+          from: layout,
+          name: layoutName,
+          default: true,
+        })
 
-      ensureImport(tree, {
-        from: wrapperComponent,
-        name: wrapperComponentName,
-        default: true,
-      })
+        // base64 encode src
+        const src = Buffer.from(node.value).toString('base64')
+        const exampleComponentName = EXAMPLE_COMPONENT_PREFIX + examples.length
+        ensureImport(tree, {
+          default: true,
+          name: exampleComponentName,
+          from: `${filename}?src=${src}`,
+        })
 
-      // base64 encode src
-      const src = Buffer.from(node.value).toString('base64')
-      const exampleComponentName = EXAMPLE_COMPONENT_PREFIX + examples.length
-      ensureImport(tree, {
-        default: true,
-        name: exampleComponentName,
-        from: `${filename}?src=${src}`,
-      })
-
-      node = {
-        type: 'mdxJsxFlowElement',
-        name: wrapperComponentName,
-        data: { _mdxExplicitJsx: true, _example: true },
-        attributes: [
-          {
-            type: 'mdxJsxAttribute',
-            name: 'src',
-            value: node.value,
-          },
-          {
-            type: 'mdxJsxAttribute',
-            name: 'lang',
-            value: node.lang,
-          },
-          {
-            type: 'mdxJsxAttribute',
-            name: 'filename',
-            value: filename,
-          },
-          {
-            type: 'mdxJsxAttribute',
-            name: 'ExampleComponent',
-            value: {
-              type: 'mdxJsxAttributeValueExpression',
-              data: {
-                estree: {
-                  type: 'Program',
-                  body: [
-                    {
-                      type: 'ExpressionStatement',
-                      expression: {
-                        type: 'Identifier',
-                        name: exampleComponentName,
-                      },
-                    },
-                  ],
-                  sourceType: 'module',
-                },
-              },
+        node = {
+          type: 'mdxJsxFlowElement',
+          name: layoutName,
+          data: { _mdxExplicitJsx: true, _example: true },
+          attributes: [
+            {
+              type: 'mdxJsxAttribute',
+              name: 'src',
+              value: node.value,
             },
-          },
-          {
-            type: 'mdxJsxAttribute',
-            name: 'meta',
-            value: {
-              type: 'mdxJsxAttributeValueExpression',
-              data: {
-                estree: {
-                  type: 'Program',
-                  body: [
-                    {
-                      type: 'ExpressionStatement',
-                      expression: {
-                        type: 'ArrayExpression',
-                        elements: node.meta.split(' ').map((value) => ({
-                          type: 'Literal',
-                          value,
-                        })),
-                      },
-                    },
-                  ],
-                  sourceType: 'module',
-                },
-              },
+            {
+              type: 'mdxJsxAttribute',
+              name: 'lang',
+              value: node.lang,
             },
-          },
-        ],
-        children: [
-          {
-            type: 'mdxJsxFlowElement',
-            name: 'slot',
-            data: { _mdxExplicitJsx: true },
-            attributes: [
-              {
-                type: 'mdxJsxAttribute',
-                name: 'slot',
-                value: 'example',
-              },
-            ],
-            children: [
-              {
-                type: 'mdxJsxFlowElement',
-                name: exampleComponentName,
-                attributes: [
-                  ...(node.meta.includes('client:load')
-                    ? [
-                        {
-                          type: 'mdxJsxAttribute',
-                          name: 'client:load',
-                          value: 'true',
-                        },
-                      ]
-                    : []),
-                  ...(node.meta.includes('client:idle')
-                    ? [
-                        {
-                          type: 'mdxJsxAttribute',
-                          name: 'client:idle',
-                          value: 'true',
-                        },
-                      ]
-                    : []),
-                  ...(node.meta.includes('client:visible')
-                    ? [
-                        {
-                          type: 'mdxJsxAttribute',
-                          name: 'client:visible',
-                          value: 'true',
-                        },
-                      ]
-                    : []),
-                  ...(node.meta.includes('client:only')
-                    ? [
-                        {
-                          type: 'mdxJsxAttribute',
-                          name: 'client:only',
-                          value: node.lang,
-                        },
-                      ]
-                    : []),
-                  ...(node.meta.includes('client:media')
-                    ? [
-                        {
-                          type: 'mdxJsxAttribute',
-                          name: 'client:media',
-                          value: node.meta
-                            .split(' ')
-                            .find((m) => m.startsWith('client:media'))
-                            .split('=')[1],
-                        },
-                      ]
-                    : []),
-                ],
-                children: [],
-              },
-            ],
-          },
-          {
-            type: 'mdxJsxFlowElement',
-            name: 'slot',
-            data: { _mdxExplicitJsx: true },
-            attributes: [
-              {
-                type: 'mdxJsxAttribute',
-                name: 'slot',
-                value: 'code',
-              },
-            ],
-            children: [
-              {
-                type: 'mdxJsxFlowElement',
-                name: 'Code',
-                attributes: [
-                  {
-                    type: 'mdxJsxAttribute',
-                    name: 'code',
-                    value: node.value,
-                  },
-                  {
-                    type: 'mdxJsxAttribute',
-                    name: 'lang',
-                    value: node.lang,
-                  },
-                  ...(options.theme
-                    ? [
-                        {
-                          type: 'mdxJsxAttribute',
-                          name: 'theme',
-                          value: options.theme,
-                        },
-                      ]
-                    : []),
-                ],
-                children: [],
+            {
+              type: 'mdxJsxAttribute',
+              name: 'filename',
+              value: filename,
+            },
+            {
+              type: 'mdxJsxAttribute',
+              name: 'ExampleComponent',
+              value: {
+                type: 'mdxJsxAttributeValueExpression',
                 data: {
-                  _mdxExplicitJsx: true,
-                  _src: node.value,
+                  estree: {
+                    type: 'Program',
+                    body: [
+                      {
+                        type: 'ExpressionStatement',
+                        expression: {
+                          type: 'Identifier',
+                          name: exampleComponentName,
+                        },
+                      },
+                    ],
+                    sourceType: 'module',
+                  },
                 },
               },
-            ],
-          },
-        ],
+            },
+            {
+              type: 'mdxJsxAttribute',
+              name: 'meta',
+              value: {
+                type: 'mdxJsxAttributeValueExpression',
+                data: {
+                  estree: {
+                    type: 'Program',
+                    body: [
+                      {
+                        type: 'ExpressionStatement',
+                        expression: {
+                          type: 'ArrayExpression',
+                          elements: node.meta.split(' ').map((value) => ({
+                            type: 'Literal',
+                            value,
+                          })),
+                        },
+                      },
+                    ],
+                    sourceType: 'module',
+                  },
+                },
+              },
+            },
+          ],
+          children: [
+            {
+              type: 'mdxJsxFlowElement',
+              name: 'slot',
+              data: { _mdxExplicitJsx: true },
+              attributes: [
+                {
+                  type: 'mdxJsxAttribute',
+                  name: 'slot',
+                  value: 'example',
+                },
+              ],
+              children: [
+                {
+                  type: 'mdxJsxFlowElement',
+                  name: exampleComponentName,
+                  attributes: [
+                    ...(node.meta.includes('client:load')
+                      ? [
+                          {
+                            type: 'mdxJsxAttribute',
+                            name: 'client:load',
+                            value: 'true',
+                          },
+                        ]
+                      : []),
+                    ...(node.meta.includes('client:idle')
+                      ? [
+                          {
+                            type: 'mdxJsxAttribute',
+                            name: 'client:idle',
+                            value: 'true',
+                          },
+                        ]
+                      : []),
+                    ...(node.meta.includes('client:visible')
+                      ? [
+                          {
+                            type: 'mdxJsxAttribute',
+                            name: 'client:visible',
+                            value: 'true',
+                          },
+                        ]
+                      : []),
+                    ...(node.meta.includes('client:only')
+                      ? [
+                          {
+                            type: 'mdxJsxAttribute',
+                            name: 'client:only',
+                            value: node.lang,
+                          },
+                        ]
+                      : []),
+                    ...(node.meta.includes('client:media')
+                      ? [
+                          {
+                            type: 'mdxJsxAttribute',
+                            name: 'client:media',
+                            value: node.meta
+                              .split(' ')
+                              .find((m) => m.startsWith('client:media'))
+                              .split('=')[1],
+                          },
+                        ]
+                      : []),
+                  ],
+                  children: [],
+                },
+              ],
+            },
+            {
+              type: 'mdxJsxFlowElement',
+              name: 'slot',
+              data: { _mdxExplicitJsx: true },
+              attributes: [
+                {
+                  type: 'mdxJsxAttribute',
+                  name: 'slot',
+                  value: 'code',
+                },
+              ],
+              children: [
+                {
+                  type: 'mdxJsxFlowElement',
+                  name: 'Code',
+                  attributes: [
+                    {
+                      type: 'mdxJsxAttribute',
+                      name: 'code',
+                      value: node.value,
+                    },
+                    {
+                      type: 'mdxJsxAttribute',
+                      name: 'lang',
+                      value: node.lang,
+                    },
+                    ...(options.theme
+                      ? [
+                          {
+                            type: 'mdxJsxAttribute',
+                            name: 'theme',
+                            value: options.theme,
+                          },
+                        ]
+                      : []),
+                  ],
+                  children: [],
+                  data: {
+                    _mdxExplicitJsx: true,
+                    _src: node.value,
+                  },
+                },
+              ],
+            },
+          ],
+        }
+
+        parent.children.splice(childIndex, 1, node)
       }
-
-      parent.children.splice(childIndex, 1, node)
-    }
-  })
-
-  unistVisit(tree, 'mdxJsxFlowElement', (node, parents) => {
-    if (node.name === 'div') {
-      console.log(JSON.stringify(node.attributes[0], null, 2))
-    }
-  })
-
-  return examples
+    })
+  }
 }
 
 function ensureImport(tree, imp) {
@@ -327,8 +307,8 @@ function ensureImport(tree, imp) {
   }
 }
 
-function getExampleWrapperPathFromMeta(meta) {
-  const part = meta.split(' ').find((part) => part.startsWith('wrapper='))
+function getLayoutPathFromMeta(meta) {
+  const part = meta.split(' ').find((part) => part.startsWith('layout='))
 
   if (part) {
     return part.split('=')[1]
