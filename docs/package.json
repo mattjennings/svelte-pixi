@@ -1,0 +1,41 @@
+{
+  "name": "docs",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.3.1",
+    "@astrojs/mdx": "^1.1.5",
+    "@astrojs/starlight": "^0.12.1",
+    "@astrojs/starlight-tailwind": "^2.0.1",
+    "@astrojs/svelte": "^4.0.4",
+    "@astrojs/tailwind": "^5.0.2",
+    "astro": "^3.5.5",
+    "prism-svelte": "^0.5.0",
+    "prismjs": "^1.27.0",
+    "sharp": "^0.32.5",
+    "svelte": "^4.2.5",
+    "svelte-intersection-observer": "^0.10.0",
+    "tailwindcss": "^3.0.24",
+    "typescript": "^5.2.0"
+  },
+  "devDependencies": {
+    "abstract-syntax-tree": "^2.21.1",
+    "acorn": "^8.11.2",
+    "estree-util-visit": "^2.0.0",
+    "magicast": "^0.3.2",
+    "mdsvex": "^0.11.0",
+    "mdsvexamples": "^0.4.1",
+    "periscopic": "^4.0.2",
+    "recast": "^0.23.4",
+    "unist-util-visit": "^4.1.0",
+    "unist-util-visit-parents": "^6.0.1",
+    "upath": "^2.0.1"
+  }
+}

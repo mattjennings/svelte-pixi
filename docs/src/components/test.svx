@@ -1,0 +1,13 @@
+<script>
+import Test from './Test.svelte'
+</script>
+
+This is markdown content with some **Bold** text.
+
+```svelte example
+<script>
+  import Test from './Test.svelte'
+</script>
+
+<Test />
+```
