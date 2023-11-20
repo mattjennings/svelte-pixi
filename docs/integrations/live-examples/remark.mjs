@@ -8,6 +8,7 @@ export const EXAMPLE_COMPONENT_PREFIX = 'AE___'
 /**
  * @typedef {{
  * layout?: string
+ * wrapper?: string
  * theme?: string
  * }} Options
  */
@@ -35,8 +36,8 @@ export default function examples(
       if (node.meta && node.meta.includes('example')) {
         const src = node.value
         const i = examples.length
-        const mainFilename = toPOSIX(file.history[0]).split('/').pop()
-        const filename = `${mainFilename}${EXAMPLE_MODULE_PREFIX}${i}.${node.lang}`
+        const mdFilename = toPOSIX(file.history[0]).split('/').pop()
+        const filename = `${mdFilename}${EXAMPLE_MODULE_PREFIX}${i}.${node.lang}`
         examples.push({ filename, src })
         virtualFiles.set(filename, src)
 
@@ -44,86 +45,110 @@ export default function examples(
         const layoutName = layout === options.layout ? 'Example' : `Example${i}`
         const exampleComponentName = EXAMPLE_COMPONENT_PREFIX + i
 
+        const wrapper = getWrapperPathFromMeta(node.meta) || options.wrapper
+        const wrapperFilename = wrapper
+          ? `WRAPPER_${EXAMPLE_MODULE_PREFIX}${i}.svelte`
+          : null
+
+        if (wrapper) {
+          virtualFiles.set(
+            wrapperFilename,
+            createWrapperSrc({
+              lang: node.lang,
+              inner: filename,
+              outer: wrapper,
+            }),
+          )
+          ensureImport(tree, {
+            default: true,
+            name: exampleComponentName,
+            from: wrapperFilename,
+          })
+        } else {
+          ensureImport(tree, {
+            default: true,
+            name: exampleComponentName,
+            from: filename,
+          })
+        }
+
         ensureImport(tree, {
           from: layout,
           name: layoutName,
           default: true,
         })
 
-        ensureImport(tree, {
-          default: true,
-          name: exampleComponentName,
-          from: filename,
-        })
+        const commonProps = [
+          {
+            type: 'mdxJsxAttribute',
+            name: 'code',
+            value: node.value,
+          },
+          {
+            type: 'mdxJsxAttribute',
+            name: 'lang',
+            value: node.lang,
+          },
+          // filename of the markdown file
+          {
+            type: 'mdxJsxAttribute',
+            name: 'filename',
+            value: mdFilename,
+          },
+          {
+            type: 'mdxJsxAttribute',
+            name: 'ExampleComponent',
+            value: {
+              type: 'mdxJsxAttributeValueExpression',
+              data: {
+                estree: {
+                  type: 'Program',
+                  body: [
+                    {
+                      type: 'ExpressionStatement',
+                      expression: {
+                        type: 'Identifier',
+                        name: exampleComponentName,
+                      },
+                    },
+                  ],
+                  sourceType: 'module',
+                },
+              },
+            },
+          },
+          {
+            type: 'mdxJsxAttribute',
+            name: 'meta',
+            value: {
+              type: 'mdxJsxAttributeValueExpression',
+              data: {
+                estree: {
+                  type: 'Program',
+                  body: [
+                    {
+                      type: 'ExpressionStatement',
+                      expression: {
+                        type: 'ArrayExpression',
+                        elements: node.meta.split(' ').map((value) => ({
+                          type: 'Literal',
+                          value,
+                        })),
+                      },
+                    },
+                  ],
+                  sourceType: 'module',
+                },
+              },
+            },
+          },
+        ]
 
         node = {
           type: 'mdxJsxFlowElement',
           name: layoutName,
           data: { _mdxExplicitJsx: true, _example: true },
-          attributes: [
-            {
-              type: 'mdxJsxAttribute',
-              name: 'src',
-              value: node.value,
-            },
-            {
-              type: 'mdxJsxAttribute',
-              name: 'lang',
-              value: node.lang,
-            },
-            {
-              type: 'mdxJsxAttribute',
-              name: 'filename',
-              value: filename,
-            },
-            {
-              type: 'mdxJsxAttribute',
-              name: 'ExampleComponent',
-              value: {
-                type: 'mdxJsxAttributeValueExpression',
-                data: {
-                  estree: {
-                    type: 'Program',
-                    body: [
-                      {
-                        type: 'ExpressionStatement',
-                        expression: {
-                          type: 'Identifier',
-                          name: exampleComponentName,
-                        },
-                      },
-                    ],
-                    sourceType: 'module',
-                  },
-                },
-              },
-            },
-            {
-              type: 'mdxJsxAttribute',
-              name: 'meta',
-              value: {
-                type: 'mdxJsxAttributeValueExpression',
-                data: {
-                  estree: {
-                    type: 'Program',
-                    body: [
-                      {
-                        type: 'ExpressionStatement',
-                        expression: {
-                          type: 'ArrayExpression',
-                          elements: node.meta.split(' ').map((value) => ({
-                            type: 'Literal',
-                            value,
-                          })),
-                        },
-                      },
-                    ],
-                    sourceType: 'module',
-                  },
-                },
-              },
-            },
-          ],
+          attributes: [...commonProps],
           children: [
             {
               type: 'mdxJsxFlowElement',
@@ -141,6 +166,7 @@ export default function examples(
                   type: 'mdxJsxFlowElement',
                   name: exampleComponentName,
                   attributes: [
+                    ...commonProps,
                     ...(node.meta.includes('client:load')
                       ? [
                           {
@@ -326,4 +352,44 @@ function getWrapperPathFromMeta(meta) {
 
 function toPOSIX(path) {
   return path.replace(/\\/g, '/')
+}
+
+function createWrapperSrc({ lang, inner, outer }) {
+  switch (lang) {
+    case 'svelte':
+      return `\
+<script>
+    import Inner from ${JSON.stringify(inner)}
+    import Outer from ${JSON.stringify(outer)}
+</script>
+
+<Outer {...$$props}>
+    <Inner />
+</Outer>`
+    case 'jsx':
+      return `\
+import Inner from ${JSON.stringify(inner)}
+import Outer from ${JSON.stringify(outer)}
+
+export default (props) => <Outer {...props}><Inner /></Outer>`
+    case 'vue':
+      // TODO: verify, i just used copilot for this
+      return `\
+<script>
+import Inner from ${JSON.stringify(inner)}
+import Outer from ${JSON.stringify(outer)}
+
+export default {
+    components: {
+        Inner,
+        Outer
+    },
+    props: {
+        ...Outer.props
+    },
+    render() {
+        return <Outer {...this.$props}><Inner /></Outer>
+    }    
+}`
+  }
 }

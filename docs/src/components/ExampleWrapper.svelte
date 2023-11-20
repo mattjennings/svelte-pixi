@@ -1,12 +1,9 @@
 <script>
-  import Code from './Code.svelte'
+  import { Application } from 'svelte-pixi'
 
-  export let src
-  export let meta
-
-  $: src, meta
-
-  let browser = typeof window !== 'undefined'
+  // console.log($$props)
 </script>
 
-wrapper
+<Application width={400} height={400}>
+  <slot />
+</Application>
