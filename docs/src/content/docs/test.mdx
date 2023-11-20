@@ -1,11 +1,36 @@
 ---
-title: Button
+title: Definitely not a button
 ---
 
-```svelte render client:only
+```svelte render client:only height=200
 <script>
-  import { Text } from 'svelte-pixi'
+  import { SimpleRope, onTick } from 'svelte-pixi'
+  import * as PIXI from 'pixi.js'
+
+  const ropeLength = 918 / 20
+  let points = Array.from({ length: 20 }).map((_, i) => ({
+    x: i * ropeLength,
+    y: 0,
+  }))
+
+  let time = 0
+  onTick((delta) => {
+    time += 0.1 * delta
+
+    points = points.map((point, i) => ({
+      x: i * ropeLength + Math.cos((i * 0.3) + time) * 20,
+      y: Math.sin((i * 0.5) + time) * 30
+    }))
+  })
 </script>
 
-<Text x={140} y={180} text="Hello world!" style={{ fill: "white" }} />
+<SimpleRope
+  x={20}
+  y={100}
+  texture={PIXI.Texture.from('/assets/snake.png')}
+  scale={0.4}
+  {points}
+/>
 ```
+
+

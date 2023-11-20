@@ -1,11 +1,29 @@
 ---
-const { ExampleComponent } = Astro.props
+const { ExampleComponent, meta } = Astro.props
+
+let height = parseInt(getMetaValue('height') || '400')
+
+function getMetaValue(key) {
+  return meta?.find((m) => m.includes(key))?.split('=')?.[1]
+}
 ---
 
 <div class="flex flex-col">
-  <div class="flex items-center justify-center bg-gray-800 p-4 min-h-[400px]">
+  <div class="example-container flex items-center justify-center bg-black p-4">
     <slot name="example" />
-    <!-- <ExampleComponent client:load /> -->
   </div>
   <slot name="code" />
 </div>
+
+<style define:vars={{ height: `${height}px` }}>
+  .example-container {
+    min-height: calc(var(--height) + 2rem);
+  }
+</style>
+
+<style is:global>
+  pre {
+    max-height: 500px;
+    overflow: auto;
+  }
+</style>
