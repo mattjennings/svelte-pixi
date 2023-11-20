@@ -33,7 +33,7 @@ export default function examples(
       const parent = parents[parents.length - 1]
       const childIndex = parent.children.indexOf(node)
 
-      if (node.meta && node.meta.includes('example')) {
+      if (node.meta && node.meta.includes('render')) {
         const src = node.value
         const i = examples.length
         const mdFilename = toPOSIX(file.history[0]).split('/').pop()

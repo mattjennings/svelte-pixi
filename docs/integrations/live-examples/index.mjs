@@ -11,7 +11,7 @@ export default function () {
   return {
     name: 'live-examples',
     hooks: {
-      'astro:config:setup': ({ config, updateConfig }) => {
+      'astro:config:setup': ({ updateConfig }) => {
         updateConfig({
           integrations: [
             mdx({
