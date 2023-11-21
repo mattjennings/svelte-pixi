@@ -15,14 +15,13 @@
   import * as PIXI from 'pixi.js'
 
   const initPromise = PIXI.Assets.init({
-    baseUrl: '/assets'
+    baseUrl: '/assets',
   })
 </script>
 
-{#await initPromise}
-{:then}
+{#await initPromise then}
   <AssetsLoader assets={['/sprite.png']}>
-    <slot let:progress  slot="loading">
+    <slot let:progress slot="loading">
       <Text text={`Loading... ${progress}`} x={200} y={200} anchor={0.5} />
     </slot>
 
@@ -36,3 +35,15 @@
   </AssetsLoader>
 {/await}
 ```
+
+## Interactivity changes
+
+Pixi has replaced the InteractionManager with EventSystem. There are a few changes in behaviour:
+
+- `interactive` and `interactiveChildren` props are now deprecated, please use [`eventMode`](https://pixijs.download/dev/docs/PIXI.DisplayObject.html#eventMode) which is available on all DisplayObject components.
+
+- `eventMode` can be set on `<Application>` or `<Renderer>` to configure the default setting for components.
+
+- `pointermove`, `mousemove`, and `touchmove` events have changed behaviour in Pixi v7 to be local to the object. To maintain v6 behaviour, please rename them to `globalpointermove`, `globalmousemove`, and `globaltouchmove`.
+
+- `buttonMode` prop has been removed, set `eventMode` and use `cursor="pointer"` instead.

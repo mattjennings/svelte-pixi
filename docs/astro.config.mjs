@@ -17,6 +17,7 @@ export default defineConfig({
         $src: path.resolve(__dirname, './src'),
       },
     },
+    dedupe: ['svelte-pixi', 'pixi.js'],
   },
   integrations: [
     liveExamples({

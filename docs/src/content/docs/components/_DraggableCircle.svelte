@@ -1,6 +1,7 @@
 <script>
   import * as PIXI from 'pixi.js'
-  import { Graphics } from 'svelte-pixi'
+  import { onMount } from 'svelte'
+  import { Graphics, getApp, getStage } from 'svelte-pixi'
 
   export let x
   export let y
@@ -30,6 +31,17 @@
       y = clamp(nextPosition.y - offset.y, circleSize, 400 - circleSize)
     }
   }
+
+  // try {
+  //   const { stage } = getStage()
+
+  //   stage.interactive = true
+  //   stage.on('pointermove', handleDrag)
+  //   // stage.on('pointerupoutside', handleDragEnd)
+  //   stage.on('pointerup', handleDragEnd)
+  // } catch (e) {
+  //   console.error(e)
+  // }
 </script>
 
 <Graphics
@@ -41,12 +53,12 @@
     graphics.drawCircle(0, 0, circleSize)
     graphics.endFill()
   }}
-  interactive
+  cursor="pointer"
   hitArea={new PIXI.Circle(0, 0, circleSize)}
   on:pointerdown={handleDragStart}
+  on:globalpointermove={handleDrag}
   on:pointerup={handleDragEnd}
   on:pointerupoutside={handleDragEnd}
-  on:mousemove={handleDrag}
   {...$$restProps}
 >
   <slot />

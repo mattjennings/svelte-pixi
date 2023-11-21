@@ -99,6 +99,23 @@
   export let clearBeforeRender: $$Props['clearBeforeRender'] = undefined
 
   /**
+   * The default event mode mode for all display objects.
+   *
+   * This option only is available when using @pixi/events package (included in the pixi.js and pixi.js-legacy bundle),
+   * otherwise it will be ignored.
+   *
+   * @type {import('pixi.js').EventMode}
+   */
+  export let eventMode: $$Props['eventMode'] = undefined
+
+  /**
+   * The event features that are enabled by the EventSystem.
+   *
+   * @type {import('pixi.js').EventSystemOptions['eventFeatures']}
+   */
+  export let eventFeatures: $$Props['eventFeatures'] = undefined
+
+  /**
    * Parameter passed to webgl context, set to "high-performance"
    * for devices with dual graphics card. (WebGL only).
    *
@@ -155,10 +172,13 @@
       clearBeforeRender,
       powerPreference,
       resizeTo,
-    })
+      eventMode,
+      eventFeatures,
+    }),
   ) as T
 
   let invalidated = true
+
   setContext<ApplicationContext<T>>('pixi/app', { app: instance })
 
   // remove rendering on tick

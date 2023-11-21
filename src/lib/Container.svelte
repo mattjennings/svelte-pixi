@@ -49,6 +49,7 @@
     filters?: PIXI.Container['filters']
     height?: PIXI.Container['height']
     hitArea?: PIXI.Container['hitArea']
+    eventMode?: PIXI.Container['eventMode']
     interactive?: PIXI.Container['interactive']
     interactiveChildren?: PIXI.Container['interactiveChildren']
     isMask?: PIXI.Container['isMask']
@@ -195,6 +196,14 @@
   export let cursor: $$Props['cursor'] = undefined
 
   /**
+   * The type of interaction a DisplayObject can be.
+   * For more information on values and their meaning, see https://pixijs.download/dev/docs/PIXI.DisplayObject.html#eventMode
+   *
+   * @type {import('pixi.js').EventMode}
+   */
+  export let eventMode: $$Props['eventMode'] = undefined
+
+  /**
    * The area the filter is applied to.
    * This is used as more of an optimization rather than figuring out the dimensions of
    * the displayObject each frame you can set this rectangle.
@@ -234,16 +243,18 @@
    * Touch, pointer and mouse events will not be emitted unless interactive is set to true.
    *
    * @type {boolean}
+   * @deprecated since 7.0.0, Setting interactive is deprecated, use eventMode='none'/'passive'/'auto'/'static'/'dynamic' instead.
    */
-  export let interactive: $$Props['interactive'] = false
+  export let interactive: $$Props['interactive'] = undefined
 
   /**
    * Determines if the children to the displayObject can be clicked/touched.
    * Setting this to false allows PixiJS to bypass a recursive hitTest function
    *
    * @type {boolean}
+   * @deprecated since 7.0.0, Setting interactive is deprecated, use eventMode='none'/'passive'/'auto'/'static'/'dynamic' instead.
    */
-  export let interactiveChildren: $$Props['interactiveChildren'] = true
+  export let interactiveChildren: $$Props['interactiveChildren'] = undefined
 
   /**
    * Does any other displayObject use this object as a mask?
@@ -407,7 +418,7 @@
   export let instance: T = new PIXI.Container() as T
 
   const { applyProp, applyProps } = createApplyProps<PIXI.Container, $$Props>(
-    instance
+    instance,
   )
 
   const { invalidate } = getRenderer()
@@ -446,33 +457,72 @@
       applyProps(props)
     }
 
-    instance.on('click', (ev) => dispatch('click', ev))
-    instance.on('mousedown', (ev) => dispatch('mousedown', ev))
-    instance.on('mousemove', (ev) => dispatch('mousemove', ev))
-    instance.on('mouseout', (ev) => dispatch('mouseout', ev))
-    instance.on('mouseover', (ev) => dispatch('mouseover', ev))
-    instance.on('mouseup', (ev) => dispatch('mouseup', ev))
-    instance.on('mouseupoutside', (ev) => dispatch('mouseupoutside', ev))
-    instance.on('mouseupoutside', (ev) => dispatch('mouseupoutside', ev))
-    instance.on('pointercancel', (ev) => dispatch('pointercancel', ev))
-    instance.on('pointerdown', (ev) => dispatch('pointerdown', ev))
-    instance.on('pointermove', (ev) => dispatch('pointermove', ev))
-    instance.on('pointerout', (ev) => dispatch('pointerout', ev))
-    instance.on('pointerover', (ev) => dispatch('pointerover', ev))
-    instance.on('pointertap', (ev) => dispatch('pointertap', ev))
-    instance.on('pointerup', (ev) => dispatch('pointerup', ev))
-    instance.on('pointerupoutside', (ev) => dispatch('pointerupoutside', ev))
-    instance.on('removedFrom', (ev) => dispatch('removedFrom', ev))
-    instance.on('rightclick', (ev) => dispatch('rightclick', ev))
-    instance.on('rightdown', (ev) => dispatch('rightdown', ev))
-    instance.on('rightup', (ev) => dispatch('rightup', ev))
-    instance.on('rightupoutside', (ev) => dispatch('rightupoutside', ev))
-    instance.on('tap', (ev) => dispatch('tap', ev))
-    instance.on('touchcancel', (ev) => dispatch('touchcancel', ev))
-    instance.on('touchend', (ev) => dispatch('touchend', ev))
-    instance.on('touchendoutside', (ev) => dispatch('touchendoutside', ev))
-    instance.on('touchmove', (ev) => dispatch('touchmove', ev))
-    instance.on('touchstart', (ev) => dispatch('touchstart', ev))
+    function handleEvent(ev: PIXI.FederatedEvent) {
+      dispatch(ev.type, ev)
+    }
+
+    function handleGlobalEvent(ev: PIXI.FederatedEvent) {
+      dispatch(`global${ev.type}`, ev)
+    }
+
+    instance.on('click', handleEvent)
+    instance.on('globalmousemove', handleGlobalEvent)
+    instance.on('globalpointermove', handleGlobalEvent)
+    instance.on('globaltouchmove', handleGlobalEvent)
+    instance.on('mousedown', handleEvent)
+    instance.on('mousemove', handleEvent)
+    instance.on('mouseout', handleEvent)
+    instance.on('mouseover', handleEvent)
+    instance.on('mouseup', handleEvent)
+    instance.on('mouseupoutside', handleEvent)
+    instance.on('mouseupoutside', handleEvent)
+    instance.on('pointercancel', handleEvent)
+    instance.on('pointerdown', handleEvent)
+    instance.on('pointermove', handleEvent)
+    instance.on('pointerout', handleEvent)
+    instance.on('pointerover', handleEvent)
+    instance.on('pointertap', handleEvent)
+    instance.on('pointerup', handleEvent)
+    instance.on('pointerupoutside', handleEvent)
+    instance.on('removedFrom', handleEvent)
+    instance.on('rightclick', handleEvent)
+    instance.on('rightdown', handleEvent)
+    instance.on('rightup', handleEvent)
+    instance.on('rightupoutside', handleEvent)
+    instance.on('tap', handleEvent)
+    instance.on('touchcancel', handleEvent)
+    instance.on('touchend', handleEvent)
+    instance.on('touchendoutside', handleEvent)
+    instance.on('touchmove', handleEvent)
+    instance.on('touchstart', handleEvent)
+    // instance.on('click', (ev) => dispatch('click', ev))
+    // instance.on('mousedown', (ev) => dispatch('mousedown', ev))
+    // instance.on('mousemove', (ev) => dispatch('mousemove', ev))
+    // instance.on('mouseout', (ev) => dispatch('mouseout', ev))
+    // instance.on('mouseover', (ev) => dispatch('mouseover', ev))
+    // instance.on('mouseup', (ev) => dispatch('mouseup', ev))
+    // instance.on('mouseupoutside', (ev) => dispatch('mouseupoutside', ev))
+    // instance.on('mouseupoutside', (ev) => dispatch('mouseupoutside', ev))
+    // instance.on('pointercancel', (ev) => dispatch('pointercancel', ev))
+    // instance.on('pointerdown', (ev) => dispatch('pointerdown', ev))
+    // instance.on('pointermove', (ev) => dispatch('pointermove', ev))
+    // instance.on('pointerout', (ev) => dispatch('pointerout', ev))
+    // instance.on('pointerover', (ev) => dispatch('pointerover', ev))
+    // instance.on('pointertap', (ev) => dispatch('pointertap', ev))
+    // instance.on('pointerup', (ev) => dispatch('pointerup', ev))
+    // instance.on('pointerupoutside', (ev) => dispatch('pointerupoutside', ev))
+    // instance.on('removedFrom', (ev) => dispatch('removedFrom', ev))
+    // instance.on('rightclick', (ev) => dispatch('rightclick', ev))
+    // instance.on('rightdown', (ev) => dispatch('rightdown', ev))
+    // instance.on('rightup', (ev) => dispatch('rightup', ev))
+    // instance.on('rightupoutside', (ev) => dispatch('rightupoutside', ev))
+    // instance.on('tap', (ev) => dispatch('tap', ev))
+    // instance.on('touchcancel', (ev) => dispatch('touchcancel', ev))
+    // instance.on('touchend', (ev) => dispatch('touchend', ev))
+    // instance.on('touchendoutside', (ev) => dispatch('touchendoutside', ev))
+    // instance.on('touchmove', (ev) => dispatch('touchmove', ev))
+    // instance.on('touchstart', (ev) => dispatch('touchstart', ev))
+
     instance.on('added', (ev) => dispatch('added', ev))
     instance.on('removed', (ev) => dispatch('removed', ev))
 
@@ -501,6 +551,7 @@
   $: applyProp('cursor', cursor)
   $: applyProp('cullable', cullable)
   $: applyProp('cullArea', cullArea)
+  $: applyProp('eventMode', eventMode)
   $: applyProp('filterArea', filterArea)
   $: applyProp('hitArea', hitArea)
   $: applyProp('filters', filters)

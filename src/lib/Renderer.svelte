@@ -5,7 +5,7 @@
   }
 
   export function getRenderer<
-    T extends PIXI.Renderer | PIXI.IRenderer
+    T extends PIXI.Renderer | PIXI.IRenderer,
   >(): RendererContext<T> {
     return getContext('pixi/renderer')
   }
@@ -65,6 +65,23 @@
    * Sets antialias
    */
   export let antialias: $$Props['antialias'] = false
+
+  /**
+   * The default event mode mode for all display objects.
+   *
+   * This option only is available when using @pixi/events package (included in the pixi.js and pixi.js-legacy bundle),
+   * otherwise it will be ignored.
+   *
+   * @type {import('pixi.js').EventMode}
+   */
+  export let eventMode: $$Props['eventMode'] = undefined
+
+  /**
+   * The event features that are enabled by the EventSystem.
+   *
+   * @type {import('pixi.js').EventSystemOptions['eventFeatures']}
+   */
+  export let eventFeatures: $$Props['eventFeatures'] = undefined
 
   /**
    * Enables drawing buffer preservation, enable this if you
@@ -136,7 +153,9 @@
       backgroundAlpha,
       clearBeforeRender,
       powerPreference,
-    })
+      eventMode,
+      eventFeatures,
+    }),
   ) as T
 
   setContext('pixi/renderer', {
@@ -149,7 +168,7 @@
   function view(node: HTMLElement): void {
     if (!(instance.view instanceof HTMLElement)) {
       throw new Error(
-        'PIXI.Renderer.view is not an HTMLElement, cannot append to node'
+        'PIXI.Renderer.view is not an HTMLElement, cannot append to node',
       )
     }
 
