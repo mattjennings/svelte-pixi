@@ -19,6 +19,10 @@ export default defineConfig({
     },
   },
   integrations: [
+    liveExamples({
+      commonMeta: 'client:only',
+      wrapper: '/src/layouts/examples/wrappers/WithApp.svelte',
+    }),
     starlight({
       title: 'My Docs',
       customCss: ['./src/tailwind.css'],
@@ -31,11 +35,9 @@ export default defineConfig({
           autogenerate: { directory: 'components' },
         },
       ],
+      expressiveCode: false,
     }),
-    liveExamples({
-      commonMeta: 'client:only',
-      wrapper: '/src/layouts/examples/wrappers/WithApp.svelte',
-    }),
+
     svelte({
       extensions: ['.svelte'],
     }),
