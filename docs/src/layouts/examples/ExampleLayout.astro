@@ -3,8 +3,8 @@ const { ExampleComponent, meta } = Astro.props
 
 let height = parseInt(getMetaValue('height') || '400')
 
-function getMetaValue(key) {
-  return meta?.find((m) => m.includes(key))?.split('=')?.[1]
+function getMetaValue(key: string) {
+  return meta?.find((m: string) => m.includes(key))?.split('=')?.[1]
 }
 ---
 
