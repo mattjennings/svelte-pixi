@@ -19,9 +19,6 @@ export default defineConfig({
     },
   },
   integrations: [
-    liveExamples({
-      commonMeta: 'client:only',
-    }),
     starlight({
       title: 'My Docs',
       customCss: ['./src/tailwind.css'],
@@ -31,21 +28,13 @@ export default defineConfig({
       sidebar: [
         {
           label: 'Components',
-          items: [
-            // Each item here is one entry in the navigation menu.
-            {
-              label: 'Animated Sprite',
-              link: '/components/animated-sprite',
-            },
-          ],
-        },
-        {
-          label: 'Reference',
-          autogenerate: {
-            directory: 'reference',
-          },
+          autogenerate: { directory: 'components' },
         },
       ],
+    }),
+    liveExamples({
+      commonMeta: 'client:only',
+      wrapper: '/src/layouts/examples/wrappers/WithApp.svelte',
     }),
     svelte({
       extensions: ['.svelte'],

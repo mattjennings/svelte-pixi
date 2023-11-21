@@ -9,6 +9,7 @@ export default function liveExamplesVitePlugin() {
     name: 'live-examples',
     resolveId(id) {
       if (id.includes(EXAMPLE_MODULE_PREFIX)) {
+        console.log('resolveId', id)
         return id
       }
     },

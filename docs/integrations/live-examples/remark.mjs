@@ -11,14 +11,7 @@ export const EXAMPLE_COMPONENT_PREFIX = 'AE___'
  * @returns
  */
 export default function examples(options) {
-  Object.assign(
-    options,
-    {
-      layout: '/src/components/ExampleLayout.astro',
-      wrapper: '/src/components/ExampleWrapper.svelte',
-    },
-    { ...options },
-  )
+  
 
   return function transformer(tree, file) {
     let examples = []
@@ -44,7 +37,7 @@ export default function examples(options) {
 
         const wrapper = getWrapperPathFromMeta(meta) || options.wrapper
         const wrapperFilename = wrapper
-          ? `WRAPPER_${EXAMPLE_MODULE_PREFIX}${i}.svelte`
+          ? `${mdFilename}_WRAPPER_${EXAMPLE_MODULE_PREFIX}${i}.svelte`
           : null
 
         if (wrapper) {

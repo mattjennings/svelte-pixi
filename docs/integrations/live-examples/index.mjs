@@ -1,5 +1,4 @@
 import remark from './remark.mjs'
-import recast from 'recast'
 import vite from './vite.mjs'
 import mdx from '@astrojs/mdx'
 
@@ -18,6 +17,15 @@ import mdx from '@astrojs/mdx'
  * @returns {import('astro').AstroIntegration}
  */
 export default function (options) {
+  Object.assign(
+    options,
+    {
+      // TODO: replace with :components alias?
+      layout: '/src/layouts/examples/ExampleLayout.astro',
+    },
+    { ...options },
+  )
+
   return {
     name: 'live-examples',
     hooks: {
@@ -32,12 +40,12 @@ export default function (options) {
               remarkPlugins: [[remark, options]],
               recmaPlugins: [
                 () => (tree) => {
-                  console.log(
-                    recast.prettyPrint(tree, {
-                      tabWidth: 2,
-                      quote: 'single',
-                    }),
-                  )
+                  // console.log(
+                  //   recast.prettyPrint(tree, {
+                  //     tabWidth: 2,
+                  //     quote: 'single',
+                  //   }),
+                  // )
                 },
               ],
             }),
