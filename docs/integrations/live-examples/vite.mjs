@@ -1,6 +1,6 @@
-import { EXAMPLE_MODULE_PREFIX } from './remark.mjs'
 import MagicString from 'magic-string'
-export const virtualFiles = new Map()
+import { virtualFiles } from './virtual-files.mjs'
+
 /**
  * @returns {import('vite').Plugin}
  */
@@ -8,14 +8,13 @@ export default function liveExamplesVitePlugin() {
   return {
     name: 'live-examples',
     resolveId(id) {
-      if (id.includes(EXAMPLE_MODULE_PREFIX)) {
-        console.log('resolveId', id)
+      if (virtualFiles.has(id)) {
         return id
       }
     },
     async load(id) {
       if (virtualFiles.has(id)) {
-        const s = new MagicString(virtualFiles.get(id))
+        const s = new MagicString(virtualFiles.get(id).src)
 
         return {
           code: s.toString(),
@@ -35,10 +34,11 @@ export default function liveExamplesVitePlugin() {
       // return virtual file modules for parent file
       if (extensions.some((ext) => ctx.file.endsWith(ext))) {
         const files = [...virtualFiles.entries()]
+
         files
           .map(([id, file]) => ({
             id,
-            parent: id.split(EXAMPLE_MODULE_PREFIX)[0],
+            parent: file.parent,
             updated: file.updated,
           }))
           .filter((file) => {

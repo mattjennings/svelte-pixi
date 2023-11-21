@@ -1,6 +1,7 @@
 import remark from './remark.mjs'
 import vite from './vite.mjs'
 import mdx from '@astrojs/mdx'
+import recast from 'recast'
 
 /**
  * @typedef {{

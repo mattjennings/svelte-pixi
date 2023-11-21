@@ -1,9 +1,9 @@
 import { visitParents as unistVisit } from 'unist-util-visit-parents'
 import { visit as estreeVisit } from 'estree-util-visit'
-import { virtualFiles } from './vite.mjs'
+import { virtualFiles } from './virtual-files.mjs'
+import path from 'path'
 
-export const EXAMPLE_MODULE_PREFIX = '___astro_example___'
-export const EXAMPLE_COMPONENT_PREFIX = 'AE___'
+export const EXAMPLE_COMPONENT_PREFIX = 'AstroExample_'
 
 /**
  *
@@ -11,8 +11,6 @@ export const EXAMPLE_COMPONENT_PREFIX = 'AE___'
  * @returns
  */
 export default function examples(options) {
-  
-
   return function transformer(tree, file) {
     let examples = []
 
@@ -22,45 +20,58 @@ export default function examples(options) {
       const parent = parents[parents.length - 1]
       const childIndex = parent.children.indexOf(node)
 
-      if (node.meta && node.meta.split(' ').includes('render')) {
+      if (node.meta && node.meta.split(' ').includes('live')) {
         const meta = [options.commonMeta ?? '', node.meta].join(' ')
         const src = node.value
         const i = examples.length
-        const mdFilename = toPOSIX(file.history[0]).split('/').pop()
-        const filename = `${mdFilename}${EXAMPLE_MODULE_PREFIX}${i}.${node.lang}`
-        examples.push({ filename, src })
-        virtualFiles.set(filename, src)
 
-        const layout = getLayoutPathFromMeta(meta) || options.layout
-        const layoutName = layout === options.layout ? 'Example' : `Example${i}`
+        const parentId = toPOSIX(
+          file.history[0].split(process.cwd())[1].slice(1),
+        )
+        const mdFilename = toPOSIX(
+          path.basename(parentId, path.extname(parentId)),
+        )
+
         const exampleComponentName = EXAMPLE_COMPONENT_PREFIX + i
+        const filename = toPOSIX(
+          `${parentId.replace(
+            path.extname(parentId),
+            '',
+          )}-${exampleComponentName}.${node.lang}`,
+        )
 
-        const wrapper = getWrapperPathFromMeta(meta) || options.wrapper
+        const layout = toPOSIX(getLayoutPathFromMeta(meta) || options.layout)
+        const layoutName = layout === options.layout ? 'Example' : `Example${i}`
+
+        const wrapper = toPOSIX(getWrapperPathFromMeta(meta) || options.wrapper)
         const wrapperFilename = wrapper
-          ? `${mdFilename}_WRAPPER_${EXAMPLE_MODULE_PREFIX}${i}.svelte`
+          ? filename.replace(`.${node.lang}`, `.w.${node.lang}`)
           : null
 
+        examples.push({ filename, src })
+        virtualFiles.set(filename, {
+          src,
+          parent: parentId,
+          updated: Date.now(),
+        })
+
         if (wrapper) {
-          virtualFiles.set(
-            wrapperFilename,
-            createWrapperSrc({
+          virtualFiles.set(wrapperFilename, {
+            src: createWrapperSrc({
               lang: node.lang,
               inner: filename,
               outer: wrapper,
             }),
-          )
-          ensureImport(tree, {
-            default: true,
-            name: exampleComponentName,
-            from: wrapperFilename,
-          })
-        } else {
-          ensureImport(tree, {
-            default: true,
-            name: exampleComponentName,
-            from: filename,
+            parent: parentId,
+            updated: Date.now(),
           })
         }
+
+        ensureImport(tree, {
+          default: true,
+          name: exampleComponentName,
+          from: wrapper ? wrapperFilename : filename,
+        })
 
         ensureImport(tree, {
           from: layout,
@@ -68,7 +79,6 @@ export default function examples(options) {
           default: true,
         })
 
-        console.log(meta)
         const commonProps = [
           {
             type: 'mdxJsxAttribute',
