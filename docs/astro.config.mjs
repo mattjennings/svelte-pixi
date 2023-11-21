@@ -25,15 +25,35 @@ export default defineConfig({
       wrapper: '/src/layouts/examples/wrappers/WithApp.svelte',
     }),
     starlight({
-      title: 'My Docs',
+      title: 'Svelte Pixi',
       customCss: ['./src/tailwind.css'],
       social: {
-        github: 'https://github.com/withastro/starlight',
+        github: 'https://github.com/mattjennings/svelte-pixi',
       },
       sidebar: [
         {
-          label: 'Components',
-          autogenerate: { directory: 'components' },
+          label: 'Getting Started',
+          autogenerate: { directory: 'getting-started' },
+        },
+        {
+          label: 'API',
+          items: [
+            {
+              label: 'Components',
+              autogenerate: { directory: 'api/components' },
+            },
+          ],
+        },
+
+        {
+          label: 'Guides',
+          items: [
+            {
+              label: 'Migrations',
+              collapsed: true,
+              autogenerate: { directory: 'guides/migrations' },
+            },
+          ],
         },
       ],
       expressiveCode: false,
