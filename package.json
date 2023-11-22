@@ -1,6 +1,6 @@
 {
   "name": "svelte-pixi",
-  "version": "6.0.0",
+  "version": "7.0.0-next.0",
   "description": "Create PixiJS apps with Svelte",
   "repository": "https://github.com/mattjennings/svelte-pixi",
   "author": "Matt Jennings",
@@ -12,8 +12,7 @@
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "validate": "svelte-check --tsconfig ./tsconfig.json --threshold error --ignore \"dist\"",
     "prepare": "husky install",
-    "release": "release-it --npm.tag=latest",
-    "prerelease": "release-it --preRelease=beta --npm.tag=next",
+    "prepublishOnly": "npm run build",
     "lint-staged": "lint-staged",
     "lint": "eslint .",
     "prettier": "prettier --ignore-path .eslintignore . --check",
