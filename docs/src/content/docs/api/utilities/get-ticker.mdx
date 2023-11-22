@@ -1,0 +1,17 @@
+---
+title: getTicker
+---
+
+Returns the context of the parent [Ticker](/docs/components/ticker) component
+
+```svelte
+<script>
+  import { getTicker } from 'svelte-pixi'
+
+  const { ticker } = getTicker()
+</script>
+```
+
+| Name   | Type          | Description              |
+| ------ | ------------- | ------------------------ |
+| ticker | `PIXI.Ticker` | The PIXI.Ticker instance |

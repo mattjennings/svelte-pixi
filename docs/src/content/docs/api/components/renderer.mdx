@@ -12,7 +12,7 @@ This is an alternative to using the [Application](/docs/components/application) 
 ```svelte live wrapper=/src/layouts/examples/wrappers/Empty.svelte
 <script>
   import { Renderer, Container, Ticker, Text } from 'svelte-pixi'
-  import DraggableCircle from './_DraggableCircle.svelte'
+  import DraggableCircle from '$lib/components/DraggableCircle.svelte'
 
   let renderer
   let stage
@@ -102,7 +102,7 @@ we can still implement this ourselves:
 ```svelte live wrapper=/src/layouts/examples/wrappers/Empty.svelte
 <script>
   import { Renderer, Container, Ticker, Text } from 'svelte-pixi'
-  import DraggableCircle from './_DraggableCircle.svelte'
+  import DraggableCircle from '$lib/components/DraggableCircle.svelte'
 
   let renderer
   let stage
