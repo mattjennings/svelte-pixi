@@ -9,7 +9,7 @@ render until the loading has completed. You can show progress by using the `prog
 
 ## Usage
 
-```svelte render wrapper=/src/layouts/examples/wrappers/Empty.svelte
+```svelte live wrapper=/src/layouts/examples/wrappers/Empty.svelte
 <script>
   import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi'
   import * as PIXI from 'pixi.js'
@@ -37,7 +37,7 @@ render until the loading has completed. You can show progress by using the `prog
 You may call [`PIXI.Assets.init()`](https://pixijs.download/dev/docs/PIXI.Assets.html#init) to configure the behaviour of the Assets loader, but you must do it before the first
 time you render an `AssetsLoader` component.
  
-```svelte render
+```svelte live
 <script>
   import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi'
   import * as PIXI from 'pixi.js'
