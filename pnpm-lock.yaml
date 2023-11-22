@@ -17,9 +17,6 @@ importers:
       '@steeze-ui/svelte-icon':
         specifier: ^1.3.1
         version: 1.3.1
-      '@sveltejs/adapter-vercel':
-        specifier: ^3.1.0
-        version: 3.1.0(@sveltejs/kit@1.27.6)
       '@sveltejs/kit':
         specifier: ^1.27.6
         version: 1.27.6(svelte@4.2.5)(vite@4.5.0)
@@ -3013,19 +3010,6 @@ packages:
       - supports-color
     dev: true
 
-  /@sveltejs/adapter-vercel@3.1.0(@sveltejs/kit@1.27.6):
-    resolution: {integrity: sha512-AkG7GuqPj/70zxfuOV7QbxXVuYFPUlyFEPlGUSXynDbIBTYu1Er+c676M2egnAyw0flB+kpj6nlxJIElRLKAaA==}
-    peerDependencies:
-      '@sveltejs/kit': ^1.5.0
-    dependencies:
-      '@sveltejs/kit': 1.27.6(svelte@4.2.5)(vite@4.5.0)
-      '@vercel/nft': 0.24.3
-      esbuild: 0.18.20
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-    dev: true
-
   /@sveltejs/kit@1.0.0-next.429(svelte@3.49.0)(vite@3.0.9):
     resolution: {integrity: sha512-u5/RugPTeaT2e7oHKKZh0uy1qzqphhJOS5QBxr2D/JXYqSjEJcyFnXXpzmqo6lB1Oxlj88WF9Ozul6Wlekvyew==}
     engines: {node: '>=16.9'}
@@ -3593,27 +3577,6 @@ packages:
       node-gyp-build: 4.4.0
       resolve-from: 5.0.0
       rollup-pluginutils: 2.8.2
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-    dev: true
-
-  /@vercel/nft@0.24.3:
-    resolution: {integrity: sha512-IyBdIxmFAeGZnEfMgt4QrGK7XX4lWazlQj34HEi9dw04/WeDBJ7r1yaOIO5tTf9pbfvwUFodj9b0H+NDGGoOMg==}
-    engines: {node: '>=16'}
-    hasBin: true
-    dependencies:
-      '@mapbox/node-pre-gyp': 1.0.9
-      '@rollup/pluginutils': 4.2.1
-      acorn: 8.11.2
-      async-sema: 3.1.1
-      bindings: 1.5.0
-      estree-walker: 2.0.2
-      glob: 7.2.0
-      graceful-fs: 4.2.9
-      micromatch: 4.0.4
-      node-gyp-build: 4.4.0
-      resolve-from: 5.0.0
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -8563,14 +8526,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: false
-
-  /micromatch@4.0.4:
-    resolution: {integrity: sha512-pRmzw/XUcwXGpD9aI9q/0XOwLNygjETJ8y0ao0wdqprrzDa4YnxLcz7fQRZr8voh8V10kGhABbNcHVk5wHgWwg==}
-    engines: {node: '>=8.6'}
-    dependencies:
-      braces: 3.0.2
-      picomatch: 2.3.1
-    dev: true
 
   /micromatch@4.0.5:
     resolution: {integrity: sha512-DMy+ERcEW2q8Z2Po+WNXuw3c5YaUSFjAO5GsJqfEl7UjvtIuFKO6ZrKvcItdy98dwFI2N1tg3zNIdKaQT+aNdA==}
