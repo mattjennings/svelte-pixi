@@ -190,7 +190,7 @@ importers:
         specifier: ^0.23.4
         version: 0.23.4
       svelte-pixi:
-        specifier: workspace:*
+        specifier: workspace:latest
         version: link:..
       unist-util-visit-parents:
         specifier: ^6.0.1
