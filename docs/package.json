@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "(cd .. && npm run package); astro check && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -27,7 +27,7 @@
     "estree-util-visit": "^2.0.0",
     "magic-string": "^0.30.5",
     "recast": "^0.23.4",
-    "svelte-pixi": "latest",
+    "svelte-pixi": "workspace:../dist",
     "unist-util-visit-parents": "^6.0.1",
     "upath": "^2.0.1"
   }
