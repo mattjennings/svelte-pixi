@@ -63,6 +63,7 @@
   eventMode="static"
   cursor="pointer"
   hitArea={new PIXI.Circle(0, 0, circleSize)}
+  zIndex={10}
   on:pointerdown={handleDragStart}
   on:globalpointermove={handleDrag}
   on:pointerup={handleDragEnd}

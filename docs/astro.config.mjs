@@ -59,6 +59,13 @@ export default defineConfig({
           label: 'Guides',
           items: [
             {
+              label: 'Animation',
+              collapsed: true,
+              autogenerate: {
+                directory: 'guides/animation',
+              },
+            },
+            {
               label: 'Migrations',
               collapsed: true,
               autogenerate: {
