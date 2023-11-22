@@ -16,7 +16,6 @@
     "@astrojs/starlight-tailwind": "^2.0.1",
     "@astrojs/svelte": "^4.0.4",
     "@astrojs/tailwind": "^5.0.2",
-    "@astrojs/vercel": "^5.2.0",
     "astro": "^3.5.5",
     "sharp": "^0.32.5",
     "svelte": "^4.2.5",
