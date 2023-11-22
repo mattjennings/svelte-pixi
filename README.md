@@ -29,8 +29,6 @@ This will start up the documentation website.
 
 GitHub actions will enforce code quality according to the prettier, eslint, and typescript configuration.
 
-It will also enforce that commit messages follow [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary). Please familiarize yourself with it if you have not used it before.
-
 ### Tests
 
 TODO

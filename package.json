@@ -1,6 +1,6 @@
 {
   "name": "svelte-pixi",
-  "version": "0.1.3",
+  "version": "6.0.0",
   "description": "Create PixiJS apps with Svelte",
   "repository": "https://github.com/mattjennings/svelte-pixi",
   "author": "Matt Jennings",
@@ -20,8 +20,7 @@
     "format": "prettier --ignore-path .eslintignore . --write"
   },
   "devDependencies": {
-    "@commitlint/cli": "^16.2.4",
-    "@commitlint/config-conventional": "^16.2.4",
+    "@changesets/cli": "^2.26.2",
     "@steeze-ui/heroicons": "^1.1.1",
     "@steeze-ui/svelte-icon": "^1.3.1",
     "@sveltejs/adapter-vercel": "^3.1.0",

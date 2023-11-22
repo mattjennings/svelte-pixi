@@ -1,0 +1,14 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "svelte-pixi": "6.0.0",
+    "docs": "0.0.1",
+    "parcel-example": "0.0.0",
+    "svelte-kit-example": "0.0.1",
+    "vite-example": "0.0.0",
+    "vite-custom-pixi-file-example": "0.0.0",
+    "with-matter-js-example": "0.0.0"
+  },
+  "changesets": []
+}
