@@ -173,9 +173,6 @@ importers:
       svelte-intersection-observer:
         specifier: ^0.10.0
         version: 0.10.0
-      svelte-pixi:
-        specifier: workspace:../../package
-        version: link:../../package
       tailwindcss:
         specifier: ^3.0.24
         version: 3.3.5
@@ -192,6 +189,9 @@ importers:
       recast:
         specifier: ^0.23.4
         version: 0.23.4
+      svelte-pixi:
+        specifier: workspace:../dist
+        version: link:../dist
       unist-util-visit-parents:
         specifier: ^6.0.1
         version: 6.0.1
@@ -202,8 +202,8 @@ importers:
   examples/parcel:
     dependencies:
       svelte-pixi:
-        specifier: workspace:../../package
-        version: link:../../package
+        specifier: workspace:../../dist
+        version: link:../../dist
     devDependencies:
       '@parcel/config-default':
         specifier: ^2.4.1
@@ -227,8 +227,8 @@ importers:
   examples/svelte-kit:
     dependencies:
       svelte-pixi:
-        specifier: workspace:../../package
-        version: link:../../package
+        specifier: workspace:../../dist
+        version: link:../../dist
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: next
@@ -258,8 +258,8 @@ importers:
         specifier: ^1.5.2
         version: 1.6.0(postcss-load-config@3.1.4)(postcss@8.4.31)(svelte@3.49.0)
       svelte-pixi:
-        specifier: workspace:../../package
-        version: link:../../package
+        specifier: workspace:../../dist
+        version: link:../../dist
       svelte-preprocess:
         specifier: ^4.7.3
         version: 4.10.7(postcss-load-config@3.1.4)(postcss@8.4.31)(svelte@3.49.0)(typescript@5.2.2)
@@ -337,8 +337,8 @@ importers:
         specifier: ^1.5.2
         version: 1.6.0(postcss-load-config@3.1.4)(postcss@8.4.31)(svelte@3.49.0)
       svelte-pixi:
-        specifier: workspace:../../package
-        version: link:../../package
+        specifier: workspace:../../dist
+        version: link:../../dist
       svelte-preprocess:
         specifier: ^4.7.3
         version: 4.10.7(postcss-load-config@3.1.4)(postcss@8.4.31)(svelte@3.49.0)(typescript@5.2.2)
@@ -365,8 +365,8 @@ importers:
         specifier: ^1.5.2
         version: 1.6.0(postcss-load-config@3.1.4)(postcss@8.4.31)(svelte@3.49.0)
       svelte-pixi:
-        specifier: workspace:../../package
-        version: link:../../package
+        specifier: workspace:../../dist
+        version: link:../../dist
       svelte-preprocess:
         specifier: ^4.7.3
         version: 4.10.7(postcss-load-config@3.1.4)(postcss@8.4.31)(svelte@3.49.0)(typescript@5.2.2)
