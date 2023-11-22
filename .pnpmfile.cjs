@@ -4,7 +4,11 @@ const path = require('path')
 function readPackage(pkg, ctx) {
   if (pkg.name) {
     // point svelte-pixi to ./package output for examples
-    if (pkg.name.endsWith('-example') || pkg.name.startsWith('with-')) {
+    if (
+      pkg.name.endsWith('-example') ||
+      pkg.name.startsWith('with-') ||
+      pkg.name === 'docs'
+    ) {
       const dir = path.resolve(__dirname, './package')
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir)
