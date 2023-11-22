@@ -16,6 +16,7 @@
     "@astrojs/starlight-tailwind": "^2.0.1",
     "@astrojs/svelte": "^4.0.4",
     "@astrojs/tailwind": "^5.0.2",
+    "@astrojs/vercel": "^5.2.0",
     "astro": "^3.5.5",
     "sharp": "^0.32.5",
     "svelte": "^4.2.5",
@@ -27,8 +28,8 @@
     "estree-util-visit": "^2.0.0",
     "magic-string": "^0.30.5",
     "recast": "^0.23.4",
+    "svelte-pixi": "workspace:svelte-pixi",
     "unist-util-visit-parents": "^6.0.1",
-    "upath": "^2.0.1",
-    "svelte-pixi": "workspace:svelte-pixi"
+    "upath": "^2.0.1"
   }
 }
