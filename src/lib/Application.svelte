@@ -9,11 +9,9 @@
 </script>
 
 <script lang="ts">
-  import Graphics from './Graphics.svelte'
-
   import * as PIXI from 'pixi.js'
 
-  import { getContext, onMount, setContext } from 'svelte'
+  import { getContext, setContext } from 'svelte'
   import Container from './Container.svelte'
   import Renderer from './Renderer.svelte'
   import Ticker from './Ticker.svelte'

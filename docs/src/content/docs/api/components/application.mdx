@@ -14,10 +14,10 @@ Just like `PIXI.Application`, it sets up the [Renderer](/docs/components/rendere
   import { Application, Text } from 'svelte-pixi'
 </script>
 
-<Application width={720} height={450} antialias>
+<Application width={700} height={400} antialias>
   <Text
-    x={360}
-    y={225}
+    x={350}
+    y={200}
     anchor={0.5}
     text="Hello World"
     style={{ fill: 'white'}}
@@ -34,14 +34,14 @@ If you want to customize the element that the canvas is rendered into, you can u
   import { Application, Text } from 'svelte-pixi'
 </script>
 
-<Application width={720} height={400} antialias>
+<Application width={700} height={400} antialias>
   <div slot="view" class="custom">
     <!-- canvas will be placed here -->
   </div>
 
   <!-- pixi components go here -->
   <Text
-    x={360}
+    x={350}
     y={200}
     anchor={0.5}
     text="Hello World"
@@ -64,24 +64,23 @@ If you want to customize the element that the canvas is rendered into, you can u
   import { onMount } from 'svelte'
   import { Text, Application } from 'svelte-pixi'
   import DraggableCircle from './_DraggableCircle.svelte'
-
 </script>
 
 <Application
-  width={720}
-  height={450}
+  width={700}
+  height={400}
   antialias
   render="demand"
   on:postrender={() => console.log('render')}
 >
+  <DraggableCircle x={350} y={200} />
   <Text
-    x={360}
+    x={350}
     y={300}
     text="Click and drag"
     style={{ fill: 'white' }}
     anchor={0.5}
   />
-  <DraggableCircle x={360} y={200} />
 </Application>
 ```
 
