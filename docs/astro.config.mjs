@@ -5,7 +5,6 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import tailwind from '@astrojs/tailwind'
 import liveExamples from './integrations/live-examples/index.mjs'
-import vercel from '@astrojs/vercel/static'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const codeTheme = 'poimandres'
 
