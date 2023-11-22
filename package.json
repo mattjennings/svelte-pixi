@@ -6,10 +6,7 @@
   "author": "Matt Jennings",
   "license": "MIT",
   "scripts": {
-    "dev": "vite dev",
-    "build:site": "vite build",
     "build": "npm run package",
-    "preview": "vite preview",
     "package": "svelte-package",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
