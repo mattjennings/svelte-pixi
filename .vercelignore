@@ -1,6 +1,6 @@
-build
-public
-docs/.vercel
-docs/.astro
-package
-dist
+/build
+/public
+/docs/.vercel
+/docs/.astro
+/package
+/dist
