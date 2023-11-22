@@ -7,8 +7,15 @@ import tailwind from '@astrojs/tailwind'
 import liveExamples from './integrations/live-examples/index.mjs'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
+const codeTheme = 'poimandres'
 // https://astro.build/config
 export default defineConfig({
+  markdown: {
+    shikiConfig: {
+      theme: codeTheme,
+    },
+  },
+
   vite: {
     resolve: {
       alias: {
@@ -24,9 +31,11 @@ export default defineConfig({
       commonMeta: 'client:only',
       wrapper: '/src/layouts/examples/wrappers/WithApp.svelte',
     }),
+
     starlight({
       title: 'Svelte Pixi',
       customCss: ['./src/tailwind.css'],
+      expressiveCode: false,
       social: {
         github: 'https://github.com/mattjennings/svelte-pixi',
       },
@@ -56,7 +65,6 @@ export default defineConfig({
           ],
         },
       ],
-      expressiveCode: false,
     }),
 
     svelte({

@@ -14,10 +14,10 @@ Just like `PIXI.Application`, it sets up the [Renderer](/docs/components/rendere
   import { Application, Text } from 'svelte-pixi'
 </script>
 
-<Application width={400} height={400} antialias>
+<Application width={720} height={450} antialias>
   <Text
-    x={200}
-    y={200}
+    x={360}
+    y={225}
     anchor={0.5}
     text="Hello World"
     style={{ fill: 'white'}}
@@ -34,14 +34,14 @@ If you want to customize the element that the canvas is rendered into, you can u
   import { Application, Text } from 'svelte-pixi'
 </script>
 
-<Application width={400} height={400} antialias>
+<Application width={720} height={400} antialias>
   <div slot="view" class="custom">
     <!-- canvas will be placed here -->
   </div>
 
   <!-- pixi components go here -->
   <Text
-    x={200}
+    x={360}
     y={200}
     anchor={0.5}
     text="Hello World"
@@ -68,21 +68,20 @@ If you want to customize the element that the canvas is rendered into, you can u
 </script>
 
 <Application
-  width={400}
-  height={400}
+  width={720}
+  height={450}
   antialias
   render="demand"
-  eventMode="static"
   on:postrender={() => console.log('render')}
 >
   <Text
-    x={200}
+    x={360}
     y={300}
     text="Click and drag"
     style={{ fill: 'white' }}
     anchor={0.5}
   />
-  <DraggableCircle x={200} y={200} />
+  <DraggableCircle x={360} y={200} />
 </Application>
 ```
 

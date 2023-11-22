@@ -1,16 +1,16 @@
 ---
 const { ExampleComponent, meta } = Astro.props
 
-let height = parseInt(getMetaValue('height') || '400')
+let height = parseInt(getMetaValue('height') || '368')
 
 function getMetaValue(key: string) {
   return meta?.find((m: string) => m.includes(key))?.split('=')?.[1]
 }
 ---
 
-<div class="flex flex-col">
+<div class="flex flex-col border border-gray-700 overflow-hidden rounded">
   <div
-    class="example-container flex items-center justify-center bg-gray-800 p-4"
+    class="example-container flex items-center justify-center bg-black w-full"
   >
     <slot name="example" />
   </div>
@@ -27,5 +27,6 @@ function getMetaValue(key: string) {
   pre {
     max-height: 500px;
     overflow: auto;
+    border: none !important;
   }
 </style>

@@ -7,7 +7,6 @@ import recast from 'recast'
  * @typedef {{
  * layout?: string
  * wrapper?: string
- * theme?: string
  * commonMeta?: string
  * }} LiveExamplesOptions
  */
@@ -30,15 +29,18 @@ export default function (options) {
   return {
     name: 'live-examples',
     hooks: {
-      'astro:config:setup': ({ updateConfig }) => {
+      'astro:config:setup': ({ config, updateConfig }) => {
         updateConfig({
           integrations: [
             mdx({
               syntaxHighlight: 'shiki',
-              shikiConfig: {
-                theme: 'dracula',
-              },
-              remarkPlugins: [[remark, options]],
+              shikiConfig: config.markdown?.shikiConfig,
+              remarkPlugins: [
+                [
+                  remark,
+                  { ...options, theme: config.markdown?.shikiConfig?.theme },
+                ],
+              ],
               recmaPlugins: [
                 () => (tree) => {
                   // console.log(

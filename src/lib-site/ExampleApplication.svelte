@@ -20,7 +20,12 @@
   }
 </script>
 
-<Application bind:instance={app} autoStart={false} {...$$restProps}>
+<Application
+  bind:instance={app}
+  autoStart={false}
+  resizeTo={window}
+  {...$$restProps}
+>
   <div bind:this={element} slot="view">
     <IntersectionObserver {element} bind:intersecting />
   </div>

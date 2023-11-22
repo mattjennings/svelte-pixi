@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --sl-text-code: var(--sl-text-xs);
-}
-
 canvas {
   user-select: none;
 }

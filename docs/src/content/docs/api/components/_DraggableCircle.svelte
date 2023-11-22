@@ -1,10 +1,19 @@
 <script>
   import * as PIXI from 'pixi.js'
-  import { onMount } from 'svelte'
-  import { Graphics, getApp, getStage } from 'svelte-pixi'
+  import { Graphics, getContainer } from 'svelte-pixi'
+  import { spring } from 'svelte/motion'
 
   export let x
   export let y
+
+  let position = spring({ x, y }, { stiffness: 0.2, damping: 0.4 })
+
+  /**
+   * @type {import('pixi.js').Graphics')}
+   */
+  let instance
+
+  const { container } = getContainer()
 
   let dragging = false
   let offset = { x: 0, y: 0 }
@@ -20,39 +29,38 @@
 
   function handleDragEnd() {
     dragging = false
+    position.set({
+      x,
+      y,
+    })
   }
 
   function handleDrag({ detail }) {
-    const clamp = (num, min, max) => Math.min(Math.max(num, min), max)
     const nextPosition = detail.data.global
 
     if (dragging) {
-      x = clamp(nextPosition.x - offset.x, circleSize, 400 - circleSize)
-      y = clamp(nextPosition.y - offset.y, circleSize, 400 - circleSize)
+      position.set(
+        {
+          x: container.toLocal(nextPosition).x - offset.x,
+          y: container.toLocal(nextPosition).y - offset.y,
+        },
+        { duration: 0 },
+      )
     }
   }
-
-  // try {
-  //   const { stage } = getStage()
-
-  //   stage.interactive = true
-  //   stage.on('pointermove', handleDrag)
-  //   // stage.on('pointerupoutside', handleDragEnd)
-  //   stage.on('pointerup', handleDragEnd)
-  // } catch (e) {
-  //   console.error(e)
-  // }
 </script>
 
 <Graphics
-  {x}
-  {y}
+  bind:instance
+  x={$position.x}
+  y={$position.y}
   draw={(graphics) => {
     graphics.clear()
     graphics.beginFill(0xde3249)
     graphics.drawCircle(0, 0, circleSize)
     graphics.endFill()
   }}
+  eventMode="static"
   cursor="pointer"
   hitArea={new PIXI.Circle(0, 0, circleSize)}
   on:pointerdown={handleDragStart}

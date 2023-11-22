@@ -1,17 +1,17 @@
 <script>
-  import { Application, AssetsLoader, Container } from 'svelte-pixi'
+  import { Application, AssetsLoader } from 'svelte-pixi'
+  import { Layout } from 'svelte-pixi/experimental'
   import IntersectionObserver from 'svelte-intersection-observer'
 
   export let meta
-
-  let width = parseInt(getMetaValue('width') || '400')
-  let height = parseInt(getMetaValue('height') || '400')
 
   let assets = JSON.parse(getMetaValue('assets') || '[]')
 
   let intersecting = true
   let element
   let app
+  let width
+  let height
 
   // only render while in view
   $: if (app) {
@@ -27,14 +27,27 @@
   }
 </script>
 
-<Application bind:instance={app} autoStart={false} {width} {height}>
-  <div bind:this={element} slot="view">
-    <IntersectionObserver {element} bind:intersecting />
-  </div>
+<div
+  bind:clientWidth={width}
+  bind:clientHeight={height}
+  class="with-app-container w-full h-full overflow-hidden block"
+>
+  <Application bind:instance={app} autoStart={false} width={800} height={400}>
+    <div bind:this={element} slot="view">
+      <IntersectionObserver {element} bind:intersecting />
+    </div>
 
-  <AssetsLoader {assets}>
-    <Container sortableChildren>
-      <slot />
-    </Container>
-  </AssetsLoader>
-</Application>
+    <AssetsLoader {assets}>
+      <Layout align="center" sortableChildren {width} {height}>
+        <slot />
+      </Layout>
+    </AssetsLoader>
+  </Application>
+</div>
+
+<style>
+  :global(.with-app-container canvas) {
+    min-width: 100%;
+    max-width: none;
+  }
+</style>
