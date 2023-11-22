@@ -338,7 +338,7 @@
   /**
    * The skew factor for the object in radians.
    *
-   * @type {PointLiek}
+   * @type {PointLike}
    */
   export let skew: $$Props['skew'] = undefined
 
