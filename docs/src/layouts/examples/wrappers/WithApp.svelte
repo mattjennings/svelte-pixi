@@ -30,7 +30,7 @@
 <div
   bind:clientWidth={width}
   bind:clientHeight={height}
-  class="with-app-container w-full h-full overflow-hidden block"
+  class="with-app-container w-full h-full overflow-hidden"
 >
   <Application bind:instance={app} autoStart={false} width={800} height={400}>
     <div bind:this={element} slot="view">
