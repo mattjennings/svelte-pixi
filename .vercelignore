@@ -1,2 +1,6 @@
 build
 public
+docs/.vercel
+docs/.astro
+package
+dist
