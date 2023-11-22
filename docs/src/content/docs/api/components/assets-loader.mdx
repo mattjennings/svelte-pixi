@@ -9,51 +9,49 @@ render until the loading has completed. You can show progress by using the `prog
 
 ## Usage
 
-```svelte live wrapper=/src/layouts/examples/wrappers/Empty.svelte
+```svelte live bg=white
 <script>
   import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi'
   import * as PIXI from 'pixi.js'
 </script>
 
-<Application width={400} height={400} antialias backgroundColor={0xffffff}>
-  <AssetsLoader assets={['/assets/great-success.png']}>
-    <slot let:progress  slot="loading">
-      <Text text={`Loading... ${progress}`} x={200} y={200} anchor={0.5} />
-    </slot>
+<AssetsLoader assets={['/assets/great-success.png']}>
+  <slot let:progress  slot="loading">
+    <Text text={`Loading... ${progress}`} anchor={0.5} />
+  </slot>
 
-    <Sprite
-      texture={PIXI.Texture.from('/assets/great-success.png')}
-      x={20}
-      y={50}
-      width={360}
-      height={300}
-    />
-  </AssetsLoader>
-</Application>
+  <Sprite
+    texture={PIXI.Texture.from('/assets/great-success.png')}
+    anchor={0.5}
+    width={360}
+    height={300}
+  />
+</AssetsLoader>
+
 ```
 
 ## Assets init options
 
-You may call [`PIXI.Assets.init()`](https://pixijs.download/dev/docs/PIXI.Assets.html#init) to configure the behaviour of the Assets loader, but you must do it before the first
-time you render an `AssetsLoader` component.
+You may call [`PIXI.Assets.init()`](https://pixijs.download/dev/docs/PIXI.Assets.html#init) to configure 
+the behaviour of the Assets loader, but you must do it before the first time you render an `AssetsLoader` component. 
+Note that `PIXI.Assets` can only be initialized once.
  
-```svelte live
+```svelte
 <script>
   import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi'
   import * as PIXI from 'pixi.js'
 
   // init is async, so we must await it
   const initPromise = PIXI.Assets.init({
-    baseUrl: '/assets'
+    basePath: '/assets'
   })
 </script>
 
-{#await initPromise}
-{:then}
+{#await initPromise then}
   <Application>
     <AssetsLoader assets={['/great-success.png']}>
-      <Sprite texture={PIXI.Texture.from('/great-success.png')} />
-    </AssetsLoader>
+      <Sprite anchor={0.5} texture={PIXI.Texture.from('/great-success.png')} />
+    </AssetsLoader>  
   </Application>
 {/await}
 ```

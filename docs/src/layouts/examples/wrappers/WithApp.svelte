@@ -6,6 +6,7 @@
   export let meta
 
   let assets = JSON.parse(getMetaValue('assets') || '[]')
+  let backgroundColor = getMetaValue('bg') || 0x000000
 
   let intersecting = true
   let element
@@ -32,7 +33,13 @@
   bind:clientHeight={height}
   class="with-app-container w-full h-full overflow-hidden"
 >
-  <Application bind:instance={app} autoStart={false} width={800} height={400}>
+  <Application
+    bind:instance={app}
+    autoStart={false}
+    width={800}
+    height={400}
+    {backgroundColor}
+  >
     <div bind:this={element} slot="view">
       <IntersectionObserver {element} bind:intersecting />
     </div>
