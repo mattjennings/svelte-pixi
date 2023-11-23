@@ -2,6 +2,7 @@
 title: Renderer
 pixi: https://pixijs.download/release/docs/PIXI.Renderer.html
 ---
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
 
 This is an alternative to using the [Application](/docs/components/application) component. It allows you to use a custom `PIXI.Renderer` instance but -- like its native class -- it will not start the render loop or create the root container for you. You will need to do this yourself.
 
@@ -143,3 +144,7 @@ we can still implement this ourselves:
 ```
 
 See [Render on Demand](/docs/advanced/optimizing-performance#render-on-demand) for more information.
+
+## API
+
+<ComponentAPI component="Renderer.svelte" />

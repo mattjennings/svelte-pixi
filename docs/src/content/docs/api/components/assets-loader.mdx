@@ -3,6 +3,7 @@ title: AssetsLoader
 sidebar:
   badge: 'New'
 ---
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
 
 Creates and loads assets using [PIXI.Assets](https://pixijs.download/release/docs/PIXI.Assets.html) by creating a bundle from the `assets` prop.
 
@@ -57,3 +58,7 @@ Note that `PIXI.Assets` can only be initialized once.
   </Application>
 {/await}
 ```
+
+## API
+
+<ComponentAPI component="AssetsLoader.svelte" />

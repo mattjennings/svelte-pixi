@@ -180,12 +180,21 @@ importers:
         specifier: ^5.2.0
         version: 5.2.2
     devDependencies:
+      '@types/dashify':
+        specifier: ^1.0.3
+        version: 1.0.3
+      dashify:
+        specifier: ^2.0.0
+        version: 2.0.0
       estree-util-visit:
         specifier: ^2.0.0
         version: 2.0.0
       magic-string:
         specifier: ^0.30.5
         version: 0.30.5
+      marked:
+        specifier: ^10.0.0
+        version: 10.0.0
       recast:
         specifier: ^0.23.4
         version: 0.23.4
@@ -3181,6 +3190,10 @@ packages:
 
   /@types/css-font-loading-module@0.0.7:
     resolution: {integrity: sha512-nl09VhutdjINdWyXxHWN/w9zlNCfr60JUqJbd24YXUuCwgeL0TpFSdElCwb6cxfB6ybE19Gjj4g0jsgkXxKv1Q==}
+
+  /@types/dashify@1.0.3:
+    resolution: {integrity: sha512-5tFbcvWDPO1Il1Ck6Rtb4GJvD9m7HXzex50Z9wm2+YrUqN1Da3NDJnaipqtr2WlmtvOY2O/ftUrPECMKu+Bc+Q==}
+    dev: true
 
   /@types/debug@4.1.12:
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
@@ -7048,6 +7061,12 @@ packages:
   /markdown-table@3.0.3:
     resolution: {integrity: sha512-Z1NL3Tb1M9wH4XESsCDEksWoKTdlUafKc4pt0GRwjUyXaCFZ+dc3g2erqB6zm3szA2IUSi7VnPI+o/9jnxh9hw==}
     dev: false
+
+  /marked@10.0.0:
+    resolution: {integrity: sha512-YiGcYcWj50YrwBgNzFoYhQ1hT6GmQbFG8SksnYJX1z4BXTHSOrz1GB5/Jm2yQvMg4nN1FHP4M6r03R10KrVUiA==}
+    engines: {node: '>= 18'}
+    hasBin: true
+    dev: true
 
   /matter-js@0.12.0:
     resolution: {integrity: sha512-wCjN2SXGeLNGrL2HgFOrBxGa/JVdGHksVLoTglcN3SYweAZxg/aXPxk7JYMw/bn1KrfsuBby2+reB7bqXfttFg==}

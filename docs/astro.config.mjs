@@ -40,6 +40,7 @@ export default defineConfig({
       title: 'Svelte Pixi',
       customCss: ['./src/tailwind.css'],
       expressiveCode: false,
+
       social: {
         github: 'https://github.com/mattjennings/svelte-pixi',
       },

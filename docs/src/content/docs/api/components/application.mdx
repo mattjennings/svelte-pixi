@@ -2,8 +2,7 @@
 title: Application
 pixi: https://pixijs.download/release/docs/PIXI.Application.html
 ---
-
-
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
 
 Just like `PIXI.Application`, it sets up the [Renderer](/docs/components/renderer), [Ticker](/docs/components/ticker) and root [Container](/docs/components/container). If you wish, you can manually render those components instead.
 
@@ -85,3 +84,7 @@ If you want to customize the element that the canvas is rendered into, you can u
 ```
 
 See [Render on Demand](/docs/advanced/optimizing-performance#render-on-demand) for more information.
+
+## API
+
+<ComponentAPI component="Application.svelte" />

@@ -199,7 +199,7 @@
    * The type of interaction a DisplayObject can be.
    * For more information on values and their meaning, see https://pixijs.download/dev/docs/PIXI.DisplayObject.html#eventMode
    *
-   * @type {import('pixi.js').EventMode}
+   * @type {PIXI.EventMode}
    */
   export let eventMode: $$Props['eventMode'] = undefined
 

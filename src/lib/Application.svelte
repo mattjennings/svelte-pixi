@@ -104,14 +104,14 @@
    * This option only is available when using @pixi/events package (included in the pixi.js and pixi.js-legacy bundle),
    * otherwise it will be ignored.
    *
-   * @type {import('pixi.js').EventMode}
+   * @type {PIXI.EventMode}
    */
   export let eventMode: $$Props['eventMode'] = undefined
 
   /**
    * The event features that are enabled by the EventSystem.
    *
-   * @type {import('pixi.js').EventSystemOptions['eventFeatures']}
+   * @type {PIXI.EventSystemOptions['eventFeatures']}
    */
   export let eventFeatures: $$Props['eventFeatures'] = undefined
 
