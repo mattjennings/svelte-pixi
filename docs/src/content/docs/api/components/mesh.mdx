@@ -2,6 +2,7 @@
 title: Mesh
 pixi: https://pixijs.download/release/docs/PIXI.Mesh.html
 ---
+
 import ComponentAPI from '$lib/components/ComponentAPI.astro'
 
 This component empowers you to have maximum flexibility to render any kind of WebGL visuals you can think of. This component assumes a certain level of WebGL knowledge.
@@ -22,19 +23,35 @@ Pretty much all WebGL can be broken down into the following:
   let rotation = 0
 
   const geometry = new PIXI.Geometry()
-    .addAttribute('aVertexPosition', // the attribute name
-        [-100, -100, // x, y
-            100, -100, // x, y
-            100, 100,
-            -100, 100], // x, y
-        2) // the size of the attribute
-    .addAttribute('aUvs', // the attribute name
-        [0, 0, // u, v
-            1, 0, // u, v
-            1, 1,
-            0, 1], // u, v
-        2) // the size of the attribute
-    .addIndex([0, 1, 2, 0, 2, 3]);
+    .addAttribute(
+      'aVertexPosition', // the attribute name
+      [
+        -100,
+        -100, // x, y
+        100,
+        -100, // x, y
+        100,
+        100,
+        -100,
+        100,
+      ], // x, y
+      2,
+    ) // the size of the attribute
+    .addAttribute(
+      'aUvs', // the attribute name
+      [
+        0,
+        0, // u, v
+        1,
+        0, // u, v
+        1,
+        1,
+        0,
+        1,
+      ], // u, v
+      2,
+    ) // the size of the attribute
+    .addIndex([0, 1, 2, 0, 2, 3])
 
   const vertexSrc = `
     precision mediump float;
@@ -52,7 +69,7 @@ Pretty much all WebGL can be broken down into the following:
         vUvs = aUvs;
         gl_Position = vec4((projectionMatrix * translationMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);
 
-    }`;
+    }`
 
   const fragmentSrc = `
     precision mediump float;
@@ -65,28 +82,22 @@ Pretty much all WebGL can be broken down into the following:
     void main() {
 
         gl_FragColor = texture2D(uSampler2, vUvs + sin( (time + (vUvs.x) * 14.) ) * 0.1 );
-    }`;
+    }`
 
   const uniforms = {
-      uSampler2: PIXI.Texture.from('/assets/bg_mesh.jpg'),
-      time: 0,
-  };
+    uSampler2: PIXI.Texture.from('/assets/bg_mesh.jpg'),
+    time: 0,
+  }
 
   const shader = PIXI.Shader.from(vertexSrc, fragmentSrc, uniforms)
 
   onTick((delta) => {
-      rotation += 0.01 * delta;
-      shader.uniforms.time += 0.1 * delta;
+    rotation += 0.01 * delta
+    shader.uniforms.time += 0.1 * delta
   })
 </script>
 
-<Mesh
-  anchor={0.5}
-  scale={2}
-  {geometry}
-  {shader}
-  {rotation}
-/>
+<Mesh anchor={0.5} scale={2} {geometry} {shader} {rotation} />
 ```
 
 ## API

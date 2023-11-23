@@ -27,17 +27,20 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
 
     offset = {
       x: x - $position.x,
-      y: y - $position.y
+      y: y - $position.y,
     }
   }
 
   function handleDrag(event) {
     if (dragging) {
       const { x, y } = event.detail.data.global
-      position.update($position => ({
-        x: x - offset.x,
-        y: y - offset.y,
-      }), { hard: true })
+      position.update(
+        ($position) => ({
+          x: x - offset.x,
+          y: y - offset.y,
+        }),
+        { hard: true },
+      )
     }
   }
 
@@ -59,14 +62,14 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
   on:pointerdown={handleDragStart}
   on:pointerup={handleDragEnd}
   on:pointerupoutside={handleDragEnd}
-  on:globalpointermove={handleDrag} 
+  on:globalpointermove={handleDrag}
 />
 
-<Text  
+<Text
   y={100}
   anchor={0.5}
   text="Try clicking and dragging the mushroom"
-  style={{ fill: 'white', fontSize: 20 }} 
+  style={{ fill: 'white', fontSize: 20 }}
 />
 ```
 
@@ -74,7 +77,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
 
 ```svelte live
 <script>
-  import { onMount} from 'svelte'
+  import { onMount } from 'svelte'
   import { Graphics, onTick } from 'svelte-pixi'
   import { tweened } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
@@ -83,7 +86,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
 
   const progress = tweened(barWidth / 5, {
     duration: 400,
-    easing: cubicOut
+    easing: cubicOut,
   })
 
   let step = 0
@@ -105,7 +108,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
 
 <Graphics
   pivot={{ x: barWidth / 2 }}
-  draw={graphics => {
+  draw={(graphics) => {
     graphics.clear()
     graphics.beginFill(0xff0000)
     graphics.drawRect(0, 0, $progress, 50)

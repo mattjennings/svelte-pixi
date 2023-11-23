@@ -20,7 +20,7 @@ All Svelte Pixi components should be children of `Application`.
     x={200}
     y={200}
     style={{
-      fill: 'white'
+      fill: 'white',
     }}
   />
 </Application>
@@ -76,7 +76,7 @@ _Note: You may want to enable network throttling in your browser dev tools to ac
         x={200}
         y={200}
         style={{
-          fill: 'white'
+          fill: 'white',
         }}
       />
     </slot>
@@ -141,13 +141,7 @@ Most Svelte Pixi components have an `instance` prop that contains the underlying
   })
 </script>
 
-<Text
-  bind:instance={text}
-  text="Hello World"
-  anchor={0.5}
-  x={200}
-  y={200}
-/>
+<Text bind:instance={text} text="Hello World" anchor={0.5} x={200} y={200} />
 ```
 
 ## Using a Custom Instance
@@ -169,11 +163,5 @@ The `instance` prop also lets you pass down a custom PixiJS class that you've in
   let text = new YellowText()
 </script>
 
-<Text
-  instance={text}
-  text="Hello World"
-  anchor={0.5}
-  x={200}
-  y={200}
-/>
+<Text instance={text} text="Hello World" anchor={0.5} x={200} y={200} />
 ```

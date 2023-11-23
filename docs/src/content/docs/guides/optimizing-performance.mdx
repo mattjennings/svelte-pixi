@@ -25,18 +25,18 @@ You may find yourself needing to render and update many components at once. Take
 
   // create an array describing each star's initial position
   $: stars = new Array(amount).fill(null).map(() => {
-      const deg = Math.random() * Math.PI * 2
-      const distance = Math.random() * 50 + 1
+    const deg = Math.random() * Math.PI * 2
+    const distance = Math.random() * 50 + 1
 
-      return ({
-          x: Math.cos(deg) * distance,
-          y: Math.sin(deg) * distance,
-          z: Math.random() * 1000 + 750
-      })
-    })
+    return {
+      x: Math.cos(deg) * distance,
+      y: Math.sin(deg) * distance,
+      z: Math.random() * 1000 + 750,
+    }
+  })
 
   // move the camera forward
-  onTick(delta => {
+  onTick((delta) => {
     cameraZ += delta * 10 * speed
   })
 </script>
@@ -44,7 +44,7 @@ You may find yourself needing to render and update many components at once. Take
 {#each stars as star}
   <!-- calculate new position based on cameraZ -->
   {@const z = star.z - cameraZ}
-  {@const distance = Math.max(0, (2000 - (z)) / 2000) }
+  {@const distance = Math.max(0, (2000 - z) / 2000)}
 
   <Sprite
     texture={PIXI.Texture.from('/assets/star.png')}
@@ -59,7 +59,7 @@ You may find yourself needing to render and update many components at once. Take
 
 <label class="flex flex-col !mt-0">
   <span class="text-white text-center">Amount: {amount}</span>
-  <input type="range" min="0" max="10000" step="100" bind:value={amount}/>
+  <input type="range" min="0" max="10000" step="100" bind:value={amount} />
 </label>
 ```
 
@@ -92,7 +92,7 @@ Let's take another approach by using Pixi a bit more directly:
   // create stars for amount value
   $: {
     // destroy previous stars if amount was changed
-    stars.forEach(star => star.destroy())
+    stars.forEach((star) => star.destroy())
 
     // create stars
     if (container) {
@@ -126,17 +126,17 @@ Let's take another approach by using Pixi a bit more directly:
   // instead of updating these values as props we'll mutate them on the star instances
   function updateStar(star) {
     const z = star.z - cameraZ
-    const distance = Math.max(0, (2000 - (z)) / 2000)
+    const distance = Math.max(0, (2000 - z) / 2000)
 
     star.scale.set(distance * starSize)
     star.anchor.set(0.5, 0.7)
 
-    star.x = star.initX * (fov / z) * width 
-    star.y = star.initY * (fov / z) * width 
+    star.x = star.initX * (fov / z) * width
+    star.y = star.initY * (fov / z) * width
   }
 
   // move the camera forward
-  onTick(delta => {
+  onTick((delta) => {
     cameraZ += delta * 10 * speed
 
     stars.forEach(updateStar)
@@ -146,7 +146,7 @@ Let's take another approach by using Pixi a bit more directly:
     // since we created the stars manually we'll
     // need to destroy stars on unmount as well
     return () => {
-      stars.forEach(star => star.destroy())
+      stars.forEach((star) => star.destroy())
     }
   })
 </script>
@@ -157,9 +157,8 @@ Let's take another approach by using Pixi a bit more directly:
 
 <label class="flex flex-col !mt-0">
   <span class="text-white text-center">Amount: {amount}</span>
-  <input type="range" min="0" max="10000" step="100" bind:value={amount}/>
+  <input type="range" min="0" max="10000" step="100" bind:value={amount} />
 </label>
-
 ```
 
 Performance is much better now and there's hardly any stutter when adding/removing stars.
@@ -225,7 +224,6 @@ Every Svelte Pixi component will automatically trigger renders when they are upd
       invalidate()
     }
   })
-
 </script>
 
 <Sprite bind:instance={sprite} {...$$restProps} />
@@ -255,7 +253,6 @@ Every Svelte Pixi component will automatically trigger renders when they are upd
   afterUpdate(() => {
     invalidate()
   })
-
 </script>
 
 <Sprite instance={sprite} {...$$restProps} />

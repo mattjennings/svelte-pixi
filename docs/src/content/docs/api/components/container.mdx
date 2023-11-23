@@ -2,6 +2,7 @@
 title: Container
 pixi: https://pixijs.download/release/docs/PIXI.Container.html
 ---
+
 import ComponentAPI from '$lib/components/ComponentAPI.astro'
 
 A Container is the base component for all components that render to the screen. It can be used on its own, but components such as Sprite or Graphics will be composed of Containers (and will provide context for [getContainer](/docs/utilities/get-container))
@@ -12,7 +13,7 @@ When child components are rendered inside, their coordinates become local to the
 
 ```svelte live
 <script>
-  import { Container, Text} from 'svelte-pixi'
+  import { Container, Text } from 'svelte-pixi'
 </script>
 
 <Container>

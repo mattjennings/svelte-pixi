@@ -2,6 +2,7 @@
 title: SimplePlane
 pixi: https://pixijs.download/release/docs/PIXI.SimplePlane.html
 ---
+
 import ComponentAPI from '$lib/components/ComponentAPI.astro'
 
 The SimplePlane allows you to draw a texture across several points and then manipulate these points
@@ -19,12 +20,12 @@ The SimplePlane allows you to draw a texture across several points and then mani
   let time = 0
   onTick((delta) => {
     if (buffer) {
-        // Randomize the vertice positions a bit to create movement.
-        for (let i = 0; i < buffer.data.length; i++) {
-            buffer.data[i] += Math.sin((time / 10) + i) * 0.5;
-        }
-        buffer.update();
-        time++
+      // Randomize the vertice positions a bit to create movement.
+      for (let i = 0; i < buffer.data.length; i++) {
+        buffer.data[i] += Math.sin(time / 10 + i) * 0.5
+      }
+      buffer.update()
+      time++
     }
   })
 </script>

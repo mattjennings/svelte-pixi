@@ -1,6 +1,7 @@
 ---
 title: BitmapText
 ---
+
 import ComponentAPI from '$lib/components/ComponentAPI.astro'
 
 Renders a line or multiple lines of text using bitmap font.
@@ -24,17 +25,16 @@ A BitmapText can only be created when the font is loaded.
   import { Application, AssetsLoader, BitmapText } from 'svelte-pixi'
 </script>
 
-<AssetsLoader
-  assets={['/assets/desyrel.xml']}
->
+<AssetsLoader assets={['/assets/desyrel.xml']}>
   <BitmapText
-    text={"the fox jumps over\nthe lazy dog"}
+    text={'the fox jumps over\nthe lazy dog'}
     x={10}
     anchor={0.5}
     style={{ fontName: 'Desyrel', fontSize: 48, align: 'center' }}
   />
 </AssetsLoader>
 ```
+
 ## API
 
 <ComponentAPI component="BitmapText.svelte" />
