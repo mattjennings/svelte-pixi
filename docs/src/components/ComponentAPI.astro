@@ -1,5 +1,5 @@
 ---
-import { ComponentParser } from 'sveld'
+import sveld from 'sveld'
 import path from 'path'
 import sveltePreprocess from 'svelte-preprocess'
 import * as svelte from 'svelte/compiler'
@@ -7,6 +7,11 @@ import fs from 'fs'
 import dashify from 'dashify'
 import { Code } from 'astro:components'
 import { marked } from 'marked'
+
+// dumb workaround for messed up types
+const { ComponentParser } = sveld as any as {
+  ComponentParser: typeof import('sveld').ComponentParser
+}
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
 const componentPath = path.resolve(
