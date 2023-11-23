@@ -1,5 +1,5 @@
-import { getRenderer } from '$lib/Renderer.svelte'
-import { getTicker, onTick } from '$lib/Ticker.svelte'
+import { getRenderer } from '../Renderer.svelte'
+import { getTicker, onTick } from '../Ticker.svelte'
 import * as PIXI from 'pixi.js'
 import { onMount, tick } from 'svelte'
 import { writable, type Writable } from 'svelte/store'

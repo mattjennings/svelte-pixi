@@ -4,3 +4,4 @@
 /docs/.astro
 /package
 /dist
+.svelte-kit

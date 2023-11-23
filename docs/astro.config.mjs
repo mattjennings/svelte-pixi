@@ -16,17 +16,14 @@ export default defineConfig({
     },
   },
   vite: {
+    optimizeDeps: {
+      exclude: ['pixi.js', 'svelte-pixi'],
+    },
     resolve: {
       alias: {
-        // in docs examples, we'll use $lib/components to point to /src/components
-        // because this is the most familiar convention for svelte users
-        '$lib/components': path.resolve(__dirname, './src/components'),
+        $lib: path.resolve(__dirname, './src'),
 
-        // but we also need to alias $lib to svelte-pixi/src/liv so we can load from svelte-pixi
-        // directly without building. so as long as $lib/components is not used in svelte-pixi,
-        // this is OK.
         'svelte-pixi': path.resolve(__dirname, '../src/lib'),
-        $lib: path.resolve(__dirname, '../src/lib'),
       },
     },
     dedupe: ['svelte-pixi', 'pixi.js'],
