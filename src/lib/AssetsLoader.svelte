@@ -29,9 +29,9 @@
 
   type $$Props = {
     preferWorkers?: boolean
-    bundleName?: string
     unload?: boolean
     assets: Array<string | PIXI.UnresolvedAssetObject>
+    bundleName: string
   }
 
   /**
@@ -46,7 +46,7 @@
    *
    * @type {string}
    */
-  export let bundleName: string = `svelte-pixi-loader-${++bundleCounter}`
+  export let bundleName: $$Props['bundleName'] = `svelte-pixi-loader-${++bundleCounter}`
 
   /**
    * Unload the bundle when the component is unmounted, freeing
@@ -83,7 +83,7 @@
               return { alias: r, src: r }
             }
             return r
-          })
+          }),
       )
 
       dispatch('start')
