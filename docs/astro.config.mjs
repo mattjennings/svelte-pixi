@@ -17,7 +17,8 @@ export default defineConfig({
   },
   vite: {
     optimizeDeps: {
-      exclude: ['pixi.js', 'svelte-pixi'],
+      exclude:
+        process.env.NODE_ENV === 'production' ? ['pixi.js', 'svelte-pixi'] : [],
     },
     resolve: {
       alias: {
@@ -26,7 +27,6 @@ export default defineConfig({
         'svelte-pixi': path.resolve(__dirname, '../src/lib'),
       },
     },
-    dedupe: ['svelte-pixi', 'pixi.js'],
   },
   integrations: [
     liveExamples({

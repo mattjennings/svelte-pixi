@@ -1,5 +1,4 @@
 ---
-import sveld from 'sveld'
 import path from 'path'
 import sveltePreprocess from 'svelte-preprocess'
 import * as svelte from 'svelte/compiler'
@@ -7,9 +6,13 @@ import fs from 'fs'
 import dashify from 'dashify'
 import { Code } from 'astro:components'
 import { marked } from 'marked'
+import mod from 'module'
 
-// dumb workaround for messed up types
-const { ComponentParser } = sveld as any as {
+const require = mod.createRequire(import.meta.url)
+
+// importing sveld exports something different in dev vs prod,
+// but this seems to work ¯\_(ツ)_/¯
+const { ComponentParser } = require('sveld') as any as {
   ComponentParser: typeof import('sveld').ComponentParser
 }
 
