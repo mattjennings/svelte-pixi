@@ -54,6 +54,7 @@ export default defineConfig({
           items: [
             {
               label: 'Components',
+              collapsed: true,
               autogenerate: {
                 directory: 'api/components',
               },
@@ -69,6 +70,7 @@ export default defineConfig({
         },
         {
           label: 'Guides',
+          collapsed: true,
           items: [
             {
               label: 'Animation with svelte/motion',
