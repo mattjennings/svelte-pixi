@@ -2,7 +2,7 @@
 
 Create [PixiJS](https://www.pixijs.com) apps with Svelte.
 
-[View Documentation](https://svelte-pixi.com)
+[View Documentation](https://svelte-pixi.mattjennin.gs)
 
 ## Contributing
 

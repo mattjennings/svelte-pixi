@@ -10,6 +10,7 @@ const codeTheme = 'poimandres'
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://svelte-pixi.mattjennin.gs',
   markdown: {
     shikiConfig: {
       theme: codeTheme,
@@ -37,9 +38,15 @@ export default defineConfig({
       title: 'Svelte Pixi',
       customCss: ['./src/tailwind.css'],
       expressiveCode: false,
-
       social: {
         github: 'https://github.com/mattjennings/svelte-pixi',
+      },
+      defaultLocale: 'root',
+      locales: {
+        root: {
+          label: 'English',
+          lang: 'en', // lang is required for root locales
+        },
       },
       sidebar: [
         {
