@@ -1,6 +1,7 @@
 <!-- 
   This ensures pixi and its dependencies are only loaded on the client, as
-  pixi.js cannot be imported server-side without errors
+  pixi.js cannot be imported server-side without errors. This is only necessary
+  to do for the root component of your Pixi app.
 
   Alternatively, you could disable SSR for the route(s) via https://kit.svelte.dev/docs/hooks#handle
   which would allow you to import Pixi components as normal.

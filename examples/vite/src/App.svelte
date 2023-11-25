@@ -3,5 +3,11 @@
 </script>
 
 <Application width={400} height={400} antialias>
-  <Text text="Hello World" style={{ fill: 'white' }} x={0} y={0} />
+  <Text
+    x={200}
+    y={200}
+    text="Hello World"
+    anchor={0.5}
+    style={{ fill: 'white' }}
+  />
 </Application>

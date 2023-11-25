@@ -1,20 +1,22 @@
 {
-  "name": "vite-custom-pixi-file-example",
-  "version": "0.0.0",
+  "name": "vite-example",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "preview": "vite preview"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.40",
-    "svelte": "^3.46.4",
-    "vite": "^2.8.6"
-  },
-  "dependencies": {
+    "@sveltejs/vite-plugin-svelte": "^3.0.0",
+    "pixi.js": "^7.3.2",
+    "svelte": "^4.2.3",
+    "svelte-pixi": "latest",
+    "vite": "^5.0.0",
     "@pixi/accessibility": "^7.3.2",
     "@pixi/app": "^7.3.2",
+    "@pixi/assets": "7.3.2",
     "@pixi/basis": "^7.3.2",
     "@pixi/compressed-textures": "^7.3.2",
     "@pixi/core": "^7.3.2",
@@ -30,10 +32,6 @@
     "@pixi/sprite-tiling": "^7.3.2",
     "@pixi/spritesheet": "^7.3.2",
     "@pixi/text": "^7.3.2",
-    "@pixi/text-bitmap": "^7.3.2",
-    "pixi.js": "^7.3.2",
-    "svelte-pixi": "latest",
-    "svelte-preprocess": "^4.7.3",
-    "svelte-check": "^1.5.2"
+    "@pixi/text-bitmap": "^7.3.2"
   }
 }

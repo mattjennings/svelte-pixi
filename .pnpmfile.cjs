@@ -10,7 +10,7 @@ function readPackage(pkg, ctx) {
         fs.mkdirSync(dir)
       }
 
-      pkg.dependencies['svelte-pixi'] = 'workspace:../../dist'
+      pkg.dependencies['svelte-pixi'] = 'workspace:*'
     }
 
     // install peer as dev dependencies

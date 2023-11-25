@@ -11,7 +11,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "validate": "svelte-check --tsconfig ./tsconfig.json --threshold error --ignore \"dist\"",
-    "prepare": "husky install",
+    "prepare": "husky install && npm run build",
     "prepublishOnly": "npm run build",
     "lint-staged": "lint-staged",
     "lint": "eslint .",
