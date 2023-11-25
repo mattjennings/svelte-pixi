@@ -75,8 +75,15 @@ function formatDescription(description: string) {
     description.trim().length === 0
   )
     return ''
+
+  console.log(description)
   return marked.parse(description, {
-    breaks: true,
+    // breaks: true,
+    walkTokens(token) {
+      if (token.type === 'paragraph') {
+        // console.log(token)
+      }
+    },
   })
 }
 
@@ -92,8 +99,12 @@ function getTypeDefs(def: any) {
 ---
 
 <style>
+  th {
+    @apply text-left;
+  }
+
   td {
-    @apply text-sm;
+    @apply !text-sm !py-3;
   }
   td code {
     @apply !mt-0;
@@ -132,10 +143,23 @@ function getTypeDefs(def: any) {
           {props.map((prop) => (
             <tr>
               <td class="align-top">
-                <div class="pt-2">{prop.name}</div>
+                <div class="inline-flex flex-col gap-2 pt-1">
+                  <span>{prop.name}</span>
+                  {prop.value && prop.kind !== 'function' && (
+                    <div class="inline-flex items-baseline gap-2 text-xs">
+                      <code
+                        title="Default value"
+                        aria-label="Default value"
+                        class="whitespace-nowrap"
+                      >
+                        {formatCodeValue(prop.value)}
+                      </code>
+                    </div>
+                  )}
+                </div>
               </td>
               <td>
-                <div class="flex gap-1 pt-1">
+                <div class="flex justify-between gap-1 pb-2">
                   <div class="inline-flex flex-wrap gap-1">
                     {prop.type &&
                       prop.type
@@ -143,25 +167,17 @@ function getTypeDefs(def: any) {
                         .map((type) => formatCodeType(type))
                         .filter(Boolean)
                         .map((type) => (
-                          <code title="Prop type" class="whitespace-nowrap">
+                          <code
+                            title="Prop type"
+                            class="whitespace-nowrap rounded"
+                          >
                             {type}
                           </code>
                         ))}
                   </div>
-                  {prop.value && prop.kind !== 'function' && (
-                    <div class="inline-flex">
-                      ={' '}
-                      <code
-                        title="Default value"
-                        class="ml-1 whitespace-nowrap"
-                      >
-                        {formatCodeValue(prop.value)}
-                      </code>
-                    </div>
-                  )}
                 </div>
-                <p
-                  class="align-top"
+                <div
+                  class="align-top pt-2"
                   set:html={
                     'description' in prop
                       ? formatDescription(prop.description!)

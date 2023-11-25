@@ -48,8 +48,10 @@
   /**
    * Pass-through value for canvas' context alpha property.
    * If you want to set transparency, please use backgroundAlpha.
-   * This option is for cases where the canvas needs to be opaque,
-   * possibly for performance reasons on some older devices.
+   * This option is for cases where the canvas
+   * needs to be opaque, possibly for performance reasons on some older devices.
+   *
+   * <br />
    *
    * @deprecated since 7.0.0, use premultipliedAlpha and backgroundAlpha instead.
    * @type {boolean | "notMultiplied"}
@@ -97,7 +99,7 @@
   export let resolution: $$Props['resolution'] = PIXI.settings.RESOLUTION
 
   /**
-   * prevents selection of WebGL renderer, even if such is present, this option only is available
+   * Prevents selection of WebGL renderer, even if such is present, this option only is available
    * when using pixi.js-legacy or @pixi/canvas-renderer modules,
    * otherwise it is ignored.
    */
