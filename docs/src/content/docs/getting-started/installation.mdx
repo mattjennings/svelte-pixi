@@ -1,8 +1,10 @@
 ---
-title: Creating a Project
+title: Installation
 sidebar:
-  order: 2
+  order: 1
 ---
+
+Svelte Pixi is a component library that allows you to write PixiJS applications declaratively in Svelte.
 
 The easiest way to get started is to use one of the [example templates](https://github.com/mattjennings/svelte-pixi/tree/master/examples)
 
@@ -16,21 +18,6 @@ npm run dev
 
 If you have an existing project, you just need to install the following dependencies:
 
-```cli
+```bash
 npm install pixi.js svelte-pixi
-```
-
-### Vite / SvelteKit
-
-If you're using Vite or SvelteKit, you'll need to add this to your Vite config:
-
-```js
-// vite.config.js
-const config = {
-  /* ... */
-
-  optimizeDeps: {
-    include: ['pixi.js'],
-  },
-}
 ```
