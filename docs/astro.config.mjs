@@ -104,6 +104,15 @@ export default defineConfig({
             },
           ],
         },
+        {
+          label: 'Older Versions',
+          items: [
+            {
+              label: 'v0.1.3 (PixiJS v6)',
+              link: 'https://v0.svelte-pixi.mattjennin.gs',
+            },
+          ],
+        },
       ],
     }),
     svelte({
