@@ -12,7 +12,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
   import { Text, Sprite } from 'svelte-pixi'
   import { spring } from 'svelte/motion'
 
-  let dragging = false
+  let dragging = $state(false)
   let offset = { x: 0, y: 0 }
   let startingPosition = { x: 0, y: 0 }
 
@@ -23,7 +23,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
 
   function handleDragStart(event) {
     dragging = true
-    const { x, y } = event.detail.data.global
+    const { x, y } = event.data.global
 
     offset = {
       x: x - $position.x,
@@ -33,7 +33,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
 
   function handleDrag(event) {
     if (dragging) {
-      const { x, y } = event.detail.data.global
+      const { x, y } = event.data.global
       position.update(
         ($position) => ({
           x: x - offset.x,
@@ -59,10 +59,10 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
   eventMode="static"
   cursor="pointer"
   zIndex={10}
-  on:pointerdown={handleDragStart}
-  on:pointerup={handleDragEnd}
-  on:pointerupoutside={handleDragEnd}
-  on:globalpointermove={handleDrag}
+  onpointerdown={handleDragStart}
+  onpointerup={handleDragEnd}
+  onpointerupoutside={handleDragEnd}
+  onglobalpointermove={handleDrag}
 />
 
 <Text
@@ -82,7 +82,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
   import { tweened } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
 
-  const barWidth = 200
+  const barWidth = $state(200)
 
   const progress = tweened(barWidth / 5, {
     duration: 400,

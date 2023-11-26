@@ -26,9 +26,11 @@ This is useful for watching a property on a PixiJS instance that is getting upda
   })
 </script>
 
-<Container bind:instance x={$x} y={$y}>
-  <Text {text} style={{ fill: 'white' }} />
-</Container>
+{#key 0}
+  <Container bind:instance x={$x} y={$y}>
+    <Text {text} style={{ fill: 'white' }} />
+  </Container>
+{/key}
 ```
 
 ## Type Definition
