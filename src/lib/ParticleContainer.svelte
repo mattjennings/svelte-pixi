@@ -3,96 +3,58 @@
    * @restProps {Container}
    */
   import * as PIXI from 'pixi.js'
-  import { afterUpdate } from 'svelte'
+  import { afterUpdate, onMount } from 'svelte'
   import Container from './Container.svelte'
   import { getRenderer } from './Renderer.svelte'
 
   type T = $$Generic<PIXI.ParticleContainer>
-  type $$Props = Container<T>['$$prop_def'] & {
+  type Props = Container<T>['$$prop_def'] & {
+    /**
+     * The maximum number of particles that can be rendered by the container.
+     * Affects size of allocated buffers.
+     */
     maxSize?: number
+    /**
+     * The properties of children that should be uploaded to the gpu and applied.
+     *
+     * @type {PIXI.IParticleProperties}
+     */
     properties?: PIXI.IParticleProperties
+    /**
+     * Number of particles per batch. If less than maxSize, it uses maxSize instead.
+     */
     batchSize?: number
+    /**
+     * If true, container allocates more batches in case there are more than maxSize particles.
+     */
     autoResize?: boolean
+
+    /**
+     * The PIXI.ParticleContainer instance. Can be set or bound to.
+     *
+     * @type {PIXI.ParticleContainer}
+     */
+    instance?: T
   }
 
-  /**
-   * The maximum number of particles that can be rendered by the container.
-   * Affects size of allocated buffers.
-   */
-  export let maxSize: $$Props['maxSize'] = 1500
-
-  /**
-   * The properties of children that should be uploaded to the gpu and applied.
-   *
-   * @type {PIXI.IParticleProperties}
-   */
-  export let properties: $$Props['properties'] = undefined
-
-  /**
-   * Number of particles per batch. If less than maxSize, it uses maxSize instead.
-   */
-  export let batchSize: $$Props['batchSize'] = 16384
-
-  /**
-   * If true, container allocates more batches in case there are more than maxSize particles.
-   */
-  export let autoResize: $$Props['autoResize'] = false
-
-  /**
-   * The PIXI.ParticleContainer instance. Can be set or bound to.
-   *
-   * @type {PIXI.ParticleContainer}
-   */
-  export let instance: T = new PIXI.ParticleContainer(
+  const {
     maxSize,
     properties,
     batchSize,
     autoResize,
-  ) as T
+    children,
+    instance: _instance,
+    ...restProps
+  } = $props<Props>()
+
+  export const instance = (_instance ??
+    new PIXI.ParticleContainer(maxSize, properties, batchSize, autoResize)) as T
 
   const { invalidate } = getRenderer()
 
-  afterUpdate(() => {
+  onMount(() => {
     invalidate()
   })
 </script>
 
-<Container
-  {...$$restProps}
-  {instance}
-  on:create
-  on:click
-  on:globalmousemove
-  on:globalpointermove
-  on:globaltouchmove
-  on:mousedown
-  on:mousemove
-  on:mouseout
-  on:mouseover
-  on:mouseup
-  on:mouseupoutside
-  on:mouseupoutside
-  on:pointercancel
-  on:pointerdown
-  on:pointermove
-  on:pointerout
-  on:pointerover
-  on:pointertap
-  on:pointerup
-  on:pointerupoutside
-  on:removedFrom
-  on:rightclick
-  on:rightdown
-  on:rightup
-  on:rightupoutside
-  on:tap
-  on:touchcancel
-  on:touchend
-  on:touchendoutside
-  on:touchmove
-  on:touchstart
-  on:added
-  on:removed
->
-  <slot />
-</Container>
+<Container {...restProps} {instance} {children} />

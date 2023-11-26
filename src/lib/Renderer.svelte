@@ -50,7 +50,12 @@
     onprerender,
     onpostrender,
     oninvalidate,
-    instance: _instance = PIXI.autoDetectRenderer(
+    instance: _instance,
+  } = $props<Props>()
+
+  export const instance =
+    _instance ??
+    (PIXI.autoDetectRenderer(
       omitUndefined({
         width,
         height,
@@ -68,10 +73,7 @@
         eventMode,
         eventFeatures,
       }),
-    ) as T,
-  } = $props<Props>()
-
-  export const instance = _instance
+    ) as T)
 
   setContext('pixi/renderer', {
     renderer: instance,

@@ -13,34 +13,34 @@ Other more advanced functionality like masking, filters, etc will not work on sp
 
 ## Usage
 
-Note: when working with thousands of components, it is **much** more performant to create & update the Pixi instances directly instead of through components
+Note: when working with thousands of components, it is **much** more performant to create & update the Pixi 
+instances directly instead of through components. See [Optimizing Performance](/guides/optimizing-performance) guide.
 
 ```svelte live assets=["/assets/star.png"]
 <script>
   import * as PIXI from 'pixi.js'
-  import { Sprite, onTick, ParticleContainer } from 'svelte-pixi'
+  import { Sprite, onTick, ParticleContainer, getRenderer} from 'svelte-pixi'
   import { onMount } from 'svelte'
 
-  const width = 800
-  const height = 400
+  const { renderer } = getRenderer()
+
+  const width = renderer.width / 2
+  const height = renderer.height / 2
   const speed = 0.025
   const fov = 20
   const starSize = 0.05
 
-  let container
-  let cameraZ = 0
-  let amount = 5000
+  let container = $state(null)
+  let cameraZ = $state(0)
+  let amount = $state(5000)
   let stars = []
 
   // create stars for amount value
-  $: {
-    // cleanup previous stars
-    stars.forEach((star) => star.destroy())
-
-    // create stars
-    if (container) {
-      stars = new Array(amount).fill(null).map(() => {
+  $effect(() => {    
+    if (container) {      
+      stars = new Array(amount).fill(null).map(() => {        
         const star = new PIXI.Sprite(PIXI.Texture.from('/assets/star.png'))
+
         const deg = Math.random() * Math.PI * 2
         const distance = Math.random() * 50 + 1
 
@@ -52,8 +52,6 @@ Note: when working with thousands of components, it is **much** more performant 
         star.y = star.initY
         star.z = star.initZ
 
-        updateStar(star)
-
         return star
       })
 
@@ -61,15 +59,19 @@ Note: when working with thousands of components, it is **much** more performant 
         container.addChild(...stars)
       }
     }
-  }
+
+    // destroy stars
+    return () => {
+      stars.forEach((star) => star.destroy())
+    }
+  })
 
   function updateStar(star) {
-    const z = star.z - cameraZ
+    const z = star.z - cameraZ % 2000
     const distance = Math.max(0, (2000 - z) / 2000)
 
     star.scale.set(distance * starSize)
-    star.anchor.set(0.5, 0.7)
-
+    
     star.x = star.initX * (fov / z) * width
     star.y = star.initY * (fov / z) * width
   }
@@ -81,18 +83,7 @@ Note: when working with thousands of components, it is **much** more performant 
     stars.forEach(updateStar)
   })
 
-  onMount(() => {
-    // make sure to destroy stars on unmount
-    return () => {
-      stars.forEach((star) => star.destroy())
-    }
-  })
 </script>
-
-<label class="flex flex-col !mt-0">
-  <span class="text-white text-center">Amount: {amount}</span>
-  <input type="range" min="0" max="10000" step="100" bind:value={amount} />
-</label>
 
 <ParticleContainer
   bind:instance={container}
@@ -103,6 +94,12 @@ Note: when working with thousands of components, it is **much** more performant 
     rotation: true,
   }}
 />
+
+<label class="flex flex-col !mt-0">
+  <span class="text-white text-center">Amount: {amount}</span>
+  <input type="range" min="0" max="10000" step="500" bind:value={amount} />
+</label>
+
 ```
 
 ## API

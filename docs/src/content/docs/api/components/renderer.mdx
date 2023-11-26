@@ -23,13 +23,13 @@ This is an alternative to using the [Application](/docs/components/application) 
 <Renderer
   bind:instance={renderer}
   bind:stage
-  width={700}
+  width={720}
   height={400}
   antialias
 >
   <!-- use our own ticker to control the render loop -->
   <Ticker
-    on:tick={() => {
+    ontick={() => {
       renderer.render(stage)
     }}
   >
@@ -63,21 +63,24 @@ If you want to customize the element that the canvas is rendered into, you can u
   let stage
 </script>
 
+{#snippet view()}  
+  <div class="custom">
+    <!-- canvas will be placed here -->
+  </div>
+{/snippet}
+
 <Renderer
   bind:instance={renderer}
   bind:stage
   width={700}
   height={400}
   antialias
+  {view}
 >
-  <div slot="view" class="custom">
-    <!-- canvas will be placed here -->
-  </div>
-
   <!-- pixi components go here -->
   <Container bind:instance={stage}>
     <Ticker
-      on:tick={() => {
+      ontick={() => {
         renderer.render(stage)
       }}
     />
@@ -101,8 +104,9 @@ If you want to customize the element that the canvas is rendered into, you can u
 
 ### Render on Demand
 
-The `Application` component supports [rendering on demand](/docs/components/application#render-on-demand). While `Renderer` doesn't offer the same `render="demand"` prop,
-we can still implement this ourselves:
+`Renderer` doesn't offer the same `render="demand"` prop as the
+[`Application` component does](/docs/components/application#render-on-demand), 
+but we can still implement this ourselves: 
 
 ```svelte live wrapper=/src/layouts/examples/wrappers/Empty.svelte
 <script>
@@ -111,7 +115,7 @@ we can still implement this ourselves:
 
   let renderer
   let stage
-  let needsRender = true
+  let needsRender = $state(true)
 </script>
 
 <Renderer
@@ -119,12 +123,12 @@ we can still implement this ourselves:
   width={700}
   height={400}
   antialias
-  on:invalidate={() => {
+  oninvalidate={() => {
     needsRender = true
   }}
 >
   <Ticker
-    on:tick={() => {
+    ontick={() => {
       if (needsRender) {
         renderer.render(stage)
         needsRender = false

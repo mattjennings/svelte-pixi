@@ -20,7 +20,7 @@ Pretty much all WebGL can be broken down into the following:
   import { Mesh, onTick } from 'svelte-pixi'
   import * as PIXI from 'pixi.js'
 
-  let rotation = 0
+  let rotation = $state(0)
 
   const geometry = new PIXI.Geometry()
     .addAttribute(
