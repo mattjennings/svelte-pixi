@@ -43,20 +43,24 @@ You may find yourself needing to render and update many components at once. Take
   onTick((delta) => {
     cameraZ += delta * 10 * speed
   })
+
+  function getZ(star) {
+    return star.z - cameraZ % 2000
+  }
+
+  function getDistance(star) {
+    return Math.max(0, (2000 - getZ(star)) / 2000)
+  }
 </script>
 
 <FPS />
 
 {#each stars as star (star.key)}
-  <!-- calculate new position based on cameraZ -->
-  {@const z = star.z - cameraZ % 2000}
-  {@const distance = Math.max(0, (2000 - z) / 2000)}
-
   <Sprite
     texture={PIXI.Texture.from('/assets/star.png')}
-    scale={{ x: distance * starSize, y: distance * starSize }}
-    x={star.x * (fov / z) * width}
-    y={star.y * (fov / z) * width}
+    scale={getDistance(star) * starSize}
+    x={star.x * width * (fov / getZ(star))}
+    y={star.y * width * (fov / getZ(star))}
   />
 {/each}
 
@@ -145,7 +149,6 @@ Let's take another approach by using Pixi a bit more directly:
   // move the camera forward
   onTick((delta) => {
     cameraZ += delta * 10 * speed
-
 
     stars.forEach(updateStar)
   })
