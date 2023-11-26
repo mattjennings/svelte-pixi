@@ -3,27 +3,21 @@
   import { Graphics, getContainer } from 'svelte-pixi'
   import { spring } from 'svelte/motion'
 
-  export let x
-  export let y
+  const { x, y, ...restProps } = $props()
 
   let position = spring({ x, y }, { stiffness: 0.2, damping: 0.4 })
 
-  /**
-   * @type {import('pixi.js').Graphics')}
-   */
-  let instance
-
   const { container } = getContainer()
 
-  let dragging = false
+  let dragging = $state(false)
   let offset = { x: 0, y: 0 }
   let circleSize = 50
 
-  function handleDragStart({ detail }) {
+  function handleDragStart({ data }) {
     dragging = true
     offset = {
-      x: detail.data.global.x - x,
-      y: detail.data.global.y - y,
+      x: data.global.x - x,
+      y: data.global.y - y,
     }
   }
 
@@ -35,8 +29,8 @@
     })
   }
 
-  function handleDrag({ detail }) {
-    const nextPosition = detail.data.global
+  function handleDrag({ data }) {
+    const nextPosition = data.global
 
     if (dragging) {
       position.set(
@@ -51,7 +45,6 @@
 </script>
 
 <Graphics
-  bind:instance
   x={$position.x}
   y={$position.y}
   draw={(graphics) => {
@@ -64,11 +57,9 @@
   cursor="pointer"
   hitArea={new PIXI.Circle(0, 0, circleSize)}
   zIndex={10}
-  on:pointerdown={handleDragStart}
-  on:globalpointermove={handleDrag}
-  on:pointerup={handleDragEnd}
-  on:pointerupoutside={handleDragEnd}
-  {...$$restProps}
->
-  <slot />
-</Graphics>
+  onpointerdown={handleDragStart}
+  onglobalpointermove={handleDrag}
+  onpointerup={handleDragEnd}
+  onpointerupoutside={handleDragEnd}
+  {...restProps}
+/>

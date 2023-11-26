@@ -13,11 +13,17 @@ When child components are rendered inside, their coordinates become local to the
 
 ```svelte live
 <script>
-  import { Container, Text } from 'svelte-pixi'
+  import { Container, Text, onTick } from 'svelte-pixi'
+
+  let x = $state(0)
+
+  onTick(() => {
+x+=1
+  })
 </script>
 
 <Container>
-  <Text text="Hello" x={-10} y={-60} style={{ fill: 'white' }} />
+  <Text text="Hello" x={x} y={-60} style={{ fill: 'white' }} />
   <Text text="World" x={-10} y={0} style={{ fill: 'white' }} />
 </Container>
 ```

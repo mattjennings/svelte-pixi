@@ -16,24 +16,29 @@ export function createApplyProps<
   },
 >(
   instance: Instance,
-  apply?: {
-    [PropKey in keyof Props]?: Apply<Instance, Props[PropKey]>
+  opts?: {
+    apply?: {
+      [PropKey in keyof Props]?: Apply<Instance, Props[PropKey]>
+    }
+    onApply?: (prop: keyof Props, value: Props[keyof Props]) => void
   },
 ) {
-  const defaultApply = apply
+  const defaultApply = opts?.apply
   return {
     applyProps: (props: Partial<Props>) =>
-      applyProps(instance, props, { ...defaultApply, ...apply }),
+      applyProps(instance, props, { ...defaultApply, ...opts?.apply }),
     applyProp: <Prop extends keyof Props, Value>(
       prop: Prop | null,
       value: Value,
-    ) =>
+    ) => {
       applyProp(
         instance,
         prop as any,
         value,
         prop !== null ? defaultApply?.[prop] : undefined,
-      ),
+      )
+      opts?.onApply?.(prop as keyof Props, value as any)
+    },
   }
 }
 

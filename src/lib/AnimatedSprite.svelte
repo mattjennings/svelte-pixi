@@ -90,19 +90,21 @@
   const { applyProp } = createApplyProps<PIXI.AnimatedSprite, $$Props>(
     instance,
     {
-      textures: (value, instance) => {
-        instance.textures = value
+      apply: {
+        textures: (value, instance) => {
+          instance.textures = value
 
-        if (playing) {
-          instance.play()
-        }
-      },
-      playing: (value, instance) => {
-        if (playing) {
-          instance.play()
-        } else {
-          instance.stop()
-        }
+          if (playing) {
+            instance.play()
+          }
+        },
+        playing: (value, instance) => {
+          if (playing) {
+            instance.play()
+          } else {
+            instance.stop()
+          }
+        },
       },
     },
   )

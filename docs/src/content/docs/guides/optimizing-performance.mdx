@@ -20,7 +20,7 @@ You may find yourself needing to render and update many components at once. Take
   const starSize = 0.05
 
   let cameraZ = 0
-  let amount = 100
+  let amount = 1000
 
   // create an array describing each star's initial position
   $: stars = new Array(amount).fill(null).map(() => {
@@ -68,7 +68,7 @@ Notice how the performance sharply drops as you increase the amount of stars wit
 
 Let's take another approach by using Pixi a bit more directly:
 
-```svelte live stats
+```svelte livee stats
 <script>
   import * as PIXI from 'pixi.js'
   import { Sprite, onTick, Container } from 'svelte-pixi'
@@ -177,7 +177,7 @@ You can set `render="demand"` on the `Application` component to opt into this be
   height={400}
   antialias
   render="demand"
-  on:postrender={() => console.log('render')}
+  onpostrender={() => console.log('render')}
 >
   <DraggableCircle x={350} y={200} />
   <Text

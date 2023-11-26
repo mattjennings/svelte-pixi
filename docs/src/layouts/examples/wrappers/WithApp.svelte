@@ -5,33 +5,29 @@
   import IntersectionObserver from 'svelte-intersection-observer'
   import Stats from 'stats-js'
 
-  /**
-   * @type {string}
-   */
-  export let meta
+  const { meta, children } = $props()
 
   let assets = JSON.parse(getMetaValue('assets') || '[]')
-  let backgroundColor = getMetaValue('bg') || 0x000000
-  let showStats = getMetaValue('stats')
+  let backgroundColor = getMetaValue('bg') || 'black'
+  let showStats = getMetaValue('stats') || false
 
   let intersecting = true
-  let element
-  /**
-   * @type {HTMLElement}
-   */
-  let statsElement
-  let app
+  let element = $state()
+  let statsElement = $state()
+  let app = $state()
   let width
   let height
 
   // only render while in view
-  $: if (app) {
-    if (!intersecting) {
-      app.stop()
-    } else {
-      app.start()
+  $effect(() => {
+    if (app) {
+      if (!intersecting) {
+        app.stop()
+      } else {
+        app.start()
+      }
     }
-  }
+  })
 
   function getMetaValue(key) {
     return (
@@ -69,6 +65,17 @@
   })
 </script>
 
+{#snippet view()}
+  <div bind:this={element} class="relative not-content">
+    {#if showStats}
+      <div
+        bind:this={statsElement}
+        class="absolute top-0 left-0 z-100 [&>div]:!absolute"
+      />
+    {/if}
+    <IntersectionObserver {element} bind:intersecting />
+  </div>
+{/snippet}
 <div
   bind:clientWidth={width}
   bind:clientHeight={height}
@@ -80,21 +87,11 @@
     width={800}
     height={400}
     {backgroundColor}
+    {view}
   >
-    <div bind:this={element} class="relative not-content" slot="view">
-      {#if showStats}
-        <div
-          bind:this={statsElement}
-          class="absolute top-0 left-0 z-100 [&>div]:!absolute"
-        />
-      {/if}
-
-      <IntersectionObserver {element} bind:intersecting />
-    </div>
-
     <AssetsLoader {assets}>
       <Layout align="center" sortableChildren {width} {height}>
-        <slot />
+        {@render children()}
       </Layout>
     </AssetsLoader>
   </Application>
