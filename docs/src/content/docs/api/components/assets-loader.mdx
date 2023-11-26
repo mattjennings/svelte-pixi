@@ -19,11 +19,11 @@ render until the loading has completed. You can show progress by using the `prog
   import * as PIXI from 'pixi.js'
 </script>
 
-<AssetsLoader assets={['/assets/great-success.png']}>
-  <slot slot="loading">
-    <Text text={`Loading...`} anchor={0.5} />
-  </slot>
+{#snippet loading({ progress })}
+  <Text text={`Loading... ${progress}`} anchor={0.5} />
+{/snippet}
 
+<AssetsLoader {loading} assets={['/assets/great-success.png']}>
   <Sprite
     texture={PIXI.Texture.from('/assets/great-success.png')}
     anchor={0.5}

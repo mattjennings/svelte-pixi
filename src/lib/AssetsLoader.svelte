@@ -9,62 +9,63 @@
 <script lang="ts">
   import { Assets } from 'pixi.js'
   import type * as PIXI from 'pixi.js'
-  import { createEventDispatcher, onMount } from 'svelte'
+  import { onMount, type Snippet } from 'svelte'
   import { getRenderer } from './Renderer.svelte'
 
-  interface $$Slots {
-    default: {
-      progress?: number
-    }
-    loading: {
-      progress: number
-    }
-  }
-
-  interface $$Events {
-    complete: void
-    progress: number
-    start: void
-  }
-
-  type $$Props = {
-    preferWorkers?: boolean
-    unload?: boolean
+  interface Props {
+    /**
+     * An array of assets to load. These will get loaded as a bundle.
+     * @type {Array<string | PIXI.UnresolvedAssetObject>}
+     */
     assets: Array<string | PIXI.UnresolvedAssetObject>
+
+    /**
+     * Unload the bundle when the component is unmounted, freeing
+     * the assets from memory.
+     *
+     * Default is false
+     *
+     * @type {boolean}
+     */
+
+    unload?: boolean
+
+    /**
+     * The name of the bundle for the assets. By default a name is generated
+     * for you.
+     *
+     * @type {string}
+     */
     bundleName: string
+
+    /**
+     * A snippet to render while the assets are loading. The progress of the
+     * load is passed as a prop.
+     *
+     * @type {Snippet<{ progress: number }>}
+     */
+    loading?: Snippet<{ progress: number }>
+    children?: Snippet<void>
+
+    oncomplete?: () => void
+    onprogress?: (ev: { progress: number }) => void
+    onstart?: () => void
   }
 
-  /**
-   * An array of assets to load. These will get loaded as a bundle.
-   * @type {Array<string | PIXI.UnresolvedAssetObject>}
-   */
-  export let assets: $$Props['assets'] = []
+  const {
+    assets,
+    bundleName = `svelte-pixi-loader-${++bundleCounter}`,
+    loading,
+    unload,
+    children,
+    oncomplete,
+    onprogress,
+    onstart,
+  } = $props<Props>()
 
-  /**
-   * The name of the bundle for the assets. By default a name is generated
-   * for you.
-   *
-   * @type {string}
-   */
-  export let bundleName: $$Props['bundleName'] = `svelte-pixi-loader-${++bundleCounter}`
-
-  /**
-   * Unload the bundle when the component is unmounted, freeing
-   * the assets from memory.
-   *
-   * Default is false
-   *
-   * @type {boolean}
-   */
-  export let unload: boolean = false
-
-  const dispatch = createEventDispatcher<$$Events>()
   const { invalidate } = getRenderer()
 
-  export let progress = 0
-
-  $: loading = progress < 1
-  $: progress, invalidate()
+  let progress = $state(0)
 
   onMount(() => {
     async function load() {
@@ -86,19 +87,21 @@
           }),
       )
 
-      dispatch('start')
+      onstart?.()
+
       await Assets.loadBundle(bundleName, (prog) => {
         // loading isn't totally complete until this promise resolves,
         // so we'll track progress up to 1 and then set it to 1 ourselves afterwards
         if (prog < 1) {
           progress = prog
-          dispatch('progress', progress)
+          onprogress?.({ progress })
+          invalidate()
         }
       })
 
       progress = 1
-      dispatch('progress', progress)
-      dispatch('complete')
+      oncomplete?.()
+      invalidate()
     }
 
     load()
@@ -110,8 +113,8 @@
   })
 </script>
 
-{#if loading}
-  <slot name="loading" {progress} />
-{:else}
-  <slot />
+{#if progress < 1 && loading}
+  {@render loading({ progress })}
+{:else if progress === 1 && children}
+  {@render children()}
 {/if}

@@ -1,5 +1,9 @@
+<script>
+  const { children } = $props()
+</script>
+
 <div class="with-app-container w-full h-full overflow-hidden block">
-  <slot />
+  {@render children()}
 </div>
 
 <style>
