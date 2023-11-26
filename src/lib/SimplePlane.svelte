@@ -3,7 +3,6 @@
    * @restProps {Container}
    */
   import * as PIXI from 'pixi.js'
-  import { afterUpdate } from 'svelte'
   import Container from './Container.svelte'
   import { getRenderer } from './Renderer.svelte'
   import { parsePoint, type PointLike } from './util/data-types'

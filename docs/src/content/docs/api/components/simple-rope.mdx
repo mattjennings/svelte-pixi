@@ -7,6 +7,7 @@ import ComponentAPI from '$lib/components/ComponentAPI.astro'
 
 The rope allows you to draw a texture across several points and then manipulate these points
 
+{/* TODO: possible svelte 5 bug, SimpleRope doesnt seem to get updated value in points prop  */}
 ## Usage
 
 ```svelte live
@@ -15,19 +16,17 @@ The rope allows you to draw a texture across several points and then manipulate 
   import * as PIXI from 'pixi.js'
 
   const ropeLength = 918 / 20
-  let points = Array.from({ length: 20 }).map((_, i) => ({
-    x: i * ropeLength,
-    y: 0,
-  }))
-
-  let time = 0
-  onTick((delta) => {
-    time += 0.1 * delta
-
-    points = points.map((point, i) => ({
+  
+  let time = $state(0)
+  let points = $derived(
+    Array.from({ length: 20 }).map((_, i) => ({
       x: i * ropeLength + Math.cos(i * 0.3 + time) * 20,
       y: Math.sin(i * 0.5 + time) * 30,
     }))
+  )
+
+  onTick((delta) => {
+    time += 0.1 * delta
   })
 </script>
 
