@@ -30,6 +30,7 @@ Instead, Svelte Pixi provides a [track](/docs/utilities/track) utility function 
   })
 </script>
 
+{#key 0}
 <Graphics
   bind:instance
   x={$x}
@@ -49,6 +50,7 @@ Instead, Svelte Pixi provides a [track](/docs/utilities/track) utility function 
   style={{ fill: 'white' }}
   anchor={0.5}
 />
+{/key}
 
 <button class="font-medium rounded mt-2 w-full cursor-pointer" on:click={reset}>
   Reset
