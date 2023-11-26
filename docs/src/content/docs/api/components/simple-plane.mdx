@@ -14,20 +14,21 @@ The SimplePlane allows you to draw a texture across several points and then mani
   import { SimplePlane, onTick } from 'svelte-pixi'
   import * as PIXI from 'pixi.js'
 
-  let plane
-  $: buffer = plane && plane.geometry.getBuffer('aVertexPosition')
+  let plane = $state(null)
+  let time = $state(0)
 
-  let time = 0
+  // Randomize the vertice positions a bit to create movement.
   onTick((delta) => {
+    const buffer = plane?.geometry.getBuffer('aVertexPosition')
     if (buffer) {
-      // Randomize the vertice positions a bit to create movement.
       for (let i = 0; i < buffer.data.length; i++) {
         buffer.data[i] += Math.sin(time / 10 + i) * 0.5
       }
-      buffer.update()
-      time++
+      buffer.update()      
     }
-  })
+    
+    time += delta * 2
+  })  
 </script>
 
 <SimplePlane
