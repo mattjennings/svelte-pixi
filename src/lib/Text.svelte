@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
   import type { ITextStyle } from 'pixi.js'
   import * as PIXI from 'pixi.js'
 
@@ -27,11 +26,11 @@
     pluginName,
     roundPixels,
     children,
-    instance: _instance = new PIXI.Text(text, style) as T,
+    instance: _instance,
     ...restProps
   } = $props<Props>()
 
-  export const instance = _instance
+  export const instance = (_instance ?? new PIXI.Text(text, style)) as T
 
   const { invalidate } = getRenderer()
 
@@ -49,4 +48,4 @@
   $effect(() => applyProp('roundPixels', roundPixels))
 </script>
 
-<Container {instance} {...restProps} {children} />
+<Container {...restProps} {instance} {children} />

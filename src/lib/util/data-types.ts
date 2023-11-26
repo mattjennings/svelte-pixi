@@ -32,9 +32,18 @@ export function parsePoint(point: PointLike): PIXI.Point {
     return new PIXI.Point(point, point)
   }
 
-  if (point instanceof PIXI.Point || point instanceof PIXI.ObservablePoint) {
+  if (isPoint(point)) {
     return point
   }
 
   return new PIXI.Point(point.x, point.y)
+}
+
+export function isPoint(point: PointLike): point is PIXI.Point {
+  return (
+    !!point &&
+    // faster than instanceof
+    (point.constructor === PIXI.Point ||
+      point.constructor === PIXI.ObservablePoint)
+  )
 }

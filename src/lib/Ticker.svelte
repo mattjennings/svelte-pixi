@@ -13,9 +13,10 @@
       if (ticker) {
         ticker.add(fn, null, priority)
         return () => {
-          // @ts-ignore - safely check if ticker hasn't been destroyed
-          if (ticker && ticker._head) {
+          try {
             ticker.remove(fn, null)
+          } catch (e) {
+            // no-op, ticker may have already been destroyed
           }
         }
       } else {
@@ -50,12 +51,12 @@
     minFPS,
     speed,
     priority,
-    instance: _instance = new PIXI.Ticker() as T,
+    instance: _instance,
     ontick,
     children,
   } = $props<Props>()
 
-  export const instance = _instance
+  export const instance = (_instance ?? new PIXI.Ticker()) as T
 
   setContext<TickerContext<T>>('pixi/ticker', { ticker: instance })
 

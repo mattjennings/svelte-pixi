@@ -2,7 +2,6 @@
   import { Application, AssetsLoader } from 'svelte-pixi'
   import { onMount } from 'svelte'
   import { Layout } from 'svelte-pixi/experimental'
-  import IntersectionObserver from 'svelte-intersection-observer'
   import Stats from 'stats-js'
 
   const { meta, children } = $props()
@@ -11,21 +10,31 @@
   let backgroundColor = getMetaValue('bg') || 'black'
   let showStats = getMetaValue('stats') || false
 
-  let intersecting = true
-  let element = $state()
-  let statsElement = $state()
+  let intersecting = $state(true)
+  let element = $state(null)
   let app = $state()
-  let width
-  let height
+  let width = $state(0)
+  let height = $state(0)
 
-  // only render while in view
+  let key = Math.random()
+
   $effect(() => {
-    if (app) {
-      if (!intersecting) {
-        app.stop()
-      } else {
-        app.start()
-      }
+    // setup intersection observer on element, set intersecting = true when intersecting
+    if (element) {
+      const observer = new IntersectionObserver((entries) => {
+        intersecting = entries[0].isIntersecting
+      })
+      observer.observe(element)
+      return () => observer.disconnect()
+    }
+  })
+
+  // only render app while in view
+  $effect(() => {
+    if (!intersecting) {
+      app?.stop()
+    } else {
+      app?.start()
     }
   })
 
@@ -73,28 +82,32 @@
         class="absolute top-0 left-0 z-100 [&>div]:!absolute"
       />
     {/if}
-    <IntersectionObserver {element} bind:intersecting />
   </div>
 {/snippet}
+
 <div
   bind:clientWidth={width}
   bind:clientHeight={height}
   class="with-app-container w-full h-full overflow-hidden"
 >
-  <Application
-    bind:instance={app}
-    autoStart={false}
-    width={800}
-    height={400}
-    {backgroundColor}
-    {view}
-  >
-    <AssetsLoader {assets}>
-      <Layout align="center" sortableChildren {width} {height}>
-        {@render children()}
-      </Layout>
-    </AssetsLoader>
-  </Application>
+  {#if width > 0}
+    <Application
+      bind:instance={app}
+      autoStart={false}
+      width={800}
+      height={400}
+      {backgroundColor}
+      {view}
+    >
+      {#key key}
+        <AssetsLoader {assets}>
+          <Layout align="center" sortableChildren {width} {height}>
+            {@render children()}
+          </Layout>
+        </AssetsLoader>
+      {/key}
+    </Application>
+  {/if}
 </div>
 
 <style>

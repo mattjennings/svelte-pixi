@@ -20,8 +20,8 @@ render until the loading has completed. You can show progress by using the `prog
 </script>
 
 <AssetsLoader assets={['/assets/great-success.png']}>
-  <slot let:progress slot="loading">
-    <Text text={`Loading... ${progress}`} anchor={0.5} />
+  <slot slot="loading">
+    <Text text={`Loading...`} anchor={0.5} />
   </slot>
 
   <Sprite

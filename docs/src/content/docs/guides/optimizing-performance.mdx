@@ -11,28 +11,33 @@ You may find yourself needing to render and update many components at once. Take
 ```svelte live stats
 <script>
   import * as PIXI from 'pixi.js'
-  import { Sprite, onTick } from 'svelte-pixi'
+  import { Sprite, onTick, getRenderer } from 'svelte-pixi'
+  
+  const { renderer } = getRenderer()
 
-  const width = 800
-  const height = 400
+  const width = renderer.width / 2
+  const height = renderer.height / 2
   const speed = 0.025
   const fov = 20
   const starSize = 0.05
 
-  let cameraZ = 0
-  let amount = 1000
+  let cameraZ = $state(2000)
+  let amount = $state(1000)
 
   // create an array describing each star's initial position
-  $: stars = new Array(amount).fill(null).map(() => {
-    const deg = Math.random() * Math.PI * 2
-    const distance = Math.random() * 50 + 1
+  let stars = $derived(
+    new Array(amount).fill(null).map((_, i) => {
+      const deg = Math.random() * Math.PI * 2
+      const distance = Math.random() * 50 + 1
 
-    return {
-      x: Math.cos(deg) * distance,
-      y: Math.sin(deg) * distance,
-      z: Math.random() * 1000 + 750,
-    }
-  })
+      return {
+        key: i,
+        x: Math.cos(deg) * distance,
+        y: Math.sin(deg) * distance,
+        z: Math.random() * 1000 + 750,
+      }
+    })
+  )
 
   // move the camera forward
   onTick((delta) => {
@@ -40,14 +45,15 @@ You may find yourself needing to render and update many components at once. Take
   })
 </script>
 
-{#each stars as star}
+<FPS />
+
+{#each stars as star (star.key)}
   <!-- calculate new position based on cameraZ -->
-  {@const z = star.z - cameraZ}
+  {@const z = star.z - cameraZ % 2000}
   {@const distance = Math.max(0, (2000 - z) / 2000)}
 
   <Sprite
     texture={PIXI.Texture.from('/assets/star.png')}
-    anchor={{ x: 0.5, y: 0.7 }}
     scale={{ x: distance * starSize, y: distance * starSize }}
     x={star.x * (fov / z) * width}
     y={star.y * (fov / z) * width}
@@ -56,39 +62,42 @@ You may find yourself needing to render and update many components at once. Take
 
 <label class="flex flex-col !mt-0">
   <span class="text-white text-center">Amount: {amount}</span>
-  <input type="range" min="0" max="10000" step="100" bind:value={amount} />
+  <input type="range" min="0" max="10000" step="500" bind:value={amount} />
 </label>
 ```
 
-Notice how the performance sharply drops as you increase the amount of stars with the slider. Not great is it? There are a few reasons why:
+Notice how the performance sharply drops as you increase the amount of stars with the slider. There are a few reasons why:
 
-1. Updating props for thousands of components is slow. Even if these were HTML elements, it would be just as bad. At this scale it's always best to mutate the underlying Pixi instances (in this case, the sprites).
+1. Updating props for thousands of components is slow. Even if these were HTML elements it would still be bad. 
+At this scale it's always best to mutate the underlying Pixi instances (in this case, the sprites).
 
-2. Mounting/unmounting thousands of components is slow. If you pay close attention you'll notice a significant stutter when moving the slider up/down at the higher values.
+2. Mounting/unmounting thousands of components is slow. If you pay close attention you'll 
+notice a significant stutter while moving the slider up/down at the higher values.
 
 Let's take another approach by using Pixi a bit more directly:
 
-```svelte livee stats
+```svelte live
 <script>
   import * as PIXI from 'pixi.js'
-  import { Sprite, onTick, Container } from 'svelte-pixi'
+  import { Sprite, onTick, Container, getRenderer} from 'svelte-pixi'
   import { onMount } from 'svelte'
 
-  const width = 800
-  const height = 400
+  const { renderer } = getRenderer()
+
+  const width = renderer.width / 2
+  const height = renderer.height / 2
   const speed = 0.025
   const fov = 20
   const starSize = 0.05
 
   let container
-  let cameraZ = 0
-  let amount = 5000
+  let cameraZ = $state(0)
+  let amount = $state(5000)
   let stars = []
 
+
   // create stars for amount value
-  $: {
-    // destroy previous stars if amount was changed
-    stars.forEach((star) => star.destroy())
+  $effect(() => {
 
     // create stars
     if (container) {
@@ -108,8 +117,6 @@ Let's take another approach by using Pixi a bit more directly:
         star.y = star.initY
         star.z = star.initZ
 
-        updateStar(star)
-
         return star
       })
 
@@ -117,16 +124,20 @@ Let's take another approach by using Pixi a bit more directly:
         container.addChild(...stars)
       }
     }
-  }
+
+    return () => {
+      // destroy stars
+      stars.forEach((star) => star.destroy())
+    }
+  })
 
   // instead of updating these values as props we'll mutate them on the star instances
   function updateStar(star) {
-    const z = star.z - cameraZ
+    const z = star.z - cameraZ % 2000
     const distance = Math.max(0, (2000 - z) / 2000)
 
     star.scale.set(distance * starSize)
-    star.anchor.set(0.5, 0.7)
-
+    
     star.x = star.initX * (fov / z) * width
     star.y = star.initY * (fov / z) * width
   }
@@ -135,23 +146,19 @@ Let's take another approach by using Pixi a bit more directly:
   onTick((delta) => {
     cameraZ += delta * 10 * speed
 
+
     stars.forEach(updateStar)
   })
 
-  onMount(() => {
-    // since we created the stars manually we'll
-    // need to destroy stars on unmount as well
-    return () => {
-      stars.forEach((star) => star.destroy())
-    }
-  })
 </script>
+
+<FPS />
 
 <Container bind:instance={container} />
 
 <label class="flex flex-col !mt-0">
   <span class="text-white text-center">Amount: {amount}</span>
-  <input type="range" min="0" max="10000" step="100" bind:value={amount} />
+  <input type="range" min="0" max="10000" step="500" bind:value={amount} />
 </label>
 ```
 
@@ -194,7 +201,9 @@ If you are using the `Renderer` component, see [this example](/docs/components/r
 
 ### Triggering Renders Manually
 
-Every Svelte Pixi component will automatically trigger renders when they are updated when rendering on demand. If you are mutating Pixi instances directly or adding functionality to a base component you will need to mark that an update is required manually.
+Every Svelte Pixi component will automatically trigger renders when they are updated when rendering on demand. 
+If you are mutating Pixi instances directly or adding functionality to a base component you will need to mark 
+that an update is required so that the canvas rerenders.
 
 ```svelte
 <script>
@@ -220,7 +229,7 @@ Every Svelte Pixi component will automatically trigger renders when they are upd
   })
 </script>
 
-<Sprite bind:instance={sprite} {...$$restProps} />
+<Sprite bind:instance={sprite} />
 ```
 
 ```svelte
@@ -232,22 +241,23 @@ Every Svelte Pixi component will automatically trigger renders when they are upd
   // imagine we have a custom Sprite class that extends PIXI.Sprite
   import CustomSprite from '../CustomSprite.js'
 
-  export let customProp
-  export let customProp2
+  let { customProp, customProp2, ...restProps } = $props()
 
   const { invalidate } = getRenderer()
 
   let sprite = new CustomSprite()
 
   // apply our custom props
-  $: sprite.customProp = customProp
-  $: sprite.customProp2 = customProp2
+  $effect(() => {
+    sprite.customProp = customProp
+    invalidate()
+  })
 
-  // svelte will run this whenever this component's props or state changes
-  afterUpdate(() => {
+  $effect(() => {
+    sprite.customProp2 = customProp2
     invalidate()
   })
 </script>
 
-<Sprite instance={sprite} {...$$restProps} />
+<Sprite instance={sprite} {...restProps} />
 ```

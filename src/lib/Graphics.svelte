@@ -24,11 +24,11 @@
     tint,
     geometry,
     children,
-    instance: _instance = new PIXI.Graphics(geometry) as T,
+    instance: _instance,
     ...restProps
   } = $props<Props>()
 
-  export const instance = _instance
+  export const instance = (_instance ?? new PIXI.Graphics(geometry)) as T
 
   const { invalidate } = getRenderer()
   const { applyProp } = createApplyProps<PIXI.Graphics>(instance as T, {

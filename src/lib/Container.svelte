@@ -148,47 +148,14 @@
     zIndex,
     children,
     oncreated,
-    onadded,
-    onremoved,
-    instance: instanceProp = new PIXI.Container(),
+    instance: instanceProp,
     ...restProps
   } = $props<Props>()
 
-  export const instance = instanceProp
+  export const instance = instanceProp ?? new PIXI.Container()
 
   const { invalidate } = getRenderer()
   const { container: parent } = getContainer() ?? {}
-
-  let childIndex = -1
-
-  // preserve reference to instance & parent, they could
-  // be lost by unmount
-  let _instance = instance
-  let _parent = parent
-
-  // make sure child isn't already added to the parent
-  try {
-    // Container.getChildIndex throws an error if instance is not a child...
-    childIndex = _parent.getChildIndex(_instance)
-    // eslint-disable-next-line no-empty
-  } catch (e) {}
-
-  // add instance to parent
-  if (_parent && childIndex === -1) {
-    _parent.addChild(_instance)
-  }
-
-  if (oncreated) {
-    oncreated({ instance: _instance as T })
-  }
-
-  if (onadded) {
-    instance.on('added', onadded)
-  }
-
-  if (onremoved) {
-    instance.on('removed', onremoved)
-  }
 
   // if no parent, this is the stage (root container)
   if (!parent) {
@@ -198,6 +165,21 @@
   setContext<ContainerContext<T>>('pixi/container', {
     container: instance as T,
   })
+
+  // preserve reference to instance & parent, they could
+  // be lost by unmount
+  let _instance = instance
+  let _parent = parent
+
+  if (_parent) {
+    if (_parent.children.indexOf(_instance) === -1) {
+      _parent.addChild(_instance)
+    }
+  }
+
+  if (oncreated) {
+    oncreated({ instance: _instance as T })
+  }
 
   const { applyProp } = createApplyProps<PIXI.Container, Props>(instance, {
     onApply() {

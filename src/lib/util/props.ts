@@ -4,7 +4,7 @@ import * as PIXI from 'pixi.js'
 import { onMount, tick } from 'svelte'
 import { writable, type Writable } from 'svelte/store'
 
-import { parsePoint, type PointLike } from './data-types'
+import { isPoint, parsePoint, type PointLike } from './data-types'
 
 /**
  * Returns apply prop functions that are bound to the instance
@@ -67,10 +67,8 @@ export function applyProps<
     [Prop in keyof Props]?: Apply<Instance, Props[Prop]>
   },
 ) {
-  if (instance) {
-    for (const [prop, value] of Object.entries(props)) {
-      applyProp(instance, prop as keyof Instance, value, apply?.[prop])
-    }
+  for (const [prop, value] of Object.entries(props)) {
+    applyProp(instance, prop as keyof Instance, value, apply?.[prop])
   }
 }
 
@@ -97,26 +95,29 @@ export function applyProp<Instance, Prop extends keyof Instance, Value>(
   value: Value,
   apply?: Apply<Instance, Value>,
 ) {
-  if (instance) {
-    if (prop === null) {
-      apply?.(value, instance)
-    } else {
-      const instanceValue = instance[prop] as any
-      if (instanceValue !== value && typeof value !== 'undefined') {
-        if (apply) {
-          apply(value, instance)
-        } else {
-          if (
-            instance[prop] instanceof PIXI.Point ||
-            instance[prop] instanceof PIXI.ObservablePoint
-          ) {
-            instance[prop as any] = parsePoint(value as any)
-          } else {
-            instance[prop as any] = value
-          }
-        }
-      }
-    }
+  if (!instance) {
+    return
+  }
+
+  if (prop === null) {
+    apply?.(value, instance)
+    return
+  }
+
+  const instanceValue = instance[prop] as any
+  if (value === undefined || instanceValue === value) {
+    return
+  }
+
+  if (apply) {
+    apply(value, instance)
+    return
+  }
+
+  if (isPoint(instanceValue)) {
+    instance[prop as any] = parsePoint(value as any)
+  } else {
+    instance[prop as any] = value
   }
 }
 
