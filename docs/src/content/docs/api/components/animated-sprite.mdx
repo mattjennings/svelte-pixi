@@ -2,15 +2,12 @@
 title: AnimatedSprite
 pixi: https://pixijs.download/release/docs/PIXI.AnimatedSprite.html
 ---
-{/* 
-NOTE: examples currently break because of some svelte update infinite loop, I think related to when AssetsLoader is used 
-as a child of another AssetsLoader. Possibly https://github.com/sveltejs/svelte/issues/9652
-*/}
 import ComponentAPI from '$lib/components/ComponentAPI.astro'
 
 A simple way to display an animation depicted by a list of textures.
 
-I recommend using spritesheets created by TexturePacker ([they have a great tutorial on it](https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-and-animations-with-pixijs5)). If you don't want to use spritesheets, you can simply just pass in an array of your desired textures.
+I recommend using spritesheets created by TexturePacker ([they have a great tutorial on it](https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-and-animations-with-pixijs5)). 
+If you don't want to use spritesheets, you can simply just pass in an array of your desired textures.
 
 ## Spritesheet
 
@@ -37,7 +34,7 @@ I recommend using spritesheets created by TexturePacker ([they have a great tuto
 
 ## Multiple Animations
 
-```svelte livee assets=["/assets/adventurer-spritesheet.json"]
+```svelte live assets=["/assets/adventurer-spritesheet.json"]
 <script>
   import { AnimatedSprite } from 'svelte-pixi'
   import { Assets } from 'pixi.js'
@@ -54,14 +51,16 @@ I recommend using spritesheets created by TexturePacker ([they have a great tuto
   }
 </script>
 
-<AnimatedSprite
-  {textures}
-  playing
-  animationSpeed={0.1}
-  anchor={0.5}
-  scale={3}
-  on:loop={changeAnimation}
-/>
+{#key 0}
+  <AnimatedSprite
+    {textures}
+    playing
+    animationSpeed={0.1}
+    anchor={0.5}
+    scale={3}
+    onloop={changeAnimation}
+  />
+{/key}
 ```
 
 ## API
