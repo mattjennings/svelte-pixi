@@ -57,4 +57,4 @@
   )
 </script>
 
-<Container {instance} {...restProps} />
+<Container {...restProps} {instance} />

@@ -47,4 +47,4 @@
   $effect(() => applyProp('roundPixels', roundPixels))
 </script>
 
-<Container {instance} {...restProps} />
+<Container {...restProps} {instance} />

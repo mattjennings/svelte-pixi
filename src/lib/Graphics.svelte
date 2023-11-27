@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { PickPixiProps } from './util/data-types'
+
   import { createApplyProps } from './util/props'
 
   /**
@@ -9,13 +11,13 @@
   import { getRenderer } from './Renderer.svelte'
 
   type T = $$Generic<PIXI.Graphics>
-  type Props = Container<T>['$$prop_def'] & {
-    draw?: (graphics: PIXI.Graphics) => any
-    blendMode?: PIXI.Graphics['blendMode']
-    pluginName?: PIXI.Graphics['pluginName']
-    tint?: PIXI.Graphics['tint']
-    geometry?: PIXI.Graphics['geometry']
-  }
+  type Props = Container<T>['$$prop_def'] &
+    PickPixiProps<
+      PIXI.Graphics,
+      'blendMode' | 'pluginName' | 'tint' | 'geometry'
+    > & {
+      draw?: (graphics: PIXI.Graphics) => any
+    }
 
   const {
     draw,

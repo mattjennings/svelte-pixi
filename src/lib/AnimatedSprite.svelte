@@ -3,7 +3,6 @@
    * @restProps {Container}
    */
   import * as PIXI from 'pixi.js'
-  import { afterUpdate, createEventDispatcher, onMount } from 'svelte'
   import { getRenderer } from './Renderer.svelte'
   import Container from './Container.svelte'
   import { createApplyProps } from './util/props'
@@ -44,7 +43,6 @@
     blendMode,
     pluginName,
     roundPixels,
-    children,
     instance: _instance,
     onComplete,
     onFrameChange,
@@ -115,4 +113,4 @@
   })
 </script>
 
-<Container {...restProps} {instance} {children} />
+<Container {...restProps} {instance} />

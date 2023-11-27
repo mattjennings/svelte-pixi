@@ -42,4 +42,4 @@
   $effect(() => applyProp('drawMode', drawMode))
 </script>
 
-<Container {instance} {...restProps} />
+<Container {...restProps} {instance} />
