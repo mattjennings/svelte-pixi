@@ -109,6 +109,7 @@
   }
 
   const {
+    children,
     accessible,
     accessibleChildren,
     accessibleHint,
@@ -147,7 +148,6 @@
     y,
     width,
     zIndex,
-    children,
     oncreated,
     instance: instanceProp,
     ...restProps
@@ -182,11 +182,14 @@
     oncreated({ instance: _instance as T })
   }
 
-  const { applyProp } = createApplyProps<PIXI.Container, Props>(instance, {
-    onApply() {
-      invalidate()
+  const { applyProp, applyProps } = createApplyProps<PIXI.Container, Props>(
+    instance,
+    {
+      onApply() {
+        invalidate()
+      },
     },
-  })
+  )
 
   $effect(() => applyProp('accessible', accessible))
   $effect(() => applyProp('accessibleChildren', accessibleChildren))
@@ -243,9 +246,8 @@
     // initial props before its children are mounted.
     // so, if we have children, re-apply props
     // TODO: unsure how svelte handles this with props.children
-    // if (restProps.children) {
-    //   const { instance, ...props } = $$props
-    //   applyProps(props)
+    // if (children) {
+    //   applyProps({ x, y, width, height })
     // }
 
     return () => {

@@ -1,7 +1,6 @@
 <script lang="ts">
   import type * as PIXI from 'pixi.js'
   import Container, { getContainer } from '../Container.svelte'
-  import { onTick } from '../Ticker.svelte'
   import { getRenderer } from '../Renderer.svelte'
 
   type T = $$Generic<PIXI.Graphics>
@@ -42,12 +41,15 @@
   const { renderer } = getRenderer()
   const { container } = getContainer()
 
-  function updatePosition() {
+  function updatePosition({
+    bounds,
+    width,
+    height,
+  }: Pick<Props, 'bounds' | 'width' | 'height'>) {
     const parentBounds =
       bounds === 'global'
         ? renderer.screen
         : {
-            // ...container.getBounds(),
             width: width ?? container.width,
             height: height ?? container.height,
           }
@@ -88,8 +90,8 @@
     }
   }
 
-  onTick(() => {
-    updatePosition()
+  $effect(() => {
+    updatePosition({ bounds, width, height })
   })
 </script>
 
