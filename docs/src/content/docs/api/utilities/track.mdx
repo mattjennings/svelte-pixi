@@ -14,7 +14,7 @@ This is useful for watching a property on a PixiJS instance that is getting upda
   let x = track(() => instance.x, -200)
   let y = track(() => instance.y, 0)
 
-  $: text = $x < -75 ? "I'm on the left!" : "I'm on the right!"
+  const text = $derived($x < -75 ? "I'm on the left!" : "I'm on the right!")
 
   onTick((delta) => {
     if (instance.x < 100) {

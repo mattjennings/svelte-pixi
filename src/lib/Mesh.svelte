@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { PickPixiProps } from './util/data-types'
+
   /**
    * @restProps {Container}
    */
@@ -10,102 +12,34 @@
 
   type T = $$Generic<PIXI.Mesh>
 
-  type $$Props = Container<T>['$$prop_def'] & {
-    geometry: PIXI.Mesh['geometry']
-    shader: PIXI.MeshMaterial | PIXI.Shader
-    state?: PIXI.Mesh['state']
-    drawMode?: PIXI.Mesh['drawMode']
-  }
+  type Props = Container<T>['$$prop_def'] &
+    PickPixiProps<PIXI.Mesh, 'state' | 'drawMode' | 'geometry', 'geometry'> & {
+      shader: PIXI.MeshMaterial | PIXI.Shader
+    }
 
-  /**
-   * Includes vertex positions, face indices, normals, colors, UVs, and
-   * custom attributes within buffers, reducing the cost of passing all this data to the GPU.
-   * Can be shared between multiple Mesh objects.
-   *
-   * @type {PIXI.Geometry}
-   */
-  export let geometry: $$Props['geometry']
+  const {
+    geometry,
+    shader,
+    state,
+    drawMode,
+    instance: _instance,
+    ...restProps
+  } = $props<Props>()
 
-  /**
-   * Represents the vertex and fragment shaders that processes the geometry and runs on the GPU.
-   * Can be shared between multiple Mesh objects.
-   *
-   * @type {PIXI.Shader|PIXI.MeshMaterial}
-   */
-  export let shader: $$Props['shader']
+  export const instance = (_instance ??
+    new PIXI.Mesh(geometry, shader, state, drawMode)) as T
 
-  /**
-   * Represents the WebGL state the Mesh required to render, excludes shader and geometry.
-   * E.g., blend mode, culling, depth testing, direction of rendering triangles, backface, etc.
-   *
-   * @type {PIXI.State}
-   */
-  export let state: $$Props['state'] = undefined
-
-  /**
-   * The way the Mesh should be drawn, can be any of the PIXI.DRAW_MODES constants.
-   *
-   * @type {PIXI.DRAW_MODES}
-   */
-  export let drawMode: $$Props['drawMode'] = undefined
-
-  /**
-   * The PIXI.Mesh instance. Can be set or bound to.
-   *
-   * @type {PIXI.Mesh}
-   */
-  export let instance: T = new PIXI.Mesh(geometry, shader, state, drawMode) as T
-
-  const { applyProp } = createApplyProps<PIXI.Mesh>(instance)
+  const { applyProp } = createApplyProps<PIXI.Mesh>(instance, {
+    onApply() {
+      invalidate()
+    },
+  })
   const { invalidate } = getRenderer()
 
-  afterUpdate(() => {
-    invalidate()
-  })
-
-  $: applyProp('geometry', geometry)
-  $: applyProp('shader', shader)
-  $: applyProp('state', state)
-  $: applyProp('drawMode', drawMode)
-  $: applyProp('drawMode', drawMode)
+  $effect(() => applyProp('geometry', geometry))
+  $effect(() => applyProp('shader', shader))
+  $effect(() => applyProp('state', state))
+  $effect(() => applyProp('drawMode', drawMode))
 </script>
 
-<Container
-  {...$$restProps}
-  {instance}
-  on:create
-  on:click
-  on:globalmousemove
-  on:globalpointermove
-  on:globaltouchmove
-  on:mousedown
-  on:mousemove
-  on:mouseout
-  on:mouseover
-  on:mouseup
-  on:mouseupoutside
-  on:mouseupoutside
-  on:pointercancel
-  on:pointerdown
-  on:pointermove
-  on:pointerout
-  on:pointerover
-  on:pointertap
-  on:pointerup
-  on:pointerupoutside
-  on:removedFrom
-  on:rightclick
-  on:rightdown
-  on:rightup
-  on:rightupoutside
-  on:tap
-  on:touchcancel
-  on:touchend
-  on:touchendoutside
-  on:touchmove
-  on:touchstart
-  on:added
-  on:removed
->
-  <slot />
-</Container>
+<Container {instance} {...restProps} />
