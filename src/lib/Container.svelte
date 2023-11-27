@@ -18,7 +18,7 @@
 <script lang="ts">
   import { createApplyProps } from './util/props'
 
-  import type { PixiComponentProps } from './util/data-types'
+  import type { PickPixiProps } from './util/data-types'
 
   import * as PIXI from 'pixi.js'
   import { getContext, onMount, setContext, type Snippet } from 'svelte'
@@ -27,7 +27,7 @@
   type T = $$Generic<PIXI.Container>
 
   interface Props
-    extends PixiComponentProps<
+    extends PickPixiProps<
       PIXI.Container,
       | 'accessible'
       | 'accessibleChildren'
@@ -100,6 +100,7 @@
       | 'ontouchmove'
       | 'ontouchstart'
     > {
+    instance?: T
     onadded?: () => void
     onremoved?: () => void
     oncreated?: (detail: { instance: T }) => void

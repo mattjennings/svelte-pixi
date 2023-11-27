@@ -3,7 +3,7 @@
    * @restProps {Container}
    */
   import * as PIXI from 'pixi.js'
-  import { afterUpdate, onMount } from 'svelte'
+  import { onMount } from 'svelte'
   import Container from './Container.svelte'
   import { getRenderer } from './Renderer.svelte'
 

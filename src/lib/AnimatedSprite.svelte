@@ -12,7 +12,6 @@
   type Props = Container<T>['$$prop_def'] &
     PickPixiProps<
       PIXI.AnimatedSprite,
-      | 'textures'
       | 'playing'
       | 'autoUpdate'
       | 'animationSpeed'
@@ -26,6 +25,7 @@
       | 'onLoop',
       'textures'
     > & {
+      instance?: T
       // because pixi has camel casing on these handlers, we'll also
       // support the lowercase versions
       onloop?: PIXI.AnimatedSprite['onLoop']

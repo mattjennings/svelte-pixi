@@ -16,6 +16,7 @@
       PIXI.Graphics,
       'blendMode' | 'pluginName' | 'tint' | 'geometry'
     > & {
+      instance?: T
       draw?: (graphics: PIXI.Graphics) => any
     }
 

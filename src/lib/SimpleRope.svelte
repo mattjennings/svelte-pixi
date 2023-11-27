@@ -5,19 +5,24 @@
   import * as PIXI from 'pixi.js'
   import Container from './Container.svelte'
   import { getRenderer } from './Renderer.svelte'
-  import { parsePoint, type PointLike } from './util/data-types'
+  import {
+    parsePoint,
+    type PickPixiProps,
+    type PointLike,
+  } from './util/data-types'
   import { createApplyProps } from './util/props'
 
   type T = $$Generic<PIXI.SimpleRope>
-  type Props = Container<T>['$$prop_def'] & {
-    texture: PIXI.SimpleRope['texture']
-    points: PointLike[]
-    geometry?: PIXI.SimpleRope['geometry']
-    shader?: PIXI.SimpleRope['shader']
-    state?: PIXI.SimpleRope['state']
-    drawMode?: PIXI.SimpleRope['drawMode']
-    textureScale?: number
-  }
+  type Props = Container<T>['$$prop_def'] &
+    PickPixiProps<
+      PIXI.SimpleRope,
+      'geometry' | 'shader' | 'state' | 'drawMode',
+      'texture'
+    > & {
+      instance?: T
+      points: PointLike[]
+      textureScale?: number
+    }
 
   let {
     texture,
@@ -27,7 +32,6 @@
     state,
     drawMode,
     textureScale = 0,
-    children,
     instance: _instance,
     ...restProps
   } = $props<Props>()
@@ -72,4 +76,4 @@
   })
 </script>
 
-<Container {...restProps} {instance} {children} />
+<Container {...restProps} {instance} />

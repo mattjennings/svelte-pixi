@@ -4,21 +4,8 @@
   import { onTick } from '../Ticker.svelte'
   import { getRenderer } from '../Renderer.svelte'
 
-  /**
-   * The alignment of the children
-   *
-   * @type {'left' | 'center' | 'right' | { horizontal: 'left' | 'center' | 'right', vertical: 'top' | 'center' | 'bottom' }}
-   */
-  export let align: $$Props['align'] = undefined
-
-  export let instance: PIXI.Container | undefined = undefined
-
-  export let bounds: $$Props['bounds'] = 'local'
-  export let width: $$Props['width'] = undefined
-  export let height: $$Props['height'] = undefined
-
   type T = $$Generic<PIXI.Graphics>
-  type $$Props = Container<T>['$$prop_def'] & {
+  type Props = Omit<Container<T>['$$prop_def'], 'instance'> & {
     /**
      * If global, it will layout the children according to the renderer bounds
      *
@@ -27,6 +14,11 @@
      */
     bounds?: 'global' | 'local'
 
+    /**
+     * The alignment of the children
+     *
+     * @type {'left' | 'center' | 'right' | { horizontal: 'left' | 'center' | 'right', vertical: 'top' | 'center' | 'bottom' }}
+     */
     align?:
       | 'center'
       | {
@@ -35,11 +27,20 @@
         }
   }
 
+  let {
+    bounds = 'local',
+    align,
+    width,
+    height,
+    x,
+    y,
+    ...restProps
+  } = $props<Props>()
+
+  let instance = $state<PIXI.Container | undefined>()
+
   const { renderer } = getRenderer()
   const { container } = getContainer()
-
-  let x = 0
-  let y = 0
 
   function updatePosition() {
     const parentBounds =
@@ -87,13 +88,9 @@
     }
   }
 
-  $: updatePosition()
-
   onTick(() => {
     updatePosition()
   })
 </script>
 
-<Container bind:instance {x} {y} {...$$restProps}>
-  <slot />
-</Container>
+<Container bind:instance {x} {y} {...restProps} />

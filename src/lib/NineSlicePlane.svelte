@@ -13,7 +13,6 @@
   type Props = Container<T>['$$prop_def'] &
     PickPixiProps<
       PIXI.NineSlicePlane,
-      | 'texture'
       | 'leftWidth'
       | 'rightWidth'
       | 'topHeight'
@@ -23,6 +22,7 @@
       | 'drawMode',
       'texture'
     > & {
+      instance?: T
       shader?: PIXI.MeshMaterial | PIXI.Shader
     }
 

@@ -1,5 +1,4 @@
 import * as PIXI from 'pixi.js'
-import type { Snippet } from 'svelte'
 
 export type PointLike =
   | number
@@ -12,21 +11,20 @@ export type PointLike =
  * Like Pick but will swap certain types for others to match
  * svelte-pixi API
  */
-export type PickPixiProps<
-  T,
-  Keys extends keyof T,
-  Required extends keyof T = never,
-> = {
-  [P in Keys]: P extends Required
-    ? T[P] extends PIXI.Point
-      ? PointLike
-      : T[P]
-    : (T[P] extends PIXI.Point ? PointLike : T[P]) | undefined
+export type PickPixiPropsOptional<T, Keys extends keyof T> = {
+  [P in Keys]?: T[P] extends PIXI.Point ? PointLike : T[P]
 }
 
-export type PixiComponentProps<T, K extends keyof T> = PickPixiProps<T, K> & {
-  instance?: T
+export type PickPixiPropsRequired<T, Keys extends keyof T> = {
+  [P in Keys]: T[P] extends PIXI.Point ? PointLike : T[P]
 }
+
+export type PickPixiProps<
+  T,
+  OptionalKeys extends keyof T,
+  RequiredKeys extends keyof T | undefined = undefined,
+> = PickPixiPropsOptional<T, OptionalKeys> &
+  (RequiredKeys extends keyof T ? PickPixiPropsRequired<T, RequiredKeys> : {})
 
 /**
  * Parses a value to a Point

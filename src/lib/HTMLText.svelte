@@ -12,9 +12,10 @@
   type Props = Container<T>['$$prop_def'] &
     PickPixiProps<
       PIXI.HTMLText,
-      'anchor' | 'blendMode' | 'pluginName' | 'roundPixels' | 'text',
+      'anchor' | 'blendMode' | 'pluginName' | 'roundPixels',
       'text'
     > & {
+      instance?: T
       style?: PIXI.IHTMLTextStyle
     }
 

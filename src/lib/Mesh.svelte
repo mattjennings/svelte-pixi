@@ -1,11 +1,9 @@
 <script lang="ts">
-  import type { PickPixiProps } from './util/data-types'
-
   /**
    * @restProps {Container}
    */
+  import type { PickPixiProps } from './util/data-types'
   import * as PIXI from 'pixi.js'
-  import { afterUpdate } from 'svelte'
   import Container from './Container.svelte'
   import { getRenderer } from './Renderer.svelte'
   import { createApplyProps } from './util/props'
@@ -13,7 +11,8 @@
   type T = $$Generic<PIXI.Mesh>
 
   type Props = Container<T>['$$prop_def'] &
-    PickPixiProps<PIXI.Mesh, 'state' | 'drawMode' | 'geometry', 'geometry'> & {
+    PickPixiProps<PIXI.Mesh, 'state' | 'drawMode', 'geometry'> & {
+      instance?: T
       shader: PIXI.MeshMaterial | PIXI.Shader
     }
 

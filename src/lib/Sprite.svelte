@@ -6,17 +6,18 @@
 
   import Container from './Container.svelte'
   import { getRenderer } from './Renderer.svelte'
-  import type { PointLike } from './util/data-types'
+  import type { PickPixiProps } from './util/data-types'
   import { createApplyProps } from './util/props'
 
   type T = $$Generic<PIXI.Sprite>
-  type Props = Container<T>['$$prop_def'] & {
-    anchor?: PointLike
-    blendMode?: PIXI.Sprite['blendMode']
-    pluginName?: PIXI.Sprite['pluginName']
-    roundPixels?: PIXI.Sprite['roundPixels']
-    texture: PIXI.Sprite['texture']
-  }
+  type Props = Container<T>['$$prop_def'] &
+    PickPixiProps<
+      PIXI.Sprite,
+      'anchor' | 'blendMode' | 'pluginName' | 'roundPixels',
+      'texture'
+    > & {
+      instance?: T
+    }
 
   const {
     anchor,
@@ -24,7 +25,6 @@
     pluginName,
     roundPixels,
     texture,
-    children,
     instance: _instance,
     ...restProps
   } = $props<Props>()

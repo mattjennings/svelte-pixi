@@ -6,17 +6,18 @@
   import Container from './Container.svelte'
 
   import { getRenderer } from './Renderer.svelte'
-  import type { PointLike } from './util/data-types'
+  import type { PickPixiProps } from './util/data-types'
 
   type T = $$Generic<PIXI.Text>
-  type Props = Container<T>['$$prop_def'] & {
-    text: PIXI.Text['text']
-    style?: Partial<ITextStyle>
-    anchor?: PointLike
-    blendMode?: PIXI.Sprite['blendMode']
-    pluginName?: PIXI.Sprite['pluginName']
-    roundPixels?: PIXI.Sprite['roundPixels']
-  }
+  type Props = Container<T>['$$prop_def'] &
+    PickPixiProps<
+      PIXI.Text,
+      'anchor' | 'blendMode' | 'pluginName' | 'roundPixels',
+      'text'
+    > & {
+      instance?: T
+      style?: Partial<ITextStyle>
+    }
 
   let {
     text,
@@ -25,7 +26,6 @@
     blendMode,
     pluginName,
     roundPixels,
-    children,
     instance: _instance,
     ...restProps
   } = $props<Props>()
@@ -48,4 +48,4 @@
   $effect(() => applyProp('roundPixels', roundPixels))
 </script>
 
-<Container {...restProps} {instance} {children} />
+<Container {...restProps} {instance} />

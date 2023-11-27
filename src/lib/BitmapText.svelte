@@ -11,11 +11,8 @@
 
   type T = $$Generic<PIXI.BitmapText>
   type Props = Container<T>['$$prop_def'] &
-    PickPixiProps<
-      PIXI.BitmapText,
-      'anchor' | 'roundPixels' | 'text',
-      'text'
-    > & {
+    PickPixiProps<PIXI.BitmapText, 'anchor' | 'roundPixels', 'text'> & {
+      instance?: T
       style?: PIXI.IBitmapTextStyle
     }
 
