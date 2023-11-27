@@ -2,20 +2,29 @@
 title: onTick
 ---
 
-Child components of [Ticker](/docs/components/ticker) can use `onTick` to add a callback to the ticker. It will automatically remove itself on unmount.
+Child components of [Ticker](/docs/components/ticker) can use `onTick` to add a callback to the ticker. 
+It will automatically remove itself on unmount.
 
 ```svelte live
 <script>
   import { Text, onTick } from 'svelte-pixi'
 
-  let text = 0
+  let frame = $state(0)
+  let lastDelta = $state(0)
 
   onTick((delta) => {
-    text = `Delta: ${delta.toFixed(10)}`
+    frame++
+    lastDelta = delta
   })
 </script>
 
-<Text {text} style={{ fill: 'white' }} anchor={0.5} />
+{#key 0}
+  <Text 
+    text={`Frame #: ${frame}\nLast Delta: ${lastDelta.toFixed(10)}ms`} 
+    style={{ fill: 'white' }} 
+    anchor={0.5} 
+  />
+{/key}
 ```
 
 ## Type Definition
