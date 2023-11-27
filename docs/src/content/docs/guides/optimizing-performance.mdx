@@ -21,7 +21,7 @@ You may find yourself needing to render and update many components at once. Take
   const fov = 20
   const starSize = 0.05
 
-  let cameraZ = $state(2000)
+  let cameraZ = $state(0)
   let amount = $state(1000)
 
   // create an array describing each star's initial position
@@ -42,10 +42,11 @@ You may find yourself needing to render and update many components at once. Take
   // move the camera forward
   onTick((delta) => {
     cameraZ += delta * 10 * speed
+    cameraZ %= 800
   })
 
   function getZ(star) {
-    return star.z - cameraZ % 2000
+    return star.z - cameraZ
   }
 
   function getDistance(star) {
@@ -149,7 +150,8 @@ Let's take another approach by using Pixi a bit more directly:
   // move the camera forward
   onTick((delta) => {
     cameraZ += delta * 10 * speed
-
+    cameraZ %= 800
+    
     stars.forEach(updateStar)
   })
 
