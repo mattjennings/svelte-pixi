@@ -1,6 +1,5 @@
 <script>
   import { Application, AssetsLoader } from 'svelte-pixi'
-  import { onMount } from 'svelte'
   import { Layout } from 'svelte-pixi/experimental'
   import Stats from 'stats-js'
 
@@ -12,6 +11,7 @@
 
   let intersecting = $state(true)
   let element = $state(null)
+  let statsElement = $state(null)
   let app = $state()
   let width = $state(0)
   let height = $state(0)
@@ -40,12 +40,12 @@
 
   function getMetaValue(key) {
     return (
-      !!meta.find((m) => m === key) ||
-      meta.find((m) => m.includes(key))?.split(/s/)[1]
+      meta.find((m) => m.includes(key))?.split('=')[1] ||
+      !!meta.find((m) => m === key)
     )
   }
 
-  onMount(() => {
+  $effect(() => {
     try {
       if (app && statsElement && showStats) {
         let stats = new Stats()
@@ -53,20 +53,19 @@
 
         stats.showPanel(0)
 
-        app.ticker.add(
-          () => {
-            stats.begin()
-          },
-          null,
-          -Infinity,
-        )
-        app.ticker.add(
-          () => {
-            stats.end()
-          },
-          null,
-          Infinity,
-        )
+        const onBegin = () => {
+          stats.begin()
+        }
+        const onEnd = () => {
+          stats.end()
+        }
+
+        app.ticker.add(onBegin, null, -Infinity)
+        app.ticker.add(onEnd, null, Infinity)
+        return () => {
+          app.ticker.remove(onBegin)
+          app.ticker.remove(onEnd)
+        }
       }
     } catch (e) {
       console.error(e)

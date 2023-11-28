@@ -54,8 +54,6 @@ You may find yourself needing to render and update many components at once. Take
   }
 </script>
 
-<FPS />
-
 {#each stars as star (star.key)}
   <Sprite
     texture={PIXI.Texture.from('/assets/star.png')}
@@ -81,7 +79,7 @@ notice a significant stutter while moving the slider up/down at the higher value
 
 Let's take another approach by using Pixi a bit more directly:
 
-```svelte live
+```svelte live stats
 <script>
   import * as PIXI from 'pixi.js'
   import { Sprite, onTick, Container, getRenderer} from 'svelte-pixi'
@@ -156,8 +154,6 @@ Let's take another approach by using Pixi a bit more directly:
   })
 
 </script>
-
-<FPS />
 
 <Container bind:instance={container} />
 
