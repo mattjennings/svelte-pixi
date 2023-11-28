@@ -36,7 +36,7 @@
   function getMetaValue(key) {
     return (
       !!meta.find((m) => m === key) ||
-      meta.find((m) => m.includes(key))?.split(/s/)[1]
+      meta.find((m) => m.includes(key))?.split('=')[1]
     )
   }
 
