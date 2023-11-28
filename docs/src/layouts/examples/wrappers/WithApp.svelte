@@ -1,15 +1,25 @@
 <script>
   import { Application, AssetsLoader } from 'svelte-pixi'
+  import { onMount } from 'svelte'
   import { Layout } from 'svelte-pixi/experimental'
   import IntersectionObserver from 'svelte-intersection-observer'
+  import Stats from 'stats-js'
 
+  /**
+   * @type {string}
+   */
   export let meta
 
   let assets = JSON.parse(getMetaValue('assets') || '[]')
   let backgroundColor = getMetaValue('bg') || 0x000000
+  let showStats = getMetaValue('stats')
 
   let intersecting = true
   let element
+  /**
+   * @type {HTMLElement}
+   */
+  let statsElement
   let app
   let width
   let height
@@ -24,8 +34,39 @@
   }
 
   function getMetaValue(key) {
-    return meta.find((m) => m.includes(key))?.split('=')[1]
+    return (
+      !!meta.find((m) => m === key) ||
+      meta.find((m) => m.includes(key))?.split(/s/)[1]
+    )
   }
+
+  onMount(() => {
+    try {
+      if (app && statsElement && showStats) {
+        let stats = new Stats()
+        statsElement.appendChild(stats.dom)
+
+        stats.showPanel(0)
+
+        app.ticker.add(
+          () => {
+            stats.begin()
+          },
+          null,
+          -Infinity,
+        )
+        app.ticker.add(
+          () => {
+            stats.end()
+          },
+          null,
+          Infinity,
+        )
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  })
 </script>
 
 <div
@@ -40,7 +81,14 @@
     height={400}
     {backgroundColor}
   >
-    <div bind:this={element} slot="view">
+    <div bind:this={element} class="relative not-content" slot="view">
+      {#if showStats}
+        <div
+          bind:this={statsElement}
+          class="absolute top-0 left-0 z-100 [&>div]:!absolute"
+        />
+      {/if}
+
       <IntersectionObserver {element} bind:intersecting />
     </div>
 

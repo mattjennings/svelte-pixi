@@ -126,6 +126,9 @@ importers:
       recast:
         specifier: ^0.23.4
         version: 0.23.4
+      stats-js:
+        specifier: ^1.0.1
+        version: 1.0.1
       svelte-pixi:
         specifier: workspace:../dist
         version: link:../dist
@@ -6952,6 +6955,10 @@ packages:
 
   /sprintf-js@1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
+
+  /stats-js@1.0.1:
+    resolution: {integrity: sha512-EAwEFghGNv8mlYC4CZzI5kWghsnP8uBKXw6VLRHtXkOk5xySfUKLTqTkjgJFfDluIkf/O7eZwi5MXP50VeTbUg==}
+    dev: true
 
   /stdin-discarder@0.1.0:
     resolution: {integrity: sha512-xhV7w8S+bUwlPTb4bAOUQhv8/cSS5offJuX8GQGq32ONF0ZtDWKfkdomM3HMRA+LhX6um/FZ0COqlwsjD53LeQ==}
