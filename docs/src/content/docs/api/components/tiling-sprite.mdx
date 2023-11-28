@@ -25,16 +25,14 @@ import ComponentAPI from '$lib/components/ComponentAPI.astro'
   })
 </script>
 
-{#key 0}
-  <TilingSprite
-    texture={PIXI.Texture.from('/assets/tiling-sprite.jpeg')}
-    anchor={0.5}
-    width={400}
-    height={400}
-    {tilePosition}
-    {scale}
-  />
-{/key}
+<TilingSprite
+  texture={PIXI.Texture.from('/assets/tiling-sprite.jpeg')}
+  anchor={0.5}
+  width={400}
+  height={400}
+  {tilePosition}
+  {scale}
+/>
 ```
 
 ## API

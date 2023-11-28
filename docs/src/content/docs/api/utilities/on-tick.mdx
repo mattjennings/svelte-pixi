@@ -18,13 +18,11 @@ It will automatically remove itself on unmount.
   })
 </script>
 
-{#key 0}
-  <Text 
-    text={`Frame #: ${frame}\nLast Delta: ${lastDelta.toFixed(10)}ms`} 
-    style={{ fill: 'white' }} 
-    anchor={0.5} 
-  />
-{/key}
+<Text 
+  text={`Frame #: ${frame}\nLast Delta: ${lastDelta.toFixed(10)}ms`} 
+  style={{ fill: 'white' }} 
+  anchor={0.5} 
+/>
 ```
 
 ## Type Definition

@@ -11,7 +11,7 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
 
 ## Spritesheet
 
-```svelte livee
+```svelte live
 <script>
   import * as PIXI from 'pixi.js'
   import { AnimatedSprite, AssetsLoader } from 'svelte-pixi'
@@ -51,16 +51,14 @@ If you don't want to use spritesheets, you can simply just pass in an array of y
   }
 </script>
 
-{#key 0}
-  <AnimatedSprite
-    {textures}
-    playing
-    animationSpeed={0.1}
-    anchor={0.5}
-    scale={3}
-    onloop={changeAnimation}
-  />
-{/key}
+<AnimatedSprite
+  {textures}
+  playing
+  animationSpeed={0.1}
+  anchor={0.5}
+  scale={3}
+  onloop={changeAnimation}
+/>
 ```
 
 ## API

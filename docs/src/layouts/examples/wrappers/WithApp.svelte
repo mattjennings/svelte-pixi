@@ -16,8 +16,6 @@
   let width = $state(0)
   let height = $state(0)
 
-  let key = Math.random()
-
   $effect(() => {
     // setup intersection observer on element, set intersecting = true when intersecting
     if (element) {
@@ -98,13 +96,11 @@
       {backgroundColor}
       {view}
     >
-      {#key key}
-        <AssetsLoader {assets}>
-          <Layout align="center" sortableChildren {width} {height}>
-            {@render children()}
-          </Layout>
-        </AssetsLoader>
-      {/key}
+      <AssetsLoader {assets}>
+        <Layout align="center" sortableChildren {width} {height}>
+          {@render children()}
+        </Layout>
+      </AssetsLoader>
     </Application>
   {/if}
 </div>
