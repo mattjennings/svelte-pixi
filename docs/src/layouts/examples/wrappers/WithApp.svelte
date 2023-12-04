@@ -1,5 +1,5 @@
 <script>
-  import { Application, AssetsLoader } from 'svelte-pixi'
+  import { Application, AssetsLoader, Container } from 'svelte-pixi'
   import { onMount } from 'svelte'
   import { Layout } from 'svelte-pixi/experimental'
   import IntersectionObserver from 'svelte-intersection-observer'
@@ -23,6 +23,11 @@
   let app
   let width
   let height
+
+  const resolution = {
+    width: 718,
+    height: 400,
+  }
 
   // only render while in view
   $: if (app) {
@@ -70,8 +75,8 @@
   <Application
     bind:instance={app}
     autoStart={false}
-    width={800}
-    height={400}
+    width={resolution.width}
+    height={resolution.height}
     backgroundColor={bg}
   >
     <div bind:this={element} class="relative not-content" slot="view">
@@ -86,9 +91,17 @@
     </div>
 
     <AssetsLoader {assets}>
-      <Layout align="center" sortableChildren {width} {height}>
+      <!--
+        offset X to account for coordinates when width is less than 800. when width is 800, x should be 0.
+        but if width is 400, x should be -400. this will center the content while keeping the coordinates
+        the same for examples.
+       -->
+      <Container
+        x={-((resolution.width - width) / 2)}
+        y={-((resolution.height - height) / 2)}
+      >
         <slot />
-      </Layout>
+      </Container>
     </AssetsLoader>
   </Application>
 </div>

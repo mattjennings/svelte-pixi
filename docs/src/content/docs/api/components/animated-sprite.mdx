@@ -19,6 +19,8 @@ I recommend using spritesheets created by TexturePacker ([they have a great tuto
 
 <AssetsLoader assets={['/assets/adventurer-spritesheet.json']}>
   <AnimatedSprite
+    x={360}
+    y={200}
     textures={[
       PIXI.Texture.from('adventurer-idle-00.png'),
       PIXI.Texture.from('adventurer-idle-01.png'),
@@ -54,6 +56,8 @@ I recommend using spritesheets created by TexturePacker ([they have a great tuto
 
 <AnimatedSprite
   {textures}
+  x={360}
+  y={200}
   playing
   animationSpeed={0.1}
   anchor={0.5}

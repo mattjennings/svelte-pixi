@@ -21,7 +21,7 @@ Note: when working with thousands of components, it is **much** more performant 
   import { Sprite, onTick, ParticleContainer } from 'svelte-pixi'
   import { onMount } from 'svelte'
 
-  const width = 800
+  const width = 720
   const height = 400
   const speed = 0.025
   const fov = 20
@@ -70,8 +70,8 @@ Note: when working with thousands of components, it is **much** more performant 
     star.scale.set(distance * starSize)
     star.anchor.set(0.5, 0.7)
 
-    star.x = star.initX * (fov / z) * width
-    star.y = star.initY * (fov / z) * width
+    star.x = star.initX * (fov / z) * width + width / 2
+    star.y = star.initY * (fov / z) * height + height / 2
   }
 
   // move the camera forward

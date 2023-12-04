@@ -14,7 +14,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
 
   let dragging = false
   let offset = { x: 0, y: 0 }
-  let startingPosition = { x: 0, y: 0 }
+  let startingPosition = { x: 360, y: 200 }
 
   let position = spring(startingPosition, {
     stiffness: 0.2,
@@ -66,9 +66,10 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
 />
 
 <Text
-  y={100}
+  x={360}
+  y={300}
   anchor={0.5}
-  text="Try clicking and dragging the mushroom"
+  text="Click and drag the mushroom"
   style={{ fill: 'white', fontSize: 20 }}
 />
 ```
@@ -107,6 +108,8 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
 </script>
 
 <Graphics
+  x={360}
+  y={200}
   pivot={{ x: barWidth / 2 }}
   draw={(graphics) => {
     graphics.clear()

@@ -14,20 +14,21 @@ Instead, Svelte Pixi provides a [track](/docs/utilities/track) utility function 
 
   let instance
 
-  let x = track(() => instance.x, -300)
-  let y = track(() => instance.y, -150)
+  let x = track(() => instance.x, 360)
+  let y = track(() => instance.y, 200)
 
   function reset() {
-    $x = -300
-    $y = -150
+    $x = 360
+    $y = 200
+    time = 0
   }
 
+  let time = 0
   onTick((delta) => {
-    if (instance.x < 200) {
-      instance.x += 0.5 * delta
-      instance.y += 0.2 * delta
-    }
-  })
+    time += delta * 0.02
+    instance.x = 360 + Math.cos(time) * 50
+    instance.y = 200 + Math.sin(time) * 50
+  })  
 </script>
 
 <Graphics

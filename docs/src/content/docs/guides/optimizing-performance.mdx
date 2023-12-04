@@ -13,7 +13,7 @@ You may find yourself needing to render and update many components at once. Take
   import * as PIXI from 'pixi.js'
   import { Sprite, onTick } from 'svelte-pixi'
 
-  const width = 800
+  const width = 720
   const height = 400
   const speed = 0.025
   const fov = 20
@@ -49,8 +49,8 @@ You may find yourself needing to render and update many components at once. Take
     texture={PIXI.Texture.from('/assets/star.png')}
     anchor={{ x: 0.5, y: 0.7 }}
     scale={{ x: distance * starSize, y: distance * starSize }}
-    x={star.x * (fov / z) * width}
-    y={star.y * (fov / z) * width}
+    x={star.x * (fov / z) * width + width / 2}
+    y={star.y * (fov / z) * height + height / 2}
   />
 {/each}
 
@@ -74,7 +74,7 @@ Let's take another approach by using Pixi a bit more directly:
   import { Sprite, onTick, Container } from 'svelte-pixi'
   import { onMount } from 'svelte'
 
-  const width = 800
+  const width = 720
   const height = 400
   const speed = 0.025
   const fov = 20
@@ -127,8 +127,8 @@ Let's take another approach by using Pixi a bit more directly:
     star.scale.set(distance * starSize)
     star.anchor.set(0.5, 0.7)
 
-    star.x = star.initX * (fov / z) * width
-    star.y = star.initY * (fov / z) * width
+    star.x = star.initX * (fov / z) * width + width / 2
+    star.y = star.initY * (fov / z) * height + height / 2
   }
 
   // move the camera forward
@@ -173,15 +173,15 @@ You can set `render="demand"` on the `Application` component to opt into this be
 </script>
 
 <Application
-  width={700}
+  width={400}
   height={400}
   antialias
   render="demand"
   on:postrender={() => console.log('render')}
 >
-  <DraggableCircle x={350} y={200} />
+  <DraggableCircle x={200} y={200} />
   <Text
-    x={350}
+    x={200}
     y={300}
     text="Click and drag"
     style={{ fill: 'white' }}

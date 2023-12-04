@@ -16,9 +16,9 @@ When child components are rendered inside, their coordinates become local to the
   import { Container, Text } from 'svelte-pixi'
 </script>
 
-<Container>
-  <Text text="Hello" x={-10} y={-60} style={{ fill: 'white' }} />
-  <Text text="World" x={-10} y={0} style={{ fill: 'white' }} />
+<Container x={360} y={160}>
+  <Text text="Hello" x={0} y={0} anchor={0.5} style={{ fill: 'white' }} />
+  <Text text="World" x={0} y={60} anchor={0.5} style={{ fill: 'white' }} />
 </Container>
 ```
 
