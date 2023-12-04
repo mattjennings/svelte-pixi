@@ -1,6 +1,5 @@
 import remark from './remark.mjs'
 import vite from './vite.mjs'
-import mdx from '@astrojs/mdx'
 import recast from 'recast'
 
 /**
@@ -29,30 +28,11 @@ export default function (options) {
   return {
     name: 'live-examples',
     hooks: {
-      'astro:config:setup': ({ config, updateConfig }) => {
+      'astro:config:setup': ({ updateConfig }) => {
         updateConfig({
-          integrations: [
-            mdx({
-              syntaxHighlight: 'shiki',
-              shikiConfig: config.markdown?.shikiConfig,
-              remarkPlugins: [
-                [
-                  remark,
-                  { ...options, theme: config.markdown?.shikiConfig?.theme },
-                ],
-              ],
-              recmaPlugins: [
-                () => (tree) => {
-                  // console.log(
-                  //   recast.prettyPrint(tree, {
-                  //     tabWidth: 2,
-                  //     quote: 'single',
-                  //   }),
-                  // )
-                },
-              ],
-            }),
-          ],
+          markdown: {
+            remarkPlugins: [[remark, options]],
+          },
           vite: {
             plugins: [vite(options)],
           },

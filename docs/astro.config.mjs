@@ -30,14 +30,12 @@ export default defineConfig({
     },
   },
   integrations: [
-    liveExamples({
-      commonMeta: 'client:only',
-      wrapper: '/src/layouts/examples/wrappers/WithApp.svelte',
-    }),
     starlight({
       title: 'Svelte Pixi',
       customCss: ['./src/tailwind.css'],
-      expressiveCode: false,
+      expressiveCode: {
+        themes: [codeTheme],
+      },
       social: {
         github: 'https://github.com/mattjennings/svelte-pixi',
       },
@@ -114,6 +112,10 @@ export default defineConfig({
           ],
         },
       ],
+    }),
+    liveExamples({
+      commonMeta: 'client:only',
+      wrapper: '/src/layouts/examples/wrappers/WithApp.svelte',
     }),
     svelte({
       extensions: ['.svelte'],

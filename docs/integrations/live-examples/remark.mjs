@@ -22,6 +22,7 @@ export default function examples(options) {
 
       if (node.meta && node.meta.split(' ').includes('live')) {
         const meta = [options.commonMeta ?? '', node.meta].join(' ')
+
         const src = node.value
         const i = examples.length
 
@@ -79,6 +80,7 @@ export default function examples(options) {
           default: true,
         })
 
+        const codeNode = { ...node }
         const commonProps = [
           {
             type: 'mdxJsxAttribute',
@@ -133,7 +135,7 @@ export default function examples(options) {
                         type: 'ArrayExpression',
                         elements: meta.split(' ').map((value) => ({
                           type: 'Literal',
-                          value,
+                          value: value ?? '',
                         })),
                       },
                     },
@@ -213,38 +215,7 @@ export default function examples(options) {
                   value: 'code',
                 },
               ],
-              children: [
-                {
-                  type: 'mdxJsxFlowElement',
-                  name: 'Code',
-                  attributes: [
-                    {
-                      type: 'mdxJsxAttribute',
-                      name: 'code',
-                      value: node.value,
-                    },
-                    {
-                      type: 'mdxJsxAttribute',
-                      name: 'lang',
-                      value: node.lang,
-                    },
-                    ...(options.theme
-                      ? [
-                          {
-                            type: 'mdxJsxAttribute',
-                            name: 'theme',
-                            value: options.theme,
-                          },
-                        ]
-                      : []),
-                  ],
-                  children: [],
-                  data: {
-                    _mdxExplicitJsx: true,
-                    _src: node.value,
-                  },
-                },
-              ],
+              children: [codeNode],
             },
           ],
         }
@@ -333,6 +304,8 @@ function getWrapperPathFromMeta(meta) {
 }
 
 function toPOSIX(path) {
+  if (!path) return path
+
   return path.replace(/\\/g, '/')
 }
 
