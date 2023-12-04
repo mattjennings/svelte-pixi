@@ -34,7 +34,8 @@ I recommend using spritesheets created by TexturePacker ([they have a great tuto
 
 ## Multiple Animations
 
-```svelte live assets=["/assets/adventurer-spritesheet.json"]
+
+```svelte live props={{ assets: ["/assets/adventurer-spritesheet.json"] }}
 <script>
   import { AnimatedSprite, AssetsLoader } from 'svelte-pixi'
   import { Assets } from 'pixi.js'

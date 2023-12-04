@@ -114,7 +114,9 @@ export default defineConfig({
       ],
     }),
     liveExamples({
-      commonMeta: 'client:only',
+      defaultProps: {
+        'client:only': 'svelte',
+      },
       wrapper: '/src/layouts/examples/wrappers/WithApp.svelte',
     }),
     svelte({

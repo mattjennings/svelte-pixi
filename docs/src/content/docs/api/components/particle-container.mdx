@@ -15,7 +15,7 @@ Other more advanced functionality like masking, filters, etc will not work on sp
 
 Note: when working with thousands of components, it is **much** more performant to create & update the Pixi instances directly instead of through components
 
-```svelte live assets=["/assets/star.png"]
+```svelte live props={{ assets: ["/assets/star.png"] }}
 <script>
   import * as PIXI from 'pixi.js'
   import { Sprite, onTick, ParticleContainer } from 'svelte-pixi'

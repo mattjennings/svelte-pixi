@@ -21,7 +21,7 @@ export default function examples(options) {
       const childIndex = parent.children.indexOf(node)
 
       if (node.meta && node.meta.split(' ').includes('live')) {
-        const meta = [options.commonMeta ?? '', node.meta].join(' ')
+        const meta = node.meta
 
         const src = node.value
         const i = examples.length
@@ -81,7 +81,13 @@ export default function examples(options) {
         })
 
         const codeNode = { ...node }
-        const commonProps = [
+
+        const props = {
+          ...(options?.defaultProps ?? {}),
+          ...parsePropsFromString(meta),
+        }
+
+        const commonPropAttributes = [
           {
             type: 'mdxJsxAttribute',
             name: 'code',
@@ -120,9 +126,18 @@ export default function examples(options) {
               },
             },
           },
+        ]
+
+        const componentPropAttributes = [
+          ...commonPropAttributes,
+          ...propsToJSXAttributes(props),
+        ]
+
+        const layoutPropAttributes = [
+          ...commonPropAttributes,
           {
             type: 'mdxJsxAttribute',
-            name: 'meta',
+            name: 'componentProps',
             value: {
               type: 'mdxJsxAttributeValueExpression',
               data: {
@@ -131,13 +146,18 @@ export default function examples(options) {
                   body: [
                     {
                       type: 'ExpressionStatement',
-                      expression: {
-                        type: 'ArrayExpression',
-                        elements: meta.split(' ').map((value) => ({
-                          type: 'Literal',
-                          value: value ?? '',
-                        })),
-                      },
+                      expression: valueToEstreeExpression(
+                        // filter out client:xyz props
+                        Object.entries(props).reduce((acc, [key, value]) => {
+                          if (key.startsWith('client:')) {
+                            return acc
+                          }
+
+                          acc[key] = value
+
+                          return acc
+                        }, []),
+                      ),
                     },
                   ],
                   sourceType: 'module',
@@ -151,7 +171,7 @@ export default function examples(options) {
           type: 'mdxJsxFlowElement',
           name: layoutName,
           data: { _mdxExplicitJsx: true, _example: true },
-          attributes: [...commonProps],
+          attributes: layoutPropAttributes,
           children: [
             {
               type: 'mdxJsxFlowElement',
@@ -168,38 +188,7 @@ export default function examples(options) {
                 {
                   type: 'mdxJsxFlowElement',
                   name: exampleComponentName,
-                  attributes: [
-                    ...commonProps,
-                    meta.includes('client:load') && {
-                      type: 'mdxJsxAttribute',
-                      name: 'client:load',
-                      value: 'true',
-                    },
-                    meta.includes('client:idle') && {
-                      type: 'mdxJsxAttribute',
-                      name: 'client:idle',
-                      value: 'true',
-                    },
-
-                    meta.includes('client:visible') && {
-                      type: 'mdxJsxAttribute',
-                      name: 'client:visible',
-                      value: 'true',
-                    },
-                    meta.includes('client:only') && {
-                      type: 'mdxJsxAttribute',
-                      name: 'client:only',
-                      value: node.lang,
-                    },
-                    meta.includes('client:media') && {
-                      type: 'mdxJsxAttribute',
-                      name: 'client:media',
-                      value: meta
-                        .split(' ')
-                        .find((m) => m.startsWith('client:media'))
-                        .split('=')[1],
-                    },
-                  ].filter(Boolean),
+                  attributes: componentPropAttributes,
                   children: [],
                 },
               ],
@@ -287,6 +276,129 @@ function ensureImport(tree, imp) {
   }
 }
 
+function propsToJSXAttributes(props) {
+  return Object.entries(props ?? {}).map(([key, value]) => {
+    const type = typeof value
+    const isArray = Array.isArray(value)
+
+    switch (type) {
+      case 'string':
+      case 'number':
+      case 'boolean':
+        return {
+          type: 'mdxJsxAttribute',
+          name: key,
+          value,
+        }
+      case 'object':
+        if (isArray) {
+          return {
+            type: 'mdxJsxAttribute',
+            name: key,
+            value: {
+              type: 'mdxJsxAttributeValueExpression',
+              data: {
+                estree: {
+                  type: 'Program',
+                  body: [
+                    {
+                      type: 'ExpressionStatement',
+                      expression: valueToEstreeExpression(value),
+                    },
+                  ],
+                  sourceType: 'module',
+                },
+              },
+            },
+          }
+        } else {
+          return {
+            type: 'mdxJsxAttribute',
+            name: key,
+            value: {
+              type: 'mdxJsxAttributeValueExpression',
+              data: {
+                estree: {
+                  type: 'Program',
+                  body: [
+                    {
+                      type: 'ExpressionStatement',
+                      expression: valueToEstreeExpression(value),
+                    },
+                  ],
+                  sourceType: 'module',
+                },
+              },
+            },
+          }
+        }
+      default:
+        throw new Error(`Unsupported prop type: ${type}`)
+    }
+  }, [])
+}
+
+function valueToEstreeExpression(value) {
+  const type = typeof value
+  const isArray = Array.isArray(value)
+
+  switch (type) {
+    case 'string':
+    case 'number':
+    case 'boolean':
+      return {
+        type: 'Literal',
+        value,
+      }
+    case 'object':
+      if (isArray) {
+        return {
+          type: 'ArrayExpression',
+          elements: value.map(valueToEstreeExpression),
+        }
+      } else {
+        return {
+          type: 'ObjectExpression',
+          properties: Object.entries(value).map(([key, value]) => {
+            return {
+              type: 'Property',
+              kind: 'init',
+              key: {
+                type: 'Identifier',
+                name: key,
+              },
+              value: valueToEstreeExpression(value),
+            }
+          }),
+        }
+      }
+  }
+}
+
+function parsePropsFromString(string) {
+  const regex = /props={{(.*?)}}/g
+  const matches = []
+  let match
+
+  while ((match = regex.exec(string)) !== null) {
+    matches.push(match[1])
+  }
+
+  // Check if a match is found
+  if (matches.length) {
+    // Use the Function constructor to create a function that returns the "props" object
+    const getProps = new Function(`return {${matches.join(' ')}}`)
+
+    // Call the function to get the parsed "props" object
+    const props = getProps()
+
+    return props
+  } else {
+    // Return null if no match is found
+    return null
+  }
+}
+
 function getLayoutPathFromMeta(meta) {
   const part = meta.split(' ').find((part) => part.startsWith('layout='))
 
@@ -319,14 +431,14 @@ function createWrapperSrc({ lang, inner, outer }) {
 </script>
 
 <Outer {...$$restProps}>    
-    <Inner />
+    <Inner {...$$restProps}/>
 </Outer>`
     case 'jsx':
       return `\
 import Inner from ${JSON.stringify(inner)}
 import Outer from ${JSON.stringify(outer)}
 
-export default (props) => <Outer {...props}><Inner /></Outer>`
+export default (props) => <Outer {...props}><Inner {...props} /></Outer>`
     case 'vue':
       // TODO: verify, i just used copilot for this
       return `\
@@ -340,7 +452,8 @@ export default {
         Outer
     },
     props: {
-        ...Outer.props
+        ...Outer.props,
+        ...Inner.props
     },
     render() {
         return <Outer {...this.$props}><Inner /></Outer>

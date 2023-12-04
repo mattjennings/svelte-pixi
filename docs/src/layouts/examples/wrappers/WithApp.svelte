@@ -10,9 +10,9 @@
    */
   export let meta
 
-  let assets = JSON.parse(getMetaValue('assets') || '[]')
-  let backgroundColor = getMetaValue('bg') || 0x000000
-  let showStats = getMetaValue('stats')
+  export let assets = []
+  export let bg = 0x000000
+  export let stats = false
 
   let intersecting = true
   let element
@@ -33,31 +33,24 @@
     }
   }
 
-  function getMetaValue(key) {
-    return (
-      !!meta.find((m) => m === key) ||
-      meta.find((m) => m.includes(key))?.split('=')[1]
-    )
-  }
-
   onMount(() => {
     try {
-      if (app && statsElement && showStats) {
-        let stats = new Stats()
-        statsElement.appendChild(stats.dom)
+      if (app && statsElement && stats) {
+        let _stats = new Stats()
+        statsElement.appendChild(_stats.dom)
 
-        stats.showPanel(0)
+        _stats.showPanel(0)
 
         app.ticker.add(
           () => {
-            stats.begin()
+            _stats.begin()
           },
           null,
           -Infinity,
         )
         app.ticker.add(
           () => {
-            stats.end()
+            _stats.end()
           },
           null,
           Infinity,
@@ -79,10 +72,10 @@
     autoStart={false}
     width={800}
     height={400}
-    {backgroundColor}
+    backgroundColor={bg}
   >
     <div bind:this={element} class="relative not-content" slot="view">
-      {#if showStats}
+      {#if stats}
         <div
           bind:this={statsElement}
           class="absolute top-0 left-0 z-100 [&>div]:!absolute"
