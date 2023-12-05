@@ -10,7 +10,7 @@ If you're familiar with PixiJS, you should feel right at home.
 You can use the [Application](/docs/components/application) component to create and render a PixiJS application. 
 All Svelte Pixi components should be children of `Application`.
 
-```svelte live wrapper=/src/layouts/examples/wrappers/Empty.svelte
+```svelte live props={{ bg: 'none' }} wrapper=/src/layouts/examples/wrappers/Empty.svelte
 <script>
   import { Application, Text } from 'svelte-pixi'
 </script>
@@ -36,7 +36,7 @@ just as you would in vanilla PixiJS.
 
 PixiJS will load the texture in the background and show it when it's ready - similar to how an `img` tag works.
 
-```svelte live wrapper=/src/layouts/examples/wrappers/Empty.svelte
+```svelte live props={{ bg: 'none' }} wrapper=/src/layouts/examples/wrappers/Empty.svelte
 <script>
   import * as PIXI from 'pixi.js'
   import { Application, Sprite } from 'svelte-pixi'
@@ -60,7 +60,7 @@ until all images have finished loading (rather than have them pop in one after a
 
 _Note: You may want to enable network throttling in your browser dev tools to actually see the loading screen - these are small images!_
 
-```svelte live wrapper=/src/layouts/examples/wrappers/Empty.svelte
+```svelte live props={{ bg: 'none' }} wrapper=/src/layouts/examples/wrappers/Empty.svelte
 <script>
   import * as PIXI from 'pixi.js'
   import { Application, Text, Sprite, AssetsLoader } from 'svelte-pixi'
@@ -175,7 +175,7 @@ if you have a custom class (whether that be your own or from a third-party libra
   import * as PIXI from 'pixi.js'
   import { Text } from 'svelte-pixi'
 
-  class YellowText extends PIXI.Text {
+  class GreenText extends PIXI.Text {
     constructor(text, style) {
       super(text, style)
       this.style.fill = '#00ff00'
@@ -184,7 +184,7 @@ if you have a custom class (whether that be your own or from a third-party libra
 </script>
 
 <Text 
-  instance={new YellowText()} 
+  instance={new GreenText()} 
   x={360} 
   y={200} 
   text="Hello World" 

@@ -156,7 +156,7 @@ export default function examples(options) {
                           acc[key] = value
 
                           return acc
-                        }, []),
+                        }, {}),
                       ),
                     },
                   ],

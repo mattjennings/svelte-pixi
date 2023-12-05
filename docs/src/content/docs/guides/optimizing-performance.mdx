@@ -165,7 +165,7 @@ Pixi applications typically render at 60 frames per second (or higher if the use
 
 You can set `render="demand"` on the `Application` component to opt into this behaviour:
 
-```svelte live wrapper=/src/layouts/examples/wrappers/Empty.svelte
+```svelte live props={{ bg: 'none' }} wrapper=/src/layouts/examples/wrappers/Empty.svelte
 <script>
   import { onMount } from 'svelte'
   import { Text, Application } from 'svelte-pixi'

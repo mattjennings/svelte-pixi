@@ -1,14 +1,8 @@
 <script>
   import { Application, AssetsLoader, Container } from 'svelte-pixi'
   import { onMount } from 'svelte'
-  import { Layout } from 'svelte-pixi/experimental'
   import IntersectionObserver from 'svelte-intersection-observer'
   import Stats from 'stats-js'
-
-  /**
-   * @type {string}
-   */
-  export let meta
 
   export let assets = []
   export let bg = 0x000000
