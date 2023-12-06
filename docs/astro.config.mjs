@@ -6,16 +6,15 @@ import { fileURLToPath } from 'url'
 import tailwind from '@astrojs/tailwind'
 import liveExamples from './integrations/live-examples/index.mjs'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const codeTheme = 'poimandres'
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://svelte-pixi.mattjennin.gs',
-  markdown: {
-    shikiConfig: {
-      theme: codeTheme,
-    },
-  },
+  // markdown: {
+  //   shikiConfig: {
+  //     theme: codeTheme,
+  //   },
+  // },
   vite: {
     optimizeDeps: {
       exclude:
@@ -34,7 +33,7 @@ export default defineConfig({
       title: 'SveltePixi',
       customCss: ['./src/tailwind.css'],
       expressiveCode: {
-        themes: [codeTheme],
+        themes: ['poimandres', 'material-theme-lighter'],
       },
       social: {
         github: 'https://github.com/mattjennings/svelte-pixi',
@@ -83,7 +82,6 @@ export default defineConfig({
         },
         {
           label: 'Guides',
-          collapsed: true,
           items: [
             {
               label: 'Animation with svelte/motion',

@@ -61,11 +61,7 @@
   })
 </script>
 
-<div
-  bind:clientWidth={width}
-  bind:clientHeight={height}
-  class="with-app-container w-full h-full overflow-hidden"
->
+<div bind:clientWidth={width} bind:clientHeight={height}>
   <Application
     bind:instance={app}
     autoStart={false}
@@ -99,10 +95,3 @@
     </AssetsLoader>
   </Application>
 </div>
-
-<style>
-  :global(.with-app-container canvas) {
-    min-width: 100%;
-    max-width: none;
-  }
-</style>

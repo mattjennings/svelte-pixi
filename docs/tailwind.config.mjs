@@ -3,10 +3,11 @@ import starlightPlugin from '@astrojs/starlight-tailwind'
 // Generated color palettes
 const accent = {
   200: '#b3c7ff',
-  600: '#364bff',
+  600: '#4a64bf',
   900: '#182775',
   950: '#131e4f',
 }
+
 const gray = {
   100: '#f5f6f8',
   200: '#eceef2',
