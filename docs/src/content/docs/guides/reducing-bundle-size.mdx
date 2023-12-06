@@ -2,7 +2,7 @@
 title: Reducing Bundle Size
 ---
 
-`pixi.js` is about [226kb minified + gzipped](https://bundlephobia.com/package/pixi.js@7.3.2) (as of v7.3.2). 
+`pixi.js` is about [226kb minified + gzipped](https://bundlephobia.com/package/pixi.js@7.3.2) (as of v7.3.2).
 If you're only using a few features this may be a lot more than you need.
 
 With a modern bundler it is possible to create your own pixi.js file with only the features you need. This
@@ -13,7 +13,7 @@ guide will show you how to do it using [Vite](https://vitejs.dev/) as that is th
 The `pixi.js` package is just a collection of various `@pixi/*` packages. If we look at their [package.json](https://github.com/pixijs/pixijs/blob/main/bundles/pixi.js/package.json),
 we can see which ones we might want to install for ourselves.
 
-I've picked out a few below. You can add/remove as necessary, but note that if any Svelte Pixi component
+I've picked out a few below. You can add/remove as necessary, but note that if any SveltePixi component
 relies on the package you'll get an error. (For example, if you remove `@pixi/sprite` you'll get an error
 when using `<Sprite />`.)
 
@@ -50,7 +50,7 @@ npm install @pixi/accessibility @pixi/app @pixi/assets @pixi/basis @pixi/compres
 
 ## Aliasing
 
-In order for Svelte Pixi to make use of this custom file we'll need to create an alias. 
+In order for SveltePixi to make use of this custom file we'll need to create an alias.
 
 Update your `vite.config.js` file to include the following:
 
@@ -60,7 +60,7 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   /* ... */
-  
+
   optimizeDeps: {
     // required so svelte-pixi will use pixi.js alias
     exclude: ['svelte-pixi'],

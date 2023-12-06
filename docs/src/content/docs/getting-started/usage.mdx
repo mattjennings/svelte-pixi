@@ -4,11 +4,11 @@ sidebar:
   order: 2
 ---
 
-Svelte Pixi aims to match the PixiJS API as closely as possible without doing anything too magical. 
+SveltePixi aims to match the PixiJS API as closely as possible without doing anything too magical.
 If you're familiar with PixiJS, you should feel right at home.
 
-You can use the [Application](/docs/components/application) component to create and render a PixiJS application. 
-All Svelte Pixi components should be children of `Application`.
+You can use the [Application](/docs/components/application) component to create and render a PixiJS application.
+All SveltePixi components should be children of `Application`.
 
 ```svelte live props={{ bg: 'none' }} wrapper=/src/layouts/examples/wrappers/Empty.svelte
 <script>
@@ -26,7 +26,7 @@ All Svelte Pixi components should be children of `Application`.
 </Application>
 ```
 
-Most Svelte Pixi components will correspond to the PixiJS class of the same name
+Most SveltePixi components will correspond to the PixiJS class of the same name
 (for example the `Text` component renders a [PIXI.Text](https://pixijs.download/dev/docs/PIXI.Text.html) instance).
 
 ## Textures
@@ -55,7 +55,7 @@ PixiJS will load the texture in the background and show it when it's ready - sim
 
 ## Preloading Assets
 
-If you have a bunch of images or other resources, you may wish to show a loading screen 
+If you have a bunch of images or other resources, you may wish to show a loading screen
 until all images have finished loading (rather than have them pop in one after another).
 
 _Note: You may want to enable network throttling in your browser dev tools to actually see the loading screen - these are small images!_
@@ -99,12 +99,12 @@ _Note: You may want to enable network throttling in your browser dev tools to ac
 </Application>
 ```
 
-You can have multiple AssetsLoader components as well, which is useful 
+You can have multiple AssetsLoader components as well, which is useful
 if you want to render a fallbacks at a component-level instead.
 
 ## Ticker
 
-A [Ticker](/docs/components/ticker) runs an update loop for the application. 
+A [Ticker](/docs/components/ticker) runs an update loop for the application.
 The `Application` component will create one automatically, which means child
 components can hook into the loop with `onTick`.
 
@@ -138,8 +138,8 @@ components can hook into the loop with `onTick`.
 
 ## Accessing PixiJS Instances
 
-Most Svelte Pixi components have an `instance` prop that 
-contains the underlying PixiJS instance. It's akin to the `this` prop for HTML elements, 
+Most SveltePixi components have an `instance` prop that
+contains the underlying PixiJS instance. It's akin to the `this` prop for HTML elements,
 so you can bind to it if you need to access it.
 
 ```svelte live {5,14}
@@ -150,24 +150,18 @@ so you can bind to it if you need to access it.
   let text
 
   onMount(() => {
-    // manually set property on the PIXI.Text instance    
+    // manually set property on the PIXI.Text instance
     text.style.fill = '#00ff00'
   })
 </script>
 
-<Text 
-  bind:instance={text} 
-  x={360} 
-  y={200} 
-  text="Hello World" 
-  anchor={0.5} 
-/>
+<Text bind:instance={text} x={360} y={200} text="Hello World" anchor={0.5} />
 ```
 
 ## Using a Custom Instance
 
-The `instance` prop also lets you pass down a custom PixiJS class 
-that you've instantiated yourself. This is particularly useful 
+The `instance` prop also lets you pass down a custom PixiJS class
+that you've instantiated yourself. This is particularly useful
 if you have a custom class (whether that be your own or from a third-party library).
 
 ```svelte live {14}
@@ -183,11 +177,11 @@ if you have a custom class (whether that be your own or from a third-party libra
   }
 </script>
 
-<Text 
-  instance={new GreenText()} 
-  x={360} 
-  y={200} 
-  text="Hello World" 
-  anchor={0.5} 
+<Text
+  instance={new GreenText()}
+  x={360}
+  y={200}
+  text="Hello World"
+  anchor={0.5}
 />
 ```

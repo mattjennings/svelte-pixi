@@ -31,7 +31,7 @@ export default defineConfig({
   },
   integrations: [
     starlight({
-      title: 'Svelte Pixi',
+      title: 'SveltePixi',
       customCss: ['./src/tailwind.css'],
       expressiveCode: {
         themes: [codeTheme],
@@ -46,12 +46,22 @@ export default defineConfig({
           lang: 'en', // lang is required for root locales
         },
       },
+
+      tableOfContents: {
+        minHeadingLevel: 1,
+        maxHeadingLevel: 6,
+      },
       sidebar: [
         {
           label: 'Getting Started',
-          collapsed: true,
           autogenerate: {
             directory: 'getting-started',
+          },
+        },
+        {
+          label: 'Releases',
+          autogenerate: {
+            directory: 'releases',
           },
         },
         {
@@ -59,14 +69,12 @@ export default defineConfig({
           items: [
             {
               label: 'Components',
-              collapsed: true,
               autogenerate: {
                 directory: 'api/components',
               },
             },
             {
               label: 'Utilities',
-              collapsed: true,
               autogenerate: {
                 directory: 'api/utilities',
               },
@@ -93,17 +101,11 @@ export default defineConfig({
               label: 'Reducing bundle size',
               link: '/guides/reducing-bundle-size',
             },
-            {
-              label: 'Migrations',
-              collapsed: true,
-              autogenerate: {
-                directory: 'guides/migrations',
-              },
-            },
           ],
         },
         {
-          label: 'Older Versions',
+          label: 'Older Documentation',
+          collapsed: true,
           items: [
             {
               label: 'v0.1.3 (PixiJS v6)',

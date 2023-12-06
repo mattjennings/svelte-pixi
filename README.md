@@ -1,4 +1,4 @@
-# Svelte Pixi
+# SveltePixi
 
 Create [PixiJS](https://www.pixijs.com) apps with Svelte.
 
