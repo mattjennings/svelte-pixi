@@ -4,7 +4,7 @@ import svelte from '@astrojs/svelte'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import tailwind from '@astrojs/tailwind'
-import liveExamples from './integrations/live-examples/index.mjs'
+import liveCode from 'astro-live-code'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // https://astro.build/config
@@ -113,10 +113,11 @@ export default defineConfig({
         },
       ],
     }),
-    liveExamples({
+    liveCode({
       defaultProps: {
         'client:only': 'svelte',
       },
+      layout: '/src/layouts/examples/ExampleLayout.astro',
       wrapper: '/src/layouts/examples/wrappers/WithApp.svelte',
     }),
     svelte({
