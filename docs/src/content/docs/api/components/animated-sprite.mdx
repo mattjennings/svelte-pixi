@@ -1,0 +1,71 @@
+---
+title: AnimatedSprite
+pixi: https://pixijs.download/release/docs/PIXI.AnimatedSprite.html
+---
+
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+
+A simple way to display an animation depicted by a list of textures.
+
+I recommend using spritesheets created by TexturePacker ([they have a great tutorial on it](https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-and-animations-with-pixijs5)). If you don't want to use spritesheets, you can simply just pass in an array of your desired textures.
+
+## Spritesheet
+
+```svelte live
+<script>
+  import * as PIXI from 'pixi.js'
+  import { AnimatedSprite, AssetsLoader } from 'svelte-pixi'
+</script>
+
+<AssetsLoader assets={['/assets/adventurer-spritesheet.json']}>
+  <AnimatedSprite
+    x={360}
+    y={200}
+    textures={[
+      PIXI.Texture.from('adventurer-idle-00.png'),
+      PIXI.Texture.from('adventurer-idle-01.png'),
+      PIXI.Texture.from('adventurer-idle-02.png'),
+    ]}
+    playing
+    animationSpeed={0.1}
+    anchor={0.5}
+    scale={3}
+  />
+</AssetsLoader>
+```
+
+## Multiple Animations
+
+
+```svelte live props={{ assets: ["/assets/adventurer-spritesheet.json"] }}
+<script>
+  import { AnimatedSprite, AssetsLoader } from 'svelte-pixi'
+  import { Assets } from 'pixi.js'
+
+  // loaded from parent <AssetsLoader />
+  const spritesheet = Assets.get('/assets/adventurer-spritesheet.json')
+  let textures = spritesheet.animations['adventurer-idle']
+
+  function changeAnimation() {
+    // pick an an animation from the spritesheet at random
+    const keys = Object.keys(spritesheet.animations)
+    const randomIndex = Math.floor(Math.random() * keys.length)
+    textures = spritesheet.animations[keys[randomIndex]]
+  }
+</script>
+
+<AnimatedSprite
+  {textures}
+  x={360}
+  y={200}
+  playing
+  animationSpeed={0.1}
+  anchor={0.5}
+  scale={3}
+  on:loop={changeAnimation}
+/>
+```
+
+## API
+
+<ComponentAPI component="AnimatedSprite.svelte" />

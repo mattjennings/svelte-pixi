@@ -1,0 +1,45 @@
+---
+title: SimplePlane
+pixi: https://pixijs.download/release/docs/PIXI.SimplePlane.html
+---
+
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+
+The SimplePlane allows you to draw a texture across several points and then manipulate these points
+
+## Usage
+
+```svelte live
+<script>
+  import { SimplePlane, onTick } from 'svelte-pixi'
+  import * as PIXI from 'pixi.js'
+
+  let plane
+  $: buffer = plane && plane.geometry.getBuffer('aVertexPosition')
+
+  let time = 0
+  onTick((delta) => {
+    if (buffer) {
+      // Randomize the vertice positions a bit to create movement.
+      for (let i = 0; i < buffer.data.length; i++) {
+        buffer.data[i] += Math.sin(time / 10 + i) * 0.5
+      }
+      buffer.update()
+      time++
+    }
+  })
+</script>
+
+<SimplePlane
+  x={75}
+  y={0}
+  bind:instance={plane}
+  anchor={0.5}
+  texture={PIXI.Texture.from('/assets/bg_grass.jpg')}
+  vertices={10}
+/>
+```
+
+## API
+
+<ComponentAPI component="SimplePlane.svelte" />

@@ -1,0 +1,29 @@
+---
+title: Sprite
+pixi: https://pixijs.download/release/docs/Sprite.html
+---
+
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+
+Sprites are the base for all textured objects that are rendered to the screen
+
+## Usage
+
+```svelte live
+<script>
+  import * as PIXI from 'pixi.js'
+  import { Sprite } from 'svelte-pixi'
+</script>
+
+<Sprite
+  x={360}
+  y={200}
+  texture={PIXI.Texture.from('/assets/adventurer.png')}
+  anchor={0.5}
+  scale={3}
+/>
+```
+
+## API
+
+<ComponentAPI component="Sprite.svelte" />

@@ -1,8 +1,0 @@
----
-title: Introduction
-order: 1
----
-
-Svelte Pixi is a component library that allows you to write PixiJS applications declaratively in Svelte.
-
-**It is still a work in progress** but it should be usable enough for real projects. If you run into any problems please don't hesitate to [create an issue on GitHub](https://github.com/mattjennings/svelte-pixi/issues).

@@ -86,7 +86,7 @@
   export let instance: T = new PIXI.SimpleRope(
     texture,
     parsePoints(points),
-    textureScale
+    textureScale,
   ) as T
 
   function parsePoints(points: PointLike[]): PIXI.Point[] {
@@ -100,7 +100,7 @@
       instance.geometry = new PIXI.RopeGeometry(
         texture.height,
         parsePoints(value),
-        textureScale
+        textureScale,
       )
     },
   })
@@ -125,6 +125,9 @@
   {instance}
   on:create
   on:click
+  on:globalmousemove
+  on:globalpointermove
+  on:globaltouchmove
   on:mousedown
   on:mousemove
   on:mouseout

@@ -14,3 +14,8 @@ node_modules
 .vercel_build_output
 .vercel/output
 .parcel-cache
+
+docs/.astro
+docs/.vercel
+docs/dist
+pnpm-lock.yaml

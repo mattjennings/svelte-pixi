@@ -75,7 +75,7 @@
   export let instance: T = new PIXI.SimplePlane(
     texture,
     parsePoint(vertices).x,
-    parsePoint(vertices).y
+    parsePoint(vertices).y,
   ) as T
 
   const { applyProp } = createApplyProps<PIXI.SimplePlane>(instance)
@@ -99,6 +99,9 @@
   {instance}
   on:create
   on:click
+  on:globalmousemove
+  on:globalpointermove
+  on:globaltouchmove
   on:mousedown
   on:mousemove
   on:mouseout

@@ -1,0 +1,38 @@
+---
+title: track
+---
+
+Returns a writable store that gets updated during a low-priority tick. If there's no Ticker, it will run during the PIXI.Renderer's `postrender` event.
+
+This is useful for watching a property on a PixiJS instance that is getting updated outside of the component (e.g. a physics system). It can also be used to [bind props](/docs/advanced/binding-props), as SveltePixi components don't support `bind:` syntax for instance properties.
+
+```svelte live
+<script>
+  import { Container, Text, onTick, track } from 'svelte-pixi'
+
+  let instance
+  let x = track(() => instance.x, 200)
+  let y = track(() => instance.y, 200)
+
+  $: text = $x < 300 ? "I'm on the left!" : "I'm on the right!"
+
+  // modify the instance directly
+  onTick((delta) => {
+    if (instance.x < 500) {
+      instance.x += delta
+    } else {
+      instance.x = 200
+    }
+  })
+</script>
+
+<Container bind:instance x={$x} y={$y}>
+  <Text {text} style={{ fill: 'white' }} />
+</Container>
+```
+
+## Type Definition
+
+```ts
+function track<T>(getter: () => T, initial?: T): Writable<T>
+```

@@ -1,0 +1,38 @@
+---
+title: Ticker
+pixi: https://pixijs.download/release/docs/Ticker.html
+---
+
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+
+Children of this component can use [onTick](/docs/utilities/on-tick) to hook into the update loop.
+
+## Usage
+
+```svelte live
+<script>
+  import { Ticker, Text } from 'svelte-pixi'
+
+  let delta = 0
+  let frame = 0
+</script>
+
+<Ticker
+  on:tick={(ev) => {
+    frame++
+    delta = ev.detail
+  }}
+>
+  <Text
+    x={360}
+    y={200}
+    text={`Frame ${frame}\nDelta: ${delta.toFixed(10)}`}
+    style={{ fill: 'white' }}
+    anchor={0.5}
+  />
+</Ticker>
+```
+
+## API
+
+<ComponentAPI component="Ticker.svelte" />

@@ -71,7 +71,7 @@
       tint: style?.tint,
       letterSpacing: style?.letterSpacing,
       maxWidth: style?.maxWidth,
-    })
+    }),
   )
 </script>
 
@@ -79,6 +79,9 @@
   {...$$restProps}
   {instance}
   on:click
+  on:globalmousemove
+  on:globalpointermove
+  on:globaltouchmove
   on:mousedown
   on:mousemove
   on:mouseout

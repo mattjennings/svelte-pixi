@@ -18,7 +18,7 @@
   import { omitUndefined } from './util/helpers'
 
   type T = $$Generic<PIXI.Application>
-  type $$Props = PIXI.IApplicationOptions & {
+  type $$Props = Partial<PIXI.IApplicationOptions> & {
     instance?: T
     render?: 'auto' | 'demand'
   }
@@ -43,9 +43,12 @@
   /**
    * Pass-through value for canvas' context alpha property.
    * If you want to set transparency, please use backgroundAlpha.
-   * This option is for cases where the canvas needs to be opaque,
-   * possibly for performance reasons on some older devices.
+   * This option is for cases where the canvas
+   * needs to be opaque, possibly for performance reasons on some older devices.
    *
+   * <br />
+   *
+   * @deprecated since 7.0.0, use premultipliedAlpha and backgroundAlpha instead.
    * @type {boolean | "notMultiplied"}
    */
   export let useContextAlpha: $$Props['useContextAlpha'] = undefined
@@ -74,7 +77,7 @@
   export let resolution: $$Props['resolution'] = PIXI.settings.RESOLUTION
 
   /**
-   * prevents selection of WebGL renderer, even if such is present, this option only is available
+   * Prevents selection of WebGL renderer, even if such is present, this option only is available
    * when using pixi.js-legacy or @pixi/canvas-renderer modules,
    * otherwise it is ignored.
    */
@@ -98,12 +101,35 @@
   export let clearBeforeRender: $$Props['clearBeforeRender'] = undefined
 
   /**
+   * The default event mode mode for all display objects.
+   *
+   * This option only is available when using @pixi/events package (included in the pixi.js and pixi.js-legacy bundle),
+   * otherwise it will be ignored.
+   *
+   * @type {PIXI.EventMode}
+   */
+  export let eventMode: $$Props['eventMode'] = undefined
+
+  /**
+   * The event features that are enabled by the EventSystem.
+   *
+   * @type {PIXI.EventSystemOptions['eventFeatures']}
+   */
+  export let eventFeatures: $$Props['eventFeatures'] = undefined
+
+  /**
    * Parameter passed to webgl context, set to "high-performance"
    * for devices with dual graphics card. (WebGL only).
    *
    * @type {WebGLPowerPreference}
    */
   export let powerPreference: $$Props['powerPreference'] = undefined
+
+  /**
+   * **WebGL Only.** Whether the compositor will assume the drawing buffer contains colors with premultiplied alpha.
+   * @type {boolean | undefined}
+   */
+  export let premultipliedAlpha: $$Props['premultipliedAlpha'] = undefined
 
   /**
    * Element to automatically resize stage to.
@@ -137,6 +163,7 @@
       width,
       height,
       useContextAlpha,
+      premultipliedAlpha,
       autoDensity,
       antialias,
       preserveDrawingBuffer,
@@ -147,10 +174,13 @@
       clearBeforeRender,
       powerPreference,
       resizeTo,
-    })
+      eventMode,
+      eventFeatures,
+    }),
   ) as T
 
   let invalidated = true
+
   setContext<ApplicationContext<T>>('pixi/app', { app: instance })
 
   // remove rendering on tick

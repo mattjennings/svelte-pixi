@@ -1,0 +1,32 @@
+---
+title: HTMLText
+pixi: https://pixijs.download/release/docs/HTMLText.html
+sidebar:
+  badge: 'New'
+---
+
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+
+Renders text with support for styling via HTML tags. The rendering can vary across browsers and platforms.
+
+## Usage
+
+```svelte live
+<script>
+  import { HTMLText } from 'svelte-pixi'
+</script>
+
+<HTMLText
+  x={360}
+  y={200}
+  text="<strong>Hello</strong> <em>World</em>"
+  anchor={0.5}
+  style={{
+    fill: 'white',
+  }}
+/>
+```
+
+## API
+
+<ComponentAPI component="HTMLText.svelte" />

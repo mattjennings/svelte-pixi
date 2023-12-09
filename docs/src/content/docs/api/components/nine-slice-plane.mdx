@@ -1,0 +1,46 @@
+---
+title: NineSlicePlane
+pixi: https://pixijs.download/release/docs/PIXI.NineSlicePlane.html
+---
+
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+
+Allows you to stretch a texture using 9-slice scaling. The corners will remain unscaled (useful for buttons with rounded corners for example) and the other areas will be scaled horizontally and or vertically
+
+## Usage
+
+```svelte live
+<script>
+  import * as PIXI from 'pixi.js'
+  import { NineSlicePlane, onTick } from 'svelte-pixi'
+
+  let width = 100
+  let height = 100
+  let counter = 0
+
+  onTick((delta) => {
+    counter += delta * 0.04
+
+    width = 100 + Math.cos(counter) * 20
+    height = 100 + Math.sin(counter) * 20
+  })
+</script>
+
+<NineSlicePlane
+  x={360}
+  y={200}
+  texture={PIXI.Texture.from('/assets/nine-slice-blue.png')}
+  leftWidth={12}
+  topHeight={12}
+  rightWidth={12}
+  bottomHeight={12}
+  {width}
+  {height}
+  pivot={{ x: width / 2, y: height / 2 }}
+  scale={2}
+/>
+```
+
+## API
+
+<ComponentAPI component="NineSlicePlane.svelte" />

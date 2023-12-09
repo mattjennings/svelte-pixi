@@ -1,0 +1,41 @@
+---
+title: Graphics
+pixi: https://pixijs.download/release/docs/PIXI.Graphics.html
+---
+
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+
+Graphics can be used for any kind of drawing. Use the `draw` prop to interact with the PIXI.Graphics API.
+
+## Usage
+
+```svelte live
+<script>
+  import { onMount } from 'svelte'
+  import { Graphics, onTick } from 'svelte-pixi'
+
+  let size = 100
+  let counter = 0
+
+  onTick((delta) => {
+    counter += delta * 0.025
+
+    size = 100 + Math.sin(counter) * 50
+  })
+</script>
+
+<Graphics
+  x={375}
+  y={200}
+  draw={(graphics) => {
+    graphics.clear()
+    graphics.beginFill(0xde3249)
+    graphics.drawCircle(0, 0, size)
+    graphics.endFill()
+  }}
+/>
+```
+
+## API
+
+<ComponentAPI component="Graphics.svelte" />

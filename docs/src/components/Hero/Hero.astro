@@ -1,0 +1,79 @@
+---
+import Stars from './Stars.svelte'
+---
+
+<div class="app-container">
+  <Stars client:only="svelte" />
+</div>
+
+<style>
+  .app-container {
+    z-index: -10000;
+    position: absolute;
+    display: flex;
+    width: 100vw;
+    min-height: calc(100vh - var(--sl-nav-height));
+    top: var(--sl-nav-height);
+    left: 0px;
+    right: 0px;
+    overflow: hidden;
+  }
+</style>
+
+<style is:global>
+  /* apply dark mode styles for content because background is black */
+  main {
+    --sl-color-white: #fff;
+    --sl-color-gray-1: #eceef2;
+    --sl-color-gray-2: #c0c2c7;
+    --sl-color-gray-3: #888b96;
+    --sl-color-gray-4: #4b5563;
+    --sl-color-gray-5: #353841;
+    --sl-color-gray-6: #24272f;
+    --sl-color-black: #17181c;
+    --sl-color-accent-low: #131e4f;
+    --sl-color-accent: #4a64bf;
+    --sl-color-accent-high: #b3c7ff;
+    --sl-color-text-accent: var(--sl-color-accent-high);
+  }
+
+  .main-frame {
+    display: flex;
+    min-height: 100vh;
+    min-width: 100vw;
+  }
+
+  .main-frame > div {
+    flex: 1;
+    overflow: hidden;
+  }
+  .main-pane {
+    height: 100%;
+    max-height: 100%;
+    background: black !important;
+  }
+
+  .hero .stack {
+    /* black fade out to transparent */
+    background: radial-gradient(
+      circle,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 0.15) 80%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+
+  .hero {
+    display: grid !important;
+    align-items: center !important;
+    gap: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  @media (min-width: 40rem) {
+    .hero .stack {
+      padding-inline: 8rem;
+      padding-block: 2rem;
+    }
+  }
+</style>

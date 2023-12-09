@@ -1,0 +1,9 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "svelte-pixi": "0.1.3",
+    "docs": "0.0.1"
+  },
+  "changesets": ["pink-trainers-jam", "smooth-llamas-destroy"]
+}
