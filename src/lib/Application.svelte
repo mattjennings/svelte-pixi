@@ -25,6 +25,12 @@
     render?: 'auto' | 'demand'
   }
 
+  type $$Slots = {
+    loading: {}
+    default: {}
+    view: {}
+  }
+
   /**
    * Automatically starts the rendering
    *
@@ -170,7 +176,9 @@
   }
 </script>
 
-{#await initPromise then}
+{#await initPromise}
+  <slot name="loading" />
+{:then}
   <Renderer
     instance={instance.renderer}
     on:invalidate={() => {
