@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { ITextStyle } from 'pixi.js'
+  import type { TextStyle } from 'pixi.js'
 
   /**
    * @restProps {Container}
@@ -15,7 +15,7 @@
   type T = $$Generic<PIXI.Text>
   type $$Props = Container<T>['$$prop_def'] & {
     text: PIXI.Text['text']
-    style?: Partial<ITextStyle>
+    style?: Partial<TextStyle>
     anchor?: PointLike
     blendMode?: PIXI.Sprite['blendMode']
     pluginName?: PIXI.Sprite['pluginName']
@@ -45,9 +45,9 @@
 
   /**
    * The blend mode to be applied to the sprite.
-   * Apply a value of PIXI.BLEND_MODES.NORMAL to reset the blend mode.
+   * Apply a value of 'normal' to reset the blend mode.
    */
-  export let blendMode: $$Props['blendMode'] = PIXI.BLEND_MODES.NORMAL
+  export let blendMode: $$Props['blendMode'] = 'normal'
 
   /**
    * Plugin that is responsible for rendering this element.

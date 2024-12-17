@@ -6,7 +6,10 @@
     return getContext<TickerContext<T>>('pixi/ticker')
   }
 
-  export function onTick(fn: (delta: number) => any, priority?: number) {
+  export function onTick<T extends PIXI.Ticker = PIXI.Ticker>(
+    fn: (ticker: T) => any,
+    priority?: number,
+  ) {
     const { ticker } = getTicker()
 
     onMount(() => {
@@ -64,7 +67,7 @@
   /**
    * Manages the maximum amount of milliseconds allowed to elapse between invoking PIXI.Ticker#update.
    * This value is used to cap PIXI.Ticker#deltaTime, but does not effect the measured value of PIXI.Ticker#FPS.
-   * When setting this property it is clamped to a value between 0 and PIXI.settings.TARGET_FPMS * 1000.
+   * When setting this property it is clamped to a value between 0 and Ticker.targetFPMS * 1000
    */
   export let minFPS: $$Props['minFPS'] = 10
 

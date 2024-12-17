@@ -1,35 +1,25 @@
 <script context="module" lang="ts">
-  export interface RendererContext<T extends PIXI.Renderer | PIXI.IRenderer> {
-    renderer: T
-    invalidate: () => void
-  }
-
-  export function getRenderer<
-    T extends PIXI.Renderer | PIXI.IRenderer,
-  >(): RendererContext<T> {
-    return getContext('pixi/renderer')
-  }
+  export type { RendererContext } from './RendererContext.svelte'
+  export { getRenderer } from './RendererContext.svelte'
 </script>
 
 <script lang="ts">
+  import RendererContext from './RendererContext.svelte'
+
   import * as PIXI from 'pixi.js'
-  import {
-    createEventDispatcher,
-    getContext,
-    onMount,
-    setContext,
-  } from 'svelte'
+  import { createEventDispatcher, onMount, setContext } from 'svelte'
   import { omitUndefined } from './util/helpers'
 
-  type T = $$Generic<PIXI.Renderer | PIXI.IRenderer>
-  type $$Props = Partial<PIXI.IRendererOptionsAuto> & {
-    instance?: T
+  type T = $$Generic<PIXI.Renderer>
+  type $$Props = Partial<PIXI.AutoDetectOptions> & {
+    instance?: T | undefined
     stage?: PIXI.Container
   }
 
   type $$Slots = {
     default: {}
     view: {}
+    loading: {}
   }
 
   const dispatch = createEventDispatcher()
@@ -44,19 +34,6 @@
    * The height of the renderers view.
    **/
   export let height: $$Props['height'] = 600
-
-  /**
-   * Pass-through value for canvas' context alpha property.
-   * If you want to set transparency, please use backgroundAlpha.
-   * This option is for cases where the canvas
-   * needs to be opaque, possibly for performance reasons on some older devices.
-   *
-   * <br />
-   *
-   * @deprecated since 7.0.0, use premultipliedAlpha and backgroundAlpha instead.
-   * @type {boolean | "notMultiplied"}
-   */
-  export let useContextAlpha: $$Props['useContextAlpha'] = undefined
 
   /**
    * Resizes renderer view in CSS pixels to allow for resolutions other than 1.
@@ -96,14 +73,8 @@
    *
    * @type {number}
    */
-  export let resolution: $$Props['resolution'] = PIXI.settings.RESOLUTION
-
-  /**
-   * Prevents selection of WebGL renderer, even if such is present, this option only is available
-   * when using pixi.js-legacy or @pixi/canvas-renderer modules,
-   * otherwise it is ignored.
-   */
-  export let forceCanvas: $$Props['forceCanvas'] = false
+  export let resolution: $$Props['resolution'] =
+    PIXI.AbstractRenderer.defaultOptions.resolution
 
   /**
    * The background color of the rendered area (shown if not transparent).
@@ -140,25 +111,34 @@
    * The PIXI.Renderer instance. Can be set or bound to. By default
    * it uses PIXI.autoDetectRenderer()
    */
-  export let instance: T = PIXI.autoDetectRenderer(
-    omitUndefined({
-      width,
-      height,
-      useContextAlpha,
-      autoDensity,
-      antialias,
-      preserveDrawingBuffer,
-      premultipliedAlpha,
-      resolution,
-      forceCanvas,
-      backgroundColor,
-      backgroundAlpha,
-      clearBeforeRender,
-      powerPreference,
-      eventMode,
-      eventFeatures,
-    }),
-  ) as T
+  export let instance: T | undefined = undefined
+
+  const loadRendererInstance = instance
+    ? Promise.resolve(instance)
+    : PIXI.autoDetectRenderer(
+        omitUndefined({
+          width,
+          height,
+          autoDensity,
+          antialias,
+          preserveDrawingBuffer,
+          premultipliedAlpha,
+          resolution,
+          backgroundColor,
+          backgroundAlpha,
+          clearBeforeRender,
+          powerPreference,
+          eventMode,
+          eventFeatures,
+        }),
+      )
+        .then((renderer) => {
+          instance = renderer as T
+          return instance
+        })
+        .catch((err) => {
+          console.error(`Error Renderer instance: ${err}`)
+        })
 
   setContext('pixi/renderer', {
     renderer: instance,
@@ -168,31 +148,42 @@
   })
 
   function view(node: HTMLElement): void {
-    if (!(instance.view instanceof HTMLElement)) {
-      throw new Error(
-        'PIXI.Renderer.view is not an HTMLElement, cannot append to node',
-      )
+    if (!instance) {
+      throw new Error('Renderer instance not found')
     }
 
     if (node.childNodes.length) {
-      node.childNodes[0].appendChild(instance.view)
+      node.childNodes[0].appendChild(instance.canvas)
     } else {
-      node.appendChild(instance.view)
+      node.appendChild(instance.canvas)
     }
   }
 
   onMount(() => {
-    instance.on('prerender', (ev) => dispatch('prerender', ev))
-    instance.on('postrender', (ev) => dispatch('postrender', ev))
+    loadRendererInstance.then((instance) => {
+      if (instance) {
+        instance.runners.prerender.add(() => dispatch('prerender'))
+        instance.runners.postrender.add(() => dispatch('postrender'))
+        instance.runners.render.add(() => dispatch('render'))
+        instance.runners.renderStart.add(() => dispatch('renderStart'))
+      }
+    })
   })
 </script>
 
-{#if $$slots.view}
-  <div use:view>
-    <slot name="view" />
-  </div>
-{:else}
-  <div use:view />
-{/if}
-
-<slot />
+{#await loadRendererInstance}
+  <slot name="loading" />
+{:then instance}
+  {#if instance}
+    <RendererContext renderer={instance}>
+      <slot />
+      {#if $$slots.view}
+        <div use:view>
+          <slot name="view" />
+        </div>
+      {:else}
+        <div use:view />
+      {/if}
+    </RendererContext>
+  {/if}
+{/await}

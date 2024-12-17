@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "svelte-pixi": "latest",
-    "pixi.js": "^7.3.2",
+    "pixi.js": "^8.6.5",
     "@sveltejs/adapter-auto": "^2.0.0",
     "@sveltejs/kit": "^1.27.4",
     "svelte": "^4.2.7",

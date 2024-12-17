@@ -31,9 +31,9 @@
 
   /**
    * The blend mode to be applied to the sprite.
-   * Apply a value of PIXI.BLEND_MODES.NORMAL to reset the blend mode.
+   * Apply a value of 'normal' to reset the blend mode.
    */
-  export let blendMode: $$Props['blendMode'] = PIXI.BLEND_MODES.NORMAL
+  export let blendMode: $$Props['blendMode'] = 'normal'
 
   /**
    * Plugin that is responsible for rendering this element.

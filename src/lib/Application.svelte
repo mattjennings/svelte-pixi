@@ -9,6 +9,8 @@
 </script>
 
 <script lang="ts">
+  import { AbstractRenderer } from 'pixi.js'
+
   import * as PIXI from 'pixi.js'
 
   import { getContext, setContext } from 'svelte'
@@ -18,7 +20,7 @@
   import { omitUndefined } from './util/helpers'
 
   type T = $$Generic<PIXI.Application>
-  type $$Props = Partial<PIXI.IApplicationOptions> & {
+  type $$Props = Partial<PIXI.ApplicationOptions> & {
     instance?: T
     render?: 'auto' | 'demand'
   }
@@ -41,19 +43,6 @@
   export let height: $$Props['height'] = 600
 
   /**
-   * Pass-through value for canvas' context alpha property.
-   * If you want to set transparency, please use backgroundAlpha.
-   * This option is for cases where the canvas
-   * needs to be opaque, possibly for performance reasons on some older devices.
-   *
-   * <br />
-   *
-   * @deprecated since 7.0.0, use premultipliedAlpha and backgroundAlpha instead.
-   * @type {boolean | "notMultiplied"}
-   */
-  export let useContextAlpha: $$Props['useContextAlpha'] = undefined
-
-  /**
    * Resizes renderer view in CSS pixels to allow for resolutions other than 1.
    */
   export let autoDensity: $$Props['autoDensity'] = true
@@ -74,14 +63,8 @@
    *
    * @type {number}
    */
-  export let resolution: $$Props['resolution'] = PIXI.settings.RESOLUTION
-
-  /**
-   * Prevents selection of WebGL renderer, even if such is present, this option only is available
-   * when using pixi.js-legacy or @pixi/canvas-renderer modules,
-   * otherwise it is ignored.
-   */
-  export let forceCanvas: $$Props['forceCanvas'] = false
+  export let resolution: $$Props['resolution'] =
+    AbstractRenderer.defaultOptions.resolution
 
   /**
    * The background color of the rendered area (shown if not transparent).
@@ -102,9 +85,6 @@
 
   /**
    * The default event mode mode for all display objects.
-   *
-   * This option only is available when using @pixi/events package (included in the pixi.js and pixi.js-legacy bundle),
-   * otherwise it will be ignored.
    *
    * @type {PIXI.EventMode}
    */
@@ -155,20 +135,20 @@
    *
    * @type {PIXI.Application}
    */
-  export let instance: T = new PIXI.Application(
+  export let instance: T = new PIXI.Application() as T
+
+  const initPromise = instance.init(
     // some props being explicitly undefined different behaviour than implicit
     // undefined
     omitUndefined({
       autoStart,
       width,
       height,
-      useContextAlpha,
       premultipliedAlpha,
       autoDensity,
       antialias,
       preserveDrawingBuffer,
       resolution,
-      forceCanvas,
       backgroundColor,
       backgroundAlpha,
       clearBeforeRender,
@@ -177,47 +157,50 @@
       eventMode,
       eventFeatures,
     }),
-  ) as T
-
+  )
   let invalidated = true
 
   setContext<ApplicationContext<T>>('pixi/app', { app: instance })
 
   // remove rendering on tick
   if (render) {
-    instance.ticker.remove(instance.render, instance)
+    initPromise.then(() => {
+      instance.ticker.remove(instance.render, instance)
+    })
   }
 </script>
 
-<Renderer
-  instance={instance.renderer}
-  on:invalidate={() => {
-    invalidated = true
-  }}
-  on:prerender
-  on:postrender
->
-  <slot name="view" slot="view">
-    <div />
-  </slot>
+{#await initPromise then}
+  <Renderer
+    instance={instance.renderer}
+    on:invalidate={() => {
+      invalidated = true
+    }}
+    on:prerender
+    on:postrender
+  >
+    <slot name="view" slot="view">
+      <div />
+    </slot>
 
-  {#if render}
-    <Ticker
-      on:tick={() => {
-        if (render === 'demand') {
-          if (invalidated) {
-            invalidated = false
+    {#if render}
+      <Ticker
+        on:tick={() => {
+          if (render === 'demand') {
+            if (invalidated) {
+              invalidated = false
+              instance.renderer.render(instance.stage)
+            }
+          } else if (render === 'auto') {
             instance.renderer.render(instance.stage)
           }
-        } else if (render === 'auto') {
-          instance.renderer.render(instance.stage)
-        }
-      }}
-    />
-  {/if}
-  <Ticker instance={instance.ticker}>
-    <Container instance={instance.stage}>
-      <slot />
-    </Container>
-  </Ticker>
-</Renderer>
+        }}
+      />
+    {/if}
+    <Ticker instance={instance.ticker}>
+      <Container instance={instance.stage}>
+        <slot />
+      </Container>
+    </Ticker>
+  </Renderer>
+{/await}

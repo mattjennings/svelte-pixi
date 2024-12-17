@@ -24,13 +24,13 @@
 
   /**
    * The blend mode to be applied to the graphic shape.
-   * Apply a value of PIXI.BLEND_MODES.NORMAL to reset the blend mode.
+   * Apply a value of 'normal' to reset the blend mode.
    * Note that, since each primitive in the GraphicsGeometry list is rendered sequentially,
    * modes such as PIXI.BLEND_MODES.ADD and PIXI.BLEND_MODES.MULTIPLY will be applied per-primitive.
    *
    * @type {PIXI.BLEND_MODES}
    */
-  export let blendMode: $$Props['blendMode'] = PIXI.BLEND_MODES.NORMAL
+  export let blendMode: $$Props['blendMode'] = 'normal'
 
   /**
    * Renderer plugin for batching
