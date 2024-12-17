@@ -1,5 +1,6 @@
 import 'pixi.js'
 export { default as AnimatedSprite } from './AnimatedSprite.svelte'
+export { default as AssetsLoader } from './AssetsLoader.svelte'
 export { default as Application, getApp } from './Application.svelte'
 export { default as BitmapText } from './BitmapText.svelte'
 export {
@@ -8,7 +9,7 @@ export {
   getStage,
 } from './Container.svelte'
 export { default as Graphics } from './Graphics.svelte'
-export { default as Loader, getLoader, getResource } from './Loader.svelte'
+export { default as HTMLText } from './HTMLText.svelte'
 export { default as Mesh } from './Mesh.svelte'
 export { default as NineSlicePlane } from './NineSlicePlane.svelte'
 export { default as ParticleContainer } from './ParticleContainer.svelte'

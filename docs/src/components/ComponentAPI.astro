@@ -1,0 +1,257 @@
+---
+import path from 'path'
+import sveltePreprocess from 'svelte-preprocess'
+import * as svelte from 'svelte/compiler'
+import fs from 'fs'
+import dashify from 'dashify'
+import { Code } from 'astro:components'
+import { marked } from 'marked'
+import mod from 'module'
+
+const require = mod.createRequire(import.meta.url)
+
+// importing sveld exports something different in dev vs prod,
+// but this seems to work ¯\_(ツ)_/¯
+const { ComponentParser } = require('sveld') as any as {
+  ComponentParser: typeof import('sveld').ComponentParser
+}
+
+const __dirname = path.dirname(new URL(import.meta.url).pathname)
+const componentPath = path.resolve(
+  __dirname,
+  '../../../src/lib',
+  Astro.props.component,
+)
+
+const src = await fs.promises.readFile(componentPath, 'utf-8')
+
+const filename = path.basename(componentPath, '.svelte')
+const { code } = await svelte.preprocess(src, sveltePreprocess(), {
+  filename,
+})
+const data = new ComponentParser({
+  verbose: false,
+}).parseSvelteComponent(code, {
+  filePath: filename,
+  moduleName: filename,
+})
+
+const props = data.props
+  .sort((a, b) => a.name.localeCompare(b.name))
+  .filter((prop) => !prop.name.startsWith('get'))
+
+const slots = data.slots.sort((a, b) => {
+  if (a.default) return -1
+  if (b.default) return 1
+  return a.name!.localeCompare(b.name!)
+})
+const events = data.events.sort((a, b) => a.name.localeCompare(b.name))
+const typedefs = data.typedefs.sort((a, b) => a.name.localeCompare(b.name))
+const rest_props = data.rest_props
+
+function formatCodeType(type: any) {
+  if (!type || type === 'undefined') return ''
+  return type.replace(
+    /[{}]/g,
+    (c: string) => ({ '{': '&#123;', '}': '&#125;' })[c],
+  )
+  // .replace(/\|/g, '&#124;')
+}
+
+function formatCodeValue(value: any) {
+  if (!value) {
+    return ''
+  }
+  return value
+    .replace(/[{}]/g, (c: string) => ({ '{': '&#123;', '}': '&#125;' })[c])
+    .replace(/`/g, '\\`')
+    .replace(/\|/g, '&#124;')
+}
+
+function formatDescription(description: string) {
+  if (
+    description === undefined ||
+    description === 'undefined' ||
+    description.trim().length === 0
+  )
+    return ''
+
+  return marked.parse(description, {
+    // breaks: true,
+    walkTokens(token) {
+      if (token.type === 'paragraph') {
+        // console.log(token)
+      }
+    },
+  })
+}
+
+function formatEventDetail(detail: any) {
+  if (detail === undefined || detail === 'undefined') return ''
+  return formatCodeType(detail.replace(/\n/g, ' '))
+}
+
+function getTypeDefs(def: any) {
+  if (def.typedefs.length === 0) return ''
+  return def.typedefs.map((typedef: any) => typedef.ts).join('\n\n')
+}
+---
+
+<style>
+  th {
+    @apply text-left;
+  }
+
+  td {
+    @apply !text-sm !py-3;
+  }
+  td code {
+    @apply !mt-0;
+  }
+
+  table div {
+    @apply !mt-0;
+  }
+</style>
+
+{
+  typedefs.length > 0 && (
+    <>
+      <h3>Types</h3>
+      <div class="text-sm md:text-base">
+        <Code code={getTypeDefs(data)} lang="typescript" />
+      </div>
+    </>
+  )
+}
+
+{
+  props.length > 0 && (
+    <>
+      <h3 id="props">Props</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.map((prop) => (
+            <tr>
+              <td class="align-top">
+                <div class="inline-flex flex-col gap-2 pt-1">
+                  <span>{prop.name}</span>
+                  {prop.value && prop.kind !== 'function' && (
+                    <div class="inline-flex items-baseline gap-2 text-xs">
+                      <code
+                        title="Default value"
+                        aria-label="Default value"
+                        class="whitespace-nowrap"
+                      >
+                        {formatCodeValue(prop.value)}
+                      </code>
+                    </div>
+                  )}
+                </div>
+              </td>
+              <td>
+                <div class="flex justify-between gap-1 pb-2">
+                  <div class="inline-flex flex-wrap gap-1">
+                    {prop.type &&
+                      prop.type
+                        .split(/\s?\|\s?/g)
+                        .map((type) => formatCodeType(type))
+                        .filter(Boolean)
+                        .map((type) => (
+                          <code
+                            title="Prop type"
+                            class="whitespace-nowrap rounded"
+                          >
+                            {type}
+                          </code>
+                        ))}
+                  </div>
+                </div>
+                <div
+                  class="align-top pt-2"
+                  set:html={
+                    'description' in prop
+                      ? formatDescription(prop.description!)
+                      : ''
+                  }
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {rest_props && (
+        <p>
+          Additional props are passed on to{' '}
+          <a href={`/api/components/${dashify(rest_props.name)}`}>
+            {rest_props.name}
+          </a>
+        </p>
+      )}
+    </>
+  )
+}
+
+{
+  slots.length > 0 && (
+    <>
+      <h3 id="slots">Slots</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Props</th>
+            <th>Fallback</th>
+          </tr>
+        </thead>
+        <tbody>
+          {slots.map((slot) => (
+            <tr>
+              <td>{slot.name === '__default__' ? 'default' : slot.name}</td>
+              <td>{slot.slot_props && <code>{slot.slot_props}</code>}</td>
+              <td>{slot.fallback && <code>{slot.fallback}</code>}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  )
+}
+
+{
+  events.length > 0 && (
+    <>
+      <h3 id="events">Events</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          {events.map((event) => (
+            <tr>
+              <td>{event.name}</td>
+              <td>
+                {event.type && <code>{formatCodeValue(event.type)}</code>}
+              </td>
+              <td>
+                {'detail' in event && event.detail && (
+                  <code>{formatEventDetail(event.detail)}</code>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  )
+}

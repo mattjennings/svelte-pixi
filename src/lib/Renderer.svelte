@@ -1,13 +1,11 @@
 <script context="module" lang="ts">
-  export interface RendererContext<
-    T extends PIXI.Renderer | PIXI.AbstractRenderer
-  > {
+  export interface RendererContext<T extends PIXI.Renderer | PIXI.IRenderer> {
     renderer: T
     invalidate: () => void
   }
 
   export function getRenderer<
-    T extends PIXI.Renderer | PIXI.AbstractRenderer
+    T extends PIXI.Renderer | PIXI.IRenderer,
   >(): RendererContext<T> {
     return getContext('pixi/renderer')
   }
@@ -23,19 +21,15 @@
   } from 'svelte'
   import { omitUndefined } from './util/helpers'
 
-  type T = $$Generic<PIXI.Renderer | PIXI.AbstractRenderer>
-  type $$Props = PIXI.IRendererOptionsAuto & {
+  type T = $$Generic<PIXI.Renderer | PIXI.IRenderer>
+  type $$Props = Partial<PIXI.IRendererOptionsAuto> & {
     instance?: T
     stage?: PIXI.Container
   }
 
   type $$Slots = {
-    default: {
-      view: (node: HTMLElement) => void
-    }
-    view: {
-      view: (node: HTMLElement) => void
-    }
+    default: {}
+    view: {}
   }
 
   const dispatch = createEventDispatcher()
@@ -54,9 +48,12 @@
   /**
    * Pass-through value for canvas' context alpha property.
    * If you want to set transparency, please use backgroundAlpha.
-   * This option is for cases where the canvas needs to be opaque,
-   * possibly for performance reasons on some older devices.
+   * This option is for cases where the canvas
+   * needs to be opaque, possibly for performance reasons on some older devices.
    *
+   * <br />
+   *
+   * @deprecated since 7.0.0, use premultipliedAlpha and backgroundAlpha instead.
    * @type {boolean | "notMultiplied"}
    */
   export let useContextAlpha: $$Props['useContextAlpha'] = undefined
@@ -72,6 +69,23 @@
   export let antialias: $$Props['antialias'] = false
 
   /**
+   * The default event mode mode for all display objects.
+   *
+   * This option only is available when using @pixi/events package (included in the pixi.js and pixi.js-legacy bundle),
+   * otherwise it will be ignored.
+   *
+   * @type {PIXI.EventMode}
+   */
+  export let eventMode: $$Props['eventMode'] = undefined
+
+  /**
+   * The event features that are enabled by the EventSystem.
+   *
+   * @type {PIXI.EventSystemOptions['eventFeatures']}
+   */
+  export let eventFeatures: $$Props['eventFeatures'] = undefined
+
+  /**
    * Enables drawing buffer preservation, enable this if you
    * need to call toDataUrl on the WebGL context.
    */
@@ -85,7 +99,7 @@
   export let resolution: $$Props['resolution'] = PIXI.settings.RESOLUTION
 
   /**
-   * prevents selection of WebGL renderer, even if such is present, this option only is available
+   * Prevents selection of WebGL renderer, even if such is present, this option only is available
    * when using pixi.js-legacy or @pixi/canvas-renderer modules,
    * otherwise it is ignored.
    */
@@ -117,6 +131,12 @@
   export let powerPreference: $$Props['powerPreference'] = undefined
 
   /**
+   * **WebGL Only.** Whether the compositor will assume the drawing buffer contains colors with premultiplied alpha.
+   * @type {boolean | undefined}
+   */
+  export let premultipliedAlpha: $$Props['premultipliedAlpha'] = undefined
+
+  /**
    * The PIXI.Renderer instance. Can be set or bound to. By default
    * it uses PIXI.autoDetectRenderer()
    */
@@ -128,13 +148,16 @@
       autoDensity,
       antialias,
       preserveDrawingBuffer,
+      premultipliedAlpha,
       resolution,
       forceCanvas,
       backgroundColor,
       backgroundAlpha,
       clearBeforeRender,
       powerPreference,
-    })
+      eventMode,
+      eventFeatures,
+    }),
   ) as T
 
   setContext('pixi/renderer', {
@@ -145,6 +168,12 @@
   })
 
   function view(node: HTMLElement): void {
+    if (!(instance.view instanceof HTMLElement)) {
+      throw new Error(
+        'PIXI.Renderer.view is not an HTMLElement, cannot append to node',
+      )
+    }
+
     if (node.childNodes.length) {
       node.childNodes[0].appendChild(instance.view)
     } else {

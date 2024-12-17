@@ -1,2 +1,7 @@
-build
-public
+/build
+/public
+/docs/.vercel
+/docs/.astro
+/package
+/dist
+.svelte-kit

@@ -1,0 +1,187 @@
+---
+title: Usage
+sidebar:
+  order: 2
+---
+
+SveltePixi aims to match the PixiJS API as closely as possible without doing anything too magical.
+If you're familiar with PixiJS, you should feel right at home.
+
+You can use the [Application](/docs/components/application) component to create and render a PixiJS application.
+All SveltePixi components should be children of `Application`.
+
+```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+<script>
+  import { Application, Text } from 'svelte-pixi'
+</script>
+
+<Application width={400} height={400} antialias>
+  <Text
+    x={200}
+    y={200}
+    anchor={0.5}
+    text="Hello World"
+    style={{ fill: 'white' }}
+  />
+</Application>
+```
+
+Most SveltePixi components will correspond to the PixiJS class of the same name
+(for example the `Text` component renders a [PIXI.Text](https://pixijs.download/dev/docs/PIXI.Text.html) instance).
+
+## Textures
+
+Some components such as `Sprite` will take a texture. They can be provided using `PIXI.Texture.from`,
+just as you would in vanilla PixiJS.
+
+PixiJS will load the texture in the background and show it when it's ready - similar to how an `img` tag works.
+
+```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+<script>
+  import * as PIXI from 'pixi.js'
+  import { Application, Sprite } from 'svelte-pixi'
+</script>
+
+<Application width={400} height={400} antialias>
+  <Sprite
+    x={200}
+    y={200}
+    texture={PIXI.Texture.from('/assets/adventurer.png')}
+    anchor={0.5}
+    scale={3}
+  />
+</Application>
+```
+
+## Preloading Assets
+
+If you have a bunch of images or other resources, you may wish to show a loading screen
+until all images have finished loading (rather than have them pop in one after another).
+
+_Note: You may want to enable network throttling in your browser dev tools to actually see the loading screen - these are small images!_
+
+```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+<script>
+  import * as PIXI from 'pixi.js'
+  import { Application, Text, Sprite, AssetsLoader } from 'svelte-pixi'
+
+  let images = [
+    '/assets/food/lemonpie.png',
+    '/assets/food/strawberrycake.png',
+    '/assets/food/cheesecake.png',
+  ]
+</script>
+
+<Application width={400} height={400}>
+  <AssetsLoader assets={images}>
+    <slot slot="loading">
+      <Text
+        text="Loading..."
+        anchor={0.5}
+        x={200}
+        y={200}
+        style={{
+          fill: 'white',
+        }}
+      />
+    </slot>
+
+    {#each images as image, i}
+      <Sprite
+        texture={PIXI.Texture.from(image)}
+        anchor={0.5}
+        x={150 + i * 50}
+        y={200}
+        scale={2}
+      />
+    {/each}
+  </AssetsLoader>
+</Application>
+```
+
+You can have multiple AssetsLoader components as well, which is useful
+if you want to render a fallbacks at a component-level instead.
+
+## Ticker
+
+A [Ticker](/docs/components/ticker) runs an update loop for the application.
+The `Application` component will create one automatically, which means child
+components can hook into the loop with `onTick`.
+
+```svelte live
+<script>
+  import * as PIXI from 'pixi.js'
+  import { Sprite, onTick } from 'svelte-pixi'
+
+  let x = 360
+  let y = 200
+
+  let time = 0
+  onTick((delta) => {
+    // delta is the time since the last frame in milliseconds
+    // for any kind of movement, you should multiply by delta
+    // to ensure it moves at the same speed regardless of framerate
+    time += delta * 0.05
+    x = 360 + Math.cos(time) * 50
+    y = 200 + Math.sin(time) * 50
+  })
+</script>
+
+<Sprite
+  texture={PIXI.Texture.from('/assets/food/lemonpie.png')}
+  anchor={0.5}
+  {x}
+  {y}
+  scale={2}
+/>
+```
+
+## Accessing PixiJS Instances
+
+Most SveltePixi components have an `instance` prop that
+contains the underlying PixiJS instance. It's akin to the `this` prop for HTML elements,
+so you can bind to it if you need to access it.
+
+```svelte live {5,14}
+<script>
+  import { onMount } from 'svelte'
+  import { Text } from 'svelte-pixi'
+
+  let text
+
+  onMount(() => {
+    // manually set property on the PIXI.Text instance
+    text.style.fill = '#00ff00'
+  })
+</script>
+
+<Text bind:instance={text} x={360} y={200} text="Hello World" anchor={0.5} />
+```
+
+## Using a Custom Instance
+
+The `instance` prop also lets you pass down a custom PixiJS class
+that you've instantiated yourself. This is particularly useful
+if you have a custom class (whether that be your own or from a third-party library).
+
+```svelte live {14}
+<script>
+  import * as PIXI from 'pixi.js'
+  import { Text } from 'svelte-pixi'
+
+  class GreenText extends PIXI.Text {
+    constructor(text, style) {
+      super(text, style)
+      this.style.fill = '#00ff00'
+    }
+  }
+</script>
+
+<Text
+  instance={new GreenText()}
+  x={360}
+  y={200}
+  text="Hello World"
+  anchor={0.5}
+/>
+```

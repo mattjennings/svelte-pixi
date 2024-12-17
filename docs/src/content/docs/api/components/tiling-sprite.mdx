@@ -1,0 +1,42 @@
+---
+title: TilingSprite
+pixi: https://pixijs.download/release/docs/TilingSprite.html
+---
+
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+
+## Usage
+
+```svelte live
+<script>
+  import { onMount } from 'svelte'
+  import { TilingSprite, AssetsLoader, onTick } from 'svelte-pixi'
+  import * as PIXI from 'pixi.js'
+
+  let count = 0
+  let scale = { x: 1, y: 1 }
+  let tilePosition = { x: 0, y: 0 }
+
+  onTick((delta) => {
+    count += 0.01 * delta
+
+    scale = { x: 2 + Math.sin(count), y: 2 + Math.cos(count) }
+    tilePosition = { x: tilePosition.x + 1, y: tilePosition.y + 1 }
+  })
+</script>
+
+<TilingSprite
+  x={360}
+  y={200}
+  texture={PIXI.Texture.from('/assets/tiling-sprite.jpeg')}
+  anchor={0.5}
+  width={400}
+  height={400}
+  {tilePosition}
+  {scale}
+/>
+```
+
+## API
+
+<ComponentAPI component="TilingSprite.svelte" />

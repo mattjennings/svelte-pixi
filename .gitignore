@@ -1,5 +1,6 @@
 .DS_Store
 node_modules
+/dist
 /build
 /public
 /.svelte-kit
@@ -7,6 +8,7 @@ node_modules
 .env
 .env.*
 !.env.example
+
 .vercel_build_output
 .vercel/output
 .parcel-cache

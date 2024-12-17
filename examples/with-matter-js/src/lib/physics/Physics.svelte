@@ -1,6 +1,4 @@
 <script>
-  import { Render } from 'matter-js'
-
   import { Engine, Bodies, World, Runner } from 'matter-js'
   import { onMount } from 'svelte'
   import { setContext } from 'svelte'
@@ -20,7 +18,7 @@
     1,
     {
       isStatic: true,
-    }
+    },
   )
   const wallRight = Bodies.rectangle(
     bounds.width,
@@ -29,7 +27,7 @@
     bounds.height,
     {
       isStatic: true,
-    }
+    },
   )
   const wallLeft = Bodies.rectangle(0, bounds.height / 2, 1, bounds.height, {
     isStatic: true,

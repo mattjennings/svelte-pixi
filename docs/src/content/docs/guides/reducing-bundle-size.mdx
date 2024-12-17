@@ -1,0 +1,75 @@
+---
+title: Reducing Bundle Size
+---
+
+`pixi.js` is about [226kb minified + gzipped](https://bundlephobia.com/package/pixi.js@7.3.2) (as of v7.3.2).
+If you're only using a few features this may be a lot more than you need.
+
+With a modern bundler it is possible to create your own pixi.js file with only the features you need. This
+guide will show you how to do it using [Vite](https://vitejs.dev/) as that is the most common bundler used with Svelte.
+
+## Creating a custom pixi.js file
+
+The `pixi.js` package is just a collection of various `@pixi/*` packages. If we look at their [package.json](https://github.com/pixijs/pixijs/blob/main/bundles/pixi.js/package.json),
+we can see which ones we might want to install for ourselves.
+
+I've picked out a few below. You can add/remove as necessary, but note that if any SveltePixi component
+relies on the package you'll get an error. (For example, if you remove `@pixi/sprite` you'll get an error
+when using `<Sprite />`.)
+
+Copy & paste the following into a file called `pixi.js`:
+
+```js
+// custom pixi.js file
+export * from '@pixi/accessibility'
+export * from '@pixi/app'
+export * from '@pixi/assets'
+export * from '@pixi/basis'
+export * from '@pixi/compressed-textures'
+export * from '@pixi/core'
+export * from '@pixi/display'
+export * from '@pixi/events'
+export * from '@pixi/extract'
+export * from '@pixi/graphics'
+export * from '@pixi/mesh'
+export * from '@pixi/particle-container'
+export * from '@pixi/prepare'
+export * from '@pixi/sprite-animated'
+export * from '@pixi/sprite-tiling'
+export * from '@pixi/sprite'
+export * from '@pixi/spritesheet'
+export * from '@pixi/text-bitmap'
+export * from '@pixi/text'
+```
+
+Make sure to install them too
+
+```sh
+npm install @pixi/accessibility @pixi/app @pixi/assets @pixi/basis @pixi/compressed-textures @pixi/core @pixi/display @pixi/events @pixi/extract @pixi/graphics @pixi/mesh @pixi/particle-container @pixi/prepare @pixi/sprite-animated @pixi/sprite-tiling @pixi/sprite @pixi/spritesheet @pixi/text-bitmap @pixi/text
+```
+
+## Aliasing
+
+In order for SveltePixi to make use of this custom file we'll need to create an alias.
+
+Update your `vite.config.js` file to include the following:
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  /* ... */
+
+  optimizeDeps: {
+    // required so svelte-pixi will use pixi.js alias
+    exclude: ['svelte-pixi'],
+  },
+  resolve: {
+    alias: {
+      // update path to wherever your pixi.js is
+      'pixi.js': '/src/pixi.js',
+    },
+  },
+})
+```

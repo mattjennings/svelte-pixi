@@ -1,5 +1,5 @@
-import { getRenderer } from '$lib/Renderer.svelte'
-import { getTicker, onTick } from '$lib/Ticker.svelte'
+import { getRenderer } from '../Renderer.svelte'
+import { getTicker, onTick } from '../Ticker.svelte'
 import * as PIXI from 'pixi.js'
 import { onMount, tick } from 'svelte'
 import { writable, type Writable } from 'svelte/store'
@@ -13,12 +13,12 @@ export function createApplyProps<
   Instance,
   Props extends Partial<Record<keyof Instance, any>> = {
     [Key in keyof Instance]?: Instance[Key]
-  }
+  },
 >(
   instance: Instance,
   apply?: {
     [PropKey in keyof Props]?: Apply<Instance, Props[PropKey]>
-  }
+  },
 ) {
   const defaultApply = apply
   return {
@@ -26,13 +26,13 @@ export function createApplyProps<
       applyProps(instance, props, { ...defaultApply, ...apply }),
     applyProp: <Prop extends keyof Props, Value>(
       prop: Prop | null,
-      value: Value
+      value: Value,
     ) =>
       applyProp(
         instance,
         prop as any,
         value,
-        prop !== null ? defaultApply?.[prop] : undefined
+        prop !== null ? defaultApply?.[prop] : undefined,
       ),
   }
 }
@@ -54,13 +54,13 @@ export function createApplyProps<
  */
 export function applyProps<
   Instance,
-  Props extends Partial<Record<keyof Instance, any>>
+  Props extends Partial<Record<keyof Instance, any>>,
 >(
   instance: Instance,
   props: Props,
   apply?: {
     [Prop in keyof Props]?: Apply<Instance, Props[Prop]>
-  }
+  },
 ) {
   if (instance) {
     for (const [prop, value] of Object.entries(props)) {
@@ -90,7 +90,7 @@ export function applyProp<Instance, Prop extends keyof Instance, Value>(
   instance: Instance,
   prop: Prop | null,
   value: Value,
-  apply?: Apply<Instance, Value>
+  apply?: Apply<Instance, Value>,
 ) {
   if (instance) {
     if (prop === null) {
@@ -161,7 +161,8 @@ export type Apply<Instance, Value> = (value: Value, instance: Instance) => any
 
 type FilterNotStartingWith<
   Set,
-  Needle extends string
+  Needle extends string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
 > = Set extends `${Needle}${infer _X}` ? never : Set
 
 type PublicProperties<T> = FilterNotStartingWith<keyof T, '_'>

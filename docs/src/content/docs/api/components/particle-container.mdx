@@ -1,0 +1,110 @@
+---
+title: ParticleContainer
+pixi: https://pixijs.download/release/docs/PIXI.ParticleContainer.html
+---
+
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+
+A really fast version of the Container built solely for speed, so use when you need a lot of sprites or particles.
+
+The tradeoff of the ParticleContainer is that most advanced functionality will not work. ParticleContainer implements the basic object transform (position, scale, rotation) and some advanced functionality like tint.
+
+Other more advanced functionality like masking, filters, etc will not work on sprites in this batch.
+
+## Usage
+
+Note: when working with thousands of components, it is **much** more performant to create & update the Pixi instances directly instead of through components
+
+```svelte live props={{ assets: ["/assets/star.png"] }}
+<script>
+  import * as PIXI from 'pixi.js'
+  import { Sprite, onTick, ParticleContainer } from 'svelte-pixi'
+  import { onMount } from 'svelte'
+
+  const width = 720
+  const height = 400
+  const speed = 0.025
+  const fov = 20
+  const starSize = 0.05
+
+  let container
+  let cameraZ = 0
+  let amount = 5000
+  let stars = []
+
+  // create stars for amount value
+  $: {
+    // cleanup previous stars
+    stars.forEach((star) => star.destroy())
+
+    // create stars
+    if (container) {
+      stars = new Array(amount).fill(null).map(() => {
+        const star = new PIXI.Sprite(PIXI.Texture.from('/assets/star.png'))
+        const deg = Math.random() * Math.PI * 2
+        const distance = Math.random() * 50 + 1
+
+        star.initX = Math.cos(deg) * distance
+        star.initY = Math.sin(deg) * distance
+        star.initZ = Math.random() * 1000 + 750
+
+        star.x = star.initX
+        star.y = star.initY
+        star.z = star.initZ
+
+        updateStar(star)
+
+        return star
+      })
+
+      if (stars.length) {
+        container.addChild(...stars)
+      }
+    }
+  }
+
+  function updateStar(star) {
+    const z = star.z - cameraZ
+    const distance = Math.max(0, (2000 - z) / 2000)
+
+    star.scale.set(distance * starSize)
+    star.anchor.set(0.5, 0.7)
+
+    star.x = star.initX * (fov / z) * width + width / 2
+    star.y = star.initY * (fov / z) * height + height / 2
+  }
+
+  // move the camera forward
+  onTick((delta) => {
+    cameraZ += delta * 10 * speed
+
+    stars.forEach(updateStar)
+  })
+
+  onMount(() => {
+    // make sure to destroy stars on unmount
+    return () => {
+      stars.forEach((star) => star.destroy())
+    }
+  })
+</script>
+
+<label class="flex flex-col !mt-0">
+  <span class="text-white text-center">Amount: {amount}</span>
+  <input type="range" min="0" max="10000" step="100" bind:value={amount} />
+</label>
+
+<ParticleContainer
+  bind:instance={container}
+  autoResize
+  properties={{
+    scale: true,
+    position: true,
+    rotation: true,
+  }}
+/>
+```
+
+## API
+
+<ComponentAPI component="ParticleContainer.svelte" />

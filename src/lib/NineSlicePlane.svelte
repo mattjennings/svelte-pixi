@@ -98,7 +98,7 @@
     leftWidth,
     topHeight,
     rightWidth,
-    bottomHeight
+    bottomHeight,
   ) as T
 
   const { invalidate } = getRenderer()
@@ -133,6 +133,9 @@
   {instance}
   on:create
   on:click
+  on:globalmousemove
+  on:globalpointermove
+  on:globaltouchmove
   on:mousedown
   on:mousemove
   on:mouseout

@@ -1,0 +1,66 @@
+---
+title: AssetsLoader
+sidebar:
+  badge: 'New'
+---
+
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+
+Creates and loads assets using [PIXI.Assets](https://pixijs.download/release/docs/PIXI.Assets.html) by creating a bundle from the `assets` prop.
+
+It contains two slots, `loading` and the default. The default slot will not
+render until the loading has completed. You can show progress by using the `progress` prop from the `loading` slot.
+
+## Usage
+
+```svelte live props={{ bg: 'white' }}
+<script>
+  import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi'
+  import * as PIXI from 'pixi.js'
+</script>
+
+<AssetsLoader assets={['/assets/great-success.png']}>
+  <slot let:progress slot="loading">
+    <Text x={360} y={200} text={`Loading... ${progress}%`} anchor={0.5} />
+  </slot>
+
+  <Sprite
+    x={360}
+    y={200}
+    texture={PIXI.Texture.from('/assets/great-success.png')}
+    anchor={0.5}
+    width={360}
+    height={300}
+  />
+</AssetsLoader>
+```
+
+## Assets init options
+
+You may call [`PIXI.Assets.init()`](https://pixijs.download/dev/docs/PIXI.Assets.html#init) to configure
+the behaviour of the Assets loader, but you must do it before the first time you render an `AssetsLoader` component.
+Note that `PIXI.Assets` can only be initialized once.
+
+```svelte
+<script>
+  import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi'
+  import * as PIXI from 'pixi.js'
+
+  // init is async, so we must await it
+  const initPromise = PIXI.Assets.init({
+    basePath: '/assets',
+  })
+</script>
+
+{#await initPromise then}
+  <Application>
+    <AssetsLoader assets={['/great-success.png']}>
+      <Sprite anchor={0.5} texture={PIXI.Texture.from('/great-success.png')} />
+    </AssetsLoader>
+  </Application>
+{/await}
+```
+
+## API
+
+<ComponentAPI component="AssetsLoader.svelte" />

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { ITextStyle } from 'pixi.js'
+
   /**
    * @restProps {Container}
    */
@@ -13,7 +15,7 @@
   type T = $$Generic<PIXI.Text>
   type $$Props = Container<T>['$$prop_def'] & {
     text: PIXI.Text['text']
-    style?: PIXI.Text['style']
+    style?: Partial<ITextStyle>
     anchor?: PointLike
     blendMode?: PIXI.Sprite['blendMode']
     pluginName?: PIXI.Sprite['pluginName']
@@ -90,6 +92,9 @@
   {instance}
   on:create
   on:click
+  on:globalmousemove
+  on:globalpointermove
+  on:globaltouchmove
   on:mousedown
   on:mousemove
   on:mouseout

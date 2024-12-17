@@ -1,0 +1,91 @@
+---
+title: Application
+pixi: https://pixijs.download/release/docs/PIXI.Application.html
+---
+
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+
+Just like `PIXI.Application`, it sets up the [Renderer](/docs/components/renderer), [Ticker](/docs/components/ticker) and root [Container](/docs/components/container). If you wish, you can manually render those components instead.
+
+## Usage
+
+```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+<script>
+  import { Application, Text } from 'svelte-pixi'
+</script>
+
+<Application width={400} height={400} antialias>
+  <Text
+    x={200}
+    y={200}
+    anchor={0.5}
+    text="Hello World"
+    style={{ fill: 'white' }}
+  />
+</Application>
+```
+
+## Custom View
+
+If you want to customize the element that the canvas is rendered into, you can use the `view` slot. The canvas will be appended as a child of the slot element.
+
+```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+<script>
+  import { Application, Text } from 'svelte-pixi'
+</script>
+
+<Application width={400} height={400} antialias>
+  <div slot="view" class="custom">
+    <!-- canvas will be placed here -->
+  </div>
+
+  <!-- pixi components go here -->
+  <Text
+    x={200}
+    y={200}
+    anchor={0.5}
+    text="Hello World"
+    style={{ fill: 'white' }}
+  />
+</Application>
+
+<style>
+  .custom :global(canvas) {
+    border: 5px solid tomato;
+    border-radius: 5px;
+  }
+</style>
+```
+
+## Render on Demand
+
+```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+<script>
+  import { onMount } from 'svelte'
+  import { Text, Application } from 'svelte-pixi'
+  import DraggableCircle from '$lib/components/DraggableCircle.svelte'
+</script>
+
+<Application
+  width={400}
+  height={400}
+  antialias
+  render="demand"
+  on:postrender={() => console.log('render')}
+>
+  <DraggableCircle x={200} y={200} />
+  <Text
+    x={200}
+    y={300}
+    text="Click and drag"
+    style={{ fill: 'white' }}
+    anchor={0.5}
+  />
+</Application>
+```
+
+See [Render on Demand](/docs/advanced/optimizing-performance#render-on-demand) for more information.
+
+## API
+
+<ComponentAPI component="Application.svelte" />

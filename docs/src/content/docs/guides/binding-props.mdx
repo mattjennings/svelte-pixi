@@ -1,0 +1,57 @@
+---
+title: Binding Props
+---
+
+There are times when the underlying PixiJS instance of a component gets updated externally (e.g, a physics system that applies forces on collision). In such a scenario, it would be helpful to bind our component props to the instance properties so that they are in sync. However, the `bind:` syntax will have no effect for instance-related properties on SveltePixi components (such as `x` or `y`) . This is to improve performance as the components would have to sync all props all the time regardless if they are bound, causing a large performance hit.
+
+Instead, SveltePixi provides a [track](/docs/utilities/track) utility function that will allow you to achieve similar behaviour. It returns a writable store that updates on every tick with the passed in function. We can use this to grab instance values and pass them back down as props (effectively creating a bind).
+
+```svelte live
+<script>
+  import * as PIXI from 'pixi.js'
+  import { Container, Text, track, Graphics, onTick } from 'svelte-pixi'
+  import { writable } from 'svelte/store'
+
+  let instance
+
+  let x = track(() => instance.x, 360)
+  let y = track(() => instance.y, 200)
+
+  function reset() {
+    $x = 360
+    $y = 200
+    time = 0
+  }
+
+  let time = 0
+  onTick((delta) => {
+    time += delta * 0.02
+    instance.x = 360 + Math.cos(time) * 50
+    instance.y = 200 + Math.sin(time) * 50
+  })
+</script>
+
+<Graphics
+  bind:instance
+  x={$x}
+  y={$y}
+  pivot={0.5}
+  draw={(graphics) => {
+    graphics.clear()
+    graphics.beginFill(0xde3249)
+    graphics.drawCircle(0, 0, 50)
+    graphics.endFill()
+  }}
+/>
+<Text
+  x={$x}
+  y={$y >= 200 ? $y - 75 : $y + 75}
+  text={`${Math.round($x)}, ${Math.round($y)}`}
+  style={{ fill: 'white' }}
+  anchor={0.5}
+/>
+
+<button class="font-medium rounded mt-2 w-full cursor-pointer" on:click={reset}>
+  Reset
+</button>
+```
