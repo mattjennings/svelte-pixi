@@ -39,9 +39,8 @@
     accessibleType?: PIXI.Container['accessibleType']
     alpha?: PIXI.Container['alpha']
     angle?: PIXI.Container['angle']
+    cacheAsTexture?: boolean | PIXI.CacheAsTextureOptions
     cacheAsBitmap?: PIXI.Container['cacheAsBitmap']
-    cacheAsBitmapMultisample?: PIXI.Container['cacheAsBitmapMultisample']
-    cacheAsBitmapResolution?: PIXI.Container['cacheAsBitmapResolution']
     cullable?: PIXI.Container['cullable']
     cullArea?: PIXI.Container['cullArea']
     cursor?: PIXI.Container['cursor']
@@ -52,8 +51,7 @@
     eventMode?: PIXI.Container['eventMode']
     interactive?: PIXI.Container['interactive']
     interactiveChildren?: PIXI.Container['interactiveChildren']
-    isMask?: PIXI.Container['isMask']
-    isSprite?: PIXI.Container['isSprite']
+    isRenderGroup?: PIXI.Container['isRenderGroup']
     mask?: PIXI.Container['mask']
     name?: PIXI.Container['name']
     pivot?: PointLike
@@ -64,7 +62,9 @@
     skew?: PointLike
     sortableChildren?: PIXI.Container['sortableChildren']
     width?: PIXI.Container['width']
-    transform?: PIXI.Container['transform']
+    localTransform?: PIXI.Container['localTransform']
+    groupTransform?: PIXI.Container['groupTransform']
+    worldTransform?: PIXI.Container['worldTransform']
     visible?: PIXI.Container['visible']
     x?: PIXI.Container['x']
     y?: PIXI.Container['y']
@@ -136,39 +136,20 @@
   export let angle: $$Props['angle'] = undefined
 
   /**
-   * Set this to true if you want this display object to be cached as a bitmap.
-   * This basically takes a snap shot of the display object as it is at that moment.
-   * It can provide a performance benefit for complex static displayObjects.
-   * To remove simply set this property to false
-   *
-   * IMPORTANT GOTCHA - Make sure that all your textures are preloaded BEFORE
-   * setting this property to true as it will take a snapshot of what is currently there.
-   *  If the textures have not loaded then they will not appear.
-   *
-   * @type {boolean}
+   * Legacy property for backwards compatibility with PixiJS v7 and below.
+   * Use `cacheAsTexture` instead.
+   * @deprecated Since PixiJS v8
    */
   export let cacheAsBitmap: $$Props['cacheAsBitmap'] = undefined
 
   /**
-   * The number of samples to use for cacheAsBitmap. If set to null, the renderer's sample count is used.
-   * If cacheAsBitmap is set to true, this will re-render with the new number of samples.
+   * Caches this container as a texture. This allows the container to be rendered as a single texture,
+   * which can improve performance for complex static containers.
    *
-   * @type {PIXI.MSAA_QUALITY}
+   * If true, enables caching with default options. If false, disables caching.
+   * Can also pass options object to configure caching behavior.
    */
-  export let cacheAsBitmapMultisample: $$Props['cacheAsBitmapMultisample'] =
-    PIXI.MSAA_QUALITY.NONE
-
-  /**
-   * The resolution to use for cacheAsBitmap.
-   * By default this will use the renderer's resolution but can be overriden for performance.
-   * Lower values will reduce memory usage at the expense of render quality.
-   * A falsey value of null or 0 will default to the renderer's resolution.
-   * If cacheAsBitmap is set to true, this will re-render with the new resolution.
-   *
-   * @type {number}
-   */
-  export let cacheAsBitmapResolution: $$Props['cacheAsBitmapResolution'] =
-    undefined
+  export let cacheAsTexture: $$Props['cacheAsTexture'] = undefined
 
   /**
    * Should this object be rendered if the bounds of this object are out of frame?
@@ -255,20 +236,6 @@
    * @deprecated since 7.0.0, Setting interactive is deprecated, use eventMode='none'/'passive'/'auto'/'static'/'dynamic' instead.
    */
   export let interactiveChildren: $$Props['interactiveChildren'] = undefined
-
-  /**
-   * Does any other displayObject use this object as a mask?
-   *
-   * @type {boolean}
-   */
-  export let isMask: $$Props['isMask'] = undefined
-
-  /**
-   * Used to fast check if a sprite is.. a sprite!
-   *
-   * @type {boolean}
-   */
-  export let isSprite: $$Props['isSprite'] = undefined
 
   /**
    * Sets a mask for the displayObject.
@@ -366,14 +333,6 @@
   export let width: $$Props['width'] = undefined
 
   /**
-   * World transform and local transform of this object. This will become read-only later,
-   * please do not assign anything there unless you know what are you doing.
-   *
-   * @type {PIXI.Transform}
-   */
-  export let transform: $$Props['transform'] = undefined
-
-  /**
    * The visibility of the object. If false the object will not be drawn,
    * and the updateTransform function will not be called.
    *
@@ -411,14 +370,31 @@
   export let zIndex: $$Props['zIndex'] = undefined
 
   /**
+   * Opts the container into "Render Group Mode". Must be set initially, cannot
+   * be changed after. See more info on Render Groups here https://pixijs.download/release/docs/scene.Container.html
+   *
+   * @type {boolean}
+   */
+  export let isRenderGroup: $$Props['isRenderGroup'] = false
+
+  /**
    * The PIXI.Container instance. Can be set or bound to.
    *
    * @type {PIXI.Container}
    */
-  export let instance: T = new PIXI.Container() as T
+  export let instance: T = new PIXI.Container({
+    isRenderGroup,
+  }) as T
 
   const { applyProp, applyProps } = createApplyProps<PIXI.Container, $$Props>(
     instance,
+    {
+      cacheAsTexture: (value, instance) => {
+        if (value !== undefined) {
+          instance.cacheAsTexture(value)
+        }
+      },
+    },
   )
 
   const { invalidate } = getRenderer()
@@ -519,8 +495,7 @@
   $: applyProp('alpha', alpha)
   $: applyProp('angle', angle)
   $: applyProp('cacheAsBitmap', cacheAsBitmap)
-  $: applyProp('cacheAsBitmapResolution', cacheAsBitmapResolution)
-  $: applyProp('cacheAsBitmapMultisample', cacheAsBitmapMultisample)
+  $: applyProp('cacheAsTexture', cacheAsTexture)
   $: applyProp('cursor', cursor)
   $: applyProp('cullable', cullable)
   $: applyProp('cullArea', cullArea)
@@ -529,8 +504,6 @@
   $: applyProp('hitArea', hitArea)
   $: applyProp('filters', filters)
   $: applyProp('height', height)
-  $: applyProp('isMask', isMask)
-  $: applyProp('isSprite', isSprite)
   $: applyProp('interactive', interactive)
   $: applyProp('interactiveChildren', interactiveChildren)
   $: applyProp('mask', mask)
@@ -542,7 +515,6 @@
   $: applyProp('scale', scale)
   $: applyProp('skew', skew)
   $: applyProp('sortableChildren', sortableChildren)
-  $: applyProp('transform', transform)
   $: applyProp('visible', visible)
   $: applyProp('x', x)
   $: applyProp('y', y)
