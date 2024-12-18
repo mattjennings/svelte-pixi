@@ -13,16 +13,18 @@
 
   import * as PIXI from 'pixi.js'
 
-  import { getContext, setContext } from 'svelte'
+  import { createEventDispatcher, getContext, setContext } from 'svelte'
   import Container from './Container.svelte'
   import Renderer from './Renderer.svelte'
   import Ticker from './Ticker.svelte'
   import { omitUndefined } from './util/helpers'
 
+  const dispatch = createEventDispatcher()
   type T = $$Generic<PIXI.Application>
   type $$Props = Partial<PIXI.ApplicationOptions> & {
     instance?: T
     render?: 'auto' | 'demand'
+    autoInit?: boolean
   }
 
   type $$Slots = {
@@ -143,37 +145,47 @@
    */
   export let instance: T = new PIXI.Application() as T
 
-  const initPromise = instance.init(
-    // some props being explicitly undefined different behaviour than implicit
-    // undefined
-    omitUndefined({
-      autoStart,
-      width,
-      height,
-      premultipliedAlpha,
-      autoDensity,
-      antialias,
-      preserveDrawingBuffer,
-      resolution,
-      backgroundColor,
-      backgroundAlpha,
-      clearBeforeRender,
-      powerPreference,
-      resizeTo,
-      eventMode,
-      eventFeatures,
-    }),
-  )
+  /**
+   * Calls init() on the Application immediately
+   */
+  export let autoInit = true
+
+  const initPromise = autoInit
+    ? instance
+        .init(
+          // some props being explicitly undefined different behaviour than implicit
+          // undefined
+          omitUndefined({
+            autoStart,
+            width,
+            height,
+            premultipliedAlpha,
+            autoDensity,
+            antialias,
+            preserveDrawingBuffer,
+            resolution,
+            backgroundColor,
+            backgroundAlpha,
+            clearBeforeRender,
+            powerPreference,
+            resizeTo,
+            eventMode,
+            eventFeatures,
+          }),
+        )
+        .then(() => {
+          dispatch('init', { instance })
+
+          // remove rendering on tick
+          if (render) {
+            instance.ticker.remove(instance.render, instance)
+          }
+        })
+    : Promise.resolve(instance)
+
   let invalidated = true
 
   setContext<ApplicationContext<T>>('pixi/app', { app: instance })
-
-  // remove rendering on tick
-  if (render) {
-    initPromise.then(() => {
-      instance.ticker.remove(instance.render, instance)
-    })
-  }
 </script>
 
 {#await initPromise}

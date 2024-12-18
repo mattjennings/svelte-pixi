@@ -15,8 +15,8 @@
    */
   let statsElement
   let app
-  let width
-  let height
+  let clientWidth = 0
+  let clientHeight = 0
 
   const resolution = {
     width: 718,
@@ -25,10 +25,15 @@
 
   // only render while in view
   $: if (app) {
-    if (!intersecting) {
-      app.stop()
-    } else {
-      app.start()
+    try {
+      if (!intersecting) {
+        app.stop()
+      } else {
+        app.start()
+      }
+    } catch (err) {
+      console.log(app.start, app.stop)
+      console.error(err)
     }
   }
 
@@ -61,9 +66,9 @@
   })
 </script>
 
-<div bind:clientWidth={width} bind:clientHeight={height}>
+<div bind:clientWidth bind:clientHeight>
   <Application
-    bind:instance={app}
+    on:init={(ev) => (app = ev.detail.instance)}
     autoStart={false}
     width={resolution.width}
     height={resolution.height}
@@ -87,8 +92,8 @@
         the same for examples.
        -->
       <Container
-        x={-((resolution.width - width) / 2)}
-        y={-((resolution.height - height) / 2)}
+        x={-((resolution.width - clientWidth) / 2)}
+        y={-((resolution.height - clientHeight) / 2)}
       >
         <slot />
       </Container>

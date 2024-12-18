@@ -113,7 +113,7 @@
    */
   export let instance: T | undefined = undefined
 
-  const loadRendererInstance = instance
+  const autoDetectPromise = instance
     ? Promise.resolve(instance)
     : PIXI.autoDetectRenderer(
         omitUndefined({
@@ -134,6 +134,13 @@
       )
         .then((renderer) => {
           instance = renderer as T
+          dispatch('init', { instance })
+
+          instance.runners.prerender.add(() => dispatch('prerender'))
+          instance.runners.postrender.add(() => dispatch('postrender'))
+          instance.runners.render.add(() => dispatch('render'))
+          instance.runners.renderStart.add(() => dispatch('renderStart'))
+
           return instance
         })
         .catch((err) => {
@@ -158,20 +165,9 @@
       node.appendChild(instance.canvas)
     }
   }
-
-  onMount(() => {
-    loadRendererInstance.then((instance) => {
-      if (instance) {
-        instance.runners.prerender.add(() => dispatch('prerender'))
-        instance.runners.postrender.add(() => dispatch('postrender'))
-        instance.runners.render.add(() => dispatch('render'))
-        instance.runners.renderStart.add(() => dispatch('renderStart'))
-      }
-    })
-  })
 </script>
 
-{#await loadRendererInstance}
+{#await autoDetectPromise}
   <slot name="loading" />
 {:then instance}
   {#if instance}

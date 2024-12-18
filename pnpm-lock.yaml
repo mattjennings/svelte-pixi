@@ -93,8 +93,8 @@ importers:
         specifier: ^4.0.3
         version: 4.0.3(typescript@5.2.2)
       astro-live-code:
-        specifier: ^0.0.1
-        version: 0.0.1
+        specifier: ^0.0.4
+        version: 0.0.4
       sharp:
         specifier: ^0.32.5
         version: 0.32.6
@@ -2578,8 +2578,8 @@ packages:
       remark-expressive-code: 0.29.3
     dev: false
 
-  /astro-live-code@0.0.1:
-    resolution: {integrity: sha512-/yUtvTCNj64NambUBzApxIF/VmJveUrAZlo1I4dVDcJ2k05CrCDoVvp/bsLZ9D/PKetW7zLLEndRWtnA2AMQrA==}
+  /astro-live-code@0.0.4:
+    resolution: {integrity: sha512-sPL68iEhrdcH+JcUDUtObrUH8BxPv7czaFj/1lO59veQhjowvolXtMwOz3Wuyo0DDfXT6IDQ3Vf/CR/pmIXxuQ==}
     dependencies:
       estree-util-visit: 2.0.0
       magic-string: 0.30.5
