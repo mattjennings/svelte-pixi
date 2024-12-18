@@ -18,130 +18,12 @@
   import { omitUndefined } from './util/helpers'
 
   type T = $$Generic<PIXI.Application>
-  type $$Props = Partial<PIXI.IApplicationOptions> & {
-    instance?: T
-    render?: 'auto' | 'demand'
-  } 
-
-  interface Props {
-    /**
-   * Automatically starts the rendering
-   *
-   */
-    autoStart?: $$Props['autoStart'];
-    /**
-   * The width of the renderers view.
-   *
-   **/
-    width?: $$Props['width'];
-    /**
-   * The height of the renderers view.
-   **/
-    height?: $$Props['height'];
-    /**
-   * Pass-through value for canvas' context alpha property.
-   * If you want to set transparency, please use backgroundAlpha.
-   * This option is for cases where the canvas
-   * needs to be opaque, possibly for performance reasons on some older devices.
-   *
-   * <br />
-   *
-   * @deprecated since 7.0.0, use premultipliedAlpha and backgroundAlpha instead.
-   * @type {boolean | "notMultiplied"}
-   */
-    useContextAlpha?: $$Props['useContextAlpha'];
-    /**
-   * Resizes renderer view in CSS pixels to allow for resolutions other than 1.
-   */
-    autoDensity?: $$Props['autoDensity'];
-    /**
-   * Sets antialias
-   */
-    antialias?: $$Props['antialias'];
-    /**
-   * Enables drawing buffer preservation, enable this if you
-   * need to call toDataUrl on the WebGL context.
-   */
-    preserveDrawingBuffer?: $$Props['preserveDrawingBuffer'];
-    /**
-   * The resolution / device pixel ratio of the renderer.
-   *
-   * @type {number}
-   */
-    resolution?: $$Props['resolution'];
-    /**
-   * Prevents selection of WebGL renderer, even if such is present, this option only is available
-   * when using pixi.js-legacy or @pixi/canvas-renderer modules,
-   * otherwise it is ignored.
-   */
-    forceCanvas?: $$Props['forceCanvas'];
-    /**
-   * The background color of the rendered area (shown if not transparent).
-   */
-    backgroundColor?: $$Props['backgroundColor'];
-    /**
-   * Value from 0 (fully transparent) to 1 (fully opaque).
-   */
-    backgroundAlpha?: $$Props['backgroundAlpha'];
-    /**
-   * This sets if the renderer will clear the canvas or not before the new render pass.
-   *
-   * @type {boolean}
-   */
-    clearBeforeRender?: $$Props['clearBeforeRender'];
-    /**
-   * The default event mode mode for all display objects.
-   *
-   * This option only is available when using @pixi/events package (included in the pixi.js and pixi.js-legacy bundle),
-   * otherwise it will be ignored.
-   *
-   * @type {PIXI.EventMode}
-   */
-    eventMode?: $$Props['eventMode'];
-    /**
-   * The event features that are enabled by the EventSystem.
-   *
-   * @type {PIXI.EventSystemOptions['eventFeatures']}
-   */
-    eventFeatures?: $$Props['eventFeatures'];
-    /**
-   * Parameter passed to webgl context, set to "high-performance"
-   * for devices with dual graphics card. (WebGL only).
-   *
-   * @type {WebGLPowerPreference}
-   */
-    powerPreference?: $$Props['powerPreference'];
-    /**
-   * **WebGL Only.** Whether the compositor will assume the drawing buffer contains colors with premultiplied alpha.
-   * @type {boolean | undefined}
-   */
-    premultipliedAlpha?: $$Props['premultipliedAlpha'];
-    /**
-   * Element to automatically resize stage to.
-   *
-   * @type {Window | HTMLElement}
-   */
-    resizeTo?: $$Props['resizeTo'];
-    /**
-   * Changes the rendering method
-   *
-   * auto - render on each tick at the target FPS
-   * demand - render only when components have been updated
-   *
-   * @type {'auto' | 'demand' | false}
-   */
-    render?: 'auto' | 'demand' | false;
-    /**
-   * The PIXI.Application instance. This can be manually set or bound to.
-   *
-   * Note: if manually set, props will not be applied.
-   *
-   * @type {PIXI.Application}
-   */
+  interface Props extends Omit<PIXI.IApplicationOptions, 'view'> {
     instance?: T;
     view?: import('svelte').Snippet;
     children?: import('svelte').Snippet;
-  }
+    render?: 'auto' | 'demand' | false
+  } 
 
   let {
     autoStart = true,
@@ -155,11 +37,11 @@
     forceCanvas = false,
     backgroundColor = 0x000000,
     backgroundAlpha = 1,
-    clearBeforeRender = undefined,
+    clearBeforeRender = false,
     eventMode = undefined,
     eventFeatures = undefined,
-    powerPreference = undefined,
-    premultipliedAlpha = undefined,
+    powerPreference = 'default',
+    premultipliedAlpha = false,
     resizeTo = undefined,
     render = 'auto',
     instance = $bindable() as T,
