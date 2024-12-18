@@ -17,9 +17,7 @@
   draw={(graphics) => {
     // draw rectangle
     graphics.clear()
-    graphics.beginFill(0xde3249)
-    graphics.drawRect(-width / 2, -height / 2, width, height)
-    graphics.endFill()
+    graphics.rect(-width / 2, -height / 2, width, height).fill(0xde3249)
   }}
 />
 <Body bind:x bind:y bind:angle={rotation} {width} {height} />

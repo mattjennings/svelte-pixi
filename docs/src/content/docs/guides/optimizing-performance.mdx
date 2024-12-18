@@ -35,8 +35,8 @@ You may find yourself needing to render and update many components at once. Take
   })
 
   // move the camera forward
-  onTick((delta) => {
-    cameraZ += delta * 10 * speed
+  onTick((ticker) => {
+    cameraZ += ticker.deltaTime * 10 * speed
   })
 </script>
 
@@ -132,8 +132,8 @@ Let's take another approach by using Pixi a bit more directly:
   }
 
   // move the camera forward
-  onTick((delta) => {
-    cameraZ += delta * 10 * speed
+  onTick((ticker) => {
+    cameraZ += ticker.deltaTime * 10 * speed
 
     stars.forEach(updateStar)
   })
@@ -207,9 +207,9 @@ Every SveltePixi component will automatically trigger renders when they are upda
   let moving = true
 
   // we can still use the ticker!
-  onTick((delta) => {
+  onTick((ticker) => {
     if (sprite && moving) {
-      sprite.x += 5 * delta
+      sprite.x += 5 * ticker.deltaTime
 
       if (sprite.x > 200) {
         moving = false

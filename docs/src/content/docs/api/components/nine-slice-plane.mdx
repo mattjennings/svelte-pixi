@@ -18,8 +18,8 @@ Allows you to stretch a texture using 9-slice scaling. The corners will remain u
   let height = 100
   let counter = 0
 
-  onTick((delta) => {
-    counter += delta * 0.04
+  onTick((ticker) => {
+    counter += ticker.deltaTime * 0.04
 
     width = 100 + Math.cos(counter) * 20
     height = 100 + Math.sin(counter) * 20

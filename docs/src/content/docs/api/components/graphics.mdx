@@ -17,8 +17,8 @@ Graphics can be used for any kind of drawing. Use the `draw` prop to interact wi
   let size = 100
   let counter = 0
 
-  onTick((delta) => {
-    counter += delta * 0.025
+  onTick((ticker) => {
+    counter += ticker.deltaTime * 0.025
 
     size = 100 + Math.sin(counter) * 50
   })
@@ -29,9 +29,9 @@ Graphics can be used for any kind of drawing. Use the `draw` prop to interact wi
   y={200}
   draw={(graphics) => {
     graphics.clear()
-    graphics.beginFill(0xde3249)
-    graphics.drawCircle(0, 0, size)
-    graphics.endFill()
+    graphics
+      .circle(0, 0, size)
+      .fill(0xde3249)
   }}
 />
 ```

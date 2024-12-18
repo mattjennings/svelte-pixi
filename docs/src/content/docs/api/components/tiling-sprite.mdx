@@ -17,8 +17,8 @@ import ComponentAPI from '$lib/components/ComponentAPI.astro'
   let scale = { x: 1, y: 1 }
   let tilePosition = { x: 0, y: 0 }
 
-  onTick((delta) => {
-    count += 0.01 * delta
+  onTick((ticker) => {
+    count += 0.01 * ticker.deltaTime
 
     scale = { x: 2 + Math.sin(count), y: 2 + Math.cos(count) }
     tilePosition = { x: tilePosition.x + 1, y: tilePosition.y + 1 }

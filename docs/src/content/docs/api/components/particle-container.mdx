@@ -75,8 +75,8 @@ Note: when working with thousands of components, it is **much** more performant 
   }
 
   // move the camera forward
-  onTick((delta) => {
-    cameraZ += delta * 10 * speed
+  onTick((ticker) => {
+    cameraZ += ticker.deltaTime * 10 * speed
 
     stars.forEach(updateStar)
   })

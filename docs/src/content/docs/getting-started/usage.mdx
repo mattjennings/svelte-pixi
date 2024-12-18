@@ -117,11 +117,11 @@ components can hook into the loop with `onTick`.
   let y = 200
 
   let time = 0
-  onTick((delta) => {
+  onTick((ticker) => {
     // delta is the time since the last frame in milliseconds
     // for any kind of movement, you should multiply by delta
     // to ensure it moves at the same speed regardless of framerate
-    time += delta * 0.05
+    time += ticker.deltaTime * 0.05
     x = 360 + Math.cos(time) * 50
     y = 200 + Math.sin(time) * 50
   })

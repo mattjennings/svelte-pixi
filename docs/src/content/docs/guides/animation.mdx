@@ -113,9 +113,9 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
   pivot={{ x: barWidth / 2 }}
   draw={(graphics) => {
     graphics.clear()
-    graphics.beginFill(0xff0000)
-    graphics.drawRect(0, 0, $progress, 50)
-    graphics.endFill()
+    graphics
+      .rect(0, 0, $progress, 50)
+      .fill(0xff0000)
   }}
 />
 ```

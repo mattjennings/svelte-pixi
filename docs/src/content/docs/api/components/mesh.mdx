@@ -91,9 +91,9 @@ Pretty much all WebGL can be broken down into the following:
 
   const shader = PIXI.Shader.from(vertexSrc, fragmentSrc, uniforms)
 
-  onTick((delta) => {
-    rotation += 0.01 * delta
-    shader.uniforms.time += 0.1 * delta
+  onTick((ticker) => {
+    rotation += 0.01 * ticker.deltaTime
+    shader.uniforms.time += 0.1 * ticker.deltaTime
   })
 </script>
 

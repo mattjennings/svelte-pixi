@@ -56,9 +56,7 @@
   y={$position.y}
   draw={(graphics) => {
     graphics.clear()
-    graphics.beginFill(0xde3249)
-    graphics.drawCircle(0, 0, circleSize)
-    graphics.endFill()
+    graphics.circle(0, 0, circleSize).fill(0xde3249)
   }}
   eventMode="static"
   cursor="pointer"

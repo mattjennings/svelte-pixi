@@ -24,8 +24,8 @@ Instead, SveltePixi provides a [track](/docs/utilities/track) utility function t
   }
 
   let time = 0
-  onTick((delta) => {
-    time += delta * 0.02
+  onTick((ticker) => {
+    time += ticker.deltaTime * 0.02
     instance.x = 360 + Math.cos(time) * 50
     instance.y = 200 + Math.sin(time) * 50
   })
@@ -38,9 +38,9 @@ Instead, SveltePixi provides a [track](/docs/utilities/track) utility function t
   pivot={0.5}
   draw={(graphics) => {
     graphics.clear()
-    graphics.beginFill(0xde3249)
-    graphics.drawCircle(0, 0, 50)
-    graphics.endFill()
+    graphics
+      .circle(0, 0, 50)
+      .fill(0xde3249)
   }}
 />
 <Text

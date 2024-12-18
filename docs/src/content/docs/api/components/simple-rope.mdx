@@ -21,8 +21,8 @@ The rope allows you to draw a texture across several points and then manipulate 
   }))
 
   let time = 0
-  onTick((delta) => {
-    time += 0.1 * delta
+  onTick((ticker) => {
+    time += 0.1 * ticker.deltaTime
 
     points = points.map((point, i) => ({
       x: i * ropeLength + Math.cos(i * 0.3 + time) * 20,

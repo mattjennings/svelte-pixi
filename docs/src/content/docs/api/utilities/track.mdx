@@ -17,9 +17,9 @@ This is useful for watching a property on a PixiJS instance that is getting upda
   $: text = $x < 300 ? "I'm on the left!" : "I'm on the right!"
 
   // modify the instance directly
-  onTick((delta) => {
+  onTick((ticker) => {
     if (instance.x < 500) {
-      instance.x += delta
+      instance.x += ticker.deltaTime
     } else {
       instance.x = 200
     }
