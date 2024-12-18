@@ -18,7 +18,7 @@ const { ComponentParser } = require('sveld') as any as {
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
 const componentPath = path.resolve(
-  __dirname,
+  __dirname.startsWith('/') ? __dirname.slice(1) : __dirname,
   '../../../src/lib',
   Astro.props.component,
 )

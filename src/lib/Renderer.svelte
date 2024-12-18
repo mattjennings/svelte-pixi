@@ -1,3 +1,4 @@
+<!-- @migration-task Error while migrating Svelte code: This migration would change the name of a slot making the component unusable -->
 <script context="module" lang="ts">
   export interface RendererContext<T extends PIXI.Renderer | PIXI.IRenderer> {
     renderer: T
@@ -175,10 +176,20 @@
     }
 
     if (node.childNodes.length) {
-      node.childNodes[0].appendChild(instance.view)
-    } else {
-      node.appendChild(instance.view)
+      // Iterate over childNodes to find the first ELEMENT_NODE
+      for (let i = 0; i < node.childNodes.length; i++) {
+        const child = node.childNodes[i]
+
+        // Append instance.view to the first child node that is an ELEMENT_NODE
+        if (child.nodeType === Node.ELEMENT_NODE) {
+          child.appendChild(instance.view)
+          return // Exit the function once the view is appended
+        }
+      }
     }
+
+    // If no ELEMENT_NODE is found, append to the parent node itself
+    node.appendChild(instance.view)
   }
 
   onMount(() => {
@@ -192,7 +203,7 @@
     <slot name="view" />
   </div>
 {:else}
-  <div use:view />
+  <div use:view></div>
 {/if}
 
 <slot />
