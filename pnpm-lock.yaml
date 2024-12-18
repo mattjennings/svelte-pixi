@@ -101,7 +101,7 @@ importers:
         specifier: ^0.32.5
         version: 0.32.6
       svelte:
-        specifier: ^5.3.2
+        specifier: ^5.14.4
         version: 5.14.4
       svelte-intersection-observer:
         specifier: ^1.0.0
@@ -170,10 +170,10 @@ importers:
         specifier: ^7.4.2
         version: 7.4.2
       svelte:
-        specifier: ^5.2.3
+        specifier: ^5.14.4
         version: 5.14.4
       vite:
-        specifier: ^6.0.0
+        specifier: ^6.0.3
         version: 6.0.3(@types/node@22.10.2)(jiti@1.21.7)(yaml@2.6.1)
 
   examples/vite-custom-pixi-file:
@@ -246,10 +246,10 @@ importers:
         specifier: ^7.4.2
         version: 7.4.2
       svelte:
-        specifier: ^5.2.3
+        specifier: ^5.14.4
         version: 5.14.4
       vite:
-        specifier: ^6.0.0
+        specifier: ^6.0.3
         version: 6.0.3(@types/node@22.10.2)(jiti@1.21.7)(yaml@2.6.1)
 
   examples/with-matter-js:
@@ -268,10 +268,10 @@ importers:
         specifier: ^7.4.2
         version: 7.4.2
       svelte:
-        specifier: ^5.2.3
+        specifier: ^5.14.4
         version: 5.14.4
       vite:
-        specifier: ^6.0.0
+        specifier: ^6.0.3
         version: 6.0.3(@types/node@22.10.2)(jiti@1.21.7)(yaml@2.6.1)
 
 packages:
