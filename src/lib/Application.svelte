@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
   interface ApplicationContext<T extends PIXI.Application> {
     app: T
   }
@@ -21,26 +21,24 @@
   type $$Props = Partial<PIXI.IApplicationOptions> & {
     instance?: T
     render?: 'auto' | 'demand'
-  }
+  } 
 
-  /**
+  interface Props {
+    /**
    * Automatically starts the rendering
    *
    */
-  export let autoStart: $$Props['autoStart'] = true
-
-  /**
+    autoStart?: $$Props['autoStart'];
+    /**
    * The width of the renderers view.
    *
    **/
-  export let width: $$Props['width'] = 800
-
-  /**
+    width?: $$Props['width'];
+    /**
    * The height of the renderers view.
    **/
-  export let height: $$Props['height'] = 600
-
-  /**
+    height?: $$Props['height'];
+    /**
    * Pass-through value for canvas' context alpha property.
    * If you want to set transparency, please use backgroundAlpha.
    * This option is for cases where the canvas
@@ -51,56 +49,47 @@
    * @deprecated since 7.0.0, use premultipliedAlpha and backgroundAlpha instead.
    * @type {boolean | "notMultiplied"}
    */
-  export let useContextAlpha: $$Props['useContextAlpha'] = undefined
-
-  /**
+    useContextAlpha?: $$Props['useContextAlpha'];
+    /**
    * Resizes renderer view in CSS pixels to allow for resolutions other than 1.
    */
-  export let autoDensity: $$Props['autoDensity'] = true
-
-  /**
+    autoDensity?: $$Props['autoDensity'];
+    /**
    * Sets antialias
    */
-  export let antialias: $$Props['antialias'] = false
-
-  /**
+    antialias?: $$Props['antialias'];
+    /**
    * Enables drawing buffer preservation, enable this if you
    * need to call toDataUrl on the WebGL context.
    */
-  export let preserveDrawingBuffer: $$Props['preserveDrawingBuffer'] = false
-
-  /**
+    preserveDrawingBuffer?: $$Props['preserveDrawingBuffer'];
+    /**
    * The resolution / device pixel ratio of the renderer.
    *
    * @type {number}
    */
-  export let resolution: $$Props['resolution'] = PIXI.settings.RESOLUTION
-
-  /**
+    resolution?: $$Props['resolution'];
+    /**
    * Prevents selection of WebGL renderer, even if such is present, this option only is available
    * when using pixi.js-legacy or @pixi/canvas-renderer modules,
    * otherwise it is ignored.
    */
-  export let forceCanvas: $$Props['forceCanvas'] = false
-
-  /**
+    forceCanvas?: $$Props['forceCanvas'];
+    /**
    * The background color of the rendered area (shown if not transparent).
    */
-  export let backgroundColor: $$Props['backgroundColor'] = 0x000000
-
-  /**
+    backgroundColor?: $$Props['backgroundColor'];
+    /**
    * Value from 0 (fully transparent) to 1 (fully opaque).
    */
-  export let backgroundAlpha: $$Props['backgroundAlpha'] = 1
-
-  /**
+    backgroundAlpha?: $$Props['backgroundAlpha'];
+    /**
    * This sets if the renderer will clear the canvas or not before the new render pass.
    *
    * @type {boolean}
    */
-  export let clearBeforeRender: $$Props['clearBeforeRender'] = undefined
-
-  /**
+    clearBeforeRender?: $$Props['clearBeforeRender'];
+    /**
    * The default event mode mode for all display objects.
    *
    * This option only is available when using @pixi/events package (included in the pixi.js and pixi.js-legacy bundle),
@@ -108,37 +97,32 @@
    *
    * @type {PIXI.EventMode}
    */
-  export let eventMode: $$Props['eventMode'] = undefined
-
-  /**
+    eventMode?: $$Props['eventMode'];
+    /**
    * The event features that are enabled by the EventSystem.
    *
    * @type {PIXI.EventSystemOptions['eventFeatures']}
    */
-  export let eventFeatures: $$Props['eventFeatures'] = undefined
-
-  /**
+    eventFeatures?: $$Props['eventFeatures'];
+    /**
    * Parameter passed to webgl context, set to "high-performance"
    * for devices with dual graphics card. (WebGL only).
    *
    * @type {WebGLPowerPreference}
    */
-  export let powerPreference: $$Props['powerPreference'] = undefined
-
-  /**
+    powerPreference?: $$Props['powerPreference'];
+    /**
    * **WebGL Only.** Whether the compositor will assume the drawing buffer contains colors with premultiplied alpha.
    * @type {boolean | undefined}
    */
-  export let premultipliedAlpha: $$Props['premultipliedAlpha'] = undefined
-
-  /**
+    premultipliedAlpha?: $$Props['premultipliedAlpha'];
+    /**
    * Element to automatically resize stage to.
    *
    * @type {Window | HTMLElement}
    */
-  export let resizeTo: $$Props['resizeTo'] = undefined
-
-  /**
+    resizeTo?: $$Props['resizeTo'];
+    /**
    * Changes the rendering method
    *
    * auto - render on each tick at the target FPS
@@ -146,16 +130,45 @@
    *
    * @type {'auto' | 'demand' | false}
    */
-  export let render: 'auto' | 'demand' | false = 'auto'
-
-  /**
+    render?: 'auto' | 'demand' | false;
+    /**
    * The PIXI.Application instance. This can be manually set or bound to.
    *
    * Note: if manually set, props will not be applied.
    *
    * @type {PIXI.Application}
    */
-  export let instance: T = new PIXI.Application(
+    instance?: T;
+    view?: import('svelte').Snippet;
+    children?: import('svelte').Snippet;
+  }
+
+  let {
+    autoStart = true,
+    width = 800,
+    height = 600,
+    useContextAlpha = undefined,
+    autoDensity = true,
+    antialias = false,
+    preserveDrawingBuffer = false,
+    resolution = PIXI.settings.RESOLUTION,
+    forceCanvas = false,
+    backgroundColor = 0x000000,
+    backgroundAlpha = 1,
+    clearBeforeRender = undefined,
+    eventMode = undefined,
+    eventFeatures = undefined,
+    powerPreference = undefined,
+    premultipliedAlpha = undefined,
+    resizeTo = undefined,
+    render = 'auto',
+    instance = $bindable() as T,
+    view,
+    children
+  }: Props = $props();
+
+  if(!instance) {
+    instance = new PIXI.Application(
     // some props being explicitly undefined different behaviour than implicit
     // undefined
     omitUndefined({
@@ -176,10 +189,10 @@
       resizeTo,
       eventMode,
       eventFeatures,
-    }),
-  ) as T
+    })) as T
+  }
 
-  let invalidated = true
+  let invalidated = $state(true)
 
   setContext<ApplicationContext<T>>('pixi/app', { app: instance })
 
@@ -187,6 +200,8 @@
   if (render) {
     instance.ticker.remove(instance.render, instance)
   }
+
+  const view_render = $derived(view);
 </script>
 
 <Renderer
@@ -197,9 +212,7 @@
   on:prerender
   on:postrender
 >
-  <slot name="view" slot="view">
-    <div />
-  </slot>
+  {@render view_render?.()}
 
   {#if render}
     <Ticker
@@ -217,7 +230,7 @@
   {/if}
   <Ticker instance={instance.ticker}>
     <Container instance={instance.stage}>
-      <slot />
+      {@render children?.()}
     </Container>
   </Ticker>
 </Renderer>

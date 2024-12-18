@@ -1,3 +1,4 @@
+<!-- @migration-task Error while migrating Svelte code: This migration would change the name of a slot making the component unusable -->
 <script context="module" lang="ts">
   export interface RendererContext<T extends PIXI.Renderer | PIXI.IRenderer> {
     renderer: T
@@ -202,7 +203,7 @@
     <slot name="view" />
   </div>
 {:else}
-  <div use:view />
+  <div use:view></div>
 {/if}
 
 <slot />
