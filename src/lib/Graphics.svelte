@@ -12,7 +12,6 @@
   type $$Props = Container<T>['$$prop_def'] & {
     draw?: (graphics: PIXI.Graphics) => any
     blendMode?: PIXI.Graphics['blendMode']
-    pluginName?: PIXI.Graphics['pluginName']
     tint?: PIXI.Graphics['tint']
   }
 
@@ -31,13 +30,6 @@
    * @type {PIXI.BLEND_MODES}
    */
   export let blendMode: $$Props['blendMode'] = 'normal'
-
-  /**
-   * Renderer plugin for batching
-   *
-   * @type {string}
-   */
-  export let pluginName: $$Props['pluginName'] = undefined
 
   /**
    * The tint applied to each graphic shape. This is a hex value.
@@ -63,7 +55,6 @@
   const { applyProp } = createApplyProps<PIXI.Graphics>(instance)
 
   $: applyProp('blendMode', blendMode)
-  $: applyProp('pluginName', pluginName)
   $: applyProp('tint', tint)
   $: draw?.(instance)
 </script>

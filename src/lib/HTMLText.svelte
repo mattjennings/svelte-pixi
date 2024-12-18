@@ -16,7 +16,6 @@
     style?: PIXI.IHTMLTextStyle
     anchor?: PointLike
     blendMode?: PIXI.Sprite['blendMode']
-    pluginName?: PIXI.Sprite['pluginName']
     roundPixels?: PIXI.Sprite['roundPixels']
   }
 
@@ -48,13 +47,6 @@
   export let blendMode: $$Props['blendMode'] = 'normal'
 
   /**
-   * Plugin that is responsible for rendering this element.
-   *
-   * @type {string}
-   */
-  export let pluginName: $$Props['pluginName'] = undefined
-
-  /**
    * If true PixiJS will Math.floor() x/y values when rendering, stopping pixel interpolation.
    * Advantages can include sharper image quality (like text) and faster rendering on canvas.
    * The main disadvantage is movement of objects may appear less smooth.
@@ -81,7 +73,6 @@
   $: applyProp('style', style)
   $: applyProp('anchor', anchor)
   $: applyProp('blendMode', blendMode)
-  $: applyProp('pluginName', pluginName)
   $: applyProp('roundPixels', roundPixels)
 </script>
 

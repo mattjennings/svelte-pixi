@@ -18,7 +18,6 @@
     loop?: PIXI.AnimatedSprite['loop']
     anchor?: PointLike
     blendMode?: PIXI.AnimatedSprite['blendMode']
-    pluginName?: PIXI.AnimatedSprite['pluginName']
     roundPixels?: PIXI.AnimatedSprite['roundPixels']
   }
 
@@ -34,13 +33,6 @@
    * Apply a value of 'normal' to reset the blend mode.
    */
   export let blendMode: $$Props['blendMode'] = 'normal'
-
-  /**
-   * Plugin that is responsible for rendering this element.
-   *
-   * @type {string}
-   */
-  export let pluginName: $$Props['pluginName'] = undefined
 
   /**
    * If true PixiJS will Math.floor() x/y values when rendering, stopping pixel interpolation.
@@ -116,7 +108,6 @@
 
   $: applyProp('anchor', anchor)
   $: applyProp('blendMode', blendMode)
-  $: applyProp('pluginName', pluginName)
   $: applyProp('roundPixels', roundPixels)
   $: applyProp('autoUpdate', autoUpdate)
   $: applyProp('animationSpeed', animationSpeed)

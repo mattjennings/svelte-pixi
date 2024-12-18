@@ -14,7 +14,6 @@
   type $$Props = Container<T>['$$prop_def'] & {
     anchor?: PointLike
     blendMode?: PIXI.Sprite['blendMode']
-    pluginName?: PIXI.Sprite['pluginName']
     roundPixels?: PIXI.Sprite['roundPixels']
     texture: PIXI.Sprite['texture']
   }
@@ -31,13 +30,6 @@
    * Apply a value of 'normal' to reset the blend mode.
    */
   export let blendMode: $$Props['blendMode'] = 'normal'
-
-  /**
-   * Plugin that is responsible for rendering this element.
-   *
-   * @type {string}
-   */
-  export let pluginName: $$Props['pluginName'] = undefined
 
   /**
    * If true PixiJS will Math.floor() x/y values when rendering, stopping pixel interpolation.
@@ -71,7 +63,6 @@
 
   $: applyProp('anchor', anchor)
   $: applyProp('blendMode', blendMode)
-  $: applyProp('pluginName', pluginName)
   $: applyProp('roundPixels', roundPixels)
   $: applyProp('texture', texture)
   $: texture.on('update', () => invalidate())
