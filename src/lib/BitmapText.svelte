@@ -6,7 +6,6 @@
   import { afterUpdate } from 'svelte'
   import Container from './Container.svelte'
   import { getRenderer } from './Renderer.svelte'
-  import { omitUndefined } from './util/helpers'
   import { createApplyProps } from './util/props'
 
   type T = $$Generic<PIXI.BitmapText>
@@ -14,7 +13,7 @@
     anchor?: PIXI.BitmapText['anchor']
     roundPixels?: PIXI.BitmapText['roundPixels']
     text: PIXI.BitmapText['text']
-    style?: PIXI.IBitmapTextStyle
+    style?: PIXI.TextStyle
   }
 
   /**
@@ -51,9 +50,9 @@
    *
    * @type {PIXI.BitmapText}
    */
-  export let instance: T = new PIXI.BitmapText(text, style) as T
+  export let instance: T = new PIXI.BitmapText({ text, style }) as T
 
-  const { applyProp, applyProps } = createApplyProps<PIXI.BitmapText>(instance)
+  const { applyProp } = createApplyProps<PIXI.BitmapText>(instance)
   const { invalidate } = getRenderer()
 
   afterUpdate(() => {
@@ -63,16 +62,7 @@
   $: applyProp('anchor', anchor)
   $: applyProp('roundPixels', roundPixels)
   $: applyProp('text', text)
-  $: applyProps(
-    omitUndefined({
-      align: style?.align,
-      fontName: style?.fontName,
-      fontSize: style?.fontSize,
-      tint: style?.tint,
-      letterSpacing: style?.letterSpacing,
-      maxWidth: style?.maxWidth,
-    }),
-  )
+  $: applyProp('style', style)
 </script>
 
 <Container
