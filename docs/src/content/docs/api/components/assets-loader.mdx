@@ -84,7 +84,7 @@ Other options below would also work:
 
 ```svelte
 <AssetsLoader assets={['/my-texture.png']}>
-  <Sprite texture={PIXI.Assets.cache.get('/my-texture.png')} />
+  <Sprite texture={PIXI.Texture.from('/my-texture.png')} />
 </AssetsLoader>
 ```
 

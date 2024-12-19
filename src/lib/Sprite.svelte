@@ -54,19 +54,7 @@
    */
   export let instance: T = new PIXI.Sprite() as T
 
-  const { applyProp } = createApplyProps<PIXI.Sprite>(instance, {
-    texture: (value, instance) => {
-      if (value) {
-        if (typeof value === 'string') {
-          instance.texture = PIXI.Assets.cache.get(value)
-        } else {
-          instance.texture = value
-        }
-      } else {
-        instance.texture = PIXI.Texture.EMPTY
-      }
-    },
-  })
+  const { applyProp } = createApplyProps<PIXI.Sprite>(instance)
   const { invalidate } = getRenderer()
 
   afterUpdate(() => {
