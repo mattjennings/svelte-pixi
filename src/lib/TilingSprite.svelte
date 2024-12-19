@@ -17,7 +17,6 @@
     width: PIXI.TilingSprite['width']
     clampMargin?: PIXI.TilingSprite['clampMargin']
     tileTransform?: PIXI.TilingSprite['tileTransform']
-    uvMatrix?: PIXI.TilingSprite['uvMatrix']
     uvRespectAnchor?: PIXI.TilingSprite['uvRespectAnchor']
     tilePosition?: PointLike
     anchor?: PointLike
@@ -81,13 +80,6 @@
   export let tileTransform: $$Props['tileTransform'] = undefined
 
   /**
-   * Matrix that is applied to UV to get the coords in Texture normalized space to coords in BaseTexture space.
-   *
-   * @type {PIXI.TextureMatrix}
-   */
-  export let uvMatrix: $$Props['uvMatrix'] = undefined
-
-  /**
    * Flags whether the tiling pattern should originate from the origin instead
    * of the top-left corner in local space.
    *
@@ -110,7 +102,12 @@
    *
    * @type {PIXI.TilingSprite}
    */
-  export let instance: T = new PIXI.TilingSprite(texture, width, height) as T
+  export let instance: T = new PIXI.TilingSprite({
+    texture,
+    width,
+    height,
+    isRenderGroup: $$restProps.isRenderGroup,
+  }) as T
 
   const { applyProp } = createApplyProps<PIXI.TilingSprite>(instance)
   const { invalidate } = getRenderer()
@@ -127,10 +124,8 @@
   $: applyProp('texture', texture)
   $: applyProp('tilePosition', tilePosition)
   $: applyProp('tileTransform', tileTransform)
-  $: applyProp('uvMatrix', uvMatrix)
   $: applyProp('uvRespectAnchor', uvRespectAnchor)
   $: applyProp('width', width)
-  $: texture.on('update', () => invalidate())
 </script>
 
 <Container
