@@ -294,30 +294,25 @@
       instance = renderer as T
       dispatch('init', { instance })
 
-      // i don't know why these listeners take objects of their own name
-      instance.runners.prerender.add({
+      const listeners = {
         prerender: () => {
           dispatch('prerender')
         },
-      })
-
-      instance.runners.postrender.add({
         postrender: () => {
           dispatch('postrender')
         },
-      })
-
-      instance.runners.render.add({
         render: () => {
           dispatch('render')
         },
-      })
-
-      instance.runners.renderStart.add({
         renderStart: () => {
           dispatch('renderStart')
         },
-      })
+      }
+
+      instance.runners.prerender.add(listeners)
+      instance.runners.postrender.add(listeners)
+      instance.runners.render.add(listeners)
+      instance.runners.renderStart.add(listeners)
 
       return instance
     })
