@@ -1,6 +1,6 @@
 ---
-title: SimpleRope
-pixi: https://pixijs.download/release/docs/PIXI.SimpleRope.html
+title: MeshRope
+pixi: https://pixijs.download/release/docs/PIXI.MeshRope.html
 ---
 
 import ComponentAPI from '$lib/components/ComponentAPI.astro'
@@ -11,7 +11,7 @@ The rope allows you to draw a texture across several points and then manipulate 
 
 ```svelte live props={{ assets: ['/assets/snake.png'] }}
 <script>
-  import { SimpleRope, onTick } from 'svelte-pixi'
+  import { MeshRope, onTick } from 'svelte-pixi'
   import * as PIXI from 'pixi.js'
 
   const ropeLength = 918 / 20
@@ -31,7 +31,7 @@ The rope allows you to draw a texture across several points and then manipulate 
   })
 </script>
 
-<SimpleRope
+<MeshRope
   x={100}
   y={200}
   texture={PIXI.Texture.from('/assets/snake.png')}
@@ -42,4 +42,4 @@ The rope allows you to draw a texture across several points and then manipulate 
 
 ## API
 
-<ComponentAPI component="SimpleRope.svelte" />
+<ComponentAPI component="MeshRope.svelte" />

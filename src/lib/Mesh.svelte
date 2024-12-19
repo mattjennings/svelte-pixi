@@ -50,6 +50,7 @@
     geometry,
     shader,
     state,
+    isRenderGroup: $$restProps.isRenderGroup,
   }) as T
 
   const { applyProp } = createApplyProps<PIXI.Mesh>(instance)

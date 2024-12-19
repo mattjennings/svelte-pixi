@@ -9,14 +9,13 @@
   import { parsePoint, type PointLike } from './util/data-types'
   import { createApplyProps } from './util/props'
 
-  type T = $$Generic<PIXI.SimpleRope>
+  type T = $$Generic<PIXI.MeshRope>
   type $$Props = Container<T>['$$prop_def'] & {
-    texture: PIXI.SimpleRope['texture']
+    texture: PIXI.MeshRope['texture']
     points: PointLike[]
-    geometry?: PIXI.SimpleRope['geometry']
-    shader?: PIXI.SimpleRope['shader']
-    state?: PIXI.SimpleRope['state']
-    drawMode?: PIXI.SimpleRope['drawMode']
+    geometry?: PIXI.MeshRope['geometry']
+    shader?: PIXI.MeshRope['shader']
+    state?: PIXI.MeshRope['state']
     textureScale?: number
   }
 
@@ -72,36 +71,29 @@
   export let state: $$Props['state'] = undefined
 
   /**
-   * The way the Mesh should be drawn, can be any of the PIXI.DRAW_MODES constants.
+   * The PIXI.MeshRope instance. Can be set or bound to.
    *
-   * @type {PIXI.DRAW_MODES}
+   * @type {PIXI.MeshRope}
    */
-  export let drawMode: $$Props['drawMode'] = undefined
-
-  /**
-   * The PIXI.SimpleRope instance. Can be set or bound to.
-   *
-   * @type {PIXI.SimpleRope}
-   */
-  export let instance: T = new PIXI.SimpleRope(
-    texture,
-    parsePoints(points),
-    textureScale,
-  ) as T
+  export let instance: T = new PIXI.MeshRope({
+    texture: texture,
+    points: parsePoints(points),
+    textureScale: textureScale,
+    isRenderGroup: $$restProps.isRenderGroup,
+  }) as T
 
   function parsePoints(points: PointLike[]): PIXI.Point[] {
     return points.map(parsePoint)
   }
 
-  const { applyProp } = createApplyProps<PIXI.SimpleRope, $$Props>(instance, {
-    // PIXI.SimpleRope only uses points to create the geometry on construction,
+  const { applyProp } = createApplyProps<PIXI.MeshRope, $$Props>(instance, {
+    // PIXI.MeshRope only uses points to create the geometry on construction,
     // so we need to recreate it whenever points change
     points: (value, instance) => {
-      instance.geometry = new PIXI.RopeGeometry(
-        texture.height,
-        parsePoints(value),
-        textureScale,
-      )
+      instance.geometry = new PIXI.RopeGeometry({
+        points: parsePoints(value),
+        textureScale: textureScale,
+      })
     },
   })
   const { invalidate } = getRenderer()
@@ -113,7 +105,6 @@
   $: applyProp('geometry', geometry)
   $: applyProp('shader', shader)
   $: applyProp('state', state)
-  $: applyProp('drawMode', drawMode)
   $: applyProp('texture', texture)
   $: applyProp('points', points)
 
