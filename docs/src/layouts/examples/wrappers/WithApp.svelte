@@ -32,43 +32,44 @@
         app.start()
       }
     } catch (err) {
-      console.log(app.start, app.stop)
       console.error(err)
     }
   }
 
-  onMount(() => {
+  function onAppInit(ev) {
+    app = ev.detail.instance
+  }
+
+  $: if (app && statsElement && stats) {
     try {
-      if (app && statsElement && stats) {
-        let _stats = new Stats()
-        statsElement.appendChild(_stats.dom)
+      let _stats = new Stats()
+      statsElement.appendChild(_stats.dom)
 
-        _stats.showPanel(0)
+      _stats.showPanel(0)
 
-        app.ticker.add(
-          () => {
-            _stats.begin()
-          },
-          null,
-          -Infinity,
-        )
-        app.ticker.add(
-          () => {
-            _stats.end()
-          },
-          null,
-          Infinity,
-        )
-      }
+      app.ticker.add(
+        () => {
+          _stats.begin()
+        },
+        null,
+        -Infinity,
+      )
+      app.ticker.add(
+        () => {
+          _stats.end()
+        },
+        null,
+        Infinity,
+      )
     } catch (e) {
       console.error(e)
     }
-  })
+  }
 </script>
 
 <div bind:clientWidth bind:clientHeight>
   <Application
-    on:init={(ev) => (app = ev.detail.instance)}
+    on:init={onAppInit}
     autoStart={false}
     width={resolution.width}
     height={resolution.height}
