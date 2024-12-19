@@ -1,13 +1,8 @@
-<script context="module" lang="ts">
-  export type { RendererContext } from './RendererContext.svelte'
-  export { getRenderer } from './RendererContext.svelte'
-</script>
-
 <script lang="ts">
   import RendererContext from './RendererContext.svelte'
 
   import * as PIXI from 'pixi.js'
-  import { createEventDispatcher, onMount, setContext } from 'svelte'
+  import { createEventDispatcher, setContext } from 'svelte'
   import { omitUndefined } from './util/helpers'
 
   type T = $$Generic<PIXI.Renderer>

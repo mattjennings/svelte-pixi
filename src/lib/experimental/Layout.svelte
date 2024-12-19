@@ -2,7 +2,7 @@
   import type * as PIXI from 'pixi.js'
   import Container, { getContainer } from '../Container.svelte'
   import { onTick } from '../Ticker.svelte'
-  import { getRenderer } from '../Renderer.svelte'
+  import { getRenderer } from '../RendererContext.svelte'
 
   /**
    * The alignment of the children

@@ -13,7 +13,11 @@ export { default as HTMLText } from './HTMLText.svelte'
 export { default as Mesh } from './Mesh.svelte'
 export { default as NineSliceSprite } from './NineSliceSprite.svelte'
 export { default as ParticleContainer } from './ParticleContainer.svelte'
-export { default as Renderer, getRenderer } from './Renderer.svelte'
+export { default as Renderer } from './Renderer.svelte'
+export {
+  type RendererContextValue,
+  getRenderer,
+} from './RendererContext.svelte'
 export { default as MeshPlane } from './MeshPlane.svelte'
 export { default as MeshRope } from './MeshRope.svelte'
 export { default as Sprite } from './Sprite.svelte'

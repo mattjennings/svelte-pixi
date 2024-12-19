@@ -1,4 +1,4 @@
-import { getRenderer } from '../Renderer.svelte'
+import { getRenderer } from '../RendererContext.svelte'
 import { getTicker, onTick } from '../Ticker.svelte'
 import * as PIXI from 'pixi.js'
 import { onMount, tick } from 'svelte'

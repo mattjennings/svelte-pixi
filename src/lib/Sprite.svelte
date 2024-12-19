@@ -6,7 +6,7 @@
   import { afterUpdate } from 'svelte'
 
   import Container from './Container.svelte'
-  import { getRenderer } from './Renderer.svelte'
+  import { getRenderer } from './RendererContext.svelte'
   import type { PointLike } from './util/data-types'
   import { createApplyProps } from './util/props'
 

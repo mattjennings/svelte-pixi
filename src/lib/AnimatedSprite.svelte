@@ -4,7 +4,7 @@
    */
   import * as PIXI from 'pixi.js'
   import { afterUpdate, createEventDispatcher, onMount } from 'svelte'
-  import { getRenderer } from './Renderer.svelte'
+  import { getRenderer } from './RendererContext.svelte'
   import Container from './Container.svelte'
   import { createApplyProps } from './util/props'
   import type { PointLike } from './util/data-types'

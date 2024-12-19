@@ -7,7 +7,7 @@
   import { createApplyProps } from './util/props'
   import Container from './Container.svelte'
   import { afterUpdate } from 'svelte'
-  import { getRenderer } from './Renderer.svelte'
+  import { getRenderer } from './RendererContext.svelte'
   import type { PointLike } from './util/data-types'
 
   type T = $$Generic<PIXI.HTMLText>

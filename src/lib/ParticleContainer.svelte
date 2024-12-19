@@ -5,7 +5,7 @@
   import * as PIXI from 'pixi.js'
   import { afterUpdate } from 'svelte'
   import Container from './Container.svelte'
-  import { getRenderer } from './Renderer.svelte'
+  import { getRenderer } from './RendererContext.svelte'
 
   type T = $$Generic<PIXI.ParticleContainer>
   type $$Props = Container<T>['$$prop_def'] & {

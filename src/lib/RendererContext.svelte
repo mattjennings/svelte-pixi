@@ -1,10 +1,12 @@
 <script context="module" lang="ts">
-  export interface RendererContext<T extends PIXI.Renderer> {
+  export interface RendererContextValue<T extends PIXI.Renderer> {
     renderer: T
     invalidate: () => void
   }
 
-  export function getRenderer<T extends PIXI.Renderer>(): RendererContext<T> {
+  export function getRenderer<
+    T extends PIXI.Renderer,
+  >(): RendererContextValue<T> {
     return getContext('pixi/renderer')
   }
 </script>

@@ -10,7 +10,7 @@
   import { Assets } from 'pixi.js'
   import type * as PIXI from 'pixi.js'
   import { createEventDispatcher, onMount } from 'svelte'
-  import { getRenderer } from './Renderer.svelte'
+  import { getRenderer } from './RendererContext.svelte'
 
   interface $$Slots {
     default: {
