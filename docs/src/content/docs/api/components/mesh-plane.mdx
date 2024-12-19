@@ -1,0 +1,53 @@
+---
+title: MeshPlane
+pixi: https://pixijs.download/release/docs/PIXI.MeshPlane.html
+---
+
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+
+This component empowers you to have maximum flexibility to render any kind of WebGL visuals you can think of. This component assumes a certain level of WebGL knowledge.
+
+Pretty much all WebGL can be broken down into the following:
+
+- Geometry - The structure and data for the mesh. This can include anything from positions, uvs, normals, colors etc.
+- Shader - This is the shader that PixiJS will render the geometry with (attributes in the shader must match the geometry)
+- State - This is the state of WebGL required to render the mesh.
+
+## Usage
+
+```svelte live
+<script>
+  import { MeshPlane, AssetsLoader, onTick } from 'svelte-pixi'
+  import * as PIXI from 'pixi.js'
+  
+  let timer = 0;
+  let plane
+
+  $: buffer = plane ? plane.geometry.getAttribute('aPosition').buffer : null
+
+  onTick((ticker) => {
+    if (buffer) {
+      for (let i = 0; i < buffer.data.length; i++) {
+        buffer.data[i] += Math.sin(timer / 10 + i) * 0.5;
+      }
+      buffer.update();      
+      timer++
+    }
+  })
+</script>
+
+<AssetsLoader assets={['/assets/bg_grass.jpg']}>
+  <MeshPlane 
+    bind:instance={plane}
+    texture={PIXI.Texture.from('/assets/bg_grass.jpg')}
+    verticesX={10}
+    verticesY={10}
+    x={75} 
+    y={0} 
+  />
+</AssetsLoader>
+```
+
+## API
+
+<ComponentAPI component="MeshPlane.svelte" />

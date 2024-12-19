@@ -8,31 +8,25 @@
   import { getRenderer } from './Renderer.svelte'
   import { createApplyProps } from './util/props'
 
-  type T = $$Generic<PIXI.Mesh>
+  type T = $$Generic<PIXI.MeshPlane>
 
   type $$Props = Container<T>['$$prop_def'] & {
-    geometry: PIXI.Mesh['geometry']
-    shader: PIXI.MeshMaterial | PIXI.Shader
-    state?: PIXI.Mesh['state']
-    drawMode?: PIXI.Mesh['drawMode']
+    shader?: PIXI.MeshPlane['shader']
+    state?: PIXI.MeshPlane['state']
+    texture: PIXI.MeshPlaneOptions['texture']
+    verticesX: PIXI.MeshPlaneOptions['verticesX']
+    verticesY: PIXI.MeshPlaneOptions['verticesY']
   }
 
-  /**
-   * Includes vertex positions, face indices, normals, colors, UVs, and
-   * custom attributes within buffers, reducing the cost of passing all this data to the GPU.
-   * Can be shared between multiple Mesh objects.
-   *
-   * @type {PIXI.Geometry}
-   */
-  export let geometry: $$Props['geometry']
+  export let texture: $$Props['texture']
 
   /**
    * Represents the vertex and fragment shaders that processes the geometry and runs on the GPU.
    * Can be shared between multiple Mesh objects.
    *
-   * @type {PIXI.Shader|PIXI.MeshMaterial}
+   * @type {PIXI.Shader}
    */
-  export let shader: $$Props['shader']
+  export let shader: $$Props['shader'] = undefined
 
   /**
    * Represents the WebGL state the Mesh required to render, excludes shader and geometry.
@@ -42,19 +36,19 @@
    */
   export let state: $$Props['state'] = undefined
 
-  /**
-   * The way the Mesh should be drawn, can be any of the PIXI.DRAW_MODES constants.
-   *
-   * @type {PIXI.DRAW_MODES}
-   */
-  export let drawMode: $$Props['drawMode'] = undefined
+  export let verticesX: number = 10
+  export let verticesY: number = 10
 
   /**
    * The PIXI.Mesh instance. Can be set or bound to.
    *
    * @type {PIXI.Mesh}
    */
-  export let instance: T = new PIXI.Mesh(geometry, shader, state, drawMode) as T
+  export let instance: T = new PIXI.MeshPlane({
+    texture,
+    verticesX,
+    verticesY,
+  }) as T
 
   const { applyProp } = createApplyProps<PIXI.Mesh>(instance)
   const { invalidate } = getRenderer()
@@ -63,11 +57,9 @@
     invalidate()
   })
 
-  $: applyProp('geometry', geometry)
+  $: applyProp('texture', texture)
   $: applyProp('shader', shader)
   $: applyProp('state', state)
-  $: applyProp('drawMode', drawMode)
-  $: applyProp('drawMode', drawMode)
 </script>
 
 <Container

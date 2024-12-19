@@ -10,7 +10,7 @@ export {
 } from './Container.svelte'
 export { default as Graphics } from './Graphics.svelte'
 export { default as HTMLText } from './HTMLText.svelte'
-export { default as Mesh } from './Mesh.svelte'
+export { default as MeshPlane } from './MeshPlane.svelte'
 export { default as NineSlicePlane } from './NineSlicePlane.svelte'
 export { default as ParticleContainer } from './ParticleContainer.svelte'
 export { default as Renderer, getRenderer } from './Renderer.svelte'
