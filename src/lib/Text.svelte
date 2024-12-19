@@ -62,7 +62,7 @@
    *
    * @type {PIXI.Text}
    */
-  export let instance: T = new PIXI.Text(text, style) as T
+  export let instance: T = new PIXI.Text({ text, style }) as T
 
   const { invalidate } = getRenderer()
   const { applyProp } = createApplyProps<PIXI.Text>(instance)
