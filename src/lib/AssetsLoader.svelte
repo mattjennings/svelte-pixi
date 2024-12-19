@@ -30,13 +30,13 @@
   type $$Props = {
     preferWorkers?: boolean
     unload?: boolean
-    assets: Array<string | PIXI.UnresolvedAssetObject>
+    assets: Array<string | PIXI.UnresolvedAsset>
     bundleName: string
   }
 
   /**
    * An array of assets to load. These will get loaded as a bundle.
-   * @type {Array<string | PIXI.UnresolvedAssetObject>}
+   * @type {Array<string | PIXI.UnresolvedAsset>}
    */
   export let assets: $$Props['assets'] = []
 

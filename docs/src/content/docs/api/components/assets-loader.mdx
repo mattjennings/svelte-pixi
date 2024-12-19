@@ -61,6 +61,34 @@ Note that `PIXI.Assets` can only be initialized once.
 {/await}
 ```
 
+## Textures
+
+Starting with Pixi v8, textures **must** be loaded before use. In most cases, a root-level `<AssetsLoader />` 
+component should be used to load all assets used in your app. However you can always use another `<AssetsLoader />`
+when needed to load additional assets.
+
+```svelte
+<AssetsLoader assets={['/my-texture.png']}>
+  <Sprite texture={'/my-texture.png'} />
+</AssetsLoader>
+```
+
+Other options below would also work:
+
+```svelte
+{#await PIXI.Assets.load("/my-texture.png")}
+{:then texture}
+  <Sprite {texture} />
+{/await}
+```
+
+```svelte
+<AssetsLoader assets={['/my-texture.png']}>
+  <Sprite texture={PIXI.Assets.cache.get('/my-texture.png')} />
+</AssetsLoader>
+```
+
+
 ## API
 
 <ComponentAPI component="AssetsLoader.svelte" />

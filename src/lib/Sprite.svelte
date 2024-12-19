@@ -52,9 +52,21 @@
    *
    * @type {PIXI.Sprite}
    */
-  export let instance: T = new PIXI.Sprite(texture) as T
+  export let instance: T = new PIXI.Sprite() as T
 
-  const { applyProp } = createApplyProps<PIXI.Sprite>(instance)
+  const { applyProp } = createApplyProps<PIXI.Sprite>(instance, {
+    texture: (value, instance) => {
+      if (value) {
+        if (typeof value === 'string') {
+          instance.texture = PIXI.Assets.cache.get(value)
+        } else {
+          instance.texture = value
+        }
+      } else {
+        instance.texture = PIXI.Texture.EMPTY
+      }
+    },
+  })
   const { invalidate } = getRenderer()
 
   afterUpdate(() => {
@@ -65,7 +77,6 @@
   $: applyProp('blendMode', blendMode)
   $: applyProp('roundPixels', roundPixels)
   $: applyProp('texture', texture)
-  $: texture.on('update', () => invalidate())
 </script>
 
 <Container
