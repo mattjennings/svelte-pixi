@@ -9,7 +9,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
 ```svelte live
 <script>
   import * as PIXI from 'pixi.js'
-  import { Text, Sprite } from 'svelte-pixi'
+  import { Text, Sprite, AssetsLoader } from 'svelte-pixi'
   import { spring } from 'svelte/motion'
 
   let dragging = false
@@ -50,28 +50,30 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
   }
 </script>
 
-<Sprite
-  texture={PIXI.Texture.from('/assets/mushroom.png')}
-  anchor={0.5}
-  x={$position.x}
-  y={$position.y}
-  rotation={($position.x - startingPosition.x) * 0.02}
-  eventMode="static"
-  cursor="pointer"
-  zIndex={10}
-  on:pointerdown={handleDragStart}
-  on:pointerup={handleDragEnd}
-  on:pointerupoutside={handleDragEnd}
-  on:globalpointermove={handleDrag}
-/>
+<AssetsLoader assets={['/assets/mushroom.png']} >
+  <Sprite
+    texture={'/assets/mushroom.png'}
+    anchor={0.5}
+    x={$position.x}
+    y={$position.y}
+    rotation={($position.x - startingPosition.x) * 0.02}
+    eventMode="static"
+    cursor="pointer"
+    zIndex={10}
+    on:pointerdown={handleDragStart}
+    on:pointerup={handleDragEnd}
+    on:pointerupoutside={handleDragEnd}
+    on:globalpointermove={handleDrag}
+  />
 
-<Text
-  x={360}
-  y={300}
-  anchor={0.5}
-  text="Click and drag the mushroom"
-  style={{ fill: 'white', fontSize: 20 }}
-/>
+  <Text
+    x={360}
+    y={300}
+    anchor={0.5}
+    text="Click and drag the mushroom"
+    style={{ fill: 'white', fontSize: 20 }}
+  />
+</AssetsLoader>
 ```
 
 ## Tween

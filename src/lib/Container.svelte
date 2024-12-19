@@ -54,6 +54,7 @@
     isRenderGroup?: PIXI.Container['isRenderGroup']
     mask?: PIXI.Container['mask']
     name?: PIXI.Container['name']
+    label?: PIXI.Container['label']
     pivot?: PointLike
     position?: PointLike
     renderable?: PIXI.Container['renderable']
@@ -256,9 +257,17 @@
   /**
    * The instance name of the object.
    *
+   * @deprecated use `label` instead, name will map to `label`
    * @type {string}
    */
   export let name: $$Props['name'] = undefined
+
+  /**
+   * The instance label of the object.
+   *
+   * @type {string}
+   */
+  export let label: $$Props['label'] = undefined
 
   /**
    * The center of rotation, scaling, and skewing for this display object in its local space.
@@ -507,7 +516,7 @@
   $: applyProp('interactive', interactive)
   $: applyProp('interactiveChildren', interactiveChildren)
   $: applyProp('mask', mask)
-  $: applyProp('name', name)
+  $: applyProp('label', label ?? name)
   $: applyProp('pivot', pivot)
   $: applyProp('position', position)
   $: applyProp('renderable', renderable)
