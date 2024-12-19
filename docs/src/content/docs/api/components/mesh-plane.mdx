@@ -15,9 +15,9 @@ Pretty much all WebGL can be broken down into the following:
 
 ## Usage
 
-```svelte live
+```svelte live props={{ assets: ['/assets/bg_grass.jpg'] }}
 <script>
-  import { MeshPlane, AssetsLoader, onTick } from 'svelte-pixi'
+  import { MeshPlane, onTick } from 'svelte-pixi'
   import * as PIXI from 'pixi.js'
   
   let timer = 0;
@@ -36,16 +36,14 @@ Pretty much all WebGL can be broken down into the following:
   })
 </script>
 
-<AssetsLoader assets={['/assets/bg_grass.jpg']}>
-  <MeshPlane 
-    bind:instance={plane}
-    texture={PIXI.Texture.from('/assets/bg_grass.jpg')}
-    verticesX={10}
-    verticesY={10}
-    x={75} 
-    y={0} 
-  />
-</AssetsLoader>
+<MeshPlane 
+  bind:instance={plane}
+  texture={PIXI.Texture.from('/assets/bg_grass.jpg')}
+  verticesX={10}
+  verticesY={10}
+  x={75} 
+  y={0} 
+/>
 ```
 
 ## API

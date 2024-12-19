@@ -9,28 +9,20 @@ Sprites are the base for all textured objects that are rendered to the screen
 
 ## Usage
 
-```svelte live
+```svelte live props={{ assets: ['/assets/adventurer.png'] }}
 <script>
   import * as PIXI from 'pixi.js'
-  import { Sprite, AssetsLoader } from 'svelte-pixi'
+  import { Sprite } from 'svelte-pixi'
 </script>
 
-<AssetsLoader assets={['/assets/adventurer.png']}>
-  <Sprite
-    x={360}
-    y={200}
-    texture={PIXI.Texture.from('/assets/adventurer.png')}
-    anchor={0.5}
-    scale={3}
-  />
-</AssetsLoader>
+<Sprite
+  x={360}
+  y={200}
+  texture={PIXI.Texture.from('/assets/adventurer.png')}
+  anchor={0.5}
+  scale={3}
+/>
 ```
-
-## Textures
-
-If a string is passed in as the texture, Sprite will attempt to load from the Assets cache using the value as the key.
-
-[Learn more about loading Texture assets](/api/components/assets-loader#textures)
 
 ## API
 

@@ -9,7 +9,7 @@ Allows you to stretch a texture using 9-slice scaling. The corners will remain u
 
 ## Usage
 
-```svelte live
+```svelte live props={{ assets: ['/assets/nine-slice-blue.png'] }}
 <script>
   import * as PIXI from 'pixi.js'
   import { AssetsLoader, NineSliceSprite, onTick } from 'svelte-pixi'
@@ -26,21 +26,19 @@ Allows you to stretch a texture using 9-slice scaling. The corners will remain u
   })
 </script>
 
-<AssetsLoader assets={['/assets/nine-slice-blue.png']}>
-  <NineSliceSprite
-    x={360}
-    y={200}
-    texture={PIXI.Texture.from('/assets/nine-slice-blue.png')}
-    leftWidth={12}
-    topHeight={12}
-    rightWidth={12}
-    bottomHeight={12}
-    {width}
-    {height}
-    pivot={{ x: width / 2, y: height / 2 }}
-    scale={2}
-  />
-</AssetsLoader>
+<NineSliceSprite
+  x={360}
+  y={200}
+  texture={PIXI.Texture.from('/assets/nine-slice-blue.png')}
+  leftWidth={12}
+  topHeight={12}
+  rightWidth={12}
+  bottomHeight={12}
+  {width}
+  {height}
+  pivot={{ x: width / 2, y: height / 2 }}
+  scale={2}
+/>
 ```
 
 ## API

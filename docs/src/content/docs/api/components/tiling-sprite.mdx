@@ -7,10 +7,10 @@ import ComponentAPI from '$lib/components/ComponentAPI.astro'
 
 ## Usage
 
-```svelte live
+```svelte live props={{ assets: ['/assets/tiling-sprite.jpeg'] }}
 <script>
   import { onMount } from 'svelte'
-  import { TilingSprite, AssetsLoader, onTick } from 'svelte-pixi'
+  import { TilingSprite, onTick } from 'svelte-pixi'
   import * as PIXI from 'pixi.js'
 
   let count = 0
