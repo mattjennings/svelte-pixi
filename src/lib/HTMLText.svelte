@@ -13,7 +13,7 @@
   type T = $$Generic<PIXI.HTMLText>
   type $$Props = Container<T>['$$prop_def'] & {
     text: PIXI.HTMLText['text']
-    style?: PIXI.IHTMLTextStyle
+    style?: PIXI.HTMLTextStyle
     anchor?: PointLike
     blendMode?: PIXI.Sprite['blendMode']
     roundPixels?: PIXI.Sprite['roundPixels']
@@ -60,7 +60,7 @@
    *
    * @type {PIXI.HTMLText}
    */
-  export let instance: T = new PIXI.HTMLText(text, style as any) as T
+  export let instance: T = new PIXI.HTMLText({ text, style }) as T
 
   const { invalidate } = getRenderer()
   const { applyProp } = createApplyProps<PIXI.HTMLText>(instance)
