@@ -50,7 +50,11 @@
    *
    * @type {PIXI.BitmapText}
    */
-  export let instance: T = new PIXI.BitmapText({ text, style }) as T
+  export let instance: T = new PIXI.BitmapText({
+    text,
+    style,
+    isRenderGroup: $$restProps.isRenderGroup,
+  }) as T
 
   const { applyProp } = createApplyProps<PIXI.BitmapText>(instance)
   const { invalidate } = getRenderer()

@@ -1,6 +1,6 @@
 ---
-title: NineSlicePlane
-pixi: https://pixijs.download/release/docs/PIXI.NineSlicePlane.html
+title: NineSliceSprite
+pixi: https://pixijs.download/release/docs/PIXI.NineSliceSprite.html
 ---
 
 import ComponentAPI from '$lib/components/ComponentAPI.astro'
@@ -12,7 +12,7 @@ Allows you to stretch a texture using 9-slice scaling. The corners will remain u
 ```svelte live
 <script>
   import * as PIXI from 'pixi.js'
-  import { NineSlicePlane, onTick } from 'svelte-pixi'
+  import { AssetsLoader, NineSliceSprite, onTick } from 'svelte-pixi'
 
   let width = 100
   let height = 100
@@ -26,21 +26,23 @@ Allows you to stretch a texture using 9-slice scaling. The corners will remain u
   })
 </script>
 
-<NineSlicePlane
-  x={360}
-  y={200}
-  texture={PIXI.Texture.from('/assets/nine-slice-blue.png')}
-  leftWidth={12}
-  topHeight={12}
-  rightWidth={12}
-  bottomHeight={12}
-  {width}
-  {height}
-  pivot={{ x: width / 2, y: height / 2 }}
-  scale={2}
-/>
+<AssetsLoader assets={['/assets/nine-slice-blue.png']}>
+  <NineSliceSprite
+    x={360}
+    y={200}
+    texture={PIXI.Texture.from('/assets/nine-slice-blue.png')}
+    leftWidth={12}
+    topHeight={12}
+    rightWidth={12}
+    bottomHeight={12}
+    {width}
+    {height}
+    pivot={{ x: width / 2, y: height / 2 }}
+    scale={2}
+  />
+</AssetsLoader>
 ```
 
 ## API
 
-<ComponentAPI component="NineSlicePlane.svelte" />
+<ComponentAPI component="NineSliceSprite.svelte" />

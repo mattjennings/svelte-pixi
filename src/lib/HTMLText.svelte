@@ -60,7 +60,11 @@
    *
    * @type {PIXI.HTMLText}
    */
-  export let instance: T = new PIXI.HTMLText({ text, style }) as T
+  export let instance: T = new PIXI.HTMLText({
+    text,
+    style,
+    isRenderGroup: $$restProps.isRenderGroup,
+  }) as T
 
   const { invalidate } = getRenderer()
   const { applyProp } = createApplyProps<PIXI.HTMLText>(instance)

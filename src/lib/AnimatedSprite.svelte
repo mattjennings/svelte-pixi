@@ -77,7 +77,11 @@
    *
    * @type {PIXI.AnimatedSprite}
    */
-  export let instance: T = new PIXI.AnimatedSprite(textures, autoUpdate) as T
+  export let instance: T = new PIXI.AnimatedSprite({
+    textures,
+    autoUpdate,
+    isRenderGroup: $$restProps.isRenderGroup,
+  }) as T
 
   const { applyProp } = createApplyProps<PIXI.AnimatedSprite, $$Props>(
     instance,

@@ -8,21 +8,21 @@
   import { getRenderer } from './Renderer.svelte'
   import { createApplyProps } from './util/props'
 
-  type T = $$Generic<PIXI.NineSlicePlane>
+  type T = $$Generic<PIXI.NineSliceSprite>
   type $$Props = Container<T>['$$prop_def'] & {
-    texture: PIXI.NineSlicePlane['texture']
-    leftWidth: PIXI.NineSlicePlane['leftWidth']
-    rightWidth: PIXI.NineSlicePlane['rightWidth']
-    topHeight: PIXI.NineSlicePlane['topHeight']
-    bottomHeight: PIXI.NineSlicePlane['bottomHeight']
-    geometry?: PIXI.NineSlicePlane['geometry']
-    shader?: PIXI.MeshMaterial | PIXI.Shader
-    state?: PIXI.NineSlicePlane['state']
-    drawMode?: PIXI.NineSlicePlane['drawMode']
+    texture: PIXI.NineSliceSprite['texture']
+    leftWidth: PIXI.NineSliceSprite['leftWidth']
+    rightWidth: PIXI.NineSliceSprite['rightWidth']
+    topHeight: PIXI.NineSliceSprite['topHeight']
+    bottomHeight: PIXI.NineSliceSprite['bottomHeight']
+    width?: PIXI.NineSliceSprite['width']
+    height?: PIXI.NineSliceSprite['height']
+    shader?: PIXI.Shader
+    roundPixels?: PIXI.NineSliceSprite['roundPixels']
   }
 
   /**
-   * The texture to use on the NineSlicePlane.
+   * The texture to use on the NineSliceSprite.
    *
    * @type {PIXI.Texture}
    */
@@ -57,15 +57,6 @@
   export let bottomHeight: $$Props['bottomHeight']
 
   /**
-   * Includes vertex positions, face indices, normals, colors, UVs, and
-   * custom attributes within buffers, reducing the cost of passing all this data to the GPU.
-   * Can be shared between multiple Mesh objects.
-   *
-   * @type {PIXI.Geometry}
-   */
-  export let geometry: $$Props['geometry'] = undefined
-
-  /**
    * Represents the vertex and fragment shaders that processes the geometry and runs on the GPU.
    * Can be shared between multiple Mesh objects.
    *
@@ -73,38 +64,31 @@
    */
   export let shader: $$Props['shader'] = undefined
 
-  /**
-   * Represents the WebGL state the Mesh required to render, excludes shader and geometry.
-   * E.g., blend mode, culling, depth testing, direction of rendering triangles, backface, etc.
-   *
-   * @type {PIXI.State}
-   */
-  export let state: $$Props['state'] = undefined
+  export let width: $$Props['width'] = undefined
+  export let height: $$Props['height'] = undefined
+  export let roundPixels: $$Props['roundPixels'] = undefined
 
   /**
-   * The way the Mesh should be drawn, can be any of the PIXI.DRAW_MODES constants.
+   * The PIXI.NineSliceSprite instance. Can be set or bound to.
    *
-   * @type {PIXI.DRAW_MODES}
+   * @type {PIXI.NineSliceSprite}
    */
-  export let drawMode: $$Props['drawMode'] = undefined
-
-  /**
-   * The PIXI.NineSlicePlane instance. Can be set or bound to.
-   *
-   * @type {PIXI.NineSlicePlane}
-   */
-  export let instance: T = new PIXI.NineSlicePlane(
+  export let instance: T = new PIXI.NineSliceSprite({
     texture,
+    width,
+    height,
     leftWidth,
     topHeight,
     rightWidth,
     bottomHeight,
-  ) as T
+    roundPixels,
+    isRenderGroup: $$restProps.isRenderGroup,
+  }) as T
 
   const { invalidate } = getRenderer()
 
   const { applyProps, applyProp } = createApplyProps<
-    PIXI.NineSlicePlane,
+    PIXI.NineSliceSprite,
     $$Props
   >(instance)
 
@@ -112,18 +96,17 @@
     invalidate()
   })
 
-  $: applyProp('geometry', geometry)
   $: applyProp('shader', shader)
-  $: applyProp('state', state)
-  $: applyProp('drawMode', drawMode)
   $: applyProp('texture', texture)
-
   $: applyProps({
+    width,
+    height,
     leftWidth,
     rightWidth,
     topHeight,
     bottomHeight,
   })
+  $: applyProp('roundPixels', roundPixels)
 
   $: texture.on('update', () => invalidate())
 </script>

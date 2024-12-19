@@ -52,7 +52,12 @@
    *
    * @type {PIXI.Sprite}
    */
-  export let instance: T = new PIXI.Sprite() as T
+  export let instance: T = new PIXI.Sprite({
+    texture,
+    roundPixels,
+    blendMode,
+    isRenderGroup: $$restProps.isRenderGroup,
+  }) as T
 
   const { applyProp } = createApplyProps<PIXI.Sprite>(instance)
   const { invalidate } = getRenderer()

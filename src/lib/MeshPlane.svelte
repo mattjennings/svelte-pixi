@@ -48,6 +48,7 @@
     texture,
     verticesX,
     verticesY,
+    isRenderGroup: $$restProps.isRenderGroup,
   }) as T
 
   const { applyProp } = createApplyProps<PIXI.Mesh>(instance)

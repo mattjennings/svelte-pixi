@@ -44,7 +44,9 @@
    *
    * @type {PIXI.Graphics}
    */
-  export let instance: T = new PIXI.Graphics() as T
+  export let instance: T = new PIXI.Graphics({
+    isRenderGroup: $$restProps.isRenderGroup,
+  }) as T
 
   const { invalidate } = getRenderer()
 
