@@ -131,9 +131,9 @@ export function track<T>(getter: () => T, initial?: T): Writable<T> {
 
   onMount(() => {
     if (!ticker) {
-      renderer.on('postrender', update)
+      renderer.runners.postrender.add(update)
       return () => {
-        renderer.off('postrender', update)
+        renderer.runners.postrender.remove(update)
       }
     }
   })
