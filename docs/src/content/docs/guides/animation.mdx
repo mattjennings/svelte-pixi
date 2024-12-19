@@ -51,7 +51,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
 </script>
 
 <Sprite
-  texture={'/assets/mushroom.png'}
+  texture={PIXI.Texture.from('/assets/mushroom.png')}
   anchor={0.5}
   x={$position.x}
   y={$position.y}
