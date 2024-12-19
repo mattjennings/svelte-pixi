@@ -154,16 +154,6 @@
   export let hello: $$Props['hello'] = undefined
 
   /**
-   * Whether to stop PixiJS from dynamically importing default extensions for the renderer.
-   * It is false by default, and means PixiJS will load all the default extensions,
-   * based on the environment e.g browser/webworker. If you set this to true,
-   * then you will need to manually import the systems and extensions you need.
-   *
-   * @type {boolean}
-   */
-  export let skipExtensionImports: $$Props['skipExtensionImports'] = undefined
-
-  /**
    * Whether to enable multi-view rendering. Set to true when rendering to multiple canvases on the dom.
    * @type {boolean}
    */
@@ -237,6 +227,16 @@
   export let render: 'auto' | 'demand' | false = 'auto'
 
   export let roundPixels: $$Props['roundPixels'] = undefined
+
+  /**
+   * Whether to stop PixiJS from dynamically importing default extensions for the renderer.
+   * It is false by default, and means PixiJS will load all the default extensions,
+   * based on the environment e.g browser/webworker. If you set this to true,
+   * then you will need to manually import the systems and extensions you need.
+   *
+   * @type {boolean}
+   */
+  export let skipExtensionImports: $$Props['skipExtensionImports'] = undefined
 
   /**
    * If set to true, this will enable the garbage collector on the GPU.
