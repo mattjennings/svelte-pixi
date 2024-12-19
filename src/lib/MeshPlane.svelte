@@ -61,6 +61,8 @@
   $: applyProp('texture', texture)
   $: applyProp('shader', shader)
   $: applyProp('state', state)
+
+  $: texture.on('update', () => invalidate())
 </script>
 
 <Container

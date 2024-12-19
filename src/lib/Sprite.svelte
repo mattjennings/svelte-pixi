@@ -70,6 +70,7 @@
   $: applyProp('blendMode', blendMode)
   $: applyProp('roundPixels', roundPixels)
   $: applyProp('texture', texture)
+  $: texture.on('update', () => invalidate())
 </script>
 
 <Container

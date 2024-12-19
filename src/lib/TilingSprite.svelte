@@ -126,6 +126,8 @@
   $: applyProp('tileTransform', tileTransform)
   $: applyProp('uvRespectAnchor', uvRespectAnchor)
   $: applyProp('width', width)
+
+  $: texture.on('update', () => invalidate())
 </script>
 
 <Container
