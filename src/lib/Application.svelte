@@ -105,6 +105,7 @@
    */
   export let eventFeatures: $$Props['eventFeatures'] = undefined
 
+  export let preference: $$Props['preference'] = undefined
   /**
    * Parameter passed to webgl context, set to "high-performance"
    * for devices with dual graphics card. (WebGL only).
@@ -171,6 +172,7 @@
             resizeTo,
             eventMode,
             eventFeatures,
+            preference,
           }),
         )
         .then(() => {

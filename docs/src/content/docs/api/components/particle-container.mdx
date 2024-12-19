@@ -96,15 +96,7 @@ Note: when working with thousands of components, it is **much** more performant 
   <input type="range" min="0" max="10000" step="100" bind:value={amount} />
 </label>
 
-<ParticleContainer
-  bind:instance={container}
-  autoResize
-  properties={{
-    scale: true,
-    position: true,
-    rotation: true,
-  }}
-/>
+<ParticleContainer bind:instance={container} />
 ```
 
 ## API

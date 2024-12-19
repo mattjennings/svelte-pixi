@@ -6,34 +6,15 @@
   import { afterUpdate } from 'svelte'
   import Container from './Container.svelte'
   import { getRenderer } from './Renderer.svelte'
-  import { parsePoint, type PointLike } from './util/data-types'
   import { createApplyProps } from './util/props'
 
-  type T = $$Generic<PIXI.SimplePlane>
+  type T = $$Generic<PIXI.Mesh>
+
   type $$Props = Container<T>['$$prop_def'] & {
-    texture: PIXI.SimplePlane['texture']
-    vertices: PointLike
-    geometry?: PIXI.SimplePlane['geometry']
-    shader?: PIXI.MeshMaterial | PIXI.Shader
-    state?: PIXI.SimplePlane['state']
-    drawMode?: PIXI.SimplePlane['drawMode']
+    geometry: PIXI.Mesh['geometry']
+    shader: PIXI.Shader
+    state?: PIXI.Mesh['state']
   }
-
-  /**
-   * The texture to use
-   *
-   * @type {PIXI.Texture}
-   */
-  export let texture: $$Props['texture']
-
-  /**
-   * The number of vertices in the plane. This is only used on initial mount.
-   * If you need to update the vertices, you will have to update the geometry buffer
-   * from the instance.
-   *
-   * @type {PointLike}
-   */
-  export let vertices: $$Props['vertices']
 
   /**
    * Includes vertex positions, face indices, normals, colors, UVs, and
@@ -42,7 +23,7 @@
    *
    * @type {PIXI.Geometry}
    */
-  export let geometry: $$Props['geometry'] = undefined
+  export let geometry: $$Props['geometry']
 
   /**
    * Represents the vertex and fragment shaders that processes the geometry and runs on the GPU.
@@ -50,7 +31,7 @@
    *
    * @type {PIXI.Shader|PIXI.MeshMaterial}
    */
-  export let shader: $$Props['shader'] = undefined
+  export let shader: $$Props['shader']
 
   /**
    * Represents the WebGL state the Mesh required to render, excludes shader and geometry.
@@ -61,24 +42,17 @@
   export let state: $$Props['state'] = undefined
 
   /**
-   * The way the Mesh should be drawn, can be any of the PIXI.DRAW_MODES constants.
+   * The PIXI.Mesh instance. Can be set or bound to.
    *
-   * @type {PIXI.DRAW_MODES}
+   * @type {PIXI.Mesh}
    */
-  export let drawMode: $$Props['drawMode'] = undefined
+  export let instance: T = new PIXI.Mesh({
+    geometry,
+    shader,
+    state,
+  }) as T
 
-  /**
-   * The PIXI.SimplePlane instance. Can be set or bound to.
-   *
-   * @type {PIXI.SimplePlane}
-   */
-  export let instance: T = new PIXI.SimplePlane(
-    texture,
-    parsePoint(vertices).x,
-    parsePoint(vertices).y,
-  ) as T
-
-  const { applyProp } = createApplyProps<PIXI.SimplePlane>(instance)
+  const { applyProp } = createApplyProps<PIXI.Mesh>(instance)
   const { invalidate } = getRenderer()
 
   afterUpdate(() => {
@@ -88,10 +62,6 @@
   $: applyProp('geometry', geometry)
   $: applyProp('shader', shader)
   $: applyProp('state', state)
-  $: applyProp('drawMode', drawMode)
-  $: applyProp('texture', texture)
-
-  $: texture.on('update', () => invalidate())
 </script>
 
 <Container
