@@ -35,12 +35,12 @@ Note: when working with thousands of components, it is **much** more performant 
   // create stars for amount value
   $: {
     // cleanup previous stars
-    stars.forEach((star) => star.destroy())
+    stars.forEach((star) => container.removeParticle(star))
 
     // create stars
     if (container) {
       stars = new Array(amount).fill(null).map(() => {
-        const star = new PIXI.Sprite(PIXI.Texture.from('/assets/star.png'))
+        const star = new PIXI.Particle(PIXI.Texture.from('/assets/star.png'))
         const deg = Math.random() * Math.PI * 2
         const distance = Math.random() * 50 + 1
 
@@ -58,7 +58,7 @@ Note: when working with thousands of components, it is **much** more performant 
       })
 
       if (stars.length) {
-        container.addChild(...stars)
+        container.addParticle(...stars)        
       }
     }
   }
@@ -67,8 +67,10 @@ Note: when working with thousands of components, it is **much** more performant 
     const z = star.z - cameraZ
     const distance = Math.max(0, (2000 - z) / 2000)
 
-    star.scale.set(distance * starSize)
-    star.anchor.set(0.5, 0.7)
+    star.scaleX = distance * starSize
+    star.scaleY = distance * starSize
+    star.anchorX = 0.5
+    star.anchorY = 0.7
 
     star.x = star.initX * (fov / z) * width + width / 2
     star.y = star.initY * (fov / z) * height + height / 2
@@ -82,9 +84,9 @@ Note: when working with thousands of components, it is **much** more performant 
   })
 
   onMount(() => {
-    // make sure to destroy stars on unmount
+    // make sure to remove stars on unmount
     return () => {
-      stars.forEach((star) => star.destroy())
+      stars.forEach((star) => container.removeParticle(star))
     }
   })
 </script>

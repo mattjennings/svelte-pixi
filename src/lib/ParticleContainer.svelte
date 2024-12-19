@@ -9,46 +9,47 @@
 
   type T = $$Generic<PIXI.ParticleContainer>
   type $$Props = Container<T>['$$prop_def'] & {
-    maxSize?: number
-    properties?: PIXI.IParticleProperties
-    batchSize?: number
-    autoResize?: boolean
+    dynamicProperties?: PIXI.ParticleContainerOptions['dynamicProperties']
+    shader?: PIXI.ParticleContainerOptions['shader']
+    roundPixels?: PIXI.ParticleContainerOptions['roundPixels']
+    texture?: PIXI.ParticleContainerOptions['texture']
+    particles?: PIXI.ParticleContainerOptions['particles']
   }
 
   /**
-   * The maximum number of particles that can be rendered by the container.
-   * Affects size of allocated buffers.
+   * @type {Record<string, boolean}
    */
-  export let maxSize: $$Props['maxSize'] = 1500
-
+  export let dynamicProperties: $$Props['dynamicProperties'] = undefined
   /**
-   * The properties of children that should be uploaded to the gpu and applied.
-   *
-   * @type {PIXI.IParticleProperties}
+   * @type {PIXI.Shader}
    */
-  export let properties: $$Props['properties'] = undefined
-
+  export let shader: $$Props['shader'] = undefined
   /**
-   * Number of particles per batch. If less than maxSize, it uses maxSize instead.
+   * @type {boolean}
    */
-  export let batchSize: $$Props['batchSize'] = 16384
-
+  export let roundPixels: $$Props['roundPixels'] = undefined
   /**
-   * If true, container allocates more batches in case there are more than maxSize particles.
+   * @type {PIXI.Texture}
    */
-  export let autoResize: $$Props['autoResize'] = false
+  export let texture: $$Props['texture'] = undefined
+  /**
+   * @type {PIXI.IParticle[]}
+   */
+  export let particles: $$Props['particles'] = undefined
 
   /**
    * The PIXI.ParticleContainer instance. Can be set or bound to.
    *
    * @type {PIXI.ParticleContainer}
    */
-  export let instance: T = new PIXI.ParticleContainer(
-    maxSize,
-    properties,
-    batchSize,
-    autoResize,
-  ) as T
+  export let instance: T = new PIXI.ParticleContainer({
+    dynamicProperties,
+    shader,
+    roundPixels,
+    texture,
+    particles,
+    isRenderGroup: $$restProps.isRenderGroup,
+  }) as T
 
   const { invalidate } = getRenderer()
 
