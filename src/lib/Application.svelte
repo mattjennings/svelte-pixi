@@ -198,6 +198,8 @@
     on:invalidate={() => {
       invalidated = true
     }}
+    on:renderStart
+    on:render
     on:prerender
     on:postrender
   >

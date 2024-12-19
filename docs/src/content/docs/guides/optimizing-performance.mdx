@@ -8,7 +8,7 @@ This page will outline a few scenarios where you may be able to optimize perform
 
 You may find yourself needing to render and update many components at once. Take the [app on the homepage](/), for example. If we were to recreate this, we might imagine every Star as a `<Sprite />` component that receives props every frame.
 
-```svelte live props={{ stats: true }}
+```svelte live props={{ stats: true, assets: ['/assets/star.png'] }}
 <script>
   import * as PIXI from 'pixi.js'
   import { Sprite, onTick } from 'svelte-pixi'
@@ -68,7 +68,7 @@ Notice how the performance sharply drops as you increase the amount of stars wit
 
 Let's take another approach by using Pixi a bit more directly:
 
-```svelte live props={{ stats: true }}
+```svelte live props={{ stats: true, assets: ['/assets/star.png'] }}
 <script>
   import * as PIXI from 'pixi.js'
   import { onTick, Container } from 'svelte-pixi'
@@ -177,7 +177,7 @@ You can set `render="demand"` on the `Application` component to opt into this be
   height={400}
   antialias
   render="demand"
-  on:postrender={() => console.log('render')}
+  on:render={() => console.log('render')}
 >
   <DraggableCircle x={200} y={200} />
   <Text

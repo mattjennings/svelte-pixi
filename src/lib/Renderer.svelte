@@ -108,39 +108,61 @@
    */
   export let instance: T | undefined = undefined
 
-  const autoDetectPromise = instance
-    ? Promise.resolve(instance)
-    : PIXI.autoDetectRenderer(
-        omitUndefined({
-          width,
-          height,
-          autoDensity,
-          antialias,
-          preserveDrawingBuffer,
-          premultipliedAlpha,
-          resolution,
-          backgroundColor,
-          backgroundAlpha,
-          clearBeforeRender,
-          powerPreference,
-          eventMode,
-          eventFeatures,
-        }),
-      )
-        .then((renderer) => {
-          instance = renderer as T
-          dispatch('init', { instance })
+  const autoDetectPromise = (
+    instance
+      ? Promise.resolve(instance)
+      : PIXI.autoDetectRenderer(
+          omitUndefined({
+            width,
+            height,
+            autoDensity,
+            antialias,
+            preserveDrawingBuffer,
+            premultipliedAlpha,
+            resolution,
+            backgroundColor,
+            backgroundAlpha,
+            clearBeforeRender,
+            powerPreference,
+            eventMode,
+            eventFeatures,
+          }),
+        )
+  )
+    .then((renderer) => {
+      instance = renderer as T
+      dispatch('init', { instance })
 
-          instance.runners.prerender.add(() => dispatch('prerender'))
-          instance.runners.postrender.add(() => dispatch('postrender'))
-          instance.runners.render.add(() => dispatch('render'))
-          instance.runners.renderStart.add(() => dispatch('renderStart'))
+      // i don't know why these listeners take objects of their own name
+      instance.runners.prerender.add({
+        prerender: () => {
+          dispatch('prerender')
+        },
+      })
 
-          return instance
-        })
-        .catch((err) => {
-          console.error(`Error Renderer instance: ${err}`)
-        })
+      instance.runners.postrender.add({
+        postrender: () => {
+          dispatch('postrender')
+        },
+      })
+
+      instance.runners.render.add({
+        render: () => {
+          dispatch('render')
+        },
+      })
+
+      instance.runners.renderStart.add({
+        renderStart: () => {
+          dispatch('renderStart')
+        },
+      })
+
+      return instance
+    })
+    .catch((err) => {
+      console.error(`Error Renderer instance: ${err}`)
+    })
 
   setContext('pixi/renderer', {
     renderer: instance,
@@ -166,7 +188,7 @@
   <slot name="loading" />
 {:then instance}
   {#if instance}
-    <RendererContext renderer={instance}>
+    <RendererContext renderer={instance} on:invalidate>
       <slot />
       {#if $$slots.view}
         <div use:view>
