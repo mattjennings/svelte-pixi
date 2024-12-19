@@ -23,7 +23,9 @@ export function warning(condition: boolean, message: string): void {
   } catch (x) {}
 }
 
-export function omitUndefined<T extends Record<string, any>>(object: T) {
+export function omitUndefined<T extends Record<string, any>>(
+  object: Partial<T>,
+): Partial<T> {
   return Object.keys(object).reduce((acc, key) => {
     if (typeof object[key] === 'undefined') {
       return acc
