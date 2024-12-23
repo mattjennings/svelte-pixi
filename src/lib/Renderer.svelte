@@ -309,10 +309,12 @@
         },
       }
 
-      instance.runners.prerender.add(listeners)
-      instance.runners.postrender.add(listeners)
-      instance.runners.render.add(listeners)
-      instance.runners.renderStart.add(listeners)
+      if (instance) {
+        instance.runners.prerender.add(listeners)
+        instance.runners.postrender.add(listeners)
+        instance.runners.render.add(listeners)
+        instance.runners.renderStart.add(listeners)
+      }
 
       return instance
     })

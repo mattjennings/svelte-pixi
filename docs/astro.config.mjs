@@ -17,6 +17,7 @@ export default defineConfig({
   // },
   vite: {
     optimizeDeps: {
+      include: ['../../astro-live-code'],
       exclude:
         process.env.NODE_ENV === 'production' ? ['pixi.js', 'svelte-pixi'] : [],
     },

@@ -93,8 +93,8 @@ importers:
         specifier: ^4.0.3
         version: 4.0.3(typescript@5.2.2)
       astro-live-code:
-        specifier: ^0.0.4
-        version: 0.0.4
+        specifier: ^0.0.5
+        version: 0.0.5
       sharp:
         specifier: ^0.32.5
         version: 0.32.6
@@ -180,63 +180,6 @@ importers:
         specifier: workspace:*
         version: link:../..
     devDependencies:
-      '@pixi/accessibility':
-        specifier: ^7.3.2
-        version: 7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)(@pixi/events@7.3.2)
-      '@pixi/app':
-        specifier: ^7.3.2
-        version: 7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)
-      '@pixi/assets':
-        specifier: 7.3.2
-        version: 7.3.2(@pixi/core@7.3.2)(@pixi/utils@7.3.2)
-      '@pixi/basis':
-        specifier: ^7.3.2
-        version: 7.3.2(@pixi/assets@7.3.2)(@pixi/compressed-textures@7.3.2)(@pixi/core@7.3.2)
-      '@pixi/compressed-textures':
-        specifier: ^7.3.2
-        version: 7.3.2(@pixi/assets@7.3.2)(@pixi/core@7.3.2)
-      '@pixi/core':
-        specifier: ^7.3.2
-        version: 7.3.2
-      '@pixi/display':
-        specifier: ^7.3.2
-        version: 7.3.2(@pixi/core@7.3.2)
-      '@pixi/events':
-        specifier: ^7.3.2
-        version: 7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)
-      '@pixi/extract':
-        specifier: ^7.3.2
-        version: 7.3.2(@pixi/core@7.3.2)
-      '@pixi/graphics':
-        specifier: ^7.3.2
-        version: 7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)(@pixi/sprite@7.3.2)
-      '@pixi/mesh':
-        specifier: ^7.3.2
-        version: 7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)
-      '@pixi/particle-container':
-        specifier: ^7.3.2
-        version: 7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)(@pixi/sprite@7.3.2)
-      '@pixi/prepare':
-        specifier: ^7.3.2
-        version: 7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)(@pixi/graphics@7.3.2)(@pixi/text@7.3.2)
-      '@pixi/sprite':
-        specifier: ^7.3.2
-        version: 7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)
-      '@pixi/sprite-animated':
-        specifier: ^7.3.2
-        version: 7.3.2(@pixi/core@7.3.2)(@pixi/sprite@7.3.2)
-      '@pixi/sprite-tiling':
-        specifier: ^7.3.2
-        version: 7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)(@pixi/sprite@7.3.2)
-      '@pixi/spritesheet':
-        specifier: ^7.3.2
-        version: 7.3.2(@pixi/assets@7.3.2)(@pixi/core@7.3.2)
-      '@pixi/text':
-        specifier: ^7.3.2
-        version: 7.3.2(@pixi/core@7.3.2)(@pixi/sprite@7.3.2)
-      '@pixi/text-bitmap':
-        specifier: ^7.3.2
-        version: 7.3.2(@pixi/assets@7.3.2)(@pixi/core@7.3.2)(@pixi/display@7.3.2)(@pixi/mesh@7.3.2)(@pixi/text@7.3.2)
       '@sveltejs/vite-plugin-svelte':
         specifier: ^3.0.0
         version: 3.0.1(svelte@4.2.7)(vite@5.0.2)
@@ -1528,269 +1471,8 @@ packages:
     dev: false
     optional: true
 
-  /@pixi/accessibility@7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)(@pixi/events@7.3.2):
-    resolution: {integrity: sha512-MdkU22HTauRvq9cMeWZIQGaDDa86sr+m12rKNdLV+FaDQgP/AhP+qCVpK7IKeJa9BrWGXaYMw/vueij7HkyDSA==}
-    peerDependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2
-      '@pixi/events': 7.3.2
-    dependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2(@pixi/core@7.3.2)
-      '@pixi/events': 7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)
-    dev: true
-
-  /@pixi/app@7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2):
-    resolution: {integrity: sha512-3YRFSMvAxDebAz3/JJv+2jzbPkT8cHC0IHmmLRN8krDL1pZV+YjMLgMwN/Oeyv5TSbwNqnrF5su5whNkRaxeZQ==}
-    peerDependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2
-    dependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2(@pixi/core@7.3.2)
-    dev: true
-
-  /@pixi/assets@7.3.2(@pixi/core@7.3.2)(@pixi/utils@7.3.2):
-    resolution: {integrity: sha512-yteq6ptAxA09EcwU9D9hl7qr5yWIqy+c2PsXkTDkc76vTAwIamLY3KxLq2aR5y1U4L4O6aHFJd26uNhHcuTPmw==}
-    peerDependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/utils': 7.3.2
-    dependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/utils': 7.3.2
-      '@types/css-font-loading-module': 0.0.7
-    dev: true
-
-  /@pixi/basis@7.3.2(@pixi/assets@7.3.2)(@pixi/compressed-textures@7.3.2)(@pixi/core@7.3.2):
-    resolution: {integrity: sha512-Jt7sEbbluOh9QpiNw0mQ4DsaDMpU5NrXswyD1gkp66iijbaLGYMtfCgkihAjFMmF/q7tMBoK+63x4dVKC1XcVQ==}
-    peerDependencies:
-      '@pixi/assets': 7.3.2
-      '@pixi/compressed-textures': 7.3.2
-      '@pixi/core': 7.3.2
-    dependencies:
-      '@pixi/assets': 7.3.2(@pixi/core@7.3.2)(@pixi/utils@7.3.2)
-      '@pixi/compressed-textures': 7.3.2(@pixi/assets@7.3.2)(@pixi/core@7.3.2)
-      '@pixi/core': 7.3.2
-    dev: true
-
-  /@pixi/color@7.3.2:
-    resolution: {integrity: sha512-jur5PvdOtUBEUTjmPudW5qdQq6yYGlVGsi3HyhasJw14bN+GKJwiCKgIsyrsiNL5HBUXmje4ICwQohf6BqKqxA==}
-    dependencies:
-      '@pixi/colord': 2.9.6
-    dev: true
-
   /@pixi/colord@2.9.6:
     resolution: {integrity: sha512-nezytU2pw587fQstUu1AsJZDVEynjskwOL+kibwcdxsMBFqPsFFNA7xl0ii/gXuDi6M0xj3mfRJj8pBSc2jCfA==}
-    dev: true
-
-  /@pixi/compressed-textures@7.3.2(@pixi/assets@7.3.2)(@pixi/core@7.3.2):
-    resolution: {integrity: sha512-J3ENMHDPQO6CJRei55gqI0WmiZJIK6SgsW5AEkShT0aAe5miEBSomv70pXw/58ru+4/Hx8cXjamsGt4aQB2D0Q==}
-    peerDependencies:
-      '@pixi/assets': 7.3.2
-      '@pixi/core': 7.3.2
-    dependencies:
-      '@pixi/assets': 7.3.2(@pixi/core@7.3.2)(@pixi/utils@7.3.2)
-      '@pixi/core': 7.3.2
-    dev: true
-
-  /@pixi/constants@7.3.2:
-    resolution: {integrity: sha512-Q8W3ncsFxmfgC5EtokpG92qJZabd+Dl+pbQAdHwiPY3v+8UNq77u4VN2qtl1Z04864hCcg7AStIYEDrzqTLF6Q==}
-    dev: true
-
-  /@pixi/core@7.3.2:
-    resolution: {integrity: sha512-Pta3ee8MtJ3yKxGXzglBWgwbEOKMB6Eth+FpLTjL0rgxiqTB550YX6jsNEQQAzcGjCBlO3rC/IF57UZ2go/X6w==}
-    dependencies:
-      '@pixi/color': 7.3.2
-      '@pixi/constants': 7.3.2
-      '@pixi/extensions': 7.3.2
-      '@pixi/math': 7.3.2
-      '@pixi/runner': 7.3.2
-      '@pixi/settings': 7.3.2
-      '@pixi/ticker': 7.3.2
-      '@pixi/utils': 7.3.2
-      '@types/offscreencanvas': 2019.6.4
-    dev: true
-
-  /@pixi/display@7.3.2(@pixi/core@7.3.2):
-    resolution: {integrity: sha512-cY5AnZ3TWt5GYGx4e5AQ2/2U9kP+RorBg/O30amJ+8e9bFk9rS8cjh/DDq/hc4lql96BkXAInTl40eHnAML5lQ==}
-    peerDependencies:
-      '@pixi/core': 7.3.2
-    dependencies:
-      '@pixi/core': 7.3.2
-    dev: true
-
-  /@pixi/events@7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2):
-    resolution: {integrity: sha512-Moca9epu8jk1wIQCdVYjhz2pD9Ol21m50wvWUKvpgt9yM/AjkCLSDt8HO/PmTpavDrkhx5pVVWeDDA6FyUNaGA==}
-    peerDependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2
-    dependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2(@pixi/core@7.3.2)
-    dev: true
-
-  /@pixi/extensions@7.3.2:
-    resolution: {integrity: sha512-Qw84ADfvmVu4Mwj+zTik/IEEK9lWS5n4trbrpQCcEZ+Mb8oRAXWvKz199mi1s7+LaZXDqeCY1yr2PHQaFf1KBA==}
-    dev: true
-
-  /@pixi/extract@7.3.2(@pixi/core@7.3.2):
-    resolution: {integrity: sha512-KsoflvQZV/XD8A8xbtRnmI4reYekbI4MOi7ilwQe5tMz6O1mO7IzrSukxkSMD02f6SpbAqbi7a1EayTjvY0ECQ==}
-    peerDependencies:
-      '@pixi/core': 7.3.2
-    dependencies:
-      '@pixi/core': 7.3.2
-    dev: true
-
-  /@pixi/graphics@7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)(@pixi/sprite@7.3.2):
-    resolution: {integrity: sha512-PhU6j1yub4tH/s+/gqByzgZ3mLv1mfb6iGXbquycg3+WypcxHZn0opFtI/axsazaQ9SEaWxw1m3i40WG5ANH5g==}
-    peerDependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2
-      '@pixi/sprite': 7.3.2
-    dependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2(@pixi/core@7.3.2)
-      '@pixi/sprite': 7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)
-    dev: true
-
-  /@pixi/math@7.3.2:
-    resolution: {integrity: sha512-dutoZ0IVJ5ME7UtYNo2szu4D7qsgtJB7e3ylujBVu7BOP2e710BVtFwFSFV768N14h9H5roGnuzVoDiJac2u+w==}
-    dev: true
-
-  /@pixi/mesh@7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2):
-    resolution: {integrity: sha512-LFkt7ELYXQLgbgHpjl68j6JD5ejUwma8zoPn2gqSBbY+6pK/phjvV1Wkh76muF46VvNulgXF0+qLIDdCsfrDaA==}
-    peerDependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2
-    dependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2(@pixi/core@7.3.2)
-    dev: true
-
-  /@pixi/particle-container@7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)(@pixi/sprite@7.3.2):
-    resolution: {integrity: sha512-JYc4j4z97KmxyLp+1Lg0SNi8hy6RxcBBNQGk+CSLNXeDWxx3hykT5gj/ORX1eXyzHh1ZCG1XzeVS9Yr8QhlFHA==}
-    peerDependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2
-      '@pixi/sprite': 7.3.2
-    dependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2(@pixi/core@7.3.2)
-      '@pixi/sprite': 7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)
-    dev: true
-
-  /@pixi/prepare@7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)(@pixi/graphics@7.3.2)(@pixi/text@7.3.2):
-    resolution: {integrity: sha512-aLPAXSYLUhMwxzJtn9m0TSZe+dQlZCt09QNBqYbSi8LZId54QMDyvfBb4zBOJZrD2xAZgYL5RIJuKHwZtFX6lQ==}
-    peerDependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2
-      '@pixi/graphics': 7.3.2
-      '@pixi/text': 7.3.2
-    dependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2(@pixi/core@7.3.2)
-      '@pixi/graphics': 7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)(@pixi/sprite@7.3.2)
-      '@pixi/text': 7.3.2(@pixi/core@7.3.2)(@pixi/sprite@7.3.2)
-    dev: true
-
-  /@pixi/runner@7.3.2:
-    resolution: {integrity: sha512-maKotoKJCQiQGBJwfM+iYdQKjrPN/Tn9+72F4WIf706zp/5vKoxW688Rsktg5BX4Mcn7ZkZvcJYTxj2Mv87lFA==}
-    dev: true
-
-  /@pixi/settings@7.3.2:
-    resolution: {integrity: sha512-vtxzuARDTbFe0fRYSqB53B+mPpX7v+QjjnCUmVMVvZiWr3QcngMWVml6c6dQDln7IakWoKZRrNG4FpggvDgLVg==}
-    dependencies:
-      '@pixi/constants': 7.3.2
-      '@types/css-font-loading-module': 0.0.7
-      ismobilejs: 1.1.1
-    dev: true
-
-  /@pixi/sprite-animated@7.3.2(@pixi/core@7.3.2)(@pixi/sprite@7.3.2):
-    resolution: {integrity: sha512-j9pyUe4cefxE9wecNfbWQyL5fBQKvCGYaOA0DE1X46ukBHrIuhA8u3jg2X3N3r4IcbVvxpWFYDrDsWXWeiBmSw==}
-    peerDependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/sprite': 7.3.2
-    dependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/sprite': 7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)
-    dev: true
-
-  /@pixi/sprite-tiling@7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)(@pixi/sprite@7.3.2):
-    resolution: {integrity: sha512-tWVVb/rMIx5AczfUrVxa0dZaIufP5C0IOL7IGfFUDQqDu5JSAUC0mwLe4F12jAXBVsqYhCGYx5bIHbPiI5vcSQ==}
-    peerDependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2
-      '@pixi/sprite': 7.3.2
-    dependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2(@pixi/core@7.3.2)
-      '@pixi/sprite': 7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)
-    dev: true
-
-  /@pixi/sprite@7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2):
-    resolution: {integrity: sha512-IpWTKXExJNXVcY7ITopJ+JW48DahdbCo/81D2IYzBImq3jyiJM2Km5EoJgvAM5ZQ3Ev3KPPIBzYLD+HoPWcxdw==}
-    peerDependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2
-    dependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2(@pixi/core@7.3.2)
-    dev: true
-
-  /@pixi/spritesheet@7.3.2(@pixi/assets@7.3.2)(@pixi/core@7.3.2):
-    resolution: {integrity: sha512-UkwqrPYDqrEdK5ub9qn/9VBvt5caA8ffV5iYR6ssCvrpaQovBKmS+b5pr/BYf8xNTExDpR3OmPIo8iDEYWWLuw==}
-    peerDependencies:
-      '@pixi/assets': 7.3.2
-      '@pixi/core': 7.3.2
-    dependencies:
-      '@pixi/assets': 7.3.2(@pixi/core@7.3.2)(@pixi/utils@7.3.2)
-      '@pixi/core': 7.3.2
-    dev: true
-
-  /@pixi/text-bitmap@7.3.2(@pixi/assets@7.3.2)(@pixi/core@7.3.2)(@pixi/display@7.3.2)(@pixi/mesh@7.3.2)(@pixi/text@7.3.2):
-    resolution: {integrity: sha512-p8KLgtZSPowWU/Zj+GVtfsUT8uGYo4TtKKYbLoWuxkRA5Pc1+4C9/rV/EOSFfoZIdW5C+iFg5VxRgBllUQf+aA==}
-    peerDependencies:
-      '@pixi/assets': 7.3.2
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2
-      '@pixi/mesh': 7.3.2
-      '@pixi/text': 7.3.2
-    dependencies:
-      '@pixi/assets': 7.3.2(@pixi/core@7.3.2)(@pixi/utils@7.3.2)
-      '@pixi/core': 7.3.2
-      '@pixi/display': 7.3.2(@pixi/core@7.3.2)
-      '@pixi/mesh': 7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)
-      '@pixi/text': 7.3.2(@pixi/core@7.3.2)(@pixi/sprite@7.3.2)
-    dev: true
-
-  /@pixi/text@7.3.2(@pixi/core@7.3.2)(@pixi/sprite@7.3.2):
-    resolution: {integrity: sha512-LdtNj+K5tPB/0UcDcO52M/C7xhwFTGFhtdF42fPhRuJawM23M3zm1Y8PapXv+mury+IxCHT1w30YlAi0qTVpKQ==}
-    peerDependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/sprite': 7.3.2
-    dependencies:
-      '@pixi/core': 7.3.2
-      '@pixi/sprite': 7.3.2(@pixi/core@7.3.2)(@pixi/display@7.3.2)
-    dev: true
-
-  /@pixi/ticker@7.3.2:
-    resolution: {integrity: sha512-5kIPhBeXwDJohCzKzJJ6T7f1oAGbHAgeiwOjlTO+9lNXUX8ZPj0407V3syuF+64kFqJzIBCznBRpI+fmT4c9SA==}
-    dependencies:
-      '@pixi/extensions': 7.3.2
-      '@pixi/settings': 7.3.2
-      '@pixi/utils': 7.3.2
-    dev: true
-
-  /@pixi/utils@7.3.2:
-    resolution: {integrity: sha512-KhNvj9YcY7Zi2dTKZgDpx8C6OxKKR541vwtG6JgdBZZYDeMBOIghN2Vi5zn4diW5BhDfHBmdSJ1wZXEtE2MDwg==}
-    dependencies:
-      '@pixi/color': 7.3.2
-      '@pixi/constants': 7.3.2
-      '@pixi/settings': 7.3.2
-      '@types/earcut': 2.1.1
-      earcut: 2.2.4
-      eventemitter3: 4.0.7
-      url: 0.11.0
     dev: true
 
   /@polka/url@1.0.0-next.23:
@@ -2083,10 +1765,6 @@ packages:
     resolution: {integrity: sha512-x2tZZYkSxXqWvTDgveSynfjq/T2HyiZHXb00j/+gy19yp70PHCizM48XFdjBCWH7eHBD0R5i/pw9yMBP/BH5uA==}
     dev: true
 
-  /@types/css-font-loading-module@0.0.7:
-    resolution: {integrity: sha512-nl09VhutdjINdWyXxHWN/w9zlNCfr60JUqJbd24YXUuCwgeL0TpFSdElCwb6cxfB6ybE19Gjj4g0jsgkXxKv1Q==}
-    dev: true
-
   /@types/dashify@1.0.3:
     resolution: {integrity: sha512-5tFbcvWDPO1Il1Ck6Rtb4GJvD9m7HXzex50Z9wm2+YrUqN1Da3NDJnaipqtr2WlmtvOY2O/ftUrPECMKu+Bc+Q==}
     dev: true
@@ -2096,10 +1774,6 @@ packages:
     dependencies:
       '@types/ms': 0.7.34
     dev: false
-
-  /@types/earcut@2.1.1:
-    resolution: {integrity: sha512-w8oigUCDjElRHRRrMvn/spybSMyX8MTkKA5Dv+tS1IE/TgmNZPqUYtvYBXGY8cieSE66gm+szeK+bnbxC2xHTQ==}
-    dev: true
 
   /@types/earcut@2.1.4:
     resolution: {integrity: sha512-qp3m9PPz4gULB9MhjGID7wpo3gJ4bTGXm7ltNDsmOvsPduTeHp8wSW9YckBj3mljeOh4F0m2z/0JKAALRKbmLQ==}
@@ -2173,10 +1847,6 @@ packages:
 
   /@types/normalize-package-data@2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
-    dev: true
-
-  /@types/offscreencanvas@2019.6.4:
-    resolution: {integrity: sha512-u8SAgdZ8ROtkTF+mfZGOscl0or6BSj9A4g37e6nvxDc+YB/oDut0wHkK2PBBiC2bNR8TS0CPV+1gAk4fNisr1Q==}
     dev: true
 
   /@types/parse5@6.0.3:
@@ -2584,8 +2254,8 @@ packages:
       remark-expressive-code: 0.29.3
     dev: false
 
-  /astro-live-code@0.0.4:
-    resolution: {integrity: sha512-sPL68iEhrdcH+JcUDUtObrUH8BxPv7czaFj/1lO59veQhjowvolXtMwOz3Wuyo0DDfXT6IDQ3Vf/CR/pmIXxuQ==}
+  /astro-live-code@0.0.5:
+    resolution: {integrity: sha512-9WxpUp1N5Z2ent8R2WHr/jqneKHf0+XCPEoNfQ2qDK1nbsLMJHKo3F0r8/RXcslzN3/UioE8M70vHbz+Z8DUjQ==}
     dependencies:
       estree-util-visit: 2.0.0
       magic-string: 0.30.5
@@ -3707,10 +3377,6 @@ packages:
   /esutils@2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
     engines: {node: '>=0.10.0'}
-    dev: true
-
-  /eventemitter3@4.0.7:
-    resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}
     dev: true
 
   /eventemitter3@5.0.1:
@@ -6240,19 +5906,9 @@ packages:
       once: 1.4.0
     dev: false
 
-  /punycode@1.3.2:
-    resolution: {integrity: sha512-RofWgt/7fL5wP1Y7fxE7/EmTLzQVnB0ycyibJ0OOHIlJqTNzglYFxVwETOcIoJqJmpDXJ9xImDv+Fq34F/d4Dw==}
-    dev: true
-
   /punycode@2.1.1:
     resolution: {integrity: sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==}
     engines: {node: '>=6'}
-    dev: true
-
-  /querystring@0.2.0:
-    resolution: {integrity: sha512-X/xY82scca2tau62i9mDyU9K+I+djTMUsvwf7xnUX5GLvVzgJybOJf4Y6o9Zx3oJK/LSXg5tTZBjwzqVPaPO2g==}
-    engines: {node: '>=0.4.x'}
-    deprecated: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
     dev: true
 
   /queue-microtask@1.2.3:
@@ -6552,6 +6208,7 @@ packages:
 
   /rimraf@2.7.1:
     resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
+    deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
     dependencies:
       glob: 7.2.0
@@ -7770,13 +7427,6 @@ packages:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
       punycode: 2.1.1
-    dev: true
-
-  /url@0.11.0:
-    resolution: {integrity: sha512-kbailJa29QrtXnxgq+DdCEGlbTeYM2eJUxsz6vjZavrCYPMIFHMKQmSKYAIuUK2i7hgPm28a8piX5NTUtM/LKQ==}
-    dependencies:
-      punycode: 1.3.2
-      querystring: 0.2.0
     dev: true
 
   /util-deprecate@1.0.2:

@@ -1,8 +1,9 @@
 <script>
+  import 'pixi.js/text'
   import { Application, Text } from 'svelte-pixi'
 </script>
 
-<Application width={400} height={400} antialias>
+<Application width={400} height={400} antialias skipExtensionImports>
   <Text
     x={200}
     y={200}

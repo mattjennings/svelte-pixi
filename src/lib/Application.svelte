@@ -341,7 +341,7 @@
           dispatch('init', { instance })
 
           // remove rendering on tick
-          if (render) {
+          if (render && instance.ticker) {
             instance.ticker.remove(instance.render, instance)
           }
         })
