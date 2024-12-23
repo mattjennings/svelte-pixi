@@ -20,6 +20,7 @@ export {
 } from './RendererContext.svelte'
 export { default as MeshPlane } from './MeshPlane.svelte'
 export { default as MeshRope } from './MeshRope.svelte'
+export { default as PerspectiveMesh } from './PerspectiveMesh.svelte'
 export { default as Sprite } from './Sprite.svelte'
 export { default as Text } from './Text.svelte'
 export { default as Ticker, getTicker, onTick } from './Ticker.svelte'

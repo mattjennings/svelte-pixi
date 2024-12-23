@@ -8,14 +8,22 @@
   import { getRenderer } from './RendererContext.svelte'
   import { createApplyProps } from './util/props'
 
-  type T = $$Generic<PIXI.MeshPlane>
+  type T = $$Generic<PIXI.PerspectiveMesh>
 
   type $$Props = Container<T>['$$prop_def'] & {
-    shader?: PIXI.MeshPlane['shader']
-    state?: PIXI.MeshPlane['state']
-    texture: PIXI.MeshPlaneOptions['texture']
-    verticesX: PIXI.MeshPlaneOptions['verticesX']
-    verticesY: PIXI.MeshPlaneOptions['verticesY']
+    shader?: PIXI.PerspectiveMesh['shader']
+    state?: PIXI.PerspectiveMesh['state']
+    texture: PIXI.PerspectivePlaneOptions['texture']
+    verticesX: PIXI.PerspectivePlaneOptions['verticesX']
+    verticesY: PIXI.PerspectivePlaneOptions['verticesY']
+    x0?: PIXI.PerspectivePlaneOptions['x0']
+    y0?: PIXI.PerspectivePlaneOptions['y0']
+    x1?: PIXI.PerspectivePlaneOptions['x1']
+    y1?: PIXI.PerspectivePlaneOptions['y1']
+    x2?: PIXI.PerspectivePlaneOptions['x2']
+    y2?: PIXI.PerspectivePlaneOptions['y2']
+    x3?: PIXI.PerspectivePlaneOptions['x3']
+    y3?: PIXI.PerspectivePlaneOptions['y3']
   }
 
   /**
@@ -50,11 +58,51 @@
   export let verticesY: number = 10
 
   /**
-   * The PIXI.MeshPlane instance. Can be set or bound to.
-   *
-   * @type {PIXI.MeshPlane}
+   * @type {number}
    */
-  export let instance: T = new PIXI.MeshPlane({
+  export let x0: $$Props['x0'] = undefined
+
+  /**
+   * @type {number}
+   */
+  export let y0: $$Props['y0'] = undefined
+
+  /**
+   * @type {number}
+   */
+  export let x1: $$Props['x1'] = undefined
+
+  /**
+   * @type {number}
+   */
+  export let y1: $$Props['y1'] = undefined
+
+  /**
+   * @type {number}
+   */
+  export let x2: $$Props['x2'] = undefined
+
+  /**
+   * @type {number}
+   */
+  export let y2: $$Props['y2'] = undefined
+
+  /**
+   * @type {number}
+   */
+  export let x3: $$Props['x3'] = undefined
+
+  /**
+   * @type {number}
+   */
+  export let y3: $$Props['y3'] = undefined
+
+  /**
+   * The PIXI.PerspectiveMesh instance. Can be set or bound to.
+   *
+   * @type {PIXI.PerspectiveMesh}
+   */
+  export let instance: T = new PIXI.PerspectiveMesh({
     texture,
     verticesX,
     verticesY,
@@ -71,6 +119,18 @@
   $: applyProp('texture', texture)
   $: applyProp('shader', shader)
   $: applyProp('state', state)
+  $: if (
+    x0 !== undefined &&
+    y0 !== undefined &&
+    x1 !== undefined &&
+    y1 !== undefined &&
+    x2 !== undefined &&
+    y2 !== undefined &&
+    x3 !== undefined &&
+    y3 !== undefined
+  ) {
+    instance.setCorners(x0, y0, x1, y1, x2, y2, x3, y3)
+  }
 
   $: texture.on('update', () => invalidate())
 </script>
