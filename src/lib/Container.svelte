@@ -39,11 +39,14 @@
     accessibleType?: PIXI.Container['accessibleType']
     alpha?: PIXI.Container['alpha']
     angle?: PIXI.Container['angle']
+    boundsArea?: PIXI.Container['boundsArea']
     cacheAsTexture?: boolean | PIXI.CacheAsTextureOptions
     cacheAsBitmap?: PIXI.Container['cacheAsBitmap']
     cullable?: PIXI.Container['cullable']
+    cullableChildren?: PIXI.Container['cullableChildren']
     cullArea?: PIXI.Container['cullArea']
     cursor?: PIXI.Container['cursor']
+    effects?: PIXI.Container['effects']
     filterArea?: PIXI.Container['filterArea']
     filters?: PIXI.Container['filters']
     height?: PIXI.Container['height']
@@ -62,6 +65,7 @@
     scale?: PointLike
     skew?: PointLike
     sortableChildren?: PIXI.Container['sortableChildren']
+    tabIndex?: PIXI.Container['tabIndex']
     width?: PIXI.Container['width']
     localTransform?: PIXI.Container['localTransform']
     groupTransform?: PIXI.Container['groupTransform']
@@ -137,6 +141,13 @@
   export let angle: $$Props['angle'] = undefined
 
   /**
+   * An optional bounds area for this container. Setting this rectangle will stop the renderer from recursively measuring the bounds of each children and instead use this single boundArea. This is great for optimisation! If for example you have a 1000 spinning particles and you know they all sit within a specific bounds, then setting it will mean the renderer will not need to measure the 1000 children to find the bounds. Instead it will just use the bounds you set.
+   *
+   * @type {PIXI.Rectangle}
+   */
+  export let boundsArea: $$Props['boundsArea'] = undefined
+
+  /**
    * Legacy property for backwards compatibility with PixiJS v7 and below.
    * Use `cacheAsTexture` instead.
    * @deprecated Since PixiJS v8
@@ -162,6 +173,15 @@
   export let cullable: $$Props['cullable'] = undefined
 
   /**
+   * Determines if the children to the container can be culled.
+   * Setting this to false allows PixiJS to bypass a recursive culling
+   * function which can help to optimize very complex scenes
+   *
+   * @type {boolean}
+   */
+  export let cullableChildren: $$Props['cullableChildren'] = true
+
+  /**
    * If set, this shape is used for culling instead of the bounds of this object.
    * It can improve the culling performance of objects with many children.
    * The culling area is defined in local space.
@@ -176,6 +196,9 @@
    * @type {string}
    */
   export let cursor: $$Props['cursor'] = undefined
+
+  // currently undocumented by pixijs
+  export let effects: $$Props['effects'] = undefined
 
   /**
    * The type of interaction a DisplayObject can be.
@@ -334,6 +357,8 @@
    */
   export let sortableChildren: $$Props['sortableChildren'] = undefined
 
+  // undocumented by pixijs
+  export let tabIndex: $$Props['tabIndex'] = undefined
   /**
    * The width of the Container, setting this will actually modify the scale to achieve the value set.
    *
@@ -503,11 +528,14 @@
   $: applyProp('accessibleType', accessibleType)
   $: applyProp('alpha', alpha)
   $: applyProp('angle', angle)
+  $: applyProp('boundsArea', boundsArea)
   $: applyProp('cacheAsBitmap', cacheAsBitmap)
   $: applyProp('cacheAsTexture', cacheAsTexture)
   $: applyProp('cursor', cursor)
   $: applyProp('cullable', cullable)
+  $: applyProp('cullableChildren', cullableChildren)
   $: applyProp('cullArea', cullArea)
+  $: applyProp('effects', effects)
   $: applyProp('eventMode', eventMode)
   $: applyProp('filterArea', filterArea)
   $: applyProp('hitArea', hitArea)
@@ -524,6 +552,7 @@
   $: applyProp('scale', scale)
   $: applyProp('skew', skew)
   $: applyProp('sortableChildren', sortableChildren)
+  $: applyProp('tabIndex', tabIndex)
   $: applyProp('visible', visible)
   $: applyProp('x', x)
   $: applyProp('y', y)
