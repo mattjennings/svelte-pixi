@@ -11,7 +11,7 @@ Just like `PIXI.Application`, it sets up the [Renderer](/docs/components/rendere
 
 ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
 <script>
-  import { Application, Text } from 'svelte-pixi/svelte-5'
+  import { Application, Text } from 'svelte-pixi'
 </script>
 
 <Application width={400} height={400} antialias>
@@ -31,15 +31,13 @@ If you want to customize the element that the canvas is rendered into, you can u
 
 ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
 <script>
-  import { Application, Text } from 'svelte-pixi/svelte-5'
+  import { Application, Text } from 'svelte-pixi'
 </script>
 
 <Application width={400} height={390} antialias>
-  {#snippet view()}
-    <div class="custom">
-      <!-- canvas will be placed here -->
-    </div>
-  {/snippet}
+  <div slot="view" class="custom">
+    <!-- canvas will be placed here -->
+  </div>
 
   <!-- pixi components go here -->
   <Text
@@ -64,7 +62,7 @@ If you want to customize the element that the canvas is rendered into, you can u
 ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
 <script>
   import { onMount } from 'svelte'
-  import { Text, Application } from 'svelte-pixi/svelte-5'
+  import { Text, Application } from 'svelte-pixi'
   import DraggableCircle from '$lib/components/DraggableCircle.svelte'
 </script>
 
@@ -73,7 +71,7 @@ If you want to customize the element that the canvas is rendered into, you can u
   height={400}
   antialias
   render="demand"
-  onrender={() => console.log('render')}
+  on:postrender={() => console.log('render')}
 >
   <DraggableCircle x={200} y={200} />
   <Text
@@ -86,3 +84,8 @@ If you want to customize the element that the canvas is rendered into, you can u
 </Application>
 ```
 
+See [Render on Demand](/docs/advanced/optimizing-performance#render-on-demand) for more information.
+
+## API
+
+<ComponentAPI component="Application.svelte" />

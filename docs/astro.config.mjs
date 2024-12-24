@@ -25,7 +25,9 @@ export default defineConfig({
       alias: {
         $lib: path.resolve(__dirname, './src'),
 
-        'svelte-pixi': path.resolve(__dirname, '../src/lib'),
+        'svelte-pixi/svelte-4': path.resolve(__dirname, '../src/lib/svelte-4'),
+        'svelte-pixi/svelte-5': path.resolve(__dirname, '../src/lib/svelte-5'),
+        'svelte-pixi': path.resolve(__dirname, '../src/lib/svelte-4'),
       },
     },
   },
@@ -68,16 +70,39 @@ export default defineConfig({
           label: 'API',
           items: [
             {
-              label: 'Components',
-              autogenerate: {
-                directory: 'api/components',
-              },
+              label: 'Svelte 5',
+              items: [
+                {
+                  label: 'Components',
+                  autogenerate: {
+                    directory: 'api/components',
+                  },
+                },
+                {
+                  label: 'Utilities',
+                  autogenerate: {
+                    directory: 'api/utilities',
+                  },
+                },
+              ],
             },
             {
-              label: 'Utilities',
-              autogenerate: {
-                directory: 'api/utilities',
-              },
+              label: 'Svelte 4',
+              collapsed: true,
+              items: [
+                {
+                  label: 'Components',
+                  autogenerate: {
+                    directory: 'api/svelte-4/components',
+                  },
+                },
+                {
+                  label: 'Utilities',
+                  autogenerate: {
+                    directory: 'api/svelte-4/utilities',
+                  },
+                },
+              ],
             },
           ],
         },
