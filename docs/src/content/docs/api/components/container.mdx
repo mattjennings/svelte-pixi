@@ -3,7 +3,7 @@ title: Container
 pixi: https://pixijs.download/release/docs/PIXI.Container.html
 ---
 
-import Svelte5ComponentAPI from '$lib/components/Svelte5ComponentAPI.astro'
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
 
 A Container is the base component for all components that render to the screen. It can be used on its own, but components such as Sprite or Graphics will be composed of Containers (and will provide context for [getContainer](/docs/utilities/get-container))
 
@@ -28,26 +28,28 @@ Containers can be made into Render Groups with the `isRenderGroup` prop.
 
 [Read more on Render Groups](https://pixijs.com/8.x/guides/advanced/render-groups)
 
+{/* this example will be *very* slow in dev mode because mounting components is much slower */}
 ```svelte live props={{ stats: true, assets: ['/assets/tree.png']}}
 <script>
-  import { Container, Sprite, onTick, getApp } from 'svelte-pixi/svelte-5'
+  import { Container, Sprite, getApp } from 'svelte-pixi/svelte-5'
   import { onMount } from 'svelte'
   import * as PIXI from 'pixi.js'
 
   const { app } = getApp()
   const worldSize = 2000
-  const trees = Array.from({ length: 1000 })
-    .map(() => ({
+  const trees = Array.from({ length: 10000 })
+    .map((_, i) => ({
+      id: i,
       texture: PIXI.Texture.from('/assets/tree.png'),
       x: Math.random() * worldSize,
       y: Math.random() * worldSize,
       scale: 0.25,
       anchor: 0.5,
     }))
-    .sort((a, b) => a.y - b.y);
+    .sort((a, b) => a.y - b.y);    
 
-  $: mouseX = 0
-  $: mouseY = 0
+  let mouseX = $state(0)
+  let mouseY = $state(0)
 
   function handleMouseMove(ev) {
     if (ev.target === app.canvas) {      
@@ -65,18 +67,18 @@ Containers can be made into Render Groups with the `isRenderGroup` prop.
   x={-mouseX}
   y={-mouseY}
 >
-  <!-- 
-    be careful when rendering many components like this. there
-    is an upfront cost to mounting Svelte components.
-    it's usually better to create pixi objects yourself and add them to the container
-    instance manually
-  -->
-  {#each trees as tree, i}
-    <Sprite {...tree} />
-  {/each}
+    <!-- 
+      be careful when rendering many components like this -
+      there is an upfront cost to mounting Svelte components.
+      it's usually better to create pixi objects yourself 
+      and add them to the container instance manually
+    -->
+    {#each trees as tree (tree.id)}
+      <Sprite {...tree} />
+    {/each}
 </Container>
 ```
 
 ## API
 
-<Svelte5ComponentAPI component="Container.svelte" />
+<ComponentAPI svelte5 component="Container.svelte" />

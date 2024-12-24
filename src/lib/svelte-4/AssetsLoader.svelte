@@ -46,7 +46,7 @@
    *
    * @type {string}
    */
-  export let bundleName: $$Props['bundleName'] = `svelte-pixi-loader-${++bundleCounter}`
+  export let bundleName: $$Props['bundleName'] = `svelte-pixi-loader-4-${++bundleCounter}`
 
   /**
    * Unload the bundle when the component is unmounted, freeing

@@ -103,25 +103,47 @@ function getPropInfo(symbol: MorphSymbol): {
 }
 
 
+let propsSymbols: MorphSymbol[] = []
+
+// try to parse svelte class declarations (when they use generics)
 const componentClass = sourceFile.getClass('__sveltets_Render')
-if (!componentClass) {
-  throw new Error('Could not find class __sveltets_Render')
+if (componentClass) {
+  const componentProps = componentClass.getInstanceMethod('props')
+  if (!componentProps) {
+    throw new Error('No instance method named "props" found')
+  }
+
+  const returnType = componentProps.getReturnType()
+
+  propsSymbols = returnType.getProperties()
 }
 
-const componentProps = componentClass.getInstanceMethod('props')
-if (!componentProps) {
-  throw new Error('No instance method named "props" found')
+// try to parse svelte.Component
+const varStatements = sourceFile.getVariableDeclarations();
+for (const v of varStatements) {
+  const initializerType = v.getType();
+  const text = initializerType.getText();
+  
+  if (text.startsWith('import("svelte").Component<')) {
+    const typeArgs = initializerType.getTypeArguments();    
+    if (typeArgs.length) {
+      const propsType = typeArgs[0]; // first generic of svelte Component, which is props
+
+      const p = propsType.getProperties();
+      
+      if (p) {
+        propsSymbols = p
+        break
+      }
+    }
+  }
 }
-
-const returnType = componentProps.getReturnType()
-
-const properties = returnType.getProperties()
 
 const props: Array<ReturnType<typeof getPropInfo>> = []
 const events: Array<ReturnType<typeof getPropInfo>> = []
 const snippets: Array<ReturnType<typeof getPropInfo>> = []
 
-for (const propSymbol of properties) {    
+for (const propSymbol of propsSymbols) {    
   const info = getPropInfo(propSymbol)
   if (info.isSnippet) {
     snippets.push(info)
