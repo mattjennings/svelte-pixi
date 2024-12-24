@@ -8,7 +8,9 @@ import ComponentAPI from '$lib/components/ComponentAPI.astro'
 import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
 
 
-Renders a PIXI.Sprite. Textures **must** be loaded before use.
+Renders a PIXI.Sprite. 
+
+Textures **must** be loaded before use either with [AssetsLoader](/api/components/assets-loader) or `PIXI.Assets.load`.
 
 <ComponentDescription name="Sprite" source="https://pixijs.download/dev/docs/scene.Sprite.html" />
 
@@ -19,7 +21,7 @@ Renders a PIXI.Sprite. Textures **must** be loaded before use.
     ```svelte live props={{ assets: ['/assets/adventurer.png'] }}
     <script>
       import * as PIXI from 'pixi.js'
-      import { Sprite } from 'svelte-pixi/svelte-5'
+      import { Sprite } from 'svelte-pixi'
     </script>
 
     <Sprite

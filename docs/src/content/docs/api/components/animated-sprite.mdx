@@ -24,7 +24,7 @@ I recommend using spritesheets created by TexturePacker ([they have a great tuto
   ```svelte live props={{ assets: ["/assets/adventurer-spritesheet.json"] }}
   <script>
     import * as PIXI from 'pixi.js'
-    import { AnimatedSprite } from 'svelte-pixi/svelte-5'
+    import { AnimatedSprite } from 'svelte-pixi'
   </script>
 
   <AnimatedSprite
@@ -72,7 +72,7 @@ I recommend using spritesheets created by TexturePacker ([they have a great tuto
   <div slot="svelte-5">
   ```svelte live props={{ assets: ["/assets/adventurer-spritesheet.json"] }}
   <script>
-    import { AnimatedSprite } from 'svelte-pixi/svelte-5'
+    import { AnimatedSprite } from 'svelte-pixi'
     import { Assets } from 'pixi.js'
 
     // loaded from parent <AssetsLoader />

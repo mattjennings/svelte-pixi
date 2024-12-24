@@ -28,7 +28,7 @@ export default defineConfig({
 
         'svelte-pixi/svelte-4': path.resolve(__dirname, '../src/lib/svelte-4'),
         'svelte-pixi/svelte-5': path.resolve(__dirname, '../src/lib/svelte-5'),
-        'svelte-pixi': path.resolve(__dirname, '../src/lib/svelte-4'),
+        'svelte-pixi': path.resolve(__dirname, '../src/lib/svelte-5'),
       },
     },
   },

@@ -20,7 +20,7 @@ When child components are rendered inside, their coordinates become local to the
   <div slot="svelte-5">
     ```svelte live
     <script>
-      import { Container, Text } from 'svelte-pixi/svelte-5'
+      import { Container, Text } from 'svelte-pixi'
     </script>
 
     <Container x={360} y={160}>
@@ -52,7 +52,7 @@ components that extend PIXI.Container can be used in this way.
   <div slot="svelte-5">
     ```svelte live title="MyCustomTextComponent.svelte"
     <script>
-      import { Container } from 'svelte-pixi/svelte-5'
+      import { Container } from 'svelte-pixi'
       import * as PIXI from 'pixi.js'
 
       let {
@@ -97,7 +97,7 @@ You can also bind to it to access the default one:
   <div slot="svelte-5">
     ```svelte
     <script>
-      import { Container } from 'svelte-pixi/svelte-5'
+      import { Container } from 'svelte-pixi'
       import * as PIXI from 'pixi.js'
 
       let instance

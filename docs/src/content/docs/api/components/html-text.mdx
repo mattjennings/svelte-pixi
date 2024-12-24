@@ -1,0 +1,56 @@
+---
+title: HTMLText
+sidebar:
+  badge: 'New'
+---
+
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
+
+Renders text with support for styling via HTML tags. The rendering can vary across browsers and platforms.
+
+<ComponentDescription name="HTMLText" source="https://pixijs.download/dev/docs/scene.HTMLText.html" />
+
+## Usage
+
+<SvelteTabs>
+  <div slot="svelte-5">
+  ```svelte live
+    <script>
+      import { HTMLText } from 'svelte-pixi'
+    </script>
+
+    <HTMLText
+      x={360}
+      y={200}
+      text="<strong>Hello</strong> <em>World</em>"
+      anchor={0.5}
+      style={{
+        fill: 'white',
+      }}
+    />
+    ```
+  </div>
+  <div slot="svelte-4">
+    ```svelte live
+    <script>
+      import { HTMLText } from 'svelte-pixi/svelte-4'
+    </script>
+
+    <HTMLText
+      x={360}
+      y={200}
+      text="<strong>Hello</strong> <em>World</em>"
+      anchor={0.5}
+      style={{
+        fill: 'white',
+      }}
+    />
+    ```
+  </div>
+</SvelteTabs>
+
+## API
+
+<ComponentAPI component="HTMLText.svelte" />

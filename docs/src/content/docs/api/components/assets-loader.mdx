@@ -18,7 +18,7 @@ render until the loading has completed. You can show progress by using the `prog
   <div slot="svelte-5">
     ```svelte live props={{ bg: 'white' }}
     <script>
-      import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi/svelte-5'
+      import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi'
       import * as PIXI from 'pixi.js'
     </script>
 
@@ -73,7 +73,7 @@ Note that `PIXI.Assets` can only be initialized once.
   <div slot="svelte-5">
     ```svelte
     <script>
-      import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi/svelte-5'
+      import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi'
       import * as PIXI from 'pixi.js'
 
       // init is async, so we must await it
