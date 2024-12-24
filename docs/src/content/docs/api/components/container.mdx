@@ -3,13 +3,18 @@ title: Container
 pixi: https://pixijs.download/release/docs/PIXI.Container.html
 ---
 
-import ComponentAPI from '$lib/components/ComponentAPI.astro'
+import ComponentAPI from '$lib/components/svelte-5/ComponentAPI.astro'
+import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
 
-A Container is the base component for all components that render to the screen. It can be used on its own, but components such as Sprite or Graphics will be composed of Containers (and will provide context for [getContainer](/docs/utilities/get-container))
+Renders a PIXI.Container. It is the basis for most SveltePixi components in the same way that most PIXI objects extend PIXI.Container.
 
 When child components are rendered inside, their coordinates become local to the parent Container.
 
+<ComponentDescription name="Container" source="https://pixijs.download/dev/docs/scene.Container.html" />
+
 ## Usage
+
+### Basic
 
 ```svelte live
 <script>
@@ -22,63 +27,46 @@ When child components are rendered inside, their coordinates become local to the
 </Container>
 ```
 
-## Render Group
+### The Instance Prop
 
-Containers can be made into Render Groups with the `isRenderGroup` prop.
+The `instance` prop allows you to change or aceess the underlying PIXI instance. This is how components such as Sprite are composed, and all
+components that extend PIXI.Container can be used in this way.
 
-[Read more on Render Groups](https://pixijs.com/8.x/guides/advanced/render-groups)
-
-{/* this example will be *very* slow in dev mode because mounting components is much slower */}
-```svelte live props={{ stats: true, assets: ['/assets/tree.png']}}
+```svelte live title="MyCustomTextComponent.svelte"
 <script>
-  import { Container, Sprite, getApp } from 'svelte-pixi/svelte-5'
-  import { onMount } from 'svelte'
+  import { Container } from 'svelte-pixi/svelte-5'
   import * as PIXI from 'pixi.js'
 
-  const { app } = getApp()
-  const worldSize = 2000
-  const trees = Array.from({ length: 10000 })
-    .map((_, i) => ({
-      id: i,
-      texture: PIXI.Texture.from('/assets/tree.png'),
-      x: Math.random() * worldSize,
-      y: Math.random() * worldSize,
-      scale: 0.25,
-      anchor: 0.5,
-    }))
-    .sort((a, b) => a.y - b.y);    
+  let {
+    text = 'hello world',
+    style = { fill: 'white' }
+  } = $props()
 
-  let mouseX = $state(0)
-  let mouseY = $state(0)
+  const instance = new PIXI.Text({ text, style })
 
-  function handleMouseMove(ev) {
-    if (ev.target === app.canvas) {      
-      mouseX = ev.clientX
-      mouseY = ev.clientY
-    }
-  }
-
+  // updating the instance
+  $effect(() => {
+    instance.text = text
+  })
 </script>
 
-<svelte:window on:mousemove={handleMouseMove} />
-
-<Container 
-  isRenderGroup
-  x={-mouseX}
-  y={-mouseY}
->
-    <!-- 
-      be careful when rendering many components like this -
-      there is an upfront cost to mounting Svelte components.
-      it's usually better to create pixi objects yourself 
-      and add them to the container instance manually
-    -->
-    {#each trees as tree (tree.id)}
-      <Sprite {...tree} />
-    {/each}
-</Container>
+<Container {instance} x={280} y={170} />
 ```
 
+You can also bind to it to access the default one:
+
+```svelte
+<script>
+  import { Container } from 'svelte-pixi/svelte-5'
+  import * as PIXI from 'pixi.js'
+
+  let instance
+
+  $effect(() => console.log(instance.label))
+</script>
+
+<Container bind:instance label="my container"/>
+```
 ## API
 
-<ComponentAPI svelte5 component="Container.svelte" />
+<ComponentAPI component="Container.svelte" />

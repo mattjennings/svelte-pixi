@@ -23,16 +23,18 @@
     blendMode,
     roundPixels,
     isRenderGroup,
-    instance = $bindable(
-      new PIXI.Sprite({
-        texture,
-        roundPixels,
-        blendMode,
-        isRenderGroup,
-      }) as T,
-    ),
+    instance = $bindable(),
     ...restProps
   }: Props = $props()
+
+  if (!instance) {
+    instance = new PIXI.Sprite({
+      texture,
+      roundPixels,
+      blendMode,
+      isRenderGroup,
+    }) as T
+  }
 
   const { invalidate } = getRenderer()
 

@@ -3,9 +3,12 @@ title: Sprite
 pixi: https://pixijs.download/release/docs/Sprite.html
 ---
 
-import ComponentAPI from '$lib/components/ComponentAPI.astro'
+import ComponentAPI from '$lib/components/svelte-5/ComponentAPI.astro'
+import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
 
-Sprites are the base for all textured objects that are rendered to the screen
+Renders a PIXI.Sprite. Textures **must** be loaded before use.
+
+<ComponentDescription name="Sprite" source="https://pixijs.download/dev/docs/scene.Sprite.html" />
 
 ## Usage
 
@@ -26,4 +29,4 @@ Sprites are the base for all textured objects that are rendered to the screen
 
 ## API
 
-<ComponentAPI svelte5 component="Sprite.svelte" />
+<ComponentAPI component="Sprite.svelte" />

@@ -185,13 +185,14 @@
     onremoved,
 
     // bindings
-    instance = $bindable(
-      new PIXI.Container({
-        isRenderGroup,
-      }),
-    ) as T,
+    instance = $bindable() as T,
   }: Props = $props()
 
+  if (!instance) {
+    instance = new PIXI.Container({
+      isRenderGroup,
+    }) as T
+  }
   const { invalidate } = getRenderer()
   const { container: parent } = getContainer() ?? {}
 

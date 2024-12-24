@@ -35,6 +35,7 @@
     "lint-staged": "^15.1.0",
     "pixi.js": "^8.6.5",
     "prettier": "^3.4.0",
+    "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-svelte": "^3.3.2",
     "sveld": "^0.22.0",
     "svelte": "^5.15.0",

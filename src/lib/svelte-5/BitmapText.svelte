@@ -1,47 +1,44 @@
 <script lang="ts">
-  import type { TextStyle } from 'pixi.js'
   import * as PIXI from 'pixi.js'
-
-  import { createApplyProps } from '../core/util/props'
   import Container from './Container.svelte'
-  import { getRenderer } from '../core/context/renderer'
   import type { PickPixiProps } from '../core/util/data-types'
+  import { getRenderer } from '../core/context/renderer'
+  import { createApplyProps } from '../core/util/props'
 
-  type T = $$Generic<PIXI.Text>
+  type T = $$Generic<PIXI.BitmapText>
   type Props = Container<T>['$$prop_def'] &
-    PickPixiProps<PIXI.Text, 'anchor' | 'blendMode' | 'roundPixels', 'text'> & {
+    PickPixiProps<
+      PIXI.BitmapText,
+      'anchor' | 'roundPixels' | 'text' | 'style'
+    > & {
       instance?: T
-      style?: Partial<TextStyle>
     }
 
   let {
+    anchor,
+    roundPixels,
     text,
     style,
-    anchor,
-    blendMode,
-    roundPixels,
     isRenderGroup,
     instance = $bindable(),
     ...restProps
   }: Props = $props()
 
   if (!instance) {
-    instance = new PIXI.Text({ text, style, isRenderGroup }) as T
+    instance = new PIXI.BitmapText({ text, style, isRenderGroup }) as T
   }
 
   const { invalidate } = getRenderer()
-
-  const { applyProp } = createApplyProps<PIXI.Text, Props>(instance as T, {
+  const { applyProp } = createApplyProps<PIXI.BitmapText>(instance, {
     onApply() {
       invalidate()
     },
   })
 
+  $effect(() => applyProp('anchor', anchor))
+  $effect(() => applyProp('roundPixels', roundPixels))
   $effect(() => applyProp('text', text))
   $effect(() => applyProp('style', style))
-  $effect(() => applyProp('anchor', anchor))
-  $effect(() => applyProp('blendMode', blendMode))
-  $effect(() => applyProp('roundPixels', roundPixels))
 </script>
 
 <Container {...restProps} {instance} />

@@ -1,0 +1,33 @@
+---
+title: BitmapText
+---
+
+import ComponentAPI from '$lib/components/svelte-5/ComponentAPI.astro'
+import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
+
+Renders a PIXI.BitmapText. Bitmap fonts **must** be loaded before use.
+
+<ComponentDescription name="BitmapText" source="https://pixijs.download/dev/docs/scene.BitmapText.html" />
+
+## Usage
+
+```svelte live props={{ bg: 'white' }}
+<script>
+  import { AssetsLoader, BitmapText } from 'svelte-pixi/svelte-5'
+</script>
+
+<AssetsLoader assets={['/assets/desyrel.xml']}>
+  <BitmapText
+    text={'the fox jumps over\nthe lazy dog'}
+    x={380}
+    y={200}
+    anchor={0.5}
+    style={{ fontFamily: 'Desyrel', fontSize: 48, align: 'center' }}
+  />
+</AssetsLoader>
+```
+
+## API
+
+<ComponentAPI component="BitmapText.svelte" />
+

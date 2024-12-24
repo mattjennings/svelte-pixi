@@ -1,0 +1,20 @@
+---
+import { marked } from 'marked'
+import { parseComponent } from './component-parser'
+
+const { name, source } = Astro.props
+
+if (!name) {
+  throw new Error('name is required')
+}
+
+const { instance } = parseComponent(name + '.svelte')
+---
+
+<details class="!border-l-0 ml-0 !pl-0">
+  <summary>PIXI.{name} description from PixiJS</summary>
+  <a class="block mt-1" href={source} target="_blank" rel="noopener noreferrer"
+    >source</a
+  >
+  {instance.description && <p set:html={marked(instance.description)} />}
+</details>

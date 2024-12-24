@@ -41,7 +41,7 @@
       onframechange?: PIXI.AnimatedSprite['onFrameChange']
     }
 
-  const {
+  let {
     textures,
     playing,
     autoUpdate,
@@ -56,9 +56,18 @@
     onloop,
     oncomplete,
     onframechange,
-    instance = $bindable(new PIXI.AnimatedSprite(textures, autoUpdate)) as T,
+    isRenderGroup,
+    instance = $bindable(),
     ...restProps
   }: Props = $props()
+
+  if (!instance) {
+    instance = new PIXI.AnimatedSprite({
+      textures,
+      autoUpdate,
+      isRenderGroup,
+    }) as T
+  }
 
   const { invalidate } = getRenderer()
 

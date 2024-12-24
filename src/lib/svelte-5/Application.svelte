@@ -31,7 +31,7 @@
     onpostrender?: () => void
   }
 
-  const {
+  let {
     autoInit = true,
     antialias,
     autoDensity,
@@ -84,8 +84,12 @@
     onpostrender,
 
     // bindings
-    instance = $bindable(new PIXI.Application()) as T,
+    instance = $bindable(),
   }: Props = $props()
+
+  if (!instance) {
+    instance = new PIXI.Application() as T
+  }
 
   const initPromise = autoInit
     ? instance

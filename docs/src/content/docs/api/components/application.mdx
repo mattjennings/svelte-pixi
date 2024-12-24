@@ -3,9 +3,12 @@ title: Application
 pixi: https://pixijs.download/release/docs/PIXI.Application.html
 ---
 
-import ComponentAPI from '$lib/components/ComponentAPI.astro'
+import ComponentAPI from '$lib/components/svelte-5/ComponentAPI.astro'
+import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
 
 Just like `PIXI.Application`, it sets up the [Renderer](/docs/components/renderer), [Ticker](/docs/components/ticker) and root [Container](/docs/components/container). If you wish, you can manually render those components instead.
+
+<ComponentDescription name="Application" source="https://pixijs.download/dev/docs/app.Application.html" />
 
 ## Usage
 
@@ -25,7 +28,7 @@ Just like `PIXI.Application`, it sets up the [Renderer](/docs/components/rendere
 </Application>
 ```
 
-## Custom View
+### Custom View
 
 If you want to customize the element that the canvas is rendered into, you can use the `view` slot. The canvas will be appended as a child of the slot element.
 
@@ -59,7 +62,7 @@ If you want to customize the element that the canvas is rendered into, you can u
 </style>
 ```
 
-## Render on Demand
+### Render on Demand
 
 ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
 <script>
@@ -85,5 +88,7 @@ If you want to customize the element that the canvas is rendered into, you can u
   />
 </Application>
 ```
+
+## API
 
 <ComponentAPI svelte5 component="Application.svelte" />
