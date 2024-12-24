@@ -1,0 +1,49 @@
+---
+title: Graphics
+pixi: https://pixijs.download/release/docs/PIXI.Graphics.html
+---
+
+import ComponentAPI from '$lib/components/svelte-5/ComponentAPI.astro'
+import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
+
+Renders a PIXI.Graphics. Use the `draw` prop to interact with the PIXI.Graphics API.
+
+<ComponentDescription name="Graphics" source="https://pixijs.download/dev/docs/scene.Graphics.html" />
+
+## Usage
+
+### Draw prop
+
+The `draw` prop is a helper prop that gets called inside of an `$effect()`. This means it only
+draws when the function itself or any state inside of it changes.
+
+```svelte live
+<script>
+  import { onMount } from 'svelte'
+  import { Graphics, onTick } from 'svelte-pixi/svelte-5'
+
+  let size = 100
+  let counter = 0
+
+  onTick((ticker) => {
+    counter += ticker.deltaTime * 0.025
+
+    size = 100 + Math.sin(counter) * 50
+  })
+</script>
+
+<Graphics
+  x={375}
+  y={200}
+  draw={(graphics) => {    
+    graphics.clear()
+    graphics
+      .circle(0, 0, size)
+      .fill(0xde3249)
+  }}
+/>
+```
+
+## API
+
+<ComponentAPI component="Graphics.svelte" />

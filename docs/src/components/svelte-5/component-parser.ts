@@ -85,8 +85,8 @@ export function parseComponent(name: string) {
   }
 
   return {
-    props,
-    snippets,
+    props: props.sort((a, b) => a.name.localeCompare(b.name)),
+    snippets: snippets.sort((a, b) => a.name.localeCompare(b.name)),
     instance: {
       name: instanceSymbol?.getName() || '',
       description: (
