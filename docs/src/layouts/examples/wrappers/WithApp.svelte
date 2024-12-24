@@ -1,74 +1,86 @@
 <script>
-  import { Application, AssetsLoader, Container } from 'svelte-pixi'
+  import { Application, AssetsLoader, Container } from 'svelte-pixi/svelte-5'
   import IntersectionObserver from 'svelte-intersection-observer'
   import Stats from 'stats-js'
 
-  export let assets = []
-  export let bg = 0x000000
-  export let stats = false
+  let { assets = [], bg = 0x000000, stats = false, children } = $props()
 
-  let intersecting = true
-  let element
+  let intersecting = $state(true)
+  let element = $state()
+
   /**
    * @type {HTMLElement}
    */
-  let statsElement
-  let app
-  let clientWidth = 0
-  let clientHeight = 0
+  let statsElement = $state()
+  let app = $state()
+  let clientWidth = $state(0)
+  let clientHeight = $state(0)
 
+  let containerX = $state(0)
+  let containerY = $state(0)
   const resolution = {
     width: 718,
     height: 400,
   }
 
   // only render while in view
-  $: if (app) {
-    try {
-      if (!intersecting) {
-        app.stop()
-      } else {
-        app.start()
+  $effect(() => {
+    if (app) {
+      try {
+        if (!intersecting) {
+          app.stop()
+        } else {
+          app.start()
+        }
+      } catch (err) {
+        console.error(err)
       }
-    } catch (err) {
-      console.error(err)
     }
+  })
+
+  function onAppInit(instance) {
+    app = instance
   }
 
-  function onAppInit(ev) {
-    app = ev.detail.instance
-  }
+  $effect(() => {
+    if (app && statsElement && stats) {
+      try {
+        let _stats = new Stats()
+        statsElement.appendChild(_stats.dom)
 
-  $: if (app && statsElement && stats) {
-    try {
-      let _stats = new Stats()
-      statsElement.appendChild(_stats.dom)
+        _stats.showPanel(0)
 
-      _stats.showPanel(0)
-
-      app.ticker.add(
-        () => {
-          _stats.begin()
-        },
-        null,
-        -Infinity,
-      )
-      app.ticker.add(
-        () => {
-          _stats.end()
-        },
-        null,
-        Infinity,
-      )
-    } catch (e) {
-      console.error(e)
+        app.ticker.add(
+          () => {
+            _stats.begin()
+          },
+          null,
+          -Infinity,
+        )
+        app.ticker.add(
+          () => {
+            _stats.end()
+          },
+          null,
+          Infinity,
+        )
+      } catch (e) {
+        console.error(e)
+      }
     }
-  }
+  })
+
+  $effect(() => {
+    if (clientWidth > 0 && clientHeight > 0) {
+      containerX = -((resolution.width - clientWidth) / 2)
+      containerY = -((resolution.height - clientHeight) / 2)
+    }
+  })
 </script>
 
 <div bind:clientWidth bind:clientHeight>
   <Application
-    on:init={onAppInit}
+    oninit={onAppInit}
     autoStart={false}
     width={resolution.width}
     height={resolution.height}
@@ -79,7 +91,7 @@
         <div
           bind:this={statsElement}
           class="absolute top-0 left-0 z-100 [&>div]:!absolute"
-        />
+        ></div>
       {/if}
 
       <IntersectionObserver {element} bind:intersecting />
@@ -91,11 +103,8 @@
         but if width is 400, x should be -400. this will center the content while keeping the coordinates
         the same for examples.
        -->
-      <Container
-        x={-((resolution.width - clientWidth) / 2)}
-        y={-((resolution.height - clientHeight) / 2)}
-      >
-        <slot />
+      <Container x={containerX} y={containerY}>
+        {@render children()}
       </Container>
     </AssetsLoader>
   </Application>
