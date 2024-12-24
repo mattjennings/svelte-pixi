@@ -24,7 +24,7 @@ export type PickPixiProps<
   OptionalKeys extends keyof T,
   RequiredKeys extends keyof T | undefined = undefined,
 > = PickPixiPropsOptional<T, OptionalKeys> &
-  (RequiredKeys extends keyof T ? PickPixiPropsRequired<T, RequiredKeys> : {})
+  PickPixiPropsRequired<T, RequiredKeys extends keyof T ? RequiredKeys : never>
 
 /**
  * Parses a value to a Point
