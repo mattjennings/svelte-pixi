@@ -12,6 +12,7 @@ export { default as NineSliceSprite } from './NineSliceSprite.svelte'
 export { default as ParticleContainer } from './ParticleContainer.svelte'
 export { default as PerspectiveMesh } from './PerspectiveMesh.svelte'
 export { default as Ticker } from './Ticker.svelte'
+export { default as TilingSprite } from './TilingSprite.svelte'
 export { default as Text } from './Text.svelte'
 export { default as Sprite } from './Sprite.svelte'
 

@@ -1,0 +1,78 @@
+---
+title: TilingSprite
+---
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
+
+Renders a PIXI.TilingSprite.
+
+<ComponentDescription name="TilingSprite" source="https://pixijs.download/dev/docs/scene.TilingSprite.html" />
+
+
+## Usage
+
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live props={{ assets: ['/assets/tiling-sprite.jpeg'] }}
+    <script>
+      import { TilingSprite, onTick } from 'svelte-pixi'
+      import * as PIXI from 'pixi.js'
+
+      let scale = $state({ x: 1, y: 1 })
+      let tilePosition = $state({ x: 0, y: 0 })
+
+      onTick((ticker) => {
+        const time = ticker.lastTime / 2000
+
+        scale = { x: 2 + Math.sin(time), y: 2 + Math.cos(time) }
+        tilePosition = { x: tilePosition.x + 1, y: tilePosition.y + 1 }
+      })
+    </script>
+
+    <TilingSprite
+      x={360}
+      y={200}
+      texture={PIXI.Texture.from('/assets/tiling-sprite.jpeg')}
+      anchor={0.5}
+      width={400}
+      height={400}
+      {tilePosition}
+      {scale}
+    />
+    ```
+  </div>
+  <div slot="svelte-4">
+    ```svelte live props={{ assets: ['/assets/tiling-sprite.jpeg'] }}
+    <script>
+      import { TilingSprite, onTick } from 'svelte-pixi/svelte-4'
+      import * as PIXI from 'pixi.js'
+
+      let scale = { x: 1, y: 1 }
+      let tilePosition = { x: 0, y: 0 }
+
+      onTick((ticker) => {
+        const time = ticker.lastTime / 2000
+        scale = { x: 2 + Math.sin(time), y: 2 + Math.cos(time) }
+        tilePosition = { x: tilePosition.x + 1, y: tilePosition.y + 1 }
+      })
+    </script>
+
+    <TilingSprite
+      x={360}
+      y={200}
+      texture={PIXI.Texture.from('/assets/tiling-sprite.jpeg')}
+      anchor={0.5}
+      width={400}
+      height={400}
+      {tilePosition}
+      {scale}
+    />
+    ```
+  </div>
+</SvelteTabs>
+
+
+## API
+
+<ComponentAPI component="TilingSprite.svelte" />
