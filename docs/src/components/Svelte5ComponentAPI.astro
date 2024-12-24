@@ -54,6 +54,11 @@ function getPropInfo(symbol: MorphSymbol): {
   const name = symbol.getName()
   const jsDocs = (decl as any as JSDocableNode).getJsDocs?.()
 
+    
+  if (name.includes('scale')) {
+    console.log(decl.getType().getUnionTypes())
+  }
+
   let unions = decl
       .getType()
       .getUnionTypes()
@@ -65,13 +70,26 @@ function getPropInfo(symbol: MorphSymbol): {
     unions = unions.filter(t => t !== 'true' && t !== 'false')
   }
 
-  let type = unions
-      .map(t => t.replace(/import\(.*?\/node_modules\/pixi\.js.*?"\)/g, 'PIXI'))
-      .map(t => t.replace(/import\(.*?\/node_modules\/@pixi.*?"\)/g, 'PIXI'))      
-      .map(t => t.replace(/import\("svelte"\)\.Snippet/g, 'Snippet'))
-      .filter(t => t !== 'undefined')
+  if (unions.length ===0) {
+    unions = [decl.getType().getText()]
+  }
 
-  
+  let type = unions
+  .map(t => t.replace(/import\(.*?\/node_modules\/pixi\.js.*?"\)/g, 'PIXI'))
+  .map(t => t.replace(/import\(.*?\/node_modules\/@pixi.*?"\)/g, 'PIXI'))      
+  .map(t => t.replace(/import\("svelte"\)\.Snippet/g, 'Snippet'))
+  // replace points with PointLike, unsure why they dont get picked up
+  .flatMap(t => {
+    if (t === 'PIXI.Point' || t === 'PIXI.ObservablePoint') {
+      return ['number', '[number, number]', '{ x: number; y: number }', 'PIXI.Point']
+    }
+
+    return t
+  })
+  .filter(t => t !== 'undefined')
+
+
+
   const isEvent = name.startsWith('on')
   const isSnippet = name === 'children' || type.some(t => t.startsWith('Snippet'))
 
@@ -107,8 +125,6 @@ for (const propSymbol of properties) {
   const info = getPropInfo(propSymbol)
   if (info.isSnippet) {
     snippets.push(info)
-  } else if (info.isEvent) {
-    events.push(info)
   } else {
     props.push(info)
   }
@@ -216,33 +232,6 @@ snippets.sort((a, b) => a.name.localeCompare(b.name))
               <td>{slot.name}</td>
               <td>
                 {slot.type && <code>{slot.type}</code>}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
-  )
-}
-
-
-{
-  events.length > 0 && (
-    <>
-      <h3 id="events">Events</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          {events.map((event) => (
-            <tr>
-              <td>{event.name}</td>
-              <td>
-                {event.type && <code>{(event.type)}</code>}
               </td>
             </tr>
           ))}

@@ -93,7 +93,7 @@
     instance?: T
     onadded?: () => void
     onremoved?: () => void
-    oncreated?: (detail: { instance: T }) => void
+    oncreated?: (instance: T) => void
     children?: Snippet<[]>
   }
 
@@ -207,7 +207,7 @@
   }
 
   if (oncreated) {
-    oncreated({ instance: _instance as T })
+    oncreated(instance)
   }
 
   const { applyProp } = createApplyProps<PIXI.Container, Props>(instance, {

@@ -1,15 +1,11 @@
 <script lang="ts">
   import type { TextStyle } from 'pixi.js'
-
-  /**
-   * @restProps {Container}
-   */
   import * as PIXI from 'pixi.js'
 
   import { createApplyProps } from '../core/util/props'
   import Container from './Container.svelte'
   import { getRenderer } from '../core/context/renderer'
-  import type { PickPixiProps, PointLike } from '../core/util/data-types'
+  import type { PickPixiProps } from '../core/util/data-types'
 
   type T = $$Generic<PIXI.Text>
   type Props = Container<T>['$$prop_def'] &

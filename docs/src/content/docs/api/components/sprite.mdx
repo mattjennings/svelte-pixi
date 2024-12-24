@@ -1,0 +1,29 @@
+---
+title: Sprite
+pixi: https://pixijs.download/release/docs/Sprite.html
+---
+
+import Svelte5ComponentAPI from '$lib/components/Svelte5ComponentAPI.astro'
+
+Sprites are the base for all textured objects that are rendered to the screen
+
+## Usage
+
+```svelte live props={{ assets: ['/assets/adventurer.png'] }}
+<script>
+  import * as PIXI from 'pixi.js'
+  import { Sprite } from 'svelte-pixi/svelte-5'
+</script>
+
+<Sprite
+  x={360}
+  y={200}
+  texture={PIXI.Texture.from('/assets/adventurer.png')}
+  anchor={0.5}
+  scale={3}
+/>
+```
+
+## API
+
+<Svelte5ComponentAPI component="Sprite.svelte" />

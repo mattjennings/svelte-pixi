@@ -28,7 +28,7 @@
     oninit?: (application: T) => void
     onrender?: () => void
     onprerender?: () => void
-    onpostrender?: (ev: PIXI.FederatedEvent) => void
+    onpostrender?: () => void
   }
 
   const {

@@ -2,6 +2,7 @@ export { default as Application } from './Application.svelte'
 export { default as Container } from './Container.svelte'
 export { default as Ticker } from './Ticker.svelte'
 export { default as Text } from './Text.svelte'
+export { default as Sprite } from './Sprite.svelte'
 
 export { getApp } from '../core/context/app'
 export { getStage, getContainer } from '../core/context/container'
