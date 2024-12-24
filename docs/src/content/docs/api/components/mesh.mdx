@@ -1,0 +1,180 @@
+---
+title: Mesh
+pixi: https://pixijs.download/release/docs/PIXI.Mesh.html
+---
+
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
+
+Renders a PIXI.Mesh.
+
+<ComponentDescription name="Mesh" source="https://pixijs.download/dev/docs/scene.Mesh.html" />
+
+## Usage
+
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live props={{ assets: ['/assets/bg_mesh.jpg']}}
+    <script>
+      import { Mesh, onTick } from 'svelte-pixi'
+      import * as PIXI from 'pixi.js'
+
+      let rotation = 0
+
+      const geometry = new PIXI.Geometry({
+        attributes: {
+          aPosition: [
+            // x, y
+            -100, -100,
+            100, -100,
+            100,  100,
+            -100,  100,
+          ],
+          aUV: [
+            // u, v
+            0, 0, 
+            1, 0,
+            1, 1,
+            0, 1,
+          ],
+        }
+      })
+
+      const vertex = `
+    in vec2 aPosition;
+    in vec2 aUV;
+
+    out vec2 vUV;
+
+    uniform mat3 uProjectionMatrix;
+    uniform mat3 uWorldTransformMatrix;
+
+    uniform mat3 uTransformMatrix;
+
+
+    void main() {
+
+        mat3 mvp = uProjectionMatrix * uWorldTransformMatrix * uTransformMatrix;
+        gl_Position = vec4((mvp * vec3(aPosition, 1.0)).xy, 0.0, 1.0);
+
+        vUV = aUV;
+    }`
+
+      const fragment = `
+    in vec2 vUV;
+
+    uniform sampler2D uTexture;
+
+    void main() {
+        gl_FragColor = texture2D(uTexture, vUV);
+    }`
+
+      const glProgram = PIXI.GlProgram.from({
+          vertex,
+          fragment,
+      });
+
+
+      const shader = new PIXI.Shader({    
+        glProgram,
+        resources: {
+            // make sure texture is loaded!
+            uTexture: PIXI.Texture.from('/assets/bg_mesh.jpg').source,
+            uTime: 0,
+        },    
+      })
+
+      onTick((ticker) => {
+        rotation += 0.01 * ticker.deltaTime
+      })
+    </script>
+
+    <Mesh x={360} y={200} anchor={0.5} scale={2} {geometry} {shader} {rotation} />
+    ```
+
+  </div>
+  <div slot="svelte-4">
+    ```svelte live props={{ assets: ['/assets/bg_mesh.jpg']}}
+    <script>
+      import { Mesh, onTick } from 'svelte-pixi/svelte-4'
+      import * as PIXI from 'pixi.js'
+
+      let rotation = 0
+
+      const geometry = new PIXI.Geometry({
+        attributes: {
+          aPosition: [
+            // x, y
+            -100, -100,
+            100, -100,
+            100,  100,
+            -100,  100,
+          ],
+          aUV: [
+            // u, v
+            0, 0, 
+            1, 0,
+            1, 1,
+            0, 1,
+          ],
+        }
+      })
+
+      const vertex = `
+    in vec2 aPosition;
+    in vec2 aUV;
+
+    out vec2 vUV;
+
+    uniform mat3 uProjectionMatrix;
+    uniform mat3 uWorldTransformMatrix;
+
+    uniform mat3 uTransformMatrix;
+
+
+    void main() {
+
+        mat3 mvp = uProjectionMatrix * uWorldTransformMatrix * uTransformMatrix;
+        gl_Position = vec4((mvp * vec3(aPosition, 1.0)).xy, 0.0, 1.0);
+
+        vUV = aUV;
+    }`
+
+      const fragment = `
+    in vec2 vUV;
+
+    uniform sampler2D uTexture;
+
+    void main() {
+        gl_FragColor = texture2D(uTexture, vUV);
+    }`
+
+      const glProgram = PIXI.GlProgram.from({
+          vertex,
+          fragment,
+      });
+
+
+      const shader = new PIXI.Shader({    
+        glProgram,
+        resources: {
+            // make sure texture is loaded!
+            uTexture: PIXI.Texture.from('/assets/bg_mesh.jpg').source,
+            uTime: 0,
+        },    
+      })
+
+      onTick((ticker) => {
+        rotation += 0.01 * ticker.deltaTime
+      })
+    </script>
+
+    <Mesh x={360} y={200} anchor={0.5} scale={2} {geometry} {shader} {rotation} />
+    ```
+  </div>
+</SvelteTabs>
+
+## API
+
+<ComponentAPI component="Mesh.svelte" />
