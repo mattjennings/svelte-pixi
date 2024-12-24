@@ -1,0 +1,118 @@
+<script lang="ts">
+  import * as PIXI from 'pixi.js'
+  import Container from './Container.svelte'
+  import type { PickPixiProps } from '../core/util/data-types'
+  import { createApplyProps } from '../core/util/props'
+  import { getRenderer } from '../core/context/renderer'
+
+  type T = $$Generic<PIXI.AnimatedSprite>
+  type Props = Container<T>['$$prop_def'] &
+    PickPixiProps<
+      PIXI.AnimatedSprite,
+      | 'playing'
+      | 'autoUpdate'
+      | 'animationSpeed'
+      | 'loop'
+      | 'anchor'
+      | 'blendMode'
+      | 'roundPixels'
+      | 'onComplete'
+      | 'onFrameChange'
+      | 'onLoop',
+      'textures'
+    > & {
+      instance?: T
+      // because pixi has camel casing on these handlers, we'll also
+      // support the lowercase versions
+
+      /**
+       * Alias for onLoop
+       */
+      onloop?: PIXI.AnimatedSprite['onLoop']
+
+      /**
+       * Alias for onComplete
+       */
+      oncomplete?: PIXI.AnimatedSprite['onComplete']
+
+      /**
+       * Alias for onFrameChange
+       */
+      onframechange?: PIXI.AnimatedSprite['onFrameChange']
+    }
+
+  const {
+    textures,
+    playing,
+    autoUpdate,
+    animationSpeed,
+    loop,
+    anchor,
+    blendMode,
+    roundPixels,
+    onComplete,
+    onFrameChange,
+    onLoop,
+    onloop,
+    oncomplete,
+    onframechange,
+    instance = $bindable(new PIXI.AnimatedSprite(textures, autoUpdate)) as T,
+    ...restProps
+  }: Props = $props()
+
+  const { invalidate } = getRenderer()
+
+  const { applyProp } = createApplyProps<PIXI.AnimatedSprite, Props>(instance, {
+    onApply() {
+      invalidate()
+    },
+    apply: {
+      textures: (value, instance) => {
+        instance.textures = value
+
+        if (playing) {
+          instance.play()
+        }
+      },
+      playing: (value, instance) => {
+        if (playing) {
+          instance.play()
+        } else {
+          instance.stop()
+        }
+      },
+    },
+  })
+
+  $effect(() => applyProp('anchor', anchor))
+  $effect(() => applyProp('blendMode', blendMode))
+  $effect(() => applyProp('roundPixels', roundPixels))
+  $effect(() => applyProp('autoUpdate', autoUpdate))
+  $effect(() => applyProp('animationSpeed', animationSpeed))
+  $effect(() => applyProp('loop', loop))
+  $effect(() => applyProp('textures', textures))
+  $effect(() => applyProp('playing', playing))
+  $effect(() => applyProp('onComplete', oncomplete ?? onComplete))
+  $effect(() =>
+    applyProp('onFrameChange', (...args: [any]) => {
+      if (onframechange) {
+        onframechange(...args)
+      } else if (onFrameChange) {
+        onFrameChange(...args)
+      }
+
+      // invalidate after frame change
+      invalidate()
+    }),
+  )
+  $effect(() => applyProp('onLoop', onloop ?? onLoop))
+  $effect(() => {
+    textures.forEach((texture) => texture.on('update', invalidate))
+
+    return () => {
+      textures.forEach((texture) => texture.off('update', invalidate))
+    }
+  })
+</script>
+
+<Container {...restProps} {instance} />

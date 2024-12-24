@@ -91,9 +91,17 @@
       | 'ontouchstart'
     > {
     instance?: T
+
+    /**
+     * Called when the instance is added to its parent or stage
+     */
     onadded?: () => void
+
+    /**
+     * Called when the instance removed from its parent or stage
+     */
     onremoved?: () => void
-    oncreated?: (instance: T) => void
+
     children?: Snippet<[]>
   }
 
@@ -141,7 +149,6 @@
     zIndex,
 
     // events
-    oncreated,
     onadded,
     onclick,
     onglobalmousemove,
@@ -202,17 +209,37 @@
 
   if (_parent) {
     if (_parent.children.indexOf(_instance) === -1) {
+      if (onadded) {
+        // $effect will run after we add, so make onadd is properly setup initilaly
+        _instance.once('added', onadded)
+      }
       _parent.addChild(_instance)
     }
-  }
-
-  if (oncreated) {
-    oncreated(instance)
   }
 
   const { applyProp } = createApplyProps<PIXI.Container, Props>(instance, {
     onApply() {
       invalidate()
+    },
+    apply: {
+      onadded: (value, instance) => {
+        if (value) {
+          instance.on('added', value)
+
+          return () => {
+            instance.off('added', value)
+          }
+        }
+      },
+      onremoved: (value, instance) => {
+        if (value) {
+          instance.on('removed', value)
+
+          return () => {
+            instance.off('removed', value)
+          }
+        }
+      },
     },
   })
 
@@ -292,14 +319,6 @@
   $effect(() => applyProp('onremoved', onremoved))
 
   onMount(() => {
-    // containers only update existing children but svelte will apply
-    // initial props before its children are mounted.
-    // so, if we have children, re-apply props
-    // TODO: unsure how svelte handles this with props.children
-    // if (children) {
-    //   applyProps({ x, y, width, height })
-    // }
-
     return () => {
       _instance?.destroy()
       _parent?.removeChild(_instance)

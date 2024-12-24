@@ -1,3 +1,4 @@
+export { default as AnimatedSprite } from './AnimatedSprite.svelte'
 export { default as Application } from './Application.svelte'
 export { default as Container } from './Container.svelte'
 export { default as Ticker } from './Ticker.svelte'

@@ -30,13 +30,15 @@ export function createApplyProps<
       prop: Prop | null,
       value: Value,
     ) => {
-      applyProp(
+      const cb = applyProp(
         instance,
         prop as any,
         value,
         prop !== null ? defaultApply?.[prop] : undefined,
       )
       opts?.onApply?.(prop as keyof Props, value as any)
+
+      return cb
     },
   }
 }
@@ -66,8 +68,22 @@ export function applyProps<
     [Prop in keyof Props]?: Apply<Instance, Props[Prop]>
   },
 ) {
+  const callbacks: (() => any)[] = []
+
   for (const [prop, value] of Object.entries(props)) {
-    applyProp(instance, prop as keyof Instance, value, apply?.[prop])
+    const callback = applyProp(
+      instance,
+      prop as keyof Instance,
+      value,
+      apply?.[prop],
+    )
+    if (callback) {
+      callbacks.push(callback)
+    }
+  }
+
+  return () => {
+    callbacks.forEach((cb) => cb())
   }
 }
 
@@ -93,14 +109,13 @@ export function applyProp<Instance, Prop extends keyof Instance, Value>(
   prop: Prop | null,
   value: Value,
   apply?: Apply<Instance, Value>,
-) {
+): (() => any) | void {
   if (!instance) {
     return
   }
 
   if (prop === null) {
-    apply?.(value, instance)
-    return
+    return apply?.(value, instance)
   }
 
   const instanceValue = instance[prop] as any
@@ -109,8 +124,7 @@ export function applyProp<Instance, Prop extends keyof Instance, Value>(
   }
 
   if (apply) {
-    apply(value, instance)
-    return
+    return apply(value, instance)
   }
 
   if (isPoint(instanceValue)) {
@@ -162,7 +176,10 @@ export type ExtractProps<T> = Partial<
 
 export type ExtractPropKeys<T> = Pick<T, NotFunctions<T> & PublicProperties<T>>
 
-export type Apply<Instance, Value> = (value: Value, instance: Instance) => any
+export type Apply<Instance, Value> = (
+  value: Value,
+  instance: Instance,
+) => void | (() => any)
 
 type FilterNotStartingWith<
   Set,
