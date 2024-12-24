@@ -240,7 +240,7 @@
   $effect(() => applyProp('interactive', interactive))
   $effect(() => applyProp('interactiveChildren', interactiveChildren))
   $effect(() => applyProp('mask', mask))
-  $effect(() => applyProp('name', name))
+  $effect(() => applyProp('label', label ?? name))
   $effect(() => applyProp('pivot', pivot))
   $effect(() => applyProp('position', position))
   $effect(() => applyProp('renderable', renderable))

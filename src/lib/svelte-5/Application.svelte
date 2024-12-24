@@ -26,8 +26,8 @@
     children: Snippet<[]>
 
     oninit?: (application: T) => void
-    onrender?: (ev: PIXI.FederatedEvent) => void
-    onprerender?: (ev: PIXI.FederatedEvent) => void
+    onrender?: () => void
+    onprerender?: () => void
     onpostrender?: (ev: PIXI.FederatedEvent) => void
   }
 

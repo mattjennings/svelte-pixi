@@ -30,6 +30,8 @@
     "dashify": "^2.0.0",
     "marked": "^10.0.0",
     "stats-js": "^1.0.1",
-    "svelte-pixi": "workspace:../dist"
+    "svelte-pixi": "workspace:../dist",
+    "ts-morph": "^24.0.0",
+    "vite": "^6.0.5"
   }
 }

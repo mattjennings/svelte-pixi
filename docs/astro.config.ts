@@ -5,6 +5,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import tailwind from '@astrojs/tailwind'
 import liveCode from 'astro-live-code'
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // https://astro.build/config
