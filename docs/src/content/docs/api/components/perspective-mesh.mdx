@@ -1,0 +1,199 @@
+---
+title: PerspectiveMesh
+sidebar:
+  badge: 'New'
+---
+
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
+
+Renders a PIXI.PerspectiveMesh.
+
+<ComponentDescription name="PerspectiveMesh" source="https://pixijs.download/dev/docs/scene.PerspectiveMesh.html" />
+
+## Usage
+
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live props={{ assets: ['/assets/eggHead.png']}}
+    <script>
+      // ported from https://pixijs.com/8.x/examples/mesh-and-shaders/perspective-mesh
+
+      import { PerspectiveMesh, onTick, getApp } from 'svelte-pixi'
+      import { onMount } from 'svelte'
+      import * as PIXI from 'pixi.js'
+
+      const { app } = getApp()
+      const texture = PIXI.Texture.from('/assets/eggHead.png')
+
+      let meshX = 380
+      let meshY = 220
+
+      const initialCorners = [
+        { x: 0, y: 0 },
+        { x: texture.width, y: 0 },
+        { x: texture.width, y: texture.height },
+        { x: 0, y: texture.height }
+      ]
+      let corners = $state(initialCorners.map((p) => ({ ...p })))
+
+      onMount(() => {
+        app.stage.hitArea = app.screen;
+        app.stage.eventMode = 'static';
+        app.stage.on('pointermove', (e) => {
+          const mouseX = e.global.x
+          const mouseY = e.global.y
+          const angleY = -(mouseX - meshX) / 10;
+          const angleX = -(mouseY - meshY) / 10;
+          rotate3D(angleX, angleY, 300)
+        });
+      })
+      
+      function rotate3D(angleX, angleY, perspective) {    
+        const radX = (angleX * Math.PI) / 180;
+        const radY = (angleY * Math.PI) / 180;
+        const cosX = Math.cos(radX);
+        const sinX = Math.sin(radX);
+        const cosY = Math.cos(radY);
+        const sinY = Math.sin(radY);
+
+        for (let i = 0; i < initialCorners.length; i++)
+        {
+          const src = initialCorners[i];
+          const out = corners[i];
+          const x = src.x - texture.width / 2;
+          const y = src.y - texture.height / 2;
+          let z = 0; // Assume initial z is 0 for this 2D plane
+
+          // Rotate around Y axis
+          const xY = cosY * x - sinY * z;
+
+          z = sinY * x + cosY * z;
+
+          // Rotate around X axis
+          const yX = cosX * y - sinX * z;
+
+          z = sinX * y + cosX * z;
+
+          // Apply perspective projection
+          const scale = perspective / (perspective - z);
+
+          out.x = xY * scale + texture.width / 2;
+          out.y = yX * scale + texture.height / 2;
+        }
+
+        corners = corners
+      }  
+    </script>
+
+    <PerspectiveMesh 
+      x={meshX}
+      y={meshY}
+      {texture} 
+      pivot={{ x: texture.width / 2, y: texture.height / 2}}
+      x0={corners[0].x}
+      y0={corners[0].y}
+      x1={corners[1].x}
+      y1={corners[1].y}
+      x2={corners[2].x}
+      y2={corners[2].y}
+      x3={corners[3].x}
+      y3={corners[3].y}
+    />
+    ```
+  </div>
+  <div slot="svelte-4">
+    ```svelte live props={{ assets: ['/assets/eggHead.png']}}
+    <script>
+      // ported from https://pixijs.com/8.x/examples/mesh-and-shaders/perspective-mesh
+
+      import { PerspectiveMesh, onTick, getApp } from 'svelte-pixi/svelte-4'
+      import { onMount } from 'svelte'
+      import * as PIXI from 'pixi.js'
+
+      const { app } = getApp()
+      const texture = PIXI.Texture.from('/assets/eggHead.png')
+
+      let meshX = 380
+      let meshY = 220
+
+      const initialCorners = [
+        { x: 0, y: 0 },
+        { x: texture.width, y: 0 },
+        { x: texture.width, y: texture.height },
+        { x: 0, y: texture.height }
+      ]
+      let corners = initialCorners.map((p) => ({ ...p }))
+
+      onMount(() => {
+        app.stage.hitArea = app.screen;
+        app.stage.eventMode = 'static';
+        app.stage.on('pointermove', (e) => {
+          const mouseX = e.global.x
+          const mouseY = e.global.y
+          const angleY = -(mouseX - meshX) / 10;
+          const angleX = -(mouseY - meshY) / 10;
+          rotate3D(angleX, angleY, 300)
+        });
+      })
+
+
+      function rotate3D(angleX, angleY, perspective) {    
+        const radX = (angleX * Math.PI) / 180;
+        const radY = (angleY * Math.PI) / 180;
+        const cosX = Math.cos(radX);
+        const sinX = Math.sin(radX);
+        const cosY = Math.cos(radY);
+        const sinY = Math.sin(radY);
+
+        for (let i = 0; i < initialCorners.length; i++)
+        {
+          const src = initialCorners[i];
+          const out = corners[i];
+          const x = src.x - texture.width / 2;
+          const y = src.y - texture.height / 2;
+          let z = 0; // Assume initial z is 0 for this 2D plane
+
+          // Rotate around Y axis
+          const xY = cosY * x - sinY * z;
+
+          z = sinY * x + cosY * z;
+
+          // Rotate around X axis
+          const yX = cosX * y - sinX * z;
+
+          z = sinX * y + cosX * z;
+
+          // Apply perspective projection
+          const scale = perspective / (perspective - z);
+
+          out.x = xY * scale + texture.width / 2;
+          out.y = yX * scale + texture.height / 2;
+        }
+
+        corners = corners
+      }  
+    </script>
+
+    <PerspectiveMesh 
+      x={meshX}
+      y={meshY}
+      {texture} 
+      pivot={{ x: texture.width / 2, y: texture.height / 2}}
+      x0={corners[0].x}
+      y0={corners[0].y}
+      x1={corners[1].x}
+      y1={corners[1].y}
+      x2={corners[2].x}
+      y2={corners[2].y}
+      x3={corners[3].x}
+      y3={corners[3].y}
+    />
+    ```
+  </div>
+</SvelteTabs>
+
+## API
+
+<ComponentAPI component="PerspectiveMesh.svelte" />
