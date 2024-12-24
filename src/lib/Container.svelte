@@ -447,8 +447,8 @@
     try {
       // Container.getChildIndex throws an error if instance is not a child...
       childIndex = _parent.getChildIndex(_instance)
-      // eslint-disable-next-line no-empty
-    } catch (e) {}
+      // eslint-disable-next-line no-empty, @typescript-eslint/no-unused-vars
+    } catch (_) {}
 
     // add instance to parent
     if (_parent && childIndex === -1) {

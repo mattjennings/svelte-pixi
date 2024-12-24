@@ -334,10 +334,15 @@
       throw new Error('Renderer instance not found')
     }
 
-    if (node.childNodes.length) {
-      node.childNodes[0].appendChild(instance.canvas)
-    } else {
+    if (node.childNodes.length === 0) {
       node.appendChild(instance.canvas)
+    } else {
+      for (const childNode of Array.from(node.childNodes)) {
+        if (childNode instanceof HTMLElement) {
+          childNode.appendChild(instance.canvas)
+          break
+        }
+      }
     }
   }
 </script>
@@ -353,7 +358,7 @@
           <slot name="view" />
         </div>
       {:else}
-        <div use:view />
+        <div use:view></div>
       {/if}
     </RendererContext>
   {/if}

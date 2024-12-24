@@ -19,7 +19,7 @@ export function warning(condition: boolean, message: string): void {
   // https://github.com/facebook/react/issues/4216
   try {
     throw Error(text)
-    // eslint-disable-next-line no-empty
+    // eslint-disable-next-line no-empty, @typescript-eslint/no-unused-vars
   } catch (x) {}
 }
 

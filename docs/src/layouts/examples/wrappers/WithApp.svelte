@@ -1,6 +1,5 @@
 <script>
   import { Application, AssetsLoader, Container } from 'svelte-pixi'
-  import { onMount } from 'svelte'
   import IntersectionObserver from 'svelte-intersection-observer'
   import Stats from 'stats-js'
 

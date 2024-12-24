@@ -9,8 +9,6 @@
 </script>
 
 <script lang="ts">
-  import { AbstractRenderer } from 'pixi.js'
-
   import * as PIXI from 'pixi.js'
 
   import { createEventDispatcher, getContext, setContext } from 'svelte'
@@ -366,7 +364,7 @@
     on:postrender
   >
     <slot name="view" slot="view">
-      <div />
+      <div></div>
     </slot>
 
     {#if render}
