@@ -2,7 +2,8 @@
 title: BitmapText
 ---
 
-import ComponentAPI from '$lib/components/svelte-5/ComponentAPI.astro'
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
 import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
 
 Renders a PIXI.BitmapText. Bitmap fonts **must** be loaded before use.
@@ -11,21 +12,42 @@ Renders a PIXI.BitmapText. Bitmap fonts **must** be loaded before use.
 
 ## Usage
 
-```svelte live props={{ bg: 'white' }}
-<script>
-  import { AssetsLoader, BitmapText } from 'svelte-pixi/svelte-5'
-</script>
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live props={{ bg: 'white' }}
+    <script>
+      import { AssetsLoader, BitmapText } from 'svelte-pixi/svelte-5'
+    </script>
 
-<AssetsLoader assets={['/assets/desyrel.xml']}>
-  <BitmapText
-    text={'the fox jumps over\nthe lazy dog'}
-    x={380}
-    y={200}
-    anchor={0.5}
-    style={{ fontFamily: 'Desyrel', fontSize: 48, align: 'center' }}
-  />
-</AssetsLoader>
-```
+    <AssetsLoader assets={['/assets/desyrel.xml']}>
+      <BitmapText
+        text={'the fox jumps over\nthe lazy dog'}
+        x={380}
+        y={200}
+        anchor={0.5}
+        style={{ fontFamily: 'Desyrel', fontSize: 48, align: 'center' }}
+      />
+    </AssetsLoader>
+    ```
+  </div>
+  <div slot="svelte-4">
+    ```svelte live props={{ bg: 'white' }}
+    <script>
+      import { AssetsLoader, BitmapText } from 'svelte-pixi/svelte-4'
+    </script>
+
+    <AssetsLoader assets={['/assets/desyrel.xml']}>
+      <BitmapText
+        text={'the fox jumps over\nthe lazy dog'}
+        x={380}
+        y={200}
+        anchor={0.5}
+        style={{ fontFamily: 'Desyrel', fontSize: 48, align: 'center' }}
+      />
+    </AssetsLoader>
+    ```  
+  </div>
+</SvelteTabs>
 
 ## API
 

@@ -71,39 +71,16 @@ export default defineConfig({
           label: 'API',
           items: [
             {
-              label: 'Svelte 5',
-              items: [
-                {
-                  label: 'Components',
-                  autogenerate: {
-                    directory: 'api/components',
-                  },
-                },
-                {
-                  label: 'Utilities',
-                  autogenerate: {
-                    directory: 'api/utilities',
-                  },
-                },
-              ],
+              label: 'Components',
+              autogenerate: {
+                directory: 'api/components',
+              },
             },
             {
-              label: 'Svelte 4',
-              collapsed: true,
-              items: [
-                {
-                  label: 'Components',
-                  autogenerate: {
-                    directory: 'api/svelte-4/components',
-                  },
-                },
-                {
-                  label: 'Utilities',
-                  autogenerate: {
-                    directory: 'api/svelte-4/utilities',
-                  },
-                },
-              ],
+              label: 'Utilities',
+              autogenerate: {
+                directory: 'api/utilities',
+              },
             },
           ],
         },

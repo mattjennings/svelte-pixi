@@ -3,7 +3,8 @@ title: AnimatedSprite
 pixi: https://pixijs.download/release/docs/PIXI.AnimatedSprite.html
 ---
 
-import ComponentAPI from '$lib/components/svelte-5/ComponentAPI.astro'
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
 import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
 
 A simple way to display an animation depicted by a list of textures.
@@ -17,57 +18,121 @@ I recommend using spritesheets created by TexturePacker ([they have a great tuto
 
 ### Basic
 
-```svelte live props={{ assets: ["/assets/adventurer-spritesheet.json"] }}
-<script>
-  import * as PIXI from 'pixi.js'
-  import { AnimatedSprite } from 'svelte-pixi/svelte-5'
-</script>
+<SvelteTabs>
+  <div slot="svelte-5">
 
-<AnimatedSprite
-  x={360}
-  y={200}
-  textures={[
-    PIXI.Texture.from('adventurer-idle-00.png'),
-    PIXI.Texture.from('adventurer-idle-01.png'),
-    PIXI.Texture.from('adventurer-idle-02.png'),
-  ]}
-  playing
-  animationSpeed={0.1}
-  anchor={0.5}
-  scale={3}
-/>
-```
+  ```svelte live props={{ assets: ["/assets/adventurer-spritesheet.json"] }}
+  <script>
+    import * as PIXI from 'pixi.js'
+    import { AnimatedSprite } from 'svelte-pixi/svelte-5'
+  </script>
+
+  <AnimatedSprite
+    x={360}
+    y={200}
+    textures={[
+      PIXI.Texture.from('adventurer-idle-00.png'),
+      PIXI.Texture.from('adventurer-idle-01.png'),
+      PIXI.Texture.from('adventurer-idle-02.png'),
+    ]}
+    playing
+    animationSpeed={0.1}
+    anchor={0.5}
+    scale={3}
+  />
+  ```
+  </div>
+  <div slot="svelte-4">
+   ```svelte live props={{ assets: ["/assets/adventurer-spritesheet.json"] }}
+    <script>
+      import * as PIXI from 'pixi.js'
+      import { AnimatedSprite } from 'svelte-pixi/svelte-4'
+    </script>
+
+    <AnimatedSprite
+      x={360}
+      y={200}
+      textures={[
+        PIXI.Texture.from('adventurer-idle-00.png'),
+        PIXI.Texture.from('adventurer-idle-01.png'),
+        PIXI.Texture.from('adventurer-idle-02.png'),
+      ]}
+      playing
+      animationSpeed={0.1}
+      anchor={0.5}
+      scale={3}
+    />
+    ```
+  </div>
+</SvelteTabs>
 
 ### Multiple Animations
 
-```svelte live props={{ assets: ["/assets/adventurer-spritesheet.json"] }}
-<script>
-  import { AnimatedSprite } from 'svelte-pixi/svelte-5'
-  import { Assets } from 'pixi.js'
+<SvelteTabs>
+  <div slot="svelte-5">
+  ```svelte live props={{ assets: ["/assets/adventurer-spritesheet.json"] }}
+  <script>
+    import { AnimatedSprite } from 'svelte-pixi/svelte-5'
+    import { Assets } from 'pixi.js'
 
-  // loaded from parent <AssetsLoader />
-  const spritesheet = Assets.get('/assets/adventurer-spritesheet.json')
-  let textures = spritesheet.animations['adventurer-idle']
+    // loaded from parent <AssetsLoader />
+    const spritesheet = Assets.get('/assets/adventurer-spritesheet.json')
+    let textures = spritesheet.animations['adventurer-idle']
 
-  function changeAnimation() {
-    // pick an an animation from the spritesheet at random
-    const keys = Object.keys(spritesheet.animations)
-    const randomIndex = Math.floor(Math.random() * keys.length)
-    textures = spritesheet.animations[keys[randomIndex]]
-  }
-</script>
+    function changeAnimation() {
+      // pick an an animation from the spritesheet at random
+      const keys = Object.keys(spritesheet.animations)
+      const randomIndex = Math.floor(Math.random() * keys.length)
+      textures = spritesheet.animations[keys[randomIndex]]
+    }
+  </script>
 
-<AnimatedSprite
-  {textures}
-  x={360}
-  y={200}
-  playing
-  animationSpeed={0.1}
-  anchor={0.5}
-  scale={3}
-  onloop={changeAnimation}
-/>
-```
+  <AnimatedSprite
+    {textures}
+    x={360}
+    y={200}
+    playing
+    animationSpeed={0.1}
+    anchor={0.5}
+    scale={3}
+    onloop={changeAnimation}
+  />
+  ```
+  </div>
+
+  <div slot="svelte-4">
+
+  ```svelte live props={{ assets: ["/assets/adventurer-spritesheet.json"] }}
+  <script>
+    import { AnimatedSprite } from 'svelte-pixi/svelte-4'
+    import { Assets } from 'pixi.js'
+
+    // loaded from parent <AssetsLoader />
+    const spritesheet = Assets.get('/assets/adventurer-spritesheet.json')
+    let textures = spritesheet.animations['adventurer-idle']
+
+    function changeAnimation() {
+      // pick an an animation from the spritesheet at random
+      const keys = Object.keys(spritesheet.animations)
+      const randomIndex = Math.floor(Math.random() * keys.length)
+      textures = spritesheet.animations[keys[randomIndex]]
+    }
+  </script>
+
+  <AnimatedSprite
+    {textures}
+    x={360}
+    y={200}
+    playing
+    animationSpeed={0.1}
+    anchor={0.5}
+    scale={3}
+    on:loop={changeAnimation}
+  />
+  ```
+ 
+  </div>
+</SvelteTabs>
 
 ## API
 

@@ -4,6 +4,7 @@ sidebar:
   badge: 'New'
 ---
 
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
 import ComponentAPI from '$lib/components/ComponentAPI.astro'
 
 Creates and loads assets using [PIXI.Assets](https://pixijs.download/release/docs/PIXI.Assets.html) by creating a bundle from the `assets` prop.
@@ -13,27 +14,54 @@ render until the loading has completed. You can show progress by using the `prog
 
 ## Usage
 
-```svelte live props={{ bg: 'white' }}
-<script>
-  import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi/svelte-5'
-  import * as PIXI from 'pixi.js'
-</script>
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live props={{ bg: 'white' }}
+    <script>
+      import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi/svelte-5'
+      import * as PIXI from 'pixi.js'
+    </script>
 
-<AssetsLoader assets={['/assets/great-success.png']}>
-  <slot let:progress slot="loading">
-    <Text x={360} y={200} text={`Loading... ${progress}%`} anchor={0.5} />
-  </slot>
+    <AssetsLoader assets={['/assets/great-success.png']}>
+      <slot let:progress slot="loading">
+        <Text x={360} y={200} text={`Loading... ${progress}%`} anchor={0.5} />
+      </slot>
 
-  <Sprite
-    x={360}
-    y={200}
-    texture={PIXI.Texture.from('/assets/great-success.png')}
-    anchor={0.5}
-    width={360}
-    height={300}
-  />
-</AssetsLoader>
-```
+      <Sprite
+        x={360}
+        y={200}
+        texture={PIXI.Texture.from('/assets/great-success.png')}
+        anchor={0.5}
+        width={360}
+        height={300}
+      />
+    </AssetsLoader>
+    ```
+  </div>
+  <div slot="svelte-4">
+      ```svelte live props={{ bg: 'white' }}
+      <script>
+        import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi/svelte-4'
+        import * as PIXI from 'pixi.js'
+      </script>
+
+      <AssetsLoader assets={['/assets/great-success.png']}>
+        <slot let:progress slot="loading">
+          <Text x={360} y={200} text={`Loading... ${progress}%`} anchor={0.5} />
+        </slot>
+
+        <Sprite
+          x={360}
+          y={200}
+          texture={PIXI.Texture.from('/assets/great-success.png')}
+          anchor={0.5}
+          width={360}
+          height={300}
+        />
+      </AssetsLoader>
+      ```
+  </div>
+</SvelteTabs>
 
 ## Assets init options
 
@@ -41,25 +69,50 @@ You may call [`PIXI.Assets.init()`](https://pixijs.download/dev/docs/PIXI.Assets
 the behaviour of the Assets loader, but you must do it before the first time you render an `AssetsLoader` component.
 Note that `PIXI.Assets` can only be initialized once.
 
-```svelte
-<script>
-  import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi/svelte-5'
-  import * as PIXI from 'pixi.js'
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte
+    <script>
+      import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi/svelte-5'
+      import * as PIXI from 'pixi.js'
 
-  // init is async, so we must await it
-  const initPromise = PIXI.Assets.init({
-    basePath: '/assets',
-  })
-</script>
+      // init is async, so we must await it
+      const initPromise = PIXI.Assets.init({
+        basePath: '/assets',
+      })
+    </script>
 
-{#await initPromise then}
-  <Application>
-    <AssetsLoader assets={['/great-success.png']}>
-      <Sprite anchor={0.5} texture={PIXI.Texture.from('/great-success.png')} />
-    </AssetsLoader>
-  </Application>
-{/await}
-```
+    {#await initPromise then}
+      <Application>
+        <AssetsLoader assets={['/great-success.png']}>
+          <Sprite anchor={0.5} texture={PIXI.Texture.from('/great-success.png')} />
+        </AssetsLoader>
+      </Application>
+    {/await}
+    ```
+  </div>
+  <div slot="svelte-4">
+    ```svelte
+    <script>
+      import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi/svelte-4'
+      import * as PIXI from 'pixi.js'
+
+      // init is async, so we must await it
+      const initPromise = PIXI.Assets.init({
+        basePath: '/assets',
+      })
+    </script>
+
+    {#await initPromise then}
+      <Application>
+        <AssetsLoader assets={['/great-success.png']}>
+          <Sprite anchor={0.5} texture={PIXI.Texture.from('/great-success.png')} />
+        </AssetsLoader>
+      </Application>
+    {/await}
+    ```  
+  </div>
+</SvelteTabs>
 
 ## Textures
 
@@ -87,7 +140,6 @@ Other options below would also work:
   <Sprite texture={PIXI.Texture.from('/my-texture.png')} />
 </AssetsLoader>
 ```
-
 
 ## API
 

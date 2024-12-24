@@ -1,14 +1,12 @@
 ---
 title: Graphics
-pixi: https://pixijs.download/release/docs/PIXI.Graphics.html
 ---
 
 import SvelteTabs from '$lib/components/SvelteTabs.astro'
-import Svelte5ComponentAPI from '$lib/components/svelte-5/ComponentAPI.astro'
-import Svelte4ComponentAPI from '$lib/components/ComponentAPI.astro'
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
 import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
 
-Renders a PIXI.Graphics. Use the `draw` prop to interact with the PIXI.Graphics API.
+Renders a PIXI.Graphics. Use the `draw` prop to interact with the Graphics API.
 
 <ComponentDescription name="Graphics" source="https://pixijs.download/dev/docs/scene.Graphics.html" />
 
@@ -20,7 +18,7 @@ The `draw` prop is a helper prop that gets called inside of an `$effect()`. This
 draws when the function itself or any state inside of it changes.
 
 <SvelteTabs>
-<div slot="svelte-5">
+  <div slot="svelte-5">
     ```svelte live
     <script>
       import { Graphics, onTick } from 'svelte-pixi/svelte-5'
@@ -45,7 +43,7 @@ draws when the function itself or any state inside of it changes.
       {draw}
     />
     ```
-</div>
+  </div>
 
   <div slot="svelte-4">
     ```svelte live
@@ -78,7 +76,4 @@ draws when the function itself or any state inside of it changes.
 
 ## API
 
-<SvelteTabs>
-  <Svelte5ComponentAPI slot="svelte-5" component="Graphics.svelte" />  
-  <Svelte4ComponentAPI slot="svelte-4" component="Graphics.svelte" />
-</SvelteTabs>
+<ComponentAPI component="Graphics.svelte" />

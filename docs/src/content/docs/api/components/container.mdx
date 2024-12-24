@@ -3,7 +3,8 @@ title: Container
 pixi: https://pixijs.download/release/docs/PIXI.Container.html
 ---
 
-import ComponentAPI from '$lib/components/svelte-5/ComponentAPI.astro'
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
 import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
 
 Renders a PIXI.Container. It is the basis for most SveltePixi components in the same way that most PIXI objects extend PIXI.Container.
@@ -15,58 +16,114 @@ When child components are rendered inside, their coordinates become local to the
 ## Usage
 
 ### Basic
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live
+    <script>
+      import { Container, Text } from 'svelte-pixi/svelte-5'
+    </script>
 
-```svelte live
-<script>
-  import { Container, Text } from 'svelte-pixi/svelte-5'
-</script>
+    <Container x={360} y={160}>
+      <Text text="Hello" x={0} y={0} anchor={0.5} style={{ fill: 'white' }} />
+      <Text text="World" x={0} y={60} anchor={0.5} style={{ fill: 'white' }} />
+    </Container>
+    ```
+  </div>
+  <div slot="svelte-4">
+    ```svelte live
+    <script>
+      import { Container, Text } from 'svelte-pixi/svelte-4'
+    </script>
 
-<Container x={360} y={160}>
-  <Text text="Hello" x={0} y={0} anchor={0.5} style={{ fill: 'white' }} />
-  <Text text="World" x={0} y={60} anchor={0.5} style={{ fill: 'white' }} />
-</Container>
-```
+    <Container x={360} y={160}>
+      <Text text="Hello" x={0} y={0} anchor={0.5} style={{ fill: 'white' }} />
+      <Text text="World" x={0} y={60} anchor={0.5} style={{ fill: 'white' }} />
+    </Container>
+    ```
+  </div>
+</SvelteTabs>
 
 ### The Instance Prop
 
 The `instance` prop allows you to change or aceess the underlying PIXI instance. This is how components such as Sprite are composed, and all
 components that extend PIXI.Container can be used in this way.
 
-```svelte live title="MyCustomTextComponent.svelte"
-<script>
-  import { Container } from 'svelte-pixi/svelte-5'
-  import * as PIXI from 'pixi.js'
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live title="MyCustomTextComponent.svelte"
+    <script>
+      import { Container } from 'svelte-pixi/svelte-5'
+      import * as PIXI from 'pixi.js'
 
-  let {
-    text = 'hello world',
-    style = { fill: 'white' }
-  } = $props()
+      let {
+        text = 'hello world',
+        style = { fill: 'white' }
+      } = $props()
 
-  const instance = new PIXI.Text({ text, style })
+      const instance = new PIXI.Text({ text, style })
 
-  // updating the instance
-  $effect(() => {
-    instance.text = text
-  })
-</script>
+      // updating the instance
+      $effect(() => {
+        instance.text = text
+      })
+    </script>
 
-<Container {instance} x={280} y={170} />
-```
+    <Container {instance} x={280} y={170} />
+    ```
+  </div>
+  <div slot="svelte-4">
+    ```svelte live title="MyCustomTextComponent.svelte"
+    <script>
+      import { Container } from 'svelte-pixi/svelte-4'
+      import * as PIXI from 'pixi.js'
+
+      export let text = 'hello world'
+      export let style = { fill: 'white' }
+
+      const instance = new PIXI.Text({ text, style })
+
+      // updating the instance
+      $: instance.text = text
+    </script>
+
+    <Container {instance} x={280} y={170} />
+    ```  
+  </div>
+</SvelteTabs>
 
 You can also bind to it to access the default one:
 
-```svelte
-<script>
-  import { Container } from 'svelte-pixi/svelte-5'
-  import * as PIXI from 'pixi.js'
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte
+    <script>
+      import { Container } from 'svelte-pixi/svelte-5'
+      import * as PIXI from 'pixi.js'
 
-  let instance
+      let instance
 
-  $effect(() => console.log(instance.label))
-</script>
+      $effect(() => console.log(instance.label))
+    </script>
 
-<Container bind:instance label="my container"/>
-```
+    <Container bind:instance label="my container"/>
+    ```
+  </div>
+  <div slot="svelte-4">
+    ```svelte
+    <script>
+      import { Container } from 'svelte-pixi/svelte-4'
+      import * as PIXI from 'pixi.js'
+
+      let instance
+
+      $: console.log(instance.label)
+    </script>
+
+    <Container bind:instance label="my container"/>
+    ```
+  </div>
+</SvelteTabs>
+
 ## API
 
 <ComponentAPI component="Container.svelte" />
