@@ -86,16 +86,22 @@
     height={resolution.height}
     backgroundColor={bg}
   >
-    <div bind:this={element} class="relative not-content" slot="view">
-      {#if stats}
-        <div
-          bind:this={statsElement}
-          class="absolute top-0 left-0 z-100 [&>div]:!absolute"
-        ></div>
-      {/if}
+    {#snippet view()}
+      <div bind:this={element} class="relative not-content">
+        {#if stats}
+          <div
+            bind:this={statsElement}
+            class="absolute top-0 left-0 z-100 [&>div]:!absolute"
+          ></div>
+        {/if}
 
-      <IntersectionObserver {element} bind:intersecting />
-    </div>
+        <IntersectionObserver
+          {element}
+          bind:intersecting
+          rootMargin={'100px'}
+        />
+      </div>
+    {/snippet}
 
     <AssetsLoader {assets}>
       <!--
@@ -104,7 +110,9 @@
         the same for examples.
        -->
       <Container x={containerX} y={containerY}>
-        {@render children()}
+        {#if intersecting}
+          {@render children()}
+        {/if}
       </Container>
     </AssetsLoader>
   </Application>
