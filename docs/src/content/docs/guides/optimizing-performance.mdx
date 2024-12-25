@@ -321,93 +321,191 @@ If you wanted to squeeze out a bit more you could use a [ParticleContainer](/doc
 
 ## Render on Demand
 
-Pixi applications typically render at 60 frames per second (or higher if the user's screen has a higher refresh rate). This is perfectly fine and most WebGL apps function this way, but it could be wasteful to keep rendering if everything in your scene has stopped moving or animating. In which case it would be better to only render when our components have actually updated (e.g. after user interaction).
+Pixi applications typically render at 60 frames per second (or higher if the user's screen has a higher refresh rate). 
+This is perfectly fine and most WebGL apps function this way, but it could be wasteful to keep rendering if everything in your 
+scene has stopped moving or animating. In which case it would be better to only render when our components have actually 
+updated (e.g. after user interaction).
 
 You can set `render="demand"` on the `Application` component to opt into this behaviour:
 
-```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
-<script>
-  import { onMount } from 'svelte'
-  import { Text, Application } from 'svelte-pixi'
-  import DraggableCircle from '$lib/components/DraggableCircle.svelte'
-</script>
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+    <script>
+      import { onMount } from 'svelte'
+      import { Text, Application } from 'svelte-pixi'
+      import DraggableCircle from '$lib/components/DraggableCircle.svelte'
+    </script>
 
-<Application
-  width={400}
-  height={400}
-  antialias
-  render="demand"
-  on:render={() => console.log('render')}
->
-  <DraggableCircle x={200} y={200} />
-  <Text
-    x={200}
-    y={300}
-    text="Click and drag"
-    style={{ fill: 'white' }}
-    anchor={0.5}
-  />
-</Application>
-```
+    <Application
+      width={400}
+      height={400}
+      antialias
+      render="demand"
+      onrender={() => console.log('render')}
+    >
+      <DraggableCircle x={200} y={200} />
+      <Text
+        x={200}
+        y={300}
+        text="Click and drag"
+        style={{ fill: 'white' }}
+        anchor={0.5}
+      />
+    </Application>
+    ```  
+  </div>
+  <div slot="svelte-4">
+    ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+    <script>
+      import { onMount } from 'svelte'
+      import { Text, Application } from 'svelte-pixi/svelte-4'
+      import DraggableCircle from '$lib/components/DraggableCircle.svelte'
+    </script>
+
+    <Application
+      width={400}
+      height={400}
+      antialias
+      render="demand"
+      on:render={() => console.log('render')}
+    >
+      <DraggableCircle x={200} y={200} />
+      <Text
+        x={200}
+        y={300}
+        text="Click and drag"
+        style={{ fill: 'white' }}
+        anchor={0.5}
+      />
+    </Application>
+    ```
+  </div>
+</SvelteTabs>
 
 If you are using the `Renderer` component, see [this example](/docs/components/renderer#render-on-demand).
 
 ### Triggering Renders Manually
 
-Every SveltePixi component will automatically trigger renders when they are updated when rendering on demand. If you are mutating Pixi instances directly or adding functionality to a base component you will need to mark that an update is required manually.
+Every SveltePixi component will automatically trigger renders when they are updated when rendering on demand. 
+If you are mutating Pixi instances directly or adding functionality to a base component you will need to mark 
+that an update is required manually.
 
-```svelte
-<script>
-  import { Sprite, getRenderer, onTick } from 'svelte-pixi'
+<SvelteTabs>
+  <div slot="svelte-5">
+  ```svelte
+  <script>
+    import { Sprite, getRenderer, onTick } from 'svelte-pixi'
 
-  // gets the underlying Renderer component from Application
-  const { invalidate } = getRenderer()
+    // gets the underlying Renderer component from Application
+    const { invalidate } = getRenderer()
 
-  let sprite
-  let moving = true
+    let sprite
+    let moving = true
 
-  // we can still use the ticker!
-  onTick((ticker) => {
-    if (sprite && moving) {
-      sprite.x += 5 * ticker.deltaTime
+    // we can still use the ticker!
+    onTick((ticker) => {
+      if (sprite && moving) {
+        sprite.x += 5 * ticker.deltaTime
 
-      if (sprite.x > 200) {
-        moving = false
+        if (sprite.x > 200) {
+          moving = false
+        }
+
+        invalidate()
       }
+    })
+  </script>
 
+  <Sprite bind:instance={sprite} {...$$restProps} />
+  ```
+
+  ```svelte title="CustomSprite.svelte"  
+  <script>
+    import { Sprite, getRenderer } from 'svelte-pixi'    
+
+    let { customProp, customProp2 } = $props()
+    const { invalidate } = getRenderer()
+
+    class CustomSprite extends PIXI.Sprite {
+      customProp = "1"
+      customProp2 = "2"
+    }
+
+    let sprite = new CustomSprite()
+
+    // apply our custom props
+    $effect(() => {
+      sprite.customProp = customProp
+      invalidate()
+    })
+
+    $effect(() => {
+      sprite.customProp2 = customProp2
+      invalidate()
+    })
+  </script>
+
+  <Sprite instance={sprite} {...$$restProps} />
+  ```  
+  </div>
+  <div slot="svelte-4">
+  ```svelte
+  <script>
+    import { Sprite, getRenderer, onTick } from 'svelte-pixi/svelte-4'
+
+    // gets the underlying Renderer component from Application
+    const { invalidate } = getRenderer()
+
+    let sprite
+    let moving = true
+
+    // we can still use the ticker!
+    onTick((ticker) => {
+      if (sprite && moving) {
+        sprite.x += 5 * ticker.deltaTime
+
+        if (sprite.x > 200) {
+          moving = false
+        }
+
+        invalidate()
+      }
+    })
+  </script>
+
+  <Sprite bind:instance={sprite} {...$$restProps} />
+  ```
+
+  ```svelte title="CustomSprite.svelte"
+  <script>
+    import { Sprite, getRenderer } from 'svelte-pixi'    
+
+    export let customProp
+    export let customProp2
+
+    const { invalidate } = getRenderer()
+
+    class CustomSprite extends PIXI.Sprite {
+      customProp = "1"
+      customProp2 = "2"
+    }
+
+    let sprite = new CustomSprite()
+
+    // apply our custom props
+    $: {
+      sprite.customProp = customProp
       invalidate()
     }
-  })
-</script>
 
-<Sprite bind:instance={sprite} {...$$restProps} />
-```
+    $: {
+      sprite.customProp2 = customProp2
+      invalidate()
+    }
+  </script>
 
-```svelte
-<!-- CustomSprite.svelte -->
-<script>
-  import { Sprite, getRenderer, onTick } from 'svelte-pixi'
-  import { afterUpdate } from 'svelte'
-
-  // imagine we have a custom Sprite class that extends PIXI.Sprite
-  import CustomSprite from '../CustomSprite.js'
-
-  export let customProp
-  export let customProp2
-
-  const { invalidate } = getRenderer()
-
-  let sprite = new CustomSprite()
-
-  // apply our custom props
-  $: sprite.customProp = customProp
-  $: sprite.customProp2 = customProp2
-
-  // svelte will run this whenever this component's props or state changes
-  afterUpdate(() => {
-    invalidate()
-  })
-</script>
-
-<Sprite instance={sprite} {...$$restProps} />
-```
+  <Sprite instance={sprite} {...$$restProps} />
+  ```
+  </div>
+</SvelteTabs>

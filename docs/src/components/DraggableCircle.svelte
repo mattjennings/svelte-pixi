@@ -1,6 +1,6 @@
 <script>
   import * as PIXI from 'pixi.js'
-  import { Graphics, getContainer } from 'svelte-pixi'
+  import { Graphics, getContainer } from 'svelte-pixi/svelte-4'
   import { spring } from 'svelte/motion'
 
   export let x
