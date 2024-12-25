@@ -23,12 +23,12 @@
   /**
    * Resizes renderer view in CSS pixels to allow for resolutions other than 1.
    */
-  export let autoDensity: $$Props['autoDensity'] = true
+  export let autoDensity: $$Props['autoDensity'] = undefined
 
   /**
    * Sets antialias
    */
-  export let antialias: $$Props['antialias'] = false
+  export let antialias: $$Props['antialias'] = undefined
 
   /**
    * Alias for backgroundColor
@@ -40,12 +40,12 @@
   /**
    * Value from 0 (fully transparent) to 1 (fully opaque).
    */
-  export let backgroundAlpha: $$Props['backgroundAlpha'] = 1
+  export let backgroundAlpha: $$Props['backgroundAlpha'] = undefined
 
   /**
    * The background color of the rendered area (shown if not transparent).
    */
-  export let backgroundColor: $$Props['backgroundColor'] = 0x000000
+  export let backgroundColor: $$Props['backgroundColor'] = undefined
 
   /**
    * A value from 0 to 1 that controls the smoothness of bezier curves (the higher the smoother)
@@ -107,7 +107,7 @@
   /**
    * The height of the renderers view.
    **/
-  export let height: $$Props['height'] = 600
+  export let height: $$Props['height'] = undefined
 
   /**
    * Whether to log the version and type information of renderer to console.
@@ -152,7 +152,7 @@
    * Enables drawing buffer preservation, enable this if you
    * need to call toDataUrl on the WebGL context.
    */
-  export let preserveDrawingBuffer: $$Props['preserveDrawingBuffer'] = false
+  export let preserveDrawingBuffer: $$Props['preserveDrawingBuffer'] = undefined
 
   /**
    * If set to true, this will enable the garbage collector on the GPU.
@@ -182,8 +182,7 @@
    *
    * @type {number}
    */
-  export let resolution: $$Props['resolution'] =
-    PIXI.AbstractRenderer.defaultOptions.resolution
+  export let resolution: $$Props['resolution'] = undefined
 
   export let roundPixels: $$Props['roundPixels'] = undefined
 
@@ -247,7 +246,7 @@
    * The width of the renderers view.
    *
    **/
-  export let width: $$Props['width'] = 800
+  export let width: $$Props['width'] = undefined
 
   const autoDetectPromise = (
     instance

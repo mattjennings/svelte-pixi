@@ -55,5 +55,5 @@
 </script>
 
 {#if children}
-  {@render children()}
+  {@render children?.()}
 {/if}

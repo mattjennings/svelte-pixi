@@ -33,26 +33,24 @@
     backgroundColor,
     bezierSmoothness,
     clearBeforeRender,
-    eventFeatures,
-    eventMode,
-    height,
-    powerPreference,
-    premultipliedAlpha,
-    preserveDrawingBuffer,
-    resolution,
-
-    width,
     context,
     depth,
+    eventFeatures,
+    eventMode,
     failIfMajorPerformanceCaveat,
     forceFallbackAdapter,
+    height,
     hello,
     multiView,
+    powerPreference,
     preference,
     preferWebGLVersion,
+    premultipliedAlpha,
+    preserveDrawingBuffer,
     renderableGCActive,
     renderableGCFrequency,
     renderableGCMaxUnusedTime,
+    resolution,
     roundPixels,
     skipExtensionImports,
     textureGCActive,
@@ -61,6 +59,7 @@
     useBackBuffer,
     webgl,
     webgpu,
+    width,
 
     // snippets
     children,
@@ -168,7 +167,7 @@
 {:then instance}
   {#if instance}
     <RendererContext renderer={instance} {oninvalidate}>
-      {@render children()}
+      {@render children?.()}
       {#if view}
         <div use:attachView>
           {@render view()}

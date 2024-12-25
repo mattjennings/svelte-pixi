@@ -183,7 +183,7 @@
     {/if}
     <Ticker instance={instance.ticker}>
       <Container instance={instance.stage}>
-        {@render children()}
+        {@render children?.()}
       </Container>
     </Ticker>
   </Renderer>

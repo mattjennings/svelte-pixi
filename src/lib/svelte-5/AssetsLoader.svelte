@@ -118,5 +118,5 @@
 {#if progress < 1 && loading}
   {@render loading({ progress })}
 {:else if progress === 1 && children}
-  {@render children()}
+  {@render children?.()}
 {/if}

@@ -111,7 +111,7 @@
        -->
       <Container x={containerX} y={containerY}>
         {#if intersecting}
-          {@render children()}
+          {@render children?.()}
         {/if}
       </Container>
     </AssetsLoader>

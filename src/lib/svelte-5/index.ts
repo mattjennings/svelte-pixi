@@ -15,6 +15,7 @@ export { default as Ticker } from './Ticker.svelte'
 export { default as TilingSprite } from './TilingSprite.svelte'
 export { default as Text } from './Text.svelte'
 export { default as Sprite } from './Sprite.svelte'
+export { default as Renderer } from './Renderer.svelte'
 
 export { getApp } from '../core/context/app'
 export { getStage, getContainer } from '../core/context/container'
