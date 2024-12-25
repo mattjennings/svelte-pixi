@@ -4,8 +4,8 @@ import {
   type Symbol as MorphSymbol,
   type JSDocableNode,
   ScriptTarget,
+  SymbolFlags,
 } from 'ts-morph'
-import { marked } from 'marked'
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
 
@@ -85,8 +85,18 @@ export function parseComponent(name: string) {
   }
 
   return {
-    props: props.sort((a, b) => a.name.localeCompare(b.name)),
-    snippets: snippets.sort((a, b) => a.name.localeCompare(b.name)),
+    props: props.sort((a, b) => {
+      if (a.isRequired && !b.isRequired) return -1
+      if (!a.isRequired && b.isRequired) return 1
+
+      return a.name.localeCompare(b.name)
+    }),
+    snippets: snippets.sort((a, b) => {
+      if (a.isRequired && !b.isRequired) return -1
+      if (!a.isRequired && b.isRequired) return 1
+
+      return a.name.localeCompare(b.name)
+    }),
     instance: {
       name: instanceSymbol?.getName() || '',
       description: (
@@ -105,6 +115,7 @@ function getPropsData(symbol: MorphSymbol): {
   description: string
   isSnippet?: boolean
   isEvent?: boolean
+  isRequired?: boolean
 } {
   let decl = symbol.getValueDeclaration()
   if (!decl) {
@@ -169,6 +180,9 @@ function getPropsData(symbol: MorphSymbol): {
   const isSnippet =
     name === 'children' || type.some((t) => t.startsWith('Snippet'))
 
+  // must check original symbol to make sure we're checking the prop and not the alias
+  const isRequired = !isSymbolOptional(symbol)
+
   return {
     isSnippet,
     isEvent,
@@ -176,5 +190,20 @@ function getPropsData(symbol: MorphSymbol): {
     name,
     description:
       jsDocs?.map((doc) => doc.getCommentText() || '').join('\n') || '',
+    isRequired,
   }
+}
+
+function isSymbolOptional(symbol: MorphSymbol): boolean {
+  const decl = symbol.getValueDeclaration() || symbol.getDeclarations()[0]
+  if (!decl) return false
+
+  const type = decl.getType()
+  if (type.isUnion()) {
+    if (type.getUnionTypes().some((t) => t.isUndefined())) {
+      return true
+    }
+  }
+
+  return (symbol.getFlags() & SymbolFlags.Optional) !== 0
 }

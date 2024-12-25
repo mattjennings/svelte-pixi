@@ -1,15 +1,8 @@
-<script lang="ts">
-  import * as PIXI from 'pixi.js'
-
+<script lang="ts" module>
   import { type Snippet } from 'svelte'
-  import Container from './Container.svelte'
-  import Renderer from './Renderer.svelte'
-  import Ticker from './Ticker.svelte'
-  import { omitUndefined } from '../core/util/helpers'
-  import { setApp } from '../core/context/app'
-
-  type T = $$Generic<PIXI.Application>
-  type Props = Partial<Omit<PIXI.ApplicationOptions, 'view'>> & {
+  export interface ApplicationProps<
+    T extends PIXI.Application = PIXI.Application,
+  > extends Partial<Omit<PIXI.ApplicationOptions, 'view'>> {
     /**
      * The PIXI.Application instance. This can be manually set or bound to.
      *
@@ -56,6 +49,16 @@
      */
     onpostrender?: (item: unknown) => void
   }
+</script>
+
+<script lang="ts" generics="T extends PIXI.Application = PIXI.Application">
+  import * as PIXI from 'pixi.js'
+
+  import Container from './Container.svelte'
+  import Renderer from './Renderer.svelte'
+  import Ticker from './Ticker.svelte'
+  import { omitUndefined } from '../core/util/helpers'
+  import { setApp } from '../core/context/app'
 
   let {
     autoInit = true,
@@ -112,7 +115,7 @@
 
     // bindings
     instance = $bindable(),
-  }: Props = $props()
+  }: ApplicationProps<T> = $props()
 
   if (!instance) {
     instance = new PIXI.Application() as T

@@ -1,45 +1,51 @@
-<script lang="ts">
+<script module lang="ts">
+  export interface AnimatedSpriteProps<
+    T extends PIXI.AnimatedSprite = PIXI.AnimatedSprite,
+  > extends ContainerProps<T>,
+      PickPixiProps<
+        PIXI.AnimatedSprite,
+        | 'playing'
+        | 'autoUpdate'
+        | 'animationSpeed'
+        | 'loop'
+        | 'anchor'
+        | 'blendMode'
+        | 'roundPixels'
+        | 'onComplete'
+        | 'onFrameChange'
+        | 'onLoop',
+        'textures'
+      > {
+    instance?: T
+
+    // because pixi has camel casing on these handlers, we'll also
+    // support the lowercase versions
+    /**
+     * Alias for onLoop
+     */
+    onloop?: PIXI.AnimatedSprite['onLoop']
+
+    /**
+     * Alias for onComplete
+     */
+    oncomplete?: PIXI.AnimatedSprite['onComplete']
+
+    /**
+     * Alias for onFrameChange
+     */
+    onframechange?: PIXI.AnimatedSprite['onFrameChange']
+  }
+</script>
+
+<script
+  lang="ts"
+  generics="T extends PIXI.AnimatedSprite = PIXI.AnimatedSprite"
+>
   import * as PIXI from 'pixi.js'
-  import Container from './Container.svelte'
+  import Container, { type ContainerProps } from './Container.svelte'
   import type { PickPixiProps } from '../core/util/data-types'
   import { createApplyProps } from '../core/util/props'
   import { getRenderer } from '../core/context/renderer'
-
-  type T = $$Generic<PIXI.AnimatedSprite>
-  type Props = Container<T>['$$prop_def'] &
-    PickPixiProps<
-      PIXI.AnimatedSprite,
-      | 'playing'
-      | 'autoUpdate'
-      | 'animationSpeed'
-      | 'loop'
-      | 'anchor'
-      | 'blendMode'
-      | 'roundPixels'
-      | 'onComplete'
-      | 'onFrameChange'
-      | 'onLoop',
-      'textures'
-    > & {
-      instance?: T
-      // because pixi has camel casing on these handlers, we'll also
-      // support the lowercase versions
-
-      /**
-       * Alias for onLoop
-       */
-      onloop?: PIXI.AnimatedSprite['onLoop']
-
-      /**
-       * Alias for onComplete
-       */
-      oncomplete?: PIXI.AnimatedSprite['onComplete']
-
-      /**
-       * Alias for onFrameChange
-       */
-      onframechange?: PIXI.AnimatedSprite['onFrameChange']
-    }
 
   let {
     textures,
@@ -59,7 +65,7 @@
     isRenderGroup,
     instance = $bindable(),
     ...restProps
-  }: Props = $props()
+  }: AnimatedSpriteProps<T> = $props()
 
   if (!instance) {
     instance = new PIXI.AnimatedSprite({
@@ -71,7 +77,10 @@
 
   const { invalidate } = getRenderer()
 
-  const { applyProp } = createApplyProps<PIXI.AnimatedSprite, Props>(instance, {
+  const { applyProp } = createApplyProps<
+    PIXI.AnimatedSprite,
+    AnimatedSpriteProps<T>
+  >(instance, {
     onApply() {
       invalidate()
     },

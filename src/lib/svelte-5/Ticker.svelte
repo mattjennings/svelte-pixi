@@ -1,12 +1,5 @@
-<script lang="ts">
-  import * as PIXI from 'pixi.js'
-
-  import { onMount, type Snippet } from 'svelte'
-  import { setTicker } from '../core/context/ticker'
-  import { createApplyProps } from '../core/util/props'
-
-  type T = $$Generic<PIXI.Ticker>
-  interface Props {
+<script lang="ts" module>
+  export interface TickerProps<T extends PIXI.Ticker = PIXI.Ticker> {
     instance?: T
     autoStart?: PIXI.Ticker['autoStart']
     maxFPS?: PIXI.Ticker['maxFPS']
@@ -17,19 +10,29 @@
 
     children?: Snippet<[]>
   }
+</script>
 
-  const {
+<script lang="ts" generics="T extends PIXI.Ticker = PIXI.Ticker">
+  import * as PIXI from 'pixi.js'
+
+  import { onMount, type Snippet } from 'svelte'
+  import { setTicker } from '../core/context/ticker'
+  import { createApplyProps } from '../core/util/props'
+
+  let {
     autoStart,
     maxFPS,
     minFPS,
     speed,
     priority,
-    instance: _instance,
     ontick,
     children,
-  }: Props = $props()
+    instance = $bindable(),
+  }: TickerProps<T> = $props()
 
-  export const instance = (_instance ?? new PIXI.Ticker()) as T
+  if (!instance) {
+    instance = new PIXI.Ticker() as T
+  }
 
   setTicker(instance)
 
@@ -42,11 +45,14 @@
     }
   })
 
-  const { applyProp } = createApplyProps<PIXI.Ticker, Props>(instance, {
-    onApply() {
-      instance.start()
+  const { applyProp } = createApplyProps<PIXI.Ticker, TickerProps<T>>(
+    instance,
+    {
+      onApply() {
+        instance.start()
+      },
     },
-  })
+  )
 
   $effect(() => applyProp('autoStart', autoStart))
   $effect(() => applyProp('maxFPS', maxFPS))

@@ -1,19 +1,19 @@
-<script lang="ts">
+<script lang="ts" module>
+  export interface HTMLTextProps<T extends PIXI.HTMLText = PIXI.HTMLText>
+    extends ContainerProps<T>,
+      PickPixiProps<
+        PIXI.HTMLText,
+        'anchor' | 'blendMode' | 'roundPixels' | 'style',
+        'text'
+      > {}
+</script>
+
+<script lang="ts" generics="T extends PIXI.HTMLText = PIXI.HTMLText">
   import * as PIXI from 'pixi.js'
-  import Container from './Container.svelte'
+  import Container, { type ContainerProps } from './Container.svelte'
   import type { PickPixiProps } from '../core/util/data-types'
   import { getRenderer } from '../core/context/renderer'
   import { createApplyProps } from '../core/util/props'
-
-  type T = $$Generic<PIXI.HTMLText>
-  type Props = Container<T>['$$prop_def'] &
-    PickPixiProps<
-      PIXI.HTMLText,
-      'anchor' | 'blendMode' | 'roundPixels' | 'style',
-      'text'
-    > & {
-      instance?: T
-    }
 
   let {
     anchor,
@@ -24,7 +24,7 @@
     isRenderGroup,
     instance = $bindable(),
     ...restProps
-  }: Props = $props()
+  }: HTMLTextProps<T> = $props()
 
   if (!instance) {
     instance = new PIXI.HTMLText({ text, style, isRenderGroup }) as T

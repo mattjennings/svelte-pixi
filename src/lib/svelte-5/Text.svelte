@@ -1,18 +1,19 @@
-<script lang="ts">
-  import type { TextStyle } from 'pixi.js'
+<script lang="ts" module>
+  export interface TextProps<T extends PIXI.Text = PIXI.Text>
+    extends ContainerProps<T>,
+      PickPixiProps<
+        PIXI.Text & PIXI.TextOptions,
+        'anchor' | 'blendMode' | 'roundPixels' | 'style' | 'text'
+      > {}
+</script>
+
+<script lang="ts" generics="T extends PIXI.Text = PIXI.Text">
   import * as PIXI from 'pixi.js'
 
   import { createApplyProps } from '../core/util/props'
-  import Container from './Container.svelte'
+  import Container, { type ContainerProps } from './Container.svelte'
   import { getRenderer } from '../core/context/renderer'
   import type { PickPixiProps } from '../core/util/data-types'
-
-  type T = $$Generic<PIXI.Text>
-  type Props = Container<T>['$$prop_def'] &
-    PickPixiProps<PIXI.Text, 'anchor' | 'blendMode' | 'roundPixels', 'text'> & {
-      instance?: T
-      style?: Partial<TextStyle>
-    }
 
   let {
     text,
@@ -23,7 +24,7 @@
     isRenderGroup,
     instance = $bindable(),
     ...restProps
-  }: Props = $props()
+  }: TextProps<T> = $props()
 
   if (!instance) {
     instance = new PIXI.Text({ text, style, isRenderGroup }) as T
@@ -31,11 +32,14 @@
 
   const { invalidate } = getRenderer()
 
-  const { applyProp } = createApplyProps<PIXI.Text, Props>(instance as T, {
-    onApply() {
-      invalidate()
+  const { applyProp } = createApplyProps<PIXI.Text, TextProps<T>>(
+    instance as T,
+    {
+      onApply() {
+        invalidate()
+      },
     },
-  })
+  )
 
   $effect(() => applyProp('text', text))
   $effect(() => applyProp('style', style))

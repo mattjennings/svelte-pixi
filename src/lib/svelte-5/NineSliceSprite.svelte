@@ -1,19 +1,23 @@
-<script lang="ts">
+<script lang="ts" module>
+  export interface NineSliceSpriteProps<
+    T extends PIXI.NineSliceSprite = PIXI.NineSliceSprite,
+  > extends ContainerProps<T>,
+      PickPixiProps<
+        PIXI.NineSliceSprite & PIXI.NineSliceSpriteOptions,
+        'width' | 'height' | 'roundPixels',
+        'texture' | 'leftWidth' | 'rightWidth' | 'topHeight' | 'bottomHeight'
+      > {}
+</script>
+
+<script
+  lang="ts"
+  generics="T extends PIXI.NineSliceSprite = PIXI.NineSliceSprite"
+>
   import * as PIXI from 'pixi.js'
-  import Container from './Container.svelte'
+  import Container, { type ContainerProps } from './Container.svelte'
   import { getRenderer } from '../core/context/renderer'
   import { createApplyProps } from '../core/util/props'
   import type { PickPixiProps } from '../core/util/data-types'
-
-  type T = $$Generic<PIXI.NineSliceSprite>
-  type Props = Container<T>['$$prop_def'] &
-    PickPixiProps<
-      PIXI.NineSliceSprite & PIXI.NineSliceSpriteOptions,
-      'width' | 'height' | 'roundPixels',
-      'texture' | 'leftWidth' | 'rightWidth' | 'topHeight' | 'bottomHeight'
-    > & {
-      instance?: T
-    }
 
   let {
     texture,
@@ -27,7 +31,7 @@
     isRenderGroup,
     instance = $bindable(),
     ...restProps
-  }: Props = $props()
+  }: NineSliceSpriteProps<T> = $props()
 
   if (!instance) {
     instance = new PIXI.NineSliceSprite({
@@ -47,7 +51,7 @@
 
   const { applyProps, applyProp } = createApplyProps<
     PIXI.NineSliceSprite,
-    Props
+    NineSliceSpriteProps<T>
   >(instance, {
     onApply() {
       invalidate()

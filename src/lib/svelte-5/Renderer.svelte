@@ -1,12 +1,6 @@
-<script lang="ts">
-  import * as PIXI from 'pixi.js'
-
-  import { type Snippet } from 'svelte'
-  import { omitUndefined } from '../core/util/helpers'
-  import RendererContext from './RendererContext.svelte'
-
-  type T = $$Generic<PIXI.Renderer>
-  type Props = Partial<Omit<PIXI.AutoDetectOptions, 'view'>> & {
+<script lang="ts" module>
+  export interface RendererProps<T extends PIXI.Renderer = PIXI.Renderer>
+    extends Partial<Omit<PIXI.AutoDetectOptions, 'view'>> {
     /**
      * The PIXI.Renderer instance. Can be set or bound to. By default
      * PIXI.autoDetectRenderer() is called and sets the instance when it resolves
@@ -47,6 +41,14 @@
      */
     oninvalidate?: () => void
   }
+</script>
+
+<script lang="ts" generics="T extends PIXI.Renderer = PIXI.Renderer">
+  import * as PIXI from 'pixi.js'
+
+  import { type Snippet } from 'svelte'
+  import { omitUndefined } from '../core/util/helpers'
+  import RendererContext from './RendererContext.svelte'
 
   let {
     antialias,
@@ -99,7 +101,7 @@
 
     // bindings
     instance = $bindable(),
-  }: Props = $props()
+  }: RendererProps<T> = $props()
 
   const autoDetectPromise = (
     instance

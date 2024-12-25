@@ -1,6 +1,16 @@
-<script lang="ts">
+<script lang="ts" module>
+  export interface MeshRopeProps<T extends PIXI.MeshRope = PIXI.MeshRope>
+    extends ContainerProps<T>,
+      PickPixiProps<
+        PIXI.MeshRope & PIXI.MeshRopeOptions,
+        'shader' | 'state' | 'textureScale',
+        'points' | 'texture'
+      > {}
+</script>
+
+<script lang="ts" generics="T extends PIXI.MeshRope = PIXI.MeshRope">
   import * as PIXI from 'pixi.js'
-  import Container from './Container.svelte'
+  import Container, { type ContainerProps } from './Container.svelte'
   import { getRenderer } from '../core/context/renderer'
   import {
     parsePoint,
@@ -8,16 +18,6 @@
     type PointLike,
   } from '../core/util/data-types'
   import { createApplyProps } from '../core/util/props'
-
-  type T = $$Generic<PIXI.MeshRope>
-  type Props = Container<T>['$$prop_def'] &
-    PickPixiProps<
-      PIXI.MeshRope & PIXI.MeshRopeOptions,
-      'shader' | 'state' | 'textureScale',
-      'points' | 'texture'
-    > & {
-      instance?: T
-    }
 
   let {
     points,
@@ -28,7 +28,7 @@
     isRenderGroup,
     instance = $bindable(),
     ...restProps
-  }: Props = $props()
+  }: MeshRopeProps<T> = $props()
 
   if (!instance) {
     instance = new PIXI.MeshRope({
@@ -44,21 +44,24 @@
   }
   const { invalidate } = getRenderer()
 
-  const { applyProp } = createApplyProps<PIXI.MeshRope, Props>(instance, {
-    onApply() {
-      invalidate()
-    },
-    apply: {
-      // PIXI.MeshRope only uses points to create the geometry on construction,
-      // so we need to recreate it whenever points change
-      points: (value, instance) => {
-        instance.geometry = new PIXI.RopeGeometry({
-          points: parsePoints(value),
-          textureScale: textureScale,
-        })
+  const { applyProp } = createApplyProps<PIXI.MeshRope, MeshRopeProps<T>>(
+    instance,
+    {
+      onApply() {
+        invalidate()
+      },
+      apply: {
+        // PIXI.MeshRope only uses points to create the geometry on construction,
+        // so we need to recreate it whenever points change
+        points: (value, instance) => {
+          instance.geometry = new PIXI.RopeGeometry({
+            points: parsePoints(value),
+            textureScale: textureScale,
+          })
+        },
       },
     },
-  })
+  )
 
   $effect(() => applyProp('shader', shader))
   $effect(() => applyProp('state', state))

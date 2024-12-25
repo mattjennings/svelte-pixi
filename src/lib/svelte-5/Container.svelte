@@ -1,20 +1,5 @@
-<script lang="ts">
-  import { createApplyProps } from '../core/util/props'
-
-  import type { PickPixiProps } from '../core/util/data-types'
-
-  import * as PIXI from 'pixi.js'
-  import { onMount, type Snippet } from 'svelte'
-  import {
-    getContainer,
-    setContainer,
-    setStage,
-  } from '../core/context/container'
-  import { getRenderer } from '../core/context/renderer'
-
-  type T = $$Generic<PIXI.Container>
-
-  interface Props
+<script lang="ts" module>
+  export interface ContainerProps<T extends PIXI.Container = PIXI.Container>
     extends PickPixiProps<
       PIXI.Container,
       | 'accessible'
@@ -102,8 +87,23 @@
      */
     onremoved?: () => void
 
-    children?: Snippet<[]>
+    children?: Snippet<[instance: T]>
   }
+</script>
+
+<script lang="ts" generics="T extends PIXI.Container = PIXI.Container">
+  import { createApplyProps } from '../core/util/props'
+
+  import type { PickPixiProps } from '../core/util/data-types'
+
+  import * as PIXI from 'pixi.js'
+  import { onMount, type Snippet } from 'svelte'
+  import {
+    getContainer,
+    setContainer,
+    setStage,
+  } from '../core/context/container'
+  import { getRenderer } from '../core/context/renderer'
 
   let {
     children,
@@ -186,7 +186,7 @@
 
     // bindings
     instance = $bindable() as T,
-  }: Props = $props()
+  }: ContainerProps<T> = $props()
 
   if (!instance) {
     instance = new PIXI.Container({
@@ -218,31 +218,34 @@
     }
   }
 
-  const { applyProp } = createApplyProps<PIXI.Container, Props>(instance, {
-    onApply() {
-      invalidate()
-    },
-    apply: {
-      onadded: (value, instance) => {
-        if (value) {
-          instance.on('added', value)
-
-          return () => {
-            instance.off('added', value)
-          }
-        }
+  const { applyProp } = createApplyProps<PIXI.Container, ContainerProps>(
+    instance,
+    {
+      onApply() {
+        invalidate()
       },
-      onremoved: (value, instance) => {
-        if (value) {
-          instance.on('removed', value)
+      apply: {
+        onadded: (value, instance) => {
+          if (value) {
+            instance.on('added', value)
 
-          return () => {
-            instance.off('removed', value)
+            return () => {
+              instance.off('added', value)
+            }
           }
-        }
+        },
+        onremoved: (value, instance) => {
+          if (value) {
+            instance.on('removed', value)
+
+            return () => {
+              instance.off('removed', value)
+            }
+          }
+        },
       },
     },
-  })
+  )
 
   $effect(() => applyProp('accessible', accessible))
   $effect(() => applyProp('accessibleChildren', accessibleChildren))
@@ -328,4 +331,4 @@
   })
 </script>
 
-{@render children?.()}
+{@render children?.(instance)}

@@ -1,18 +1,11 @@
-<script module>
+<script module lang="ts">
   /**
    * An incrementing counter to ensure that the default value for
    * bundleName is always unique
    */
   let bundleCounter = 0
-</script>
 
-<script lang="ts">
-  import { Assets } from 'pixi.js'
-  import type * as PIXI from 'pixi.js'
-  import { onMount, type Snippet } from 'svelte'
-  import { getRenderer } from '../core/context/renderer'
-
-  type Props = {
+  export interface AssetsLoaderProps {
     /**
      * An array of assets to load. These will get loaded as a bundle.
      * @type {Array<string | PIXI.UnresolvedAsset>}
@@ -61,6 +54,13 @@
      */
     onstart?: () => void
   }
+</script>
+
+<script lang="ts">
+  import { Assets } from 'pixi.js'
+  import type * as PIXI from 'pixi.js'
+  import { onMount, type Snippet } from 'svelte'
+  import { getRenderer } from '../core/context/renderer'
 
   const {
     assets,
@@ -71,7 +71,7 @@
     oncomplete,
     onprogress,
     onstart,
-  }: Props = $props()
+  }: AssetsLoaderProps = $props()
 
   const { invalidate } = getRenderer()
 

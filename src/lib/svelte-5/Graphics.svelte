@@ -1,21 +1,23 @@
-<script lang="ts">
+<script lang="ts" module>
+  export interface GraphicsProps<T extends PIXI.Graphics = PIXI.Graphics>
+    extends ContainerProps<T>,
+      PickPixiProps<PIXI.Graphics, 'blendMode' | 'tint'> {
+    instance?: T
+
+    /**
+     * Call your drawing functions on the PIXI.Graphics instance here. It will
+     * only draw on mount and when the function or state inside of the function changes.
+     */
+    draw?: (graphics: PIXI.Graphics) => any
+  }
+</script>
+
+<script lang="ts" generics="T extends PIXI.Graphics">
   import * as PIXI from 'pixi.js'
-  import Container from './Container.svelte'
+  import Container, { type ContainerProps } from './Container.svelte'
   import { getRenderer } from '../core/context/renderer'
   import type { PickPixiProps } from '../core/util/data-types'
   import { createApplyProps } from '../core/util/props'
-
-  type T = $$Generic<PIXI.Graphics>
-  type Props = Container<T>['$$prop_def'] &
-    PickPixiProps<PIXI.Graphics, 'blendMode' | 'tint'> & {
-      instance?: T
-
-      /**
-       * Call your drawing functions on the PIXI.Graphics instance here. It will
-       * only draw on mount and when the function or state inside of the function changes.
-       */
-      draw?: (graphics: PIXI.Graphics) => any
-    }
 
   let {
     draw,
@@ -24,7 +26,7 @@
     instance = $bindable(),
     isRenderGroup,
     ...restProps
-  }: Props = $props()
+  }: GraphicsProps<T> = $props()
 
   if (!instance) {
     instance = new PIXI.Graphics({
@@ -33,7 +35,7 @@
   }
 
   const { invalidate } = getRenderer()
-  const { applyProp } = createApplyProps<PIXI.Graphics>(instance as T, {
+  const { applyProp } = createApplyProps(instance as T, {
     onApply() {
       invalidate()
     },

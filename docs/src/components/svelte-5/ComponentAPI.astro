@@ -27,6 +27,9 @@ const { props, snippets } = parseComponent(Astro.props.component)
   props.length > 0 && (
     <>
       <h3 id="props">Props</h3>
+      <p>
+        <em>* denotes required</em>
+      </p>
       <table>
         <thead>
           <tr>
@@ -39,7 +42,10 @@ const { props, snippets } = parseComponent(Astro.props.component)
             <tr>
               <td class="align-top">
                 <div class="inline-flex flex-col gap-2 pt-1">
-                  <span>{prop.name}</span>
+                  <span>
+                    {prop.name}
+                    {prop.isRequired && '*'}
+                  </span>
                 </div>
               </td>
               <td>

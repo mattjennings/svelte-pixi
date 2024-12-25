@@ -11,11 +11,7 @@ export type PointLike =
  * Like Pick but will swap certain types for others to match
  * svelte-pixi API
  */
-export type PickPixiPropsOptional<T, Keys extends keyof T> = {
-  [P in Keys]?: T[P] extends PIXI.Point ? PointLike : T[P]
-}
-
-export type PickPixiPropsRequired<T, Keys extends keyof T> = {
+export type SwapPixiPropTypes<T, Keys extends keyof T> = {
   [P in Keys]: T[P] extends PIXI.Point ? PointLike : T[P]
 }
 
@@ -23,8 +19,8 @@ export type PickPixiProps<
   T,
   OptionalKeys extends keyof T,
   RequiredKeys extends keyof T | undefined = undefined,
-> = PickPixiPropsOptional<T, OptionalKeys> &
-  PickPixiPropsRequired<T, RequiredKeys extends keyof T ? RequiredKeys : never>
+> = Partial<SwapPixiPropTypes<T, OptionalKeys>> &
+  SwapPixiPropTypes<T, RequiredKeys extends keyof T ? RequiredKeys : never>
 
 /**
  * Parses a value to a Point

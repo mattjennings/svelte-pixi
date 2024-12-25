@@ -1,17 +1,22 @@
-<script lang="ts">
+<script lang="ts" module>
+  export interface ParticleContainerProps<
+    T extends PIXI.ParticleContainer = PIXI.ParticleContainer,
+  > extends ContainerProps<T>,
+      PickPixiProps<
+        PIXI.ParticleContainer & PIXI.ParticleContainerOptions,
+        'dynamicProperties' | 'shader' | 'roundPixels',
+        'texture' | 'particles'
+      > {}
+</script>
+
+<script
+  lang="ts"
+  generics="T extends PIXI.ParticleContainer = PIXI.ParticleContainer"
+>
   import * as PIXI from 'pixi.js'
-  import Container from './Container.svelte'
+  import Container, { type ContainerProps } from './Container.svelte'
   import type { PickPixiProps } from '../core/util/data-types'
 
-  type T = $$Generic<PIXI.ParticleContainer>
-  type $$Props = Container<T>['$$prop_def'] &
-    PickPixiProps<
-      PIXI.ParticleContainer & PIXI.ParticleContainerOptions,
-      'dynamicProperties' | 'shader' | 'roundPixels',
-      'texture' | 'particles'
-    > & {
-      instance?: T
-    }
   let {
     dynamicProperties,
     shader,
@@ -21,7 +26,7 @@
     isRenderGroup,
     instance = $bindable(),
     ...restProps
-  }: $$Props = $props()
+  }: ParticleContainerProps<T> = $props()
 
   if (!instance) {
     instance = new PIXI.ParticleContainer({

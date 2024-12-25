@@ -1,26 +1,28 @@
-<script lang="ts">
+<script lang="ts" module>
+  export interface TilingSpriteProps<
+    T extends PIXI.TilingSprite = PIXI.TilingSprite,
+  > extends ContainerProps<T>,
+      PickPixiProps<
+        PIXI.TilingSprite & PIXI.TilingSpriteOptions,
+        | 'anchor'
+        | 'blendMode'
+        | 'clampMargin'
+        | 'roundPixels'
+        | 'tilePosition'
+        | 'tileTransform'
+        | 'uvRespectAnchor'
+        | 'height'
+        | 'width',
+        'texture'
+      > {}
+</script>
+
+<script lang="ts" generics="T extends PIXI.TilingSprite = PIXI.TilingSprite">
   import * as PIXI from 'pixi.js'
-  import Container from './Container.svelte'
+  import Container, { type ContainerProps } from './Container.svelte'
   import type { PickPixiProps } from '../core/util/data-types'
   import { getRenderer } from '../core/context/renderer'
   import { createApplyProps } from '../core/util/props'
-
-  type T = $$Generic<PIXI.TilingSprite>
-  type Props = Container<T>['$$prop_def'] &
-    PickPixiProps<
-      PIXI.TilingSprite,
-      | 'anchor'
-      | 'blendMode'
-      | 'clampMargin'
-      | 'roundPixels'
-      | 'tilePosition'
-      | 'tileTransform'
-      | 'uvRespectAnchor',
-      'height' | 'width'
-    > & {
-      texture: PIXI.Texture
-      instance?: T
-    }
 
   let {
     anchor,
@@ -36,7 +38,7 @@
     isRenderGroup,
     instance = $bindable(),
     ...restProps
-  }: Props = $props()
+  }: TilingSpriteProps<T> = $props()
 
   if (!instance) {
     instance = new PIXI.TilingSprite({

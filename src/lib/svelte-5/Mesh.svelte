@@ -1,33 +1,38 @@
-<script lang="ts">
+<script lang="ts" module>
+  export interface MeshProps<T extends PIXI.Mesh = PIXI.Mesh>
+    extends ContainerProps<T>,
+      PickPixiProps<
+        PIXI.Mesh & PIXI.MeshOptions,
+        'state' | 'shader' | 'roundPixels' | 'texture',
+        'geometry'
+      > {}
+</script>
+
+<script lang="ts" generics="T extends PIXI.Mesh = PIXI.Mesh">
   import * as PIXI from 'pixi.js'
-  import Container from './Container.svelte'
+  import Container, { type ContainerProps } from './Container.svelte'
   import { getRenderer } from '../core/context/renderer'
   import { createApplyProps } from '../core/util/props'
   import type { PickPixiProps } from '../core/util/data-types'
-
-  type T = $$Generic<PIXI.Mesh>
-
-  type Props = Container<T>['$$prop_def'] &
-    PickPixiProps<PIXI.Mesh, 'state'> & {
-      instance?: T
-      geometry: PIXI.MeshOptions['geometry']
-      shader?: PIXI.MeshOptions['shader']
-    }
 
   let {
     geometry,
     shader,
     state,
     isRenderGroup,
+    roundPixels,
+    texture,
     instance = $bindable(),
     ...restProps
-  }: Props = $props()
+  }: MeshProps<T> = $props()
 
   if (!instance) {
     instance = new PIXI.Mesh({
       geometry,
       shader,
       state,
+      roundPixels,
+      texture,
       isRenderGroup,
     }) as T
   }
@@ -42,6 +47,15 @@
   $effect(() => applyProp('geometry', geometry))
   $effect(() => applyProp('shader', shader))
   $effect(() => applyProp('state', state))
+  $effect(() => applyProp('roundPixels', roundPixels))
+  $effect(() => applyProp('texture', texture))
+
+  $effect(() => {
+    if (texture) {
+      texture.on('update', invalidate)
+      return () => texture.off('update', invalidate)
+    }
+  })
 </script>
 
 <Container {...restProps} {instance} />

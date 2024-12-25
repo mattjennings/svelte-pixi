@@ -1,29 +1,32 @@
-<script lang="ts">
+<script lang="ts" module>
+  export interface PerspectiveMeshProps<
+    T extends PIXI.PerspectiveMesh = PIXI.PerspectiveMesh,
+  > extends ContainerProps<T>,
+      PickPixiProps<
+        PIXI.PerspectiveMesh & PIXI.PerspectivePlaneOptions,
+        | 'shader'
+        | 'state'
+        | 'x0'
+        | 'y0'
+        | 'x1'
+        | 'y1'
+        | 'x2'
+        | 'y2'
+        | 'x3'
+        | 'y3',
+        'texture' | 'verticesX' | 'verticesY'
+      > {}
+</script>
+
+<script
+  lang="ts"
+  generics="T extends PIXI.PerspectiveMesh = PIXI.PerspectiveMesh"
+>
   import * as PIXI from 'pixi.js'
-  import Container from './Container.svelte'
+  import Container, { type ContainerProps } from './Container.svelte'
   import { getRenderer } from '../core/context/renderer'
   import { createApplyProps } from '../core/util/props'
   import type { PickPixiProps } from '../core/util/data-types'
-
-  type T = $$Generic<PIXI.PerspectiveMesh>
-
-  type Props = Container<T>['$$prop_def'] &
-    PickPixiProps<
-      PIXI.PerspectiveMesh & PIXI.PerspectivePlaneOptions,
-      | 'shader'
-      | 'state'
-      | 'x0'
-      | 'y0'
-      | 'x1'
-      | 'y1'
-      | 'x2'
-      | 'y2'
-      | 'x3'
-      | 'y3',
-      'texture' | 'verticesX' | 'verticesY'
-    > & {
-      instance?: T
-    }
 
   let {
     shader,
@@ -42,7 +45,7 @@
     isRenderGroup,
     instance = $bindable(),
     ...restProps
-  }: Props = $props()
+  }: PerspectiveMeshProps<T> = $props()
 
   if (!instance) {
     instance = new PIXI.PerspectiveMesh({

@@ -1,18 +1,20 @@
-<script lang="ts">
+<script lang="ts" module>
+  export interface BitmapTextProps<T extends PIXI.BitmapText = PIXI.BitmapText>
+    extends ContainerProps<T>,
+      PickPixiProps<
+        PIXI.BitmapText,
+        'anchor' | 'roundPixels' | 'text' | 'style'
+      > {
+    instance?: T
+  }
+</script>
+
+<script lang="ts" generics="T extends PIXI.BitmapText = PIXI.BitmapText">
   import * as PIXI from 'pixi.js'
-  import Container from './Container.svelte'
+  import Container, { type ContainerProps } from './Container.svelte'
   import type { PickPixiProps } from '../core/util/data-types'
   import { getRenderer } from '../core/context/renderer'
   import { createApplyProps } from '../core/util/props'
-
-  type T = $$Generic<PIXI.BitmapText>
-  type Props = Container<T>['$$prop_def'] &
-    PickPixiProps<
-      PIXI.BitmapText,
-      'anchor' | 'roundPixels' | 'text' | 'style'
-    > & {
-      instance?: T
-    }
 
   let {
     anchor,
@@ -22,7 +24,7 @@
     isRenderGroup,
     instance = $bindable(),
     ...restProps
-  }: Props = $props()
+  }: BitmapTextProps<T> = $props()
 
   if (!instance) {
     instance = new PIXI.BitmapText({ text, style, isRenderGroup }) as T
