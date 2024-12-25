@@ -202,51 +202,98 @@ If you want to customize the element that the canvas is rendered into, you can u
 ### Render on Demand
 
 The `Application` component supports [rendering on demand](/docs/components/application#render-on-demand). While `Renderer` doesn't offer the same `render="demand"` prop,
-we can still implement this ourselves:
+you can still implement this manually:
 
-```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
-<script>
-  import { Renderer, Container, Ticker, Text } from 'svelte-pixi'
-  import DraggableCircle from '$lib/components/DraggableCircle.svelte'
+<SvelteTabs>
+  <div slot="svelte-5">
+  ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+  <script>
+    import { Renderer, Container, Ticker, Text } from 'svelte-pixi'
+    import DraggableCircle from '$lib/components/DraggableCircle.svelte'
 
-  let renderer
-  let stage
-  let needsRender = true
-</script>
+    let renderer
+    let stage
+    let needsRender = true
+  </script>
 
-<Renderer
-  bind:instance={renderer}
-  width={400}
-  height={400}
-  antialias
-  on:invalidate={() => {
-    needsRender = true
-  }}
->
-  <Ticker
-    on:tick={() => {
-      if (needsRender) {
-        renderer.render(stage)
-        needsRender = false
-        // check out the console
-        console.log('render')
-      }
+  <Renderer
+    bind:instance={renderer}
+    width={400}
+    height={400}
+    antialias
+    oninvalidate={() => {
+      needsRender = true
     }}
   >
-    <Container bind:instance={stage}>
-      <DraggableCircle x={200} y={200} />
-      <Text
-        x={200}
-        y={300}
-        text="Click and drag"
-        style={{ fill: 'white' }}
-        anchor={0.5}
-      />
-    </Container>
-  </Ticker>
-</Renderer>
-```
+    <Ticker
+      ontick={() => {
+        if (needsRender) {
+          renderer.render(stage)
+          needsRender = false
+          // check out the console
+          console.log('render')
+        }
+      }}
+    >
+      <Container bind:instance={stage}>
+        <DraggableCircle x={200} y={200} />
+        <Text
+          x={200}
+          y={300}
+          text="Click and drag"
+          style={{ fill: 'white' }}
+          anchor={0.5}
+        />
+      </Container>
+    </Ticker>
+  </Renderer>
+  ```
+  </div>
+  <div slot="svelte-4">
+  ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+  <script>
+    import { Renderer, Container, Ticker, Text } from 'svelte-pixi/svelte-4'
+    import DraggableCircle from '$lib/components/DraggableCircle.svelte'
 
+    let renderer
+    let stage
+    let needsRender = true
+  </script>
+
+  <Renderer
+    bind:instance={renderer}
+    width={400}
+    height={400}
+    antialias
+    on:invalidate={() => {
+      needsRender = true
+    }}
+  >
+    <Ticker
+      on:tick={() => {
+        if (needsRender) {
+          renderer.render(stage)
+          needsRender = false
+          // check out the console
+          console.log('render')
+        }
+      }}
+    >
+      <Container bind:instance={stage}>
+        <DraggableCircle x={200} y={200} />
+        <Text
+          x={200}
+          y={300}
+          text="Click and drag"
+          style={{ fill: 'white' }}
+          anchor={0.5}
+        />
+      </Container>
+    </Ticker>
+  </Renderer>
+  ```
+  </div>
+</SvelteTabs>
 See [Render on Demand](/docs/advanced/optimizing-performance#render-on-demand) for more information.
 
 ## API
