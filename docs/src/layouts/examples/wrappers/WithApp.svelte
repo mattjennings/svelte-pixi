@@ -38,8 +38,8 @@
     }
   })
 
-  function onAppInit(instance) {
-    app = instance
+  function onAppInit(ev) {
+    app = ev.application
   }
 
   $effect(() => {
@@ -85,6 +85,7 @@
     width={resolution.width}
     height={resolution.height}
     backgroundColor={bg}
+    autoDensity
   >
     {#snippet view()}
       <div bind:this={element} class="relative not-content">

@@ -4,7 +4,6 @@
   import * as PIXI from 'pixi.js'
   import { createEventDispatcher } from 'svelte'
   import { omitUndefined } from '../core/util/helpers'
-  import { setRenderer } from '../core/context/renderer'
 
   type T = $$Generic<PIXI.Renderer>
   type $$Props = Partial<PIXI.AutoDetectOptions> & {

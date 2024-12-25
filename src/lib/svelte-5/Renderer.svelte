@@ -17,11 +17,34 @@
     view?: Snippet<[]>
     children: Snippet<[]>
 
-    oninit?: (renderer: T) => void
-    onrender?: (ev: PIXI.FederatedEvent) => void
-    onrenderstart?: (ev: PIXI.FederatedEvent) => void
-    onprerender?: (ev: PIXI.FederatedEvent) => void
-    onpostrender?: (ev: PIXI.FederatedEvent) => void
+    /**
+     * Called when PIXI.autoDetectRenderer() resolves (only if no `instance` prop was set)
+     */
+    oninit?: (ev: { renderer: T }) => void
+
+    /**
+     * Event handler for the render PIXI.Runner
+     */
+    onrender?: (item: unknown) => void
+
+    /**
+     * Event handler for the renderStart PIXI.Runner
+     */
+    onrenderstart?: (item: unknown) => void
+
+    /**
+     * Event handler for the prerender PIXI.Runner
+     */
+    onprerender?: (item: unknown) => void
+
+    /**
+     * Event handler for the postrender PIXI.Runner
+     */
+    onpostrender?: (item: unknown) => void
+
+    /**
+     * Called whenever the renderer needs to be redrawn because of a change
+     */
     oninvalidate?: () => void
   }
 
@@ -122,7 +145,7 @@
   )
     .then((renderer) => {
       instance = renderer as T
-      oninit?.(instance)
+      oninit?.({ renderer: instance })
 
       const listeners = {
         prerender: onprerender,
