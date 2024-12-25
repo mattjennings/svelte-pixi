@@ -168,6 +168,7 @@
 {:then instance}
   {#if instance}
     <RendererContext renderer={instance} {oninvalidate}>
+      {@render children()}
       {#if view}
         <div use:attachView>
           {@render view()}
@@ -175,8 +176,6 @@
       {:else}
         <div use:attachView></div>
       {/if}
-
-      {@render children()}
     </RendererContext>
   {/if}
 {/await}
