@@ -5,108 +5,107 @@
    * https://github.com/pixijs/examples/blob/gh-pages/examples/js/demos-advanced/star-warp.js
    */
   import * as PIXI from 'pixi.js'
-  import { Application, ParticleContainer, Ticker } from 'svelte-pixi'
+  import {
+    Application,
+    ParticleContainer,
+    Ticker,
+    AssetsLoader,
+  } from 'svelte-pixi'
 
-  const speed = 0.25
+  let app = $state()
+  let width = $state(0)
+  let height = $state(0)
+
+  const speed = 0.025
   const fov = 20
-  const starBaseSize = 0.05
+  const starSize = 0.05
 
-  let app
-  let width
-  let height
+  let container = $state()
+  let cameraZ = 0
+  let amount = 0
 
-  let container
-  let alpha = 0
-  let cameraZ = 1000
-  let starAmount = 0
-  let stars = []
-
-  const MAX_Z = 2000
-
-  function init(container, amount) {
-    stars.forEach((star) => star.destroy())
-    stars = new Array(amount).fill(null).map(() => {
-      const star = new PIXI.Sprite(PIXI.Texture.from('/assets/star.png'))
+  let stars = $derived(
+    new Array(amount).fill(null).map(() => {
+      const star = new PIXI.Particle(PIXI.Texture.from('/assets/star.png'))
 
       const deg = Math.random() * Math.PI * 2
       const distance = Math.random() * 50 + 1
-      star.anchor.set(0.5, 0.7)
+
       star.initX = Math.cos(deg) * distance
       star.initY = Math.sin(deg) * distance
-      star.initZ = Math.random() * 1000 + MAX_Z
+      star.initZ = Math.random() * 1000 + 750
+
+      star.x = star.initX
+      star.y = star.initY
+      star.z = star.initZ
+
+      updateStar(star)
 
       return star
-    })
+    }),
+  )
 
-    container.addChild(...stars)
-  }
+  // add/remove stars
+  $effect(() => {
+    if (container) {
+      for (const star of stars) {
+        container.addParticle(star)
+      }
 
-  $: if (container) {
-    init(container, starAmount)
-  }
-
-  function tick({ detail: delta }) {
-    if (alpha < 1) {
-      alpha += 0.05
+      // preserve the stars array for cleanup
+      let _stars = stars
+      return () => {
+        for (const star of _stars) {
+          container.removeParticle(star)
+        }
+      }
     }
-    cameraZ += delta * speed
+  })
 
-    stars.forEach((star) => {
-      // update scale
-      const z = star.initZ - cameraZ
-      const distanceScale = Math.max(0, (MAX_Z - z) / MAX_Z)
-      star.scale.set(distanceScale * starBaseSize, distanceScale * starBaseSize)
+  function updateStar(star) {
+    const z = star.z - cameraZ
+    const distance = Math.max(0, (2000 - z) / 2000)
 
-      // update rotation
-      const dxCenter = star.x - app.renderer.screen.width / 2
-      const dyCenter = star.y - app.renderer.screen.height / 2
-      star.rotation = Math.atan2(dyCenter, dxCenter) + Math.PI / 2
+    star.scaleX = distance * starSize
+    star.scaleY = distance * starSize
+    star.anchorX = 0.5
+    star.anchorY = 0.7
 
-      // reset
-      if (star.initZ < cameraZ) {
-        const deg = Math.random() * Math.PI * 2
-        const distance = Math.random() * 50 + 1
-        star.initX = Math.cos(deg) * distance
-        star.initY = Math.sin(deg) * distance
-        star.initZ = Math.random() * 1000 + MAX_Z + cameraZ
-      }
-      // move closer to camera
-      else {
-        star.x =
-          star.initX * (fov / z) * app.renderer.screen.width +
-          app.renderer.screen.width / 2
-        star.y =
-          star.initY * (fov / z) * app.renderer.screen.height +
-          app.renderer.screen.height / 2
-      }
-    })
+    star.x = star.initX * (fov / z) * width + width / 2
+    star.y = star.initY * (fov / z) * height + height / 2
   }
 
-  $: if (app && width && height) {
-    app.renderer.resize(width, height)
-
-    if (width < 700) {
-      starAmount = 5000
-    } else {
-      starAmount = 10000
+  function resize(width, height) {
+    if (app?.renderer) {
+      app.renderer.resize(width, height)
+      if (width < 700) {
+        amount = 1000
+      } else {
+        amount = 5000
+      }
     }
   }
+
+  function onTick(ticker) {
+    cameraZ += ticker.deltaTime * 10 * speed
+
+    for (const star of stars) {
+      if (!star.destroyed) {
+        updateStar(star)
+      }
+    }
+  }
+
+  $effect(() => {
+    resize(width, height)
+  })
 </script>
 
 <div style="flex: 1;" bind:clientWidth={width} bind:clientHeight={height}>
-  <Application bind:instance={app}>
-    <Ticker on:tick={tick} />
-    <ParticleContainer
-      bind:instance={container}
-      {alpha}
-      autoResize
-      properties={{
-        scale: true,
-        position: true,
-        rotation: true,
-        uvs: true,
-        alpha: true,
-      }}
-    />
+  <Application bind:instance={app} oninit={() => resize(width, height)}>
+    <AssetsLoader assets={['/assets/star.png']}>
+      <Ticker ontick={onTick} />
+      <ParticleContainer bind:instance={container} />
+    </AssetsLoader>
   </Application>
 </div>
