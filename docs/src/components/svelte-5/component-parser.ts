@@ -177,8 +177,7 @@ function getPropsData(symbol: MorphSymbol): {
     .filter((t) => t !== 'undefined')
 
   const isEvent = name.startsWith('on')
-  const isSnippet =
-    name === 'children' || type.some((t) => t.startsWith('Snippet'))
+  const isSnippet = type.some((t) => t.startsWith('Snippet'))
 
   // must check original symbol to make sure we're checking the prop and not the alias
   const isRequired = !isSymbolOptional(symbol)
