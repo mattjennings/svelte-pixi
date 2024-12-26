@@ -1,5 +1,7 @@
 ---
 title: Reducing Bundle Size
+sidebar:
+  order: 4
 ---
 
 Pixi v8 introduced a [skipExtensionImports](https://pixijs.download/release/docs/rendering.SharedRendererOptions.html) option allows you to opt-out of importing unused extensions. By default,
@@ -38,4 +40,5 @@ and you can selectively import the extensions you need instead.
 ## Upgrading from v6/v7
 
 If you were using a custom pixi.js file in v6 or v7 you will need to remove it and go back to using pixi.js regularly.
-Pixi v8 overhauled its package structure and a custom pixi.js file can no longer be built this way.
+Pixi v8 overhauled its package structure and a custom pixi.js file can no longer be built this way. 
+Remove all `@pixi/*` packages and `npm install pixi.js@latest`.

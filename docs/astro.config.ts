@@ -80,24 +80,9 @@ export default defineConfig({
         },
         {
           label: 'Guides',
-          items: [
-            {
-              label: 'Animation with svelte/motion',
-              link: '/guides/animation',
-            },
-            {
-              label: 'Binding props',
-              link: '/guides/binding-props',
-            },
-            {
-              label: 'Optimizing performance',
-              link: '/guides/optimizing-performance',
-            },
-            {
-              label: 'Reducing bundle size',
-              link: '/guides/reducing-bundle-size',
-            },
-          ],
+          autogenerate: {
+            directory: 'guides',
+          },
         },
         {
           label: 'Releases',

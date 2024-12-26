@@ -1,10 +1,14 @@
 <script lang="ts" module>
-  export interface TickerProps<T extends PIXI.Ticker = PIXI.Ticker> {
+  export interface TickerProps<T extends PIXI.Ticker = PIXI.Ticker>
+    extends PickPixiProps<
+      PIXI.Ticker,
+      'autoStart' | 'maxFPS' | 'minFPS' | 'speed'
+    > {
     instance?: T
-    autoStart?: PIXI.Ticker['autoStart']
-    maxFPS?: PIXI.Ticker['maxFPS']
-    minFPS?: PIXI.Ticker['minFPS']
-    speed?: PIXI.Ticker['speed']
+
+    /**
+     * The priority for emitting the tick event.
+     */
     priority?: number
     ontick?: (ticker: T) => void
 
@@ -18,6 +22,7 @@
   import { onMount, type Snippet } from 'svelte'
   import { setTicker } from '../core/context/ticker'
   import { createApplyProps } from '../core/util/props'
+  import type { PickPixiProps } from '../core/util/data-types'
 
   let {
     autoStart,

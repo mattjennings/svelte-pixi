@@ -61,8 +61,8 @@
   const { applyProp } = createApplyProps<PIXI.Ticker>(instance)
 
   onMount(() => {
-    instance.add((delta) => {
-      dispatch('tick', delta)
+    instance.add((ticker) => {
+      dispatch('tick', ticker)
     }, priority)
 
     return () => {
