@@ -62,12 +62,6 @@ export default defineConfig({
           },
         },
         {
-          label: 'Releases',
-          autogenerate: {
-            directory: 'releases',
-          },
-        },
-        {
           label: 'API',
           items: [
             {
@@ -106,11 +100,21 @@ export default defineConfig({
           ],
         },
         {
+          label: 'Releases',
+          autogenerate: {
+            directory: 'releases',
+          },
+        },
+        {
           label: 'Older Documentation',
           collapsed: true,
           items: [
             {
-              label: 'v0.1.3 (PixiJS v6)',
+              label: 'v7.0.0',
+              link: 'https://v7.svelte-pixi.mattjennin.gs',
+            },
+            {
+              label: 'v0.1.3',
               link: 'https://v0.svelte-pixi.mattjennin.gs',
             },
           ],
