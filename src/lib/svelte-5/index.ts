@@ -18,7 +18,12 @@ export { default as Sprite } from './Sprite.svelte'
 export { default as Renderer } from './Renderer.svelte'
 
 export { getApp } from '../core/context/app'
-export { getStage, getContainer } from '../core/context/container'
+export {
+  getStage,
+  getContainer,
+  onContainerEvent,
+  onStageEvent,
+} from '../core/context/container'
 export { getRenderer } from '../core/context/renderer'
 export { getTicker, onTick } from '../core/context/ticker'
 export { track } from '../core/util/props'

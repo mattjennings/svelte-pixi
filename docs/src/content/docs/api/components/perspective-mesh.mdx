@@ -19,8 +19,7 @@ Renders a PIXI.PerspectiveMesh.
     ```svelte live props={{ assets: ['/assets/eggHead.png']}}
     <script>
       // ported from https://pixijs.com/8.x/examples/mesh-and-shaders/perspective-mesh
-
-      import { PerspectiveMesh, onTick, getApp } from 'svelte-pixi'
+      import { PerspectiveMesh, Container, getApp } from 'svelte-pixi'
       import { onMount } from 'svelte'
       import * as PIXI from 'pixi.js'
 
@@ -38,17 +37,13 @@ Renders a PIXI.PerspectiveMesh.
       ]
       let corners = $state(initialCorners.map((p) => ({ ...p })))
 
-      onMount(() => {
-        app.stage.hitArea = app.screen;
-        app.stage.eventMode = 'static';
-        app.stage.on('pointermove', (e) => {
-          const mouseX = e.global.x
-          const mouseY = e.global.y
-          const angleY = -(mouseX - meshX) / 10;
-          const angleX = -(mouseY - meshY) / 10;
-          rotate3D(angleX, angleY, 300)
-        });
-      })
+      function handlePointerMove(e) {
+        const mouseX = e.global.x
+        const mouseY = e.global.y
+        const angleY = -(mouseX - meshX) / 10;
+        const angleX = -(mouseY - meshY) / 10;
+        rotate3D(angleX, angleY, 300)
+      }
       
       function rotate3D(angleX, angleY, perspective) {    
         const radX = (angleX * Math.PI) / 180;
@@ -101,14 +96,18 @@ Renders a PIXI.PerspectiveMesh.
       x3={corners[3].x}
       y3={corners[3].y}
     />
+    <Container 
+      hitArea={app.screen}
+      eventMode="static"
+      onpointermove={handlePointerMove}
+    />
     ```
   </div>
   <div slot="svelte-4">
     ```svelte live props={{ assets: ['/assets/eggHead.png']}}
     <script>
       // ported from https://pixijs.com/8.x/examples/mesh-and-shaders/perspective-mesh
-
-      import { PerspectiveMesh, onTick, getApp } from 'svelte-pixi/svelte-4'
+      import { PerspectiveMesh, Container, getApp } from 'svelte-pixi/svelte-4'
       import { onMount } from 'svelte'
       import * as PIXI from 'pixi.js'
 
@@ -126,18 +125,13 @@ Renders a PIXI.PerspectiveMesh.
       ]
       let corners = initialCorners.map((p) => ({ ...p }))
 
-      onMount(() => {
-        app.stage.hitArea = app.screen;
-        app.stage.eventMode = 'static';
-        app.stage.on('pointermove', (e) => {
-          const mouseX = e.global.x
-          const mouseY = e.global.y
-          const angleY = -(mouseX - meshX) / 10;
-          const angleX = -(mouseY - meshY) / 10;
-          rotate3D(angleX, angleY, 300)
-        });
-      })
-
+      function handlePointerMove(e) {
+        const mouseX = e.detail.global.x
+        const mouseY = e.detail.global.y
+        const angleY = -(mouseX - meshX) / 10;
+        const angleX = -(mouseY - meshY) / 10;
+        rotate3D(angleX, angleY, 300)
+      }
 
       function rotate3D(angleX, angleY, perspective) {    
         const radX = (angleX * Math.PI) / 180;
@@ -189,6 +183,11 @@ Renders a PIXI.PerspectiveMesh.
       y2={corners[2].y}
       x3={corners[3].x}
       y3={corners[3].y}
+    />
+    <Container 
+      hitArea={app.screen}
+      eventMode="static"
+      on:pointermove={handlePointerMove}
     />
     ```
   </div>

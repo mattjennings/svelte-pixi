@@ -19,6 +19,11 @@ export { default as TilingSprite } from './TilingSprite.svelte'
 export * from '../core/util/props'
 
 export { getApp } from '../core/context/app'
-export { getStage, getContainer } from '../core/context/container'
+export {
+  getStage,
+  getContainer,
+  onContainerEvent,
+  onStageEvent,
+} from '../core/context/container'
 export { getRenderer } from '../core/context/renderer'
 export { getTicker, onTick } from '../core/context/ticker'

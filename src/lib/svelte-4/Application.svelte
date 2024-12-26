@@ -20,6 +20,7 @@
     loading: {}
     default: {}
     view: {}
+    stage: {}
   }
 
   /**
@@ -373,9 +374,11 @@
       />
     {/if}
     <Ticker instance={instance.ticker}>
-      <Container instance={instance.stage}>
-        <slot />
-      </Container>
+      <slot name="stage" app={instance}>
+        <Container instance={instance.stage}>
+          <slot />
+        </Container>
+      </slot>
     </Ticker>
   </Renderer>
 {/await}

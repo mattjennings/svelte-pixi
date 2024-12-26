@@ -22,6 +22,7 @@
 
     loading?: Snippet<[]>
     view?: Snippet<[]>
+    stage?: Snippet<[{ app: T; children: Snippet<[]> }]>
     children: Snippet<[]>
 
     /**
@@ -105,6 +106,7 @@
     children,
     view,
     loading,
+    stage,
 
     // events
     oninit,
@@ -215,9 +217,13 @@
       />
     {/if}
     <Ticker instance={instance.ticker}>
-      <Container instance={instance.stage}>
-        {@render children?.()}
-      </Container>
+      {#if stage}
+        {@render stage?.({ app: instance, children })}
+      {:else}
+        <Container instance={instance.stage}>
+          {@render children?.()}
+        </Container>
+      {/if}
     </Ticker>
   </Renderer>
 {/await}

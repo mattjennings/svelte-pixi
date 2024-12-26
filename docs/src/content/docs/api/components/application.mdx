@@ -117,6 +117,86 @@ If you want to customize the element that the canvas is rendered into, you can u
   </div>
 </SvelteTabs>
 
+### Custom Stage
+
+PIXI.Application automatically creates a root container at `app.stage`. If you want to customize it you can either modify it directly 
+or use the `stage` snippet to manually render it as a `Container` component.
+
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+    <script>
+      import { Application, Text, Container} from 'svelte-pixi'
+
+      let mouse = { x: 0, y: 0 }
+    </script>
+
+    <Application width={400} height={400} antialias autoDensity>
+      <!-- customize the app.stage instance -->
+      {#snippet stage({ app, children })}
+        <Container 
+          instance={app.stage} 
+          hitArea={app.screen}
+          eventMode="static" 
+          onpointermove={(e) => mouse = e.data.global}          
+        >
+          <!-- your pixi components go here -->
+          <Text
+            x={200}
+            y={200}
+            anchor={0.5}
+            text={`Mouse: ${Math.round(mouse.x)}, ${Math.round(mouse.y)}`}
+            style={{ fill: 'white' }}
+          />
+
+          <!-- 
+           alternatively, you can do {@render children()} here
+           and put your components outside of this snippet.
+           they will both work the same way.
+          -->
+        </Container>
+      {/snippet}
+    </Application>
+    ```
+  </div>
+  <div slot="svelte-4">
+    ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+    <script>
+      import { Application, Text, Container } from 'svelte-pixi/svelte-4'
+      let mouse = { x: 0, y: 0 }
+    </script>
+
+    <Application width={400} height={400} antialias autoDensity>
+      <!-- customize the app.stage instance -->
+      <slot slot="stage" let:app>
+        <Container 
+          instance={app.stage} 
+          hitArea={app.screen}
+          eventMode="static" 
+          on:pointermove={(e) => mouse = e.detail.data.global}  
+        >
+          <!-- your pixi components go here -->
+          <Text
+            x={200}
+            y={200}
+            anchor={0.5}
+            text={`Mouse: ${Math.round(mouse.x)}, ${Math.round(mouse.y)}`}
+            style={{ fill: 'white' }}
+          />
+        </Container>
+      </slot>
+    </Application>
+
+    <style>
+      .custom :global(canvas) {
+        border: 5px solid tomato;
+        border-radius: 5px;
+      }
+    </style>
+    ```
+  </div>
+</SvelteTabs>
+
 ### Render on Demand
 
 <SvelteTabs>

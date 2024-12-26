@@ -1,0 +1,30 @@
+---
+title: onContainerEvent
+---
+
+Registers an event handler on the parent container. 
+
+This has a niche usecase, typically you should use `on*` props on the parent component itself.
+
+```svelte live
+<script>
+  import { Text, onContainerEvent, getContainer } from 'svelte-pixi'
+
+  let text = "Click this text"
+
+  const { container } = getContainer()
+  
+  // for sake of this example, make parent container interactive.
+  container.eventMode = 'static'
+
+  onContainerEvent('click', (e) => {    
+    text = `You clicked me`
+
+    setTimeout(() => {
+      text = "Click this text"
+    }, 1000)
+  })
+</script>
+
+<Text x={360} y={200} {text} style={{ fill: 'white' }} anchor={0.5} />
+```
