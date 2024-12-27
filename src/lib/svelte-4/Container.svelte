@@ -37,7 +37,7 @@
     interactive?: PIXI.Container['interactive']
     interactiveChildren?: PIXI.Container['interactiveChildren']
     isRenderGroup?: PIXI.Container['isRenderGroup']
-    mask?: PIXI.Container['mask']
+    mask?: number | PIXI.Container | Partial<PIXI.MaskOptionsAndMask>
     name?: PIXI.Container['name']
     label?: PIXI.Container['label']
     pivot?: PointLike
@@ -403,6 +403,17 @@
     instance,
     {
       apply: {
+        mask: (value, instance) => {
+          if (value) {
+            if (typeof value === 'number' || value instanceof PIXI.Container) {
+              instance.setMask({ mask: value })
+            } else {
+              instance.setMask(value)
+            }
+          } else {
+            instance.mask = null
+          }
+        },
         cacheAsTexture: (value, instance) => {
           if (value !== undefined) {
             instance.cacheAsTexture(value)

@@ -26,7 +26,6 @@
       | 'interactive'
       | 'interactiveChildren'
       | 'isRenderGroup'
-      | 'mask'
       | 'label'
       | 'name'
       | 'pivot'
@@ -88,6 +87,8 @@
     onremoved?: () => void
 
     children?: Snippet<[instance: T]>
+
+    mask?: number | PIXI.Container | Partial<PIXI.MaskOptionsAndMask>
   }
 </script>
 
@@ -225,6 +226,17 @@
         invalidate()
       },
       apply: {
+        mask: (value, instance) => {
+          if (value) {
+            if (typeof value === 'number' || value instanceof PIXI.Container) {
+              instance.setMask({ mask: value })
+            } else {
+              instance.setMask(value)
+            }
+          } else {
+            instance.mask = null
+          }
+        },
         onadded: (value, instance) => {
           if (value) {
             instance.on('added', value)
