@@ -290,3 +290,17 @@ This also makes it easier to derive values from the Ticker:
   let elapsed = tick((ticker, prev = 0) => prev + ticker.deltaTime)
 </script>
 ```
+
+## Known issues
+
+### Container.name warning
+
+You may notice the following warning when using components from `svelte-pixi/svelte-4`:
+
+> PixiJS Deprecation Warning: Container.name property has been removed, use Container.label instead
+
+The SveltePixi components _do_ use `label` instead of `name` now, but there are some reactive statements that causes the Svelte compiler
+to do a key comparison on the `instance`, triggering this warning when it reads `instance.name`.
+
+This only happens with the Svelte 4 components and given that this is a warning and Svelte 4 components will be removed next version, 
+this likely won't get fixed.

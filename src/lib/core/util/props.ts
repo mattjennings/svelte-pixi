@@ -1,8 +1,4 @@
 import * as PIXI from 'pixi.js'
-import { getRenderer } from '../context/renderer'
-import { getTicker, onTick } from '../context/ticker'
-import { onMount, tick } from 'svelte'
-import { writable, type Writable } from 'svelte/store'
 
 import { isPoint, parsePoint, type PointLike } from './data-types'
 /**
