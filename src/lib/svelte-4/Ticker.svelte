@@ -28,19 +28,19 @@
    * If it is set to 0, then there is no limit; PixiJS will render as many frames as it can.
    * Otherwise it will be at least minFPS
    */
-  export let maxFPS: $$Props['maxFPS'] = 0
+  export let maxFPS: $$Props['maxFPS'] = undefined
 
   /**
    * Manages the maximum amount of milliseconds allowed to elapse between invoking PIXI.Ticker#update.
    * This value is used to cap PIXI.Ticker#deltaTime, but does not effect the measured value of PIXI.Ticker#FPS.
    * When setting this property it is clamped to a value between 0 and Ticker.targetFPMS * 1000
    */
-  export let minFPS: $$Props['minFPS'] = 10
+  export let minFPS: $$Props['minFPS'] = undefined
 
   /**
    * Factor of current PIXI.Ticker#deltaTime.
    */
-  export let speed: $$Props['speed'] = 1
+  export let speed: $$Props['speed'] = undefined
 
   /**
    * The PIXI.Ticker instance. Can be set or bound to.
@@ -67,6 +67,8 @@
 
     return () => {
       instance.destroy()
+      // @ts-ignore - update binding on unmount
+      instance = undefined
     }
   })
 

@@ -19,10 +19,28 @@ npm install pixi.js@~8.6.0 svelte-pixi@~8.0.0
 - PixiJS v8.6 support
 - Rewritten for Svelte 5
   - Svelte 4 components are still available from `svelte-pixi/svelte-4`. [Read more on migrating to Svelte 5](/guides/upgrading-to-svelte-5)
-- [PerspectiveMesh](/api/components/perspective-mesh) component
 - [Application `stage` snippet/slot](http://localhost:4321/api/components/application#custom-stage)
+- [tick](/api/utilities/tick) utility function
+
+    ```svelte
+    <script>
+      import { tick } from 'svelte-pixi'
+
+      let elapsed = tick((ticker, prev = 0) => prev + ticker.deltaTime)
+
+      $effect(() => console.log($elapsed))
+    </script>
+    ```
+  Note that this deprecates `track` - [see below](#deprecations)
+
 - [onStageEvent](/api/utilities/on-stage-event/)
 - [onContainerEvent](/api/utilities/on-container-event/)
+- [PerspectiveMesh](/api/components/perspective-mesh) component
+
+## Bug fixes
+
+- Fix svelte package.json exports field ([#41](https://github.com/mattjennings/svelte-pixi/issues/41))
+- `instance` prop is now set to undefined on unmount
 
 ## Breaking Changes
 
@@ -197,6 +215,16 @@ Renamed in PixiJS to MeshRope
 
 ### Ticker
 
+#### Props
+
+Defaults for the following props have been removed and will now use the defaults that PixiJS designates:
+
+- maxFPS
+- minFPS
+- speed
+
+`autoStart` remains defaulted to true for convenience
+
 #### onTick
 
 The event payload for the ticker has changed in PixiJS v8. The payload is now the ticker instance.
@@ -217,4 +245,48 @@ The event payload for the ticker has changed in PixiJS v8. The payload is now th
 </script>
 
 <Ticker ontick={(ticker) => console.log(ticker.deltaTime)} />
+```
+
+## Deprecations
+
+### track
+
+`track()` has been depracted in favour of `tick()` and will be removed in a future version.
+
+`tick` works similarly but has a few differences:
+
+- receives the parent Ticker instance in the callback
+- executes the callback immediately to get the initial value, rather than waiting for the next tick
+- requires a parent Ticker in the component tree
+
+In most cases the migration from `track` will look like this:
+
+```diff lang="svelte"
+<script>
+-  import { track } from 'svelte-pixi'
++  import { tick } from 'svelte-pixi'
+  let instance
+
+-  let x = track(() => instance.x, 100)
++  let x = tick(() => instance?.x ?? 100)
+</script>
+
+<Container bind:instance />
+```
+
+This also makes it easier to derive values from the Ticker:
+
+```svelte
+<script>
+  import { onTick, tick } from 'svelte-pixi'
+
+  // using onTick
+  let elapsed = 0
+  onTick((ticker) => {
+    elapsed += ticker.deltaTime
+  })
+
+  // using tick
+  let elapsed = tick((ticker, prev = 0) => prev + ticker.deltaTime)
+</script>
 ```

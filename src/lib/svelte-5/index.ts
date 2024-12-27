@@ -25,5 +25,4 @@ export {
   onStageEvent,
 } from '../core/context/container'
 export { getRenderer } from '../core/context/renderer'
-export { getTicker, onTick } from '../core/context/ticker'
-export { track } from '../core/util/props'
+export { getTicker, onTick, track, tick } from '../core/context/ticker'

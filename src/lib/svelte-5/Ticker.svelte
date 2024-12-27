@@ -25,7 +25,7 @@
   import type { PickPixiProps } from '../core/util/data-types'
 
   let {
-    autoStart,
+    autoStart = true,
     maxFPS,
     minFPS,
     speed,
@@ -42,19 +42,22 @@
   setTicker(instance)
 
   onMount(() => {
-    if (ontick) {
-      instance.add(ontick, priority)
-    }
     return () => {
-      instance.destroy()
+      instance?.destroy()
+      instance = undefined
     }
   })
 
   const { applyProp } = createApplyProps<PIXI.Ticker, TickerProps<T>>(
     instance,
     {
-      onApply() {
-        instance.start()
+      apply: {
+        ontick: (value) => {
+          if (value) {
+            instance?.add(value, priority)
+            return () => instance?.remove(value)
+          }
+        },
       },
     },
   )
@@ -63,6 +66,7 @@
   $effect(() => applyProp('maxFPS', maxFPS))
   $effect(() => applyProp('minFPS', minFPS))
   $effect(() => applyProp('speed', speed))
+  $effect(() => applyProp('ontick', ontick))
 </script>
 
 {#if children}

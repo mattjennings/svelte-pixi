@@ -18,10 +18,7 @@ Get the instance of a component by binding to its `instance` prop and then passi
     import { Graphics, Sprite, Container, tick } from 'svelte-pixi'
 
     let mask
-    let x = tick(t => {
-      console.log(t)
-      return 300 + (Math.sin(t.lastTime / 400) * 100)
-    })
+    let x = tick(t => 300 + (Math.sin(t.lastTime / 400) * 100))
   </script>
 
 
@@ -48,20 +45,16 @@ Get the instance of a component by binding to its `instance` prop and then passi
   ```svelte live
   <script>
     import * as PIXI from 'pixi.js'
-    import { Graphics, Sprite, Container, onTick } from 'svelte-pixi/svelte-4'
+    import { Graphics, Sprite, Container, tick } from 'svelte-pixi/svelte-4'
 
     let mask
-    let x = 300
-
-    onTick(ticker => {
-      x = 300 + (Math.sin(ticker.lastTime / 400) * 100)
-    })
+    let x = tick(t => 300 + (Math.sin(t.lastTime / 400) * 100))
   </script>
 
 
   <Graphics
     bind:instance={mask}
-    {x}
+    x={$x}
     y={150}
     draw={(g) => {    
       g.rect(0, 0, 100, 100).fill('black')
@@ -89,20 +82,16 @@ Get the instance of a component by binding to its `instance` prop and then passi
   ```svelte live
   <script>
     import * as PIXI from 'pixi.js'
-    import { Graphics, Sprite, Container, onTick } from 'svelte-pixi'
+    import { Graphics, Sprite, Container, tick } from 'svelte-pixi'
 
     let mask
-    let x = $state(300)
-
-    onTick(ticker => {
-      x = 300 + (Math.sin(ticker.lastTime / 400) * 100)
-    })    
+    let x = tick(t => 300 + (Math.sin(t.lastTime / 400) * 100))    
   </script>
 
 
   <Graphics
     bind:instance={mask}
-    {x}
+    x={$x}
     y={150}
     draw={(g) => {    
       g.rect(0, 0, 100, 100).fill('black')
@@ -123,20 +112,16 @@ Get the instance of a component by binding to its `instance` prop and then passi
   ```svelte live
   <script>
     import * as PIXI from 'pixi.js'
-    import { Graphics, Sprite, Container, onTick } from 'svelte-pixi/svelte-4'
+    import { Graphics, Sprite, Container, tick } from 'svelte-pixi/svelte-4'
 
     let mask
-    let x = 300
-
-    onTick(ticker => {
-      x = 300 + (Math.sin(ticker.lastTime / 400) * 100)
-    })
+    let x = tick(t => 300 + (Math.sin(t.lastTime / 400) * 100))
   </script>
 
 
   <Graphics
     bind:instance={mask}
-    {x}
+    x={$x}
     y={150}
     draw={(g) => {    
       g.rect(0, 0, 100, 100).fill('black')

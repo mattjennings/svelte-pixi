@@ -1,7 +1,7 @@
 <script lang="ts">
   import * as PIXI from 'pixi.js'
 
-  import { createEventDispatcher } from 'svelte'
+  import { createEventDispatcher, onMount } from 'svelte'
   import Container from './Container.svelte'
   import Renderer from './Renderer.svelte'
   import Ticker from './Ticker.svelte'
@@ -283,102 +283,114 @@
    */
   export let instance: T = new PIXI.Application() as T
 
-  const initPromise = autoInit
-    ? instance
-        .init(
-          // some props being explicitly undefined different behaviour than implicit
-          // undefined
-          omitUndefined<PIXI.ApplicationOptions>({
-            antialias,
-            autoDensity,
-            autoStart,
-            background,
-            backgroundAlpha,
-            backgroundColor,
-            bezierSmoothness,
-            clearBeforeRender,
-            context,
-            depth,
-            eventFeatures,
-            eventMode,
-            failIfMajorPerformanceCaveat,
-            forceFallbackAdapter,
-            height,
-            hello,
-            multiView,
-            powerPreference,
-            preference,
-            preferWebGLVersion,
-            premultipliedAlpha,
-            preserveDrawingBuffer,
-            renderableGCActive,
-            renderableGCFrequency,
-            renderableGCMaxUnusedTime,
-            resizeTo,
-            resolution,
-            roundPixels,
-            skipExtensionImports,
-            textureGCActive,
-            textureGCCheckCountMax,
-            textureGCMaxIdle,
-            useBackBuffer,
-            webgl,
-            webgpu,
-            width,
-          }),
-        )
-        .then(() => {
-          dispatch('init', { instance })
+  const initPromise =
+    autoInit && instance
+      ? instance
+          .init(
+            // some props being explicitly undefined different behaviour than implicit
+            // undefined
+            omitUndefined<PIXI.ApplicationOptions>({
+              antialias,
+              autoDensity,
+              autoStart,
+              background,
+              backgroundAlpha,
+              backgroundColor,
+              bezierSmoothness,
+              clearBeforeRender,
+              context,
+              depth,
+              eventFeatures,
+              eventMode,
+              failIfMajorPerformanceCaveat,
+              forceFallbackAdapter,
+              height,
+              hello,
+              multiView,
+              powerPreference,
+              preference,
+              preferWebGLVersion,
+              premultipliedAlpha,
+              preserveDrawingBuffer,
+              renderableGCActive,
+              renderableGCFrequency,
+              renderableGCMaxUnusedTime,
+              resizeTo,
+              resolution,
+              roundPixels,
+              skipExtensionImports,
+              textureGCActive,
+              textureGCCheckCountMax,
+              textureGCMaxIdle,
+              useBackBuffer,
+              webgl,
+              webgpu,
+              width,
+            }),
+          )
+          .then(() => {
+            dispatch('init', { instance })
 
-          // remove rendering on tick
-          if (render && instance.ticker) {
-            instance.ticker.remove(instance.render, instance)
-          }
-        })
-    : Promise.resolve(instance)
+            // remove rendering on tick
+            if (render && instance?.ticker) {
+              instance.ticker.remove(instance.render, instance)
+            }
+          })
+      : Promise.resolve(instance)
 
   let invalidated = true
 
-  setApp(instance)
+  if (instance) {
+    setApp(instance)
+  }
+
+  onMount(() => {
+    return () => {
+      // @ts-ignore - update binding on unmount
+      instance = undefined
+    }
+  })
 </script>
 
 {#await initPromise}
   <slot name="loading" />
 {:then}
-  <Renderer
-    instance={instance.renderer}
-    on:invalidate={() => {
-      invalidated = true
-    }}
-    on:renderStart
-    on:render
-    on:prerender
-    on:postrender
-  >
-    <slot name="view" slot="view">
-      <div></div>
-    </slot>
-
-    {#if render}
-      <Ticker
-        on:tick={() => {
-          if (render === 'demand') {
-            if (invalidated) {
-              invalidated = false
-              instance.renderer.render(instance.stage)
-            }
-          } else if (render === 'auto') {
-            instance.renderer.render(instance.stage)
-          }
-        }}
-      />
-    {/if}
-    <Ticker instance={instance.ticker}>
-      <slot name="stage" app={instance}>
-        <Container instance={instance.stage}>
-          <slot />
-        </Container>
+  {#if instance}
+    <Renderer
+      instance={instance.renderer}
+      on:invalidate={() => {
+        invalidated = true
+      }}
+      on:renderStart
+      on:render
+      on:prerender
+      on:postrender
+    >
+      <slot name="view" slot="view">
+        <div></div>
       </slot>
-    </Ticker>
-  </Renderer>
+
+      {#if render}
+        <Ticker
+          on:tick={() => {
+            if (render === 'demand') {
+              if (invalidated) {
+                invalidated = false
+                instance?.renderer.render(instance.stage)
+              }
+            } else if (render === 'auto') {
+              instance?.renderer.render(instance.stage)
+            }
+          }}
+        />
+      {/if}
+      <Ticker instance={instance.ticker}>
+        <slot name="stage" app={instance}>
+          <Container instance={instance.stage}>
+            <slot />
+          </Container>
+        </slot>
+      </Ticker>
+    </Renderer>
+  {/if}
 {/await}

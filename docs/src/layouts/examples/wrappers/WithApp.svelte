@@ -2,6 +2,7 @@
   import { Application, AssetsLoader, Container } from 'svelte-pixi/svelte-5'
   import IntersectionObserver from 'svelte-intersection-observer'
   import Stats from 'stats-js'
+  import { untrack, tick } from 'svelte'
 
   let { assets = [], bg = 0x000000, stats = false, children } = $props()
 
@@ -12,6 +13,10 @@
    * @type {HTMLElement}
    */
   let statsElement = $state()
+
+  /**
+   * @type {import('pixi.js').Application}
+   */
   let app = $state()
   let clientWidth = $state(0)
   let clientHeight = $state(0)

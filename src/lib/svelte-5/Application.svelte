@@ -1,5 +1,5 @@
 <script lang="ts" module>
-  import { type Snippet } from 'svelte'
+  import { onMount, type Snippet } from 'svelte'
   export interface ApplicationProps<
     T extends PIXI.Application = PIXI.Application,
   > extends Partial<Omit<PIXI.ApplicationOptions, 'view'>> {
@@ -169,12 +169,14 @@
             }),
           )
           .then(() => {
-            oninit?.({ application: instance })
+            if (instance) {
+              oninit?.({ application: instance })
+            }
           })
       : Promise.resolve(instance)
   ).then(() => {
     // remove rendering on tick
-    if (render && instance.ticker) {
+    if (render && instance?.ticker) {
       instance.ticker.remove(instance.render, instance)
     }
   })
@@ -182,6 +184,12 @@
   let invalidated = true
 
   setApp(instance)
+
+  onMount(() => {
+    return () => {
+      instance = undefined
+    }
+  })
 </script>
 
 {#snippet viewFallback()}
@@ -191,39 +199,41 @@
 {#await initPromise}
   {@render loading?.()}
 {:then}
-  <Renderer
-    instance={instance.renderer}
-    oninvalidate={() => {
-      invalidated = true
-    }}
-    view={view ?? viewFallback}
-    {onrender}
-    {onrenderstart}
-    {onprerender}
-    {onpostrender}
-  >
-    {#if render}
-      <Ticker
-        ontick={() => {
-          if (render === 'demand') {
-            if (invalidated) {
-              invalidated = false
-              instance.renderer.render(instance.stage)
+  {#if instance}
+    <Renderer
+      instance={instance.renderer}
+      oninvalidate={() => {
+        invalidated = true
+      }}
+      view={view ?? viewFallback}
+      {onrender}
+      {onrenderstart}
+      {onprerender}
+      {onpostrender}
+    >
+      {#if render}
+        <Ticker
+          ontick={() => {
+            if (render === 'demand') {
+              if (invalidated) {
+                invalidated = false
+                instance?.renderer.render(instance.stage)
+              }
+            } else if (render === 'auto') {
+              instance?.renderer.render(instance.stage)
             }
-          } else if (render === 'auto') {
-            instance.renderer.render(instance.stage)
-          }
-        }}
-      />
-    {/if}
-    <Ticker instance={instance.ticker}>
-      {#if stage}
-        {@render stage?.({ app: instance, children })}
-      {:else}
-        <Container instance={instance.stage}>
-          {@render children?.()}
-        </Container>
+          }}
+        />
       {/if}
-    </Ticker>
-  </Renderer>
+      <Ticker {autoStart} instance={instance.ticker}>
+        {#if stage}
+          {@render stage?.({ app: instance, children })}
+        {:else}
+          <Container instance={instance.stage}>
+            {@render children?.()}
+          </Container>
+        {/if}
+      </Ticker>
+    </Renderer>
+  {/if}
 {/await}

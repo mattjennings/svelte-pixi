@@ -336,6 +336,9 @@
 
   onMount(() => {
     return () => {
+      // @ts-ignore - release binding
+      instance = undefined
+
       _instance?.destroy()
       _parent?.removeChild(_instance)
       invalidate()

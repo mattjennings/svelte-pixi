@@ -134,38 +134,6 @@ export function applyProp<Instance, Prop extends keyof Instance, Value>(
   }
 }
 
-export function track<T>(getter: () => T, initial?: T): Writable<T> {
-  const { renderer } = getRenderer()
-  const { ticker } = getTicker()
-
-  const value = writable(initial)
-
-  function update() {
-    // svelte tick() first incase stores were updated
-    // and passed down as a prop between pixi ticks
-    tick().then(() => {
-      value.set(getter())
-    })
-  }
-
-  onMount(() => {
-    if (!ticker) {
-      renderer.runners.postrender.add(update)
-      return () => {
-        renderer.runners.postrender.remove(update)
-      }
-    }
-  })
-
-  if (ticker) {
-    onTick(() => {
-      update()
-    }, -Infinity)
-  }
-
-  return value
-}
-
 /* -------------------------------------------------------------------------- */
 /*                                    TYPES                                   */
 /* -------------------------------------------------------------------------- */

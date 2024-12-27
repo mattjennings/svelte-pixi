@@ -54,7 +54,6 @@
     y?: PIXI.Container['y']
     zIndex?: PIXI.Container['zIndex']
     instance?: T
-    applyPropOnMount?: boolean
   }
 
   /**
@@ -504,6 +503,10 @@
     return () => {
       _instance?.destroy()
       _parent?.removeChild(_instance)
+
+      // @ts-ignore - release binding
+      instance = undefined
+
       invalidate()
     }
   })

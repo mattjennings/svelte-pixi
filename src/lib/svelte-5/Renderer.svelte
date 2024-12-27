@@ -46,7 +46,7 @@
 <script lang="ts" generics="T extends PIXI.Renderer = PIXI.Renderer">
   import * as PIXI from 'pixi.js'
 
-  import { type Snippet } from 'svelte'
+  import { onMount, type Snippet } from 'svelte'
   import { omitUndefined } from '../core/util/helpers'
   import RendererContext from './RendererContext.svelte'
 
@@ -185,6 +185,12 @@
       }
     }
   }
+
+  onMount(() => {
+    return () => {
+      instance = undefined
+    }
+  })
 </script>
 
 {#await autoDetectPromise}
