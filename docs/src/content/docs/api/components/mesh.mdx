@@ -16,10 +16,10 @@ Renders a PIXI.Mesh.
   <div slot="svelte-5">
     ```svelte live props={{ assets: ['/assets/bg_mesh.jpg']}}
     <script>
-      import { Mesh, onTick } from 'svelte-pixi'
+      import { Mesh, tick } from 'svelte-pixi'
       import * as PIXI from 'pixi.js'
 
-      let rotation = 0
+      let rotation = tick((t, prev = 0) => prev + 0.01 * t.deltaTime)
 
       const geometry = new PIXI.Geometry({
         attributes: {
@@ -83,23 +83,27 @@ Renders a PIXI.Mesh.
             uTime: 0,
         },    
       })
-
-      onTick((ticker) => {
-        rotation += 0.01 * ticker.deltaTime
-      })
     </script>
 
-    <Mesh x={360} y={200} anchor={0.5} scale={2} {geometry} {shader} {rotation} />
+    <Mesh 
+      x={360} 
+      y={200} 
+      anchor={0.5} 
+      scale={2} 
+      rotation={$rotation} 
+      {geometry} 
+      {shader} 
+    />
     ```
 
   </div>
   <div slot="svelte-4">
     ```svelte live props={{ assets: ['/assets/bg_mesh.jpg']}}
     <script>
-      import { Mesh, onTick } from 'svelte-pixi/svelte-4'
+      import { Mesh, tick } from 'svelte-pixi/svelte-4'
       import * as PIXI from 'pixi.js'
 
-      let rotation = 0
+      let rotation = tick((t, prev = 0) => prev + 0.01 * t.deltaTime)
 
       const geometry = new PIXI.Geometry({
         attributes: {
@@ -164,12 +168,17 @@ Renders a PIXI.Mesh.
         },    
       })
 
-      onTick((ticker) => {
-        rotation += 0.01 * ticker.deltaTime
-      })
     </script>
 
-    <Mesh x={360} y={200} anchor={0.5} scale={2} {geometry} {shader} {rotation} />
+    <Mesh 
+      x={360} 
+      y={200} 
+      anchor={0.5} 
+      scale={2} 
+      rotation={$rotation} 
+      {geometry} 
+      {shader} 
+    />
     ```
   </div>
 </SvelteTabs>

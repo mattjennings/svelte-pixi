@@ -16,23 +16,19 @@ Renders a PIXI.MeshRope.
   <div slot="svelte-5">
     ```svelte live props={{ assets: ['/assets/snake.png'] }}
     <script>
-      import { MeshRope, onTick } from 'svelte-pixi'
+      import { MeshRope, tick } from 'svelte-pixi'
       import * as PIXI from 'pixi.js'
 
-      const ropeLength = 918 / 20
-      let points = Array.from({ length: 20 }).map((_, i) => ({
-        x: i * ropeLength,
-        y: 0,
-      }))
-
-      onTick((ticker) => {
-        const time = ticker.lastTime / 200
-
-        points = points.map((point, i) => ({
-          x: i * ropeLength + Math.cos(i * 0.3 + time) * 20,
-          y: Math.sin(i * 0.5 + time) * 30,
-        }))
-      })
+      let ropeLength = 918 / 20
+      let points = tick((t) =>
+        Array.from({ length: 20 }).map((point, i) => {
+          const time = t.lastTime / 300
+          return {
+            x: i * ropeLength + Math.cos(i * 0.3 + time) * 20,
+            y: Math.sin(i * 0.5 + time) * 30,
+          }
+        })
+      )
     </script>
 
     <MeshRope
@@ -40,30 +36,26 @@ Renders a PIXI.MeshRope.
       y={200}
       texture={PIXI.Texture.from('/assets/snake.png')}
       scale={0.6}
-      {points}
+      points={$points}
     />
     ``` 
   </div>
   <div slot="svelte-4">
     ```svelte live props={{ assets: ['/assets/snake.png'] }}
     <script>
-      import { MeshRope, onTick } from 'svelte-pixi/svelte-4'
+      import { MeshRope, tick } from 'svelte-pixi/svelte-4'
       import * as PIXI from 'pixi.js'
 
-      const ropeLength = 918 / 20
-      let points = Array.from({ length: 20 }).map((_, i) => ({
-        x: i * ropeLength,
-        y: 0,
-      }))
-
-      onTick((ticker) => {
-        const time = ticker.lastTime / 200
-
-        points = points.map((point, i) => ({
-          x: i * ropeLength + Math.cos(i * 0.3 + time) * 20,
-          y: Math.sin(i * 0.5 + time) * 30,
-        }))
-      })
+      let ropeLength = 918 / 20
+      let points = tick((t) =>
+        Array.from({ length: 20 }).map((point, i) => {
+          const time = t.lastTime / 300
+          return {
+            x: i * ropeLength + Math.cos(i * 0.3 + time) * 20,
+            y: Math.sin(i * 0.5 + time) * 30,
+          }
+        })
+      )
     </script>
 
     <MeshRope
@@ -71,7 +63,7 @@ Renders a PIXI.MeshRope.
       y={200}
       texture={PIXI.Texture.from('/assets/snake.png')}
       scale={0.6}
-      {points}
+      points={$points}
     />
     ```
   </div>

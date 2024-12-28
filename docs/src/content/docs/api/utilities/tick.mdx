@@ -43,6 +43,33 @@ on a PixiJS instance. It can also be used to [bind props](/guides/binding-props)
   </div>
 </SvelteTabs>
 
+## tick vs onTick
+
+The difference between `tick` and `onTick` is that `tick` returns a writable store. `onTick` may make more sense when
+your callback has side effects.
+
+```svelte
+<script>
+  import { onTick } from 'svelte-pixi'
+
+  let x = 0
+  let y = 0
+  let z = 0
+
+  onTick((ticker) => {
+    x = ...
+    y = ...
+    z = ...
+
+    if (y > 1000) {
+      gameOver()
+    }
+  })
+</script>
+```
+
+(You could also use `tick` in the same way and ignore the return value; it's mostly a matter of preference)
+
 ## Type Definition
 
 ```ts

@@ -376,7 +376,7 @@ that an update is required manually.
   <script>
     import { Sprite, getRenderer, onTick } from 'svelte-pixi'
 
-    // gets the underlying Renderer component from Application
+    // invalidate tells the renderer to render on the next tick
     const { invalidate } = getRenderer()
 
     let sprite
@@ -396,14 +396,14 @@ that an update is required manually.
     })
   </script>
 
-  <Sprite bind:instance={sprite} {...$$restProps} />
+  <Sprite bind:instance={sprite} />
   ```
 
   ```svelte title="CustomSprite.svelte"  
   <script>
     import { Sprite, getRenderer } from 'svelte-pixi'    
 
-    let { customProp, customProp2 } = $props()
+    let { customProp, customProp2, ...restProps } = $props()
     const { invalidate } = getRenderer()
 
     class CustomSprite extends PIXI.Sprite {
@@ -425,7 +425,7 @@ that an update is required manually.
     })
   </script>
 
-  <Sprite instance={sprite} {...$$restProps} />
+  <Sprite instance={sprite} {...restProps} />
   ```  
   </div>
   <div slot="svelte-4">
@@ -433,7 +433,7 @@ that an update is required manually.
   <script>
     import { Sprite, getRenderer, onTick } from 'svelte-pixi/svelte-4'
 
-    // gets the underlying Renderer component from Application
+    // invalidate tells the renderer to render on the next tick
     const { invalidate } = getRenderer()
 
     let sprite
@@ -453,7 +453,7 @@ that an update is required manually.
     })
   </script>
 
-  <Sprite bind:instance={sprite} {...$$restProps} />
+  <Sprite bind:instance={sprite} />
   ```
 
   ```svelte title="CustomSprite.svelte"

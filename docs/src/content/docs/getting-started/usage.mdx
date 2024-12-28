@@ -99,6 +99,32 @@ into the loop with `onTick`.
 />
 ```
 
+You can also use `tick` to create a Svelte writable store that updates on each tick.
+
+
+```svelte live props={{ assets: ['/assets/food/lemonpie.png'] }} 
+<script>
+  import * as PIXI from 'pixi.js'
+  import { Sprite, tick } from 'svelte-pixi'
+
+  const position = tick(ticker => {
+    const time = ticker.lastTime / 500
+    return {
+      x: 360 + Math.cos(time) * 50,
+      y: 200 + Math.sin(time) * 50
+    }
+  })
+</script>
+
+<Sprite
+  texture={PIXI.Texture.from('/assets/food/lemonpie.png')}
+  anchor={0.5}
+  x={$position.x}
+  y={$position.y}
+  scale={3}
+/>
+```
+
 ## Accessing PixiJS Instances
 
 Most SveltePixi components have an `instance` prop that
