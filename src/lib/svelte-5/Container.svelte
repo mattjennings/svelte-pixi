@@ -77,6 +77,12 @@
     instance?: T
 
     /**
+     * Called on creation of the component. You can use this to do any setup
+     * on the instance directly
+     */
+    oncreate?: (instance: T) => void
+
+    /**
      * Called when the instance is added to its parent or stage
      */
     onadded?: () => void
@@ -152,6 +158,7 @@
     // events
     onadded,
     onclick,
+    oncreate,
     onglobalmousemove,
     onglobalpointermove,
     onglobaltouchmove,
@@ -194,6 +201,7 @@
       isRenderGroup,
     }) as T
   }
+
   const { invalidate } = getRenderer()
   const { container: parent } = getContainer() ?? {}
 
@@ -218,6 +226,8 @@
       _parent.addChild(_instance)
     }
   }
+
+  oncreate?.(instance)
 
   const { applyProp } = createApplyProps<PIXI.Container, ContainerProps>(
     instance,
