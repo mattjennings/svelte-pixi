@@ -7,21 +7,15 @@ import {
   SymbolFlags,
 } from 'ts-morph'
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname)
-
 const project = new Project({
-  tsConfigFilePath: '../tsconfig.json',
+  tsConfigFilePath: path.resolve(process.cwd(), '../tsconfig.json'),
   compilerOptions: {
     target: ScriptTarget.ESNext,
   },
 })
 
 export function parseComponent(name: string) {
-  const componentPath = path.resolve(
-    __dirname,
-    '../../../../dist/svelte-5',
-    name,
-  )
+  const componentPath = path.resolve(process.cwd(), '../dist/svelte-5', name)
 
   const sourceFile = project.addSourceFileAtPath(
     componentPath.replace('.d.ts', '') + '.d.ts',

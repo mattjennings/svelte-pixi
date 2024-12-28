@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "(cd .. && npm run package); astro check && astro build",
+    "build": "(cd .. && npm run build) && astro check && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },

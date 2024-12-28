@@ -16,10 +16,9 @@ const { ComponentParser } = require('sveld') as any as {
   ComponentParser: typeof import('sveld').ComponentParser
 }
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname)
 const componentPath = path.resolve(
-  __dirname,
-  '../../../../src/lib/svelte-4',
+  process.cwd(),
+  '../src/lib/svelte-4',
   Astro.props.component,
 )
 
