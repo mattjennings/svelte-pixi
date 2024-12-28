@@ -4,8 +4,9 @@
   to do for the root component of your Pixi app.
 
   Alternatively, you could disable SSR for the route(s) via https://kit.svelte.dev/docs/hooks#handle
+  or turn into an SPA https://svelte.dev/docs/kit/single-page-apps
   which would allow you to import Pixi components as normal.
 -->
-{#await import('$lib/PixiApp.svelte') then app}
-  <svelte:component this={app.default} />
+{#await import('$lib/PixiApp.svelte') then App}
+  <App.default />
 {/await}
