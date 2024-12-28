@@ -49,8 +49,8 @@
     "pixi.js": ">=8.6.5",
     "svelte": ">=4.0.0 || >=5.0.0"
   },
-  "main": "./dist/svelte-4/index.js",
-  "svelte": "./dist/svelte-4/index.js",
+  "main": "./dist/svelte-5/index.js",
+  "svelte": "./dist/svelte-5/index.js",
   "type": "module",
   "files": [
     "dist"
@@ -58,14 +58,10 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "types": "./dist/svelte-4/index.d.ts",
-      "import": "./dist/svelte-4/index.js",
-      "svelte": "./dist/svelte-4/index.js",
-      "default": "./dist/svelte-4/index.js"
-    },
-    "./experimental": {
-      "types": "./dist/experimental/index.d.ts",
-      "default": "./dist/experimental/index.js"
+      "types": "./dist/svelte-5/index.d.ts",
+      "import": "./dist/svelte-5/index.js",
+      "svelte": "./dist/svelte-5/index.js",
+      "default": "./dist/svelte-5/index.js"
     },
     "./svelte-4": {
       "types": "./dist/svelte-4/index.d.ts",
