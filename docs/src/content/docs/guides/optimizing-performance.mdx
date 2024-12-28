@@ -147,44 +147,30 @@ When working at this scale every optimization counts, so it is best to create Pi
     let cameraZ = 0
     let amount = $state(5000)
 
-    let stars = $derived(
-      new Array(amount).fill(null).map(() => {
-        // we're going to manually create our Sprite instances this time
-        const star = new PIXI.Sprite(PIXI.Texture.from('/assets/star.png'))
+    let stars = $derived.by(() => {              
+        container.removeChildren()
 
-        const deg = Math.random() * Math.PI * 2
-        const distance = Math.random() * 50 + 1
+        return new Array(amount).fill(null).map(() => {
+          // we're going to manually create our Sprite instances this time
+          const star = new PIXI.Sprite(PIXI.Texture.from('/assets/star.png'))
 
-        // these are custom values that we'll use in the updateStar function
-        star.initX = Math.cos(deg) * distance
-        star.initY = Math.sin(deg) * distance
-        star.initZ = Math.random() * 1000 + 750
+          const deg = Math.random() * Math.PI * 2
+          const distance = Math.random() * 50 + 1
 
-        star.x = star.initX
-        star.y = star.initY
-        star.z = star.initZ
+          // these are custom values that we'll use in the updateStar function
+          star.initX = Math.cos(deg) * distance
+          star.initY = Math.sin(deg) * distance
+          star.initZ = Math.random() * 1000 + 750
 
-        updateStar(star)
+          star.x = star.initX
+          star.y = star.initY
+          star.z = star.initZ
 
-        return star
-      })
-    )
-
-    // add/remove stars
-    $effect(() => {
-      if (container) {
-        for (const star of stars) {
+          updateStar(star)
           container.addChild(star)
-        }
 
-        // preserve the stars array for cleanup
-        let _stars = stars
-        return () => {
-          for (const star of _stars) {
-            star.destroy()
-          }
-        }
-      }
+          return star
+      })
     })
 
     // instead of updating these values as props we'll mutate them on the star instances
@@ -239,13 +225,9 @@ When working at this scale every optimization counts, so it is best to create Pi
 
     // create stars for amount value
     $: {
-      // destroy previous stars if amount was changed      
-      for (const star of stars) {
-        star.destroy()
-      }
-
       // create stars
       if (container) {
+        container.removeChildren()
         stars = new Array(amount).fill(null).map(() => {
           // we're going to manually create our Sprite instances this time
           const star = new PIXI.Sprite(PIXI.Texture.from('/assets/star.png'))
@@ -263,13 +245,10 @@ When working at this scale every optimization counts, so it is best to create Pi
           star.z = star.initZ
 
           updateStar(star)
+          container.addChild(star)
 
           return star
         })
-
-        if (stars.length) {
-          container.addChild(...stars)
-        }
       }
     }
 
