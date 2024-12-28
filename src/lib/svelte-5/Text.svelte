@@ -1,10 +1,8 @@
 <script lang="ts" module>
   export interface TextProps<T extends PIXI.Text = PIXI.Text>
     extends ContainerProps<T>,
-      PickPixiProps<
-        PIXI.Text & PIXI.TextOptions,
-        'anchor' | 'blendMode' | 'roundPixels' | 'style' | 'text'
-      > {}
+      PickPixiProps<PIXI.Text, 'anchor' | 'blendMode' | 'roundPixels'>,
+      PickPixiProps<PIXI.TextOptions, never, 'text' | 'style'> {}
 </script>
 
 <script lang="ts" generics="T extends PIXI.Text = PIXI.Text">
@@ -37,6 +35,19 @@
     {
       onApply() {
         invalidate()
+      },
+      apply: {
+        style: (value) => {
+          if (value) {
+            if (value instanceof PIXI.TextStyle) {
+              instance.style = value
+            } else {
+              for (const key in value) {
+                instance.style[key] = value[key]
+              }
+            }
+          }
+        },
       },
     },
   )
