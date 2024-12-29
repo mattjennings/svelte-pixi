@@ -2,6 +2,8 @@ import { describe, expect, test, vitest } from 'vitest'
 import { Container } from '../src/lib/svelte-5'
 import { renderContainer } from '../test-utils/pixi.svelte'
 import * as PIXI from 'pixi.js'
+import { type ContainerProps } from '../src/lib/svelte-5/Container.svelte'
+import { tick } from 'svelte'
 
 test('adds to stage', async () => {
   const { app, instance } = await renderContainer(Container, {})
@@ -9,49 +11,76 @@ test('adds to stage', async () => {
   expect(app.stage.children.length).toBe(1)
 })
 
-/*
-    accessible,
-    accessibleChildren,
-    accessibleHint,
-    accessiblePointerEvents,
-    accessibleTitle,
-    accessibleType,
-    alpha,
-    angle,
-    boundsArea,
-    cacheAsBitmap,
-    cacheAsTexture,
-    cursor,
-    cullableChildren,
-    cullable,
-    cullArea,
-    effects,
-    eventMode,
-    filterArea,
-    hitArea,
-    filters,
-    height,
-    interactive,
-    interactiveChildren,
-    isRenderGroup,
-    mask,
-    label,
-    name,
-    pivot,
-    position,
-    renderable,
-    rotation,
-    scale,
-    skew,
-    sortableChildren,
-    tabIndex,
-    visible,
-    x,
-    y,
-    width,
-    zIndex,
-  */
 describe('props', () => {
+  describe('events', () => {
+    test('onadded', async () => {
+      const onadded = vitest.fn(() => {})
+
+      await renderContainer(Container, {
+        onadded,
+      })
+      expect(onadded).toHaveBeenCalledTimes(1)
+    })
+
+    test('onremoved', async () => {
+      const onremoved = vitest.fn(() => {})
+
+      const { unmount } = await renderContainer(Container, {
+        onremoved,
+      })
+      unmount()
+      expect(onremoved).toHaveBeenCalledTimes(1)
+    })
+
+    const interactionEvents: Array<keyof ContainerProps<any>> = [
+      'onglobalmousemove',
+      'onglobalpointermove',
+      'onglobaltouchmove',
+      'onclick',
+      'onmousedown',
+      'onmousemove',
+      'onmouseout',
+      'onmouseover',
+      'onmouseup',
+      'onmouseupoutside',
+      'onmouseenter',
+      'onmouseleave',
+      'onpointercancel',
+      'onpointerdown',
+      'onpointermove',
+      'onpointerout',
+      'onpointerover',
+      'onpointertap',
+      'onpointerup',
+      'onpointerupoutside',
+      'onpointerenter',
+      'onpointerleave',
+      'onrightclick',
+      'onrightdown',
+      'onrightup',
+      'onrightupoutside',
+      'ontap',
+      'ontouchcancel',
+      'ontouchend',
+      'ontouchendoutside',
+      'ontouchmove',
+      'ontouchstart',
+    ]
+
+    // these are just set as the instance.on* property, so we can manually invoke to ensure they work
+    for (const event of interactionEvents) {
+      test(event, async () => {
+        const fn = vitest.fn(() => {})
+
+        const { instance } = await renderContainer(Container, {
+          [event]: fn,
+        })
+        instance[event]!(null as any)
+        expect(fn).toHaveBeenCalledTimes(1)
+      })
+    }
+  })
+
   test('accessible', async () => {
     const { instance, rerender } = await renderContainer(Container, {
       accessible: true,
@@ -152,7 +181,7 @@ describe('props', () => {
     expect(instance.cacheAsBitmap).toBe(false)
   })
 
-  test.only('cacheAsTexture', async () => {
+  test('cacheAsTexture', async () => {
     let spy!: ReturnType<typeof vitest.spyOn>
     const { instance, rerender } = await renderContainer(Container, {
       oncreate: (i) => {
@@ -523,6 +552,4 @@ describe('props', () => {
     await rerender({ zIndex: 2 })
     expect(instance.zIndex).toBe(2)
   })
-
-  describe.skip('events', () => {})
 })

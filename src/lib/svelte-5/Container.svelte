@@ -105,7 +105,7 @@
   import type { PickPixiProps } from '../core/util/data-types'
 
   import * as PIXI from 'pixi.js'
-  import { onMount, type Snippet } from 'svelte'
+  import { onMount, tick, type Snippet } from 'svelte'
   import {
     getContainer,
     setContainer,
@@ -230,6 +230,16 @@
 
   oncreate?.(instance)
 
+  onMount(() => {
+    return () => {
+      _parent?.removeChild(_instance)
+      _instance?.destroy()
+      // @ts-ignore - release binding
+      instance = undefined
+      invalidate()
+    }
+  })
+
   const { applyProp } = createApplyProps<PIXI.Container, ContainerProps>(
     instance,
     {
@@ -267,6 +277,9 @@
           if (value) {
             instance.on('removed', value)
 
+            // it is important onMount() is **before** this line otherwise
+            // this effect will cleanup before the onMount() cleanup does,
+            // which is where the instance is removed
             return () => {
               instance.off('removed', value)
             }
@@ -350,17 +363,6 @@
   $effect(() => applyProp('ontouchmove', ontouchmove))
   $effect(() => applyProp('ontouchstart', ontouchstart))
   $effect(() => applyProp('onremoved', onremoved))
-
-  onMount(() => {
-    return () => {
-      // @ts-ignore - release binding
-      instance = undefined
-
-      _instance?.destroy()
-      _parent?.removeChild(_instance)
-      invalidate()
-    }
-  })
 </script>
 
 {@render children?.(instance)}
