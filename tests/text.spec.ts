@@ -1,10 +1,10 @@
 import { describe, expect, test } from 'vitest'
 import { Text } from '../src/lib/svelte-5'
-import { renderApp } from '../test-utils/pixi.svelte'
+import { renderContainer } from '../test-utils/pixi.svelte'
 import * as PIXI from 'pixi.js'
 
-test('renders', async () => {
-  const { app, instance } = await renderApp(Text, {})
+test('adds to stage', async () => {
+  const { app, instance } = await renderContainer(Text, {})
   expect(app.stage.children.includes(instance)).toBe(true)
   expect(app.stage.children.length).toBe(1)
 })
@@ -12,7 +12,7 @@ test('renders', async () => {
 describe('props', () => {
   describe('anchor', () => {
     test('tuple', async () => {
-      const { instance, rerender } = await renderApp(Text, {
+      const { instance, rerender } = await renderContainer(Text, {
         anchor: [0.5, 0.5],
       })
       expect(instance.anchor.x).toBe(0.5)
@@ -23,7 +23,7 @@ describe('props', () => {
     })
 
     test('number', async () => {
-      const { instance, rerender } = await renderApp(Text, {
+      const { instance, rerender } = await renderContainer(Text, {
         anchor: 0.5,
       })
       expect(instance.anchor.x).toBe(0.5)
@@ -34,7 +34,7 @@ describe('props', () => {
     })
 
     test('PIXI.Point', async () => {
-      const { instance, rerender } = await renderApp(Text, {
+      const { instance, rerender } = await renderContainer(Text, {
         anchor: new PIXI.Point(0.5, 0.5),
       })
       expect(instance.anchor.x).toBe(0.5)
@@ -46,7 +46,7 @@ describe('props', () => {
   })
 
   test('blendMode', async () => {
-    const { instance, rerender } = await renderApp(Text, {
+    const { instance, rerender } = await renderContainer(Text, {
       blendMode: 'color',
     })
     expect(instance.blendMode).toBe('color')
@@ -55,7 +55,7 @@ describe('props', () => {
   })
 
   test('text', async () => {
-    const { instance, rerender } = await renderApp(Text, {
+    const { instance, rerender } = await renderContainer(Text, {
       text: 'abc',
     })
     expect(instance.text).toBe('abc')
@@ -64,7 +64,7 @@ describe('props', () => {
   })
 
   test('style', async () => {
-    const { instance, rerender } = await renderApp(Text, {
+    const { instance, rerender } = await renderContainer(Text, {
       text: 'abc',
       style: {
         fill: 'white',

@@ -11,7 +11,6 @@
       | 'alpha'
       | 'angle'
       | 'boundsArea'
-      | 'cacheAsTexture'
       | 'cacheAsBitmap'
       | 'cullable'
       | 'cullableChildren'
@@ -95,6 +94,8 @@
     children?: Snippet<[instance: T]>
 
     mask?: number | PIXI.Container | Partial<PIXI.MaskOptionsAndMask>
+
+    cacheAsTexture?: boolean | PIXI.CacheAsTextureOptions
   }
 </script>
 
@@ -236,6 +237,12 @@
         invalidate()
       },
       apply: {
+        cacheAsTexture: (value, instance) => {
+          if (typeof value !== 'undefined') {
+            instance.cacheAsTexture(value)
+          }
+        },
+
         mask: (value, instance) => {
           if (value) {
             if (typeof value === 'number' || value instanceof PIXI.Container) {

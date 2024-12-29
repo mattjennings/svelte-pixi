@@ -4,20 +4,17 @@ import { render } from 'vitest-browser-svelte'
 import { Application } from '../src/lib/svelte-5'
 import { type ContainerProps } from '../src/lib/svelte-5/Container.svelte'
 
-export async function renderApp<
-  Props extends ContainerProps<any>,
-  WaitForInstance extends true | false = true,
->(
-  component: Component<Props, any>,
-  props: Props,
-  waitForInstance?: WaitForInstance,
+type PixiInstanceType<P> = P extends ContainerProps<infer T> ? T : never
+
+export async function renderContainer<P extends ContainerProps<any>>(
+  component: Component<P, any, any>,
+  props: NoInfer<P>,
+  waitForInstance = true,
 ): Promise<
   Omit<ReturnType<typeof render>, 'rerender'> & {
     app: PIXI.Application
-    instance: WaitForInstance extends true
-      ? InstanceType<Props['instance']>
-      : undefined
-    rerender(props: Partial<Props>): Promise<void>
+    instance: PixiInstanceType<P>
+    rerender(props: Partial<P>): Promise<void>
   }
 > {
   let app: any
