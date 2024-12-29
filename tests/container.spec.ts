@@ -3,7 +3,6 @@ import { Container } from '../src/lib/svelte-5'
 import { renderContainer } from '../test-utils/pixi.svelte'
 import * as PIXI from 'pixi.js'
 import { type ContainerProps } from '../src/lib/svelte-5/Container.svelte'
-import { tick } from 'svelte'
 
 test('adds to stage', async () => {
   const { app, instance } = await renderContainer(Container, {})
