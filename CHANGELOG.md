@@ -1,5 +1,12 @@
 # svelte-pixi
 
+## 8.0.0-next.0
+
+### Major Changes
+
+- support PixiJS v8.6.5
+- upgrade components to use Svelte 5
+
 ## 7.0.0
 
 ### Major Changes
