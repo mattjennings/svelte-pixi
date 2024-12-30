@@ -77,12 +77,6 @@
       "import": "./dist/svelte-4/index.js",
       "svelte": "./dist/svelte-4/index.js",
       "default": "./dist/svelte-4/index.js"
-    },
-    "./svelte-5": {
-      "types": "./dist/svelte-5/index.d.ts",
-      "import": "./dist/svelte-5/index.js",
-      "svelte": "./dist/svelte-5/index.js",
-      "default": "./dist/svelte-5/index.js"
     }
   },
   "typesVersions": {
