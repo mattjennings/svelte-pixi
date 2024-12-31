@@ -1,0 +1,12 @@
+---
+import { Tabs, TabItem } from '@astrojs/starlight/components'
+---
+
+<Tabs syncKey="svelte-version">
+  <TabItem label="Svelte 5">
+    <slot name="svelte-5" />
+  </TabItem>
+  <TabItem label="Svelte 4 (deprecated)">
+    <slot name="svelte-4" />
+  </TabItem>
+</Tabs>

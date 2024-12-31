@@ -1,0 +1,26 @@
+---
+title: onStageEvent
+---
+
+Registers an event handler on the app stage
+
+```svelte live
+<script>
+  import { Text, onStageEvent, getApp } from 'svelte-pixi'
+
+  let text = 'Move your mouse over the stage'
+
+  const { app } = getApp()
+
+  // make stage interactive first. 
+  // (can be set using the Application `stage` snippet instead)
+  app.stage.hitArea = app.screen
+  app.stage.eventMode = 'static'
+
+  onStageEvent('pointermove', (e) => {    
+    text = `Mouse: ${Math.round(e.data.global.x)}, ${Math.round(e.data.global.y)}`
+  })
+</script>
+
+<Text x={360} y={200} {text} style={{ fill: 'white' }} anchor={0.5} />
+```

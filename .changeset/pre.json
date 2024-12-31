@@ -1,0 +1,13 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "svelte-pixi": "7.0.0"
+  },
+  "changesets": [
+    "great-cups-brake",
+    "neat-rivers-complain",
+    "tough-books-run",
+    "warm-taxis-dream"
+  ]
+}

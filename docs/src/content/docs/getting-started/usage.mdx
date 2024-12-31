@@ -29,52 +29,32 @@ All SveltePixi components should be children of `Application`.
 Most SveltePixi components will correspond to the PixiJS class of the same name
 (for example the `Text` component renders a [PIXI.Text](https://pixijs.download/dev/docs/PIXI.Text.html) instance).
 
-## Textures
+## Textures / Assets
 
-Some components such as `Sprite` will take a texture. They can be provided using `PIXI.Texture.from`,
-just as you would in vanilla PixiJS.
-
-PixiJS will load the texture in the background and show it when it's ready - similar to how an `img` tag works.
+Some components such as `Sprite` will take a texture. Textures in PixiJS **must** be loaded ahead of time before use.
+You can use the [AssetsLoader](/api/components/assets-loader) component to do this for you, or you can manually call `PIXI.Assets.load` yourself.
 
 ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
 <script>
   import * as PIXI from 'pixi.js'
-  import { Application, Sprite } from 'svelte-pixi'
+  import { Application, AssetsLoader, Sprite, Text } from 'svelte-pixi'
 </script>
 
 <Application width={400} height={400} antialias>
-  <Sprite
-    x={200}
-    y={200}
-    texture={PIXI.Texture.from('/assets/adventurer.png')}
-    anchor={0.5}
-    scale={3}
-  />
-</Application>
-```
+  <AssetsLoader assets={['/assets/adventurer.png']}>
+    <!-- renders once all assets have completed loading -->
+    <Sprite
+      x={200}
+      y={200}
+      texture={PIXI.Texture.from('/assets/adventurer.png')}
+      anchor={0.5}
+      scale={3}
+    />
 
-## Preloading Assets
-
-If you have a bunch of images or other resources, you may wish to show a loading screen
-until all images have finished loading (rather than have them pop in one after another).
-
-_Note: You may want to enable network throttling in your browser dev tools to actually see the loading screen - these are small images!_
-
-```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
-<script>
-  import * as PIXI from 'pixi.js'
-  import { Application, Text, Sprite, AssetsLoader } from 'svelte-pixi'
-
-  let images = [
-    '/assets/food/lemonpie.png',
-    '/assets/food/strawberrycake.png',
-    '/assets/food/cheesecake.png',
-  ]
-</script>
-
-<Application width={400} height={400}>
-  <AssetsLoader assets={images}>
-    <slot slot="loading">
+    <!-- 
+     optionally, you can render a loading screen while assets are loading
+    -->
+    {#snippet loading({ progress })}
       <Text
         text="Loading..."
         anchor={0.5}
@@ -84,44 +64,27 @@ _Note: You may want to enable network throttling in your browser dev tools to ac
           fill: 'white',
         }}
       />
-    </slot>
-
-    {#each images as image, i}
-      <Sprite
-        texture={PIXI.Texture.from(image)}
-        anchor={0.5}
-        x={150 + i * 50}
-        y={200}
-        scale={2}
-      />
-    {/each}
+    {/snippet}
   </AssetsLoader>
 </Application>
 ```
 
-You can have multiple AssetsLoader components as well, which is useful
-if you want to render a fallbacks at a component-level instead.
-
 ## Ticker
 
 A [Ticker](/docs/components/ticker) runs an update loop for the application.
-The `Application` component will create one automatically, which means child
-components can hook into the loop with `onTick`.
+The `Application` component will create one automatically and child components can hook 
+into the loop with `onTick`.
 
-```svelte live
+```svelte live props={{ assets: ['/assets/food/lemonpie.png'] }} 
 <script>
   import * as PIXI from 'pixi.js'
   import { Sprite, onTick } from 'svelte-pixi'
 
-  let x = 360
-  let y = 200
+  let x = $state(360)
+  let y = $state(200)
 
-  let time = 0
-  onTick((delta) => {
-    // delta is the time since the last frame in milliseconds
-    // for any kind of movement, you should multiply by delta
-    // to ensure it moves at the same speed regardless of framerate
-    time += delta * 0.05
+  onTick((ticker) => {
+    const time = ticker.lastTime / 500
     x = 360 + Math.cos(time) * 50
     y = 200 + Math.sin(time) * 50
   })
@@ -132,7 +95,33 @@ components can hook into the loop with `onTick`.
   anchor={0.5}
   {x}
   {y}
-  scale={2}
+  scale={3}
+/>
+```
+
+You can also use `tick` to create a Svelte writable store that updates on each tick.
+
+
+```svelte live props={{ assets: ['/assets/food/lemonpie.png'] }} 
+<script>
+  import * as PIXI from 'pixi.js'
+  import { Sprite, tick } from 'svelte-pixi'
+
+  const position = tick(ticker => {
+    const time = ticker.lastTime / 500
+    return {
+      x: 360 + Math.cos(time) * 50,
+      y: 200 + Math.sin(time) * 50
+    }
+  })
+</script>
+
+<Sprite
+  texture={PIXI.Texture.from('/assets/food/lemonpie.png')}
+  anchor={0.5}
+  x={$position.x}
+  y={$position.y}
+  scale={3}
 />
 ```
 
@@ -155,7 +144,13 @@ so you can bind to it if you need to access it.
   })
 </script>
 
-<Text bind:instance={text} x={360} y={200} text="Hello World" anchor={0.5} />
+<Text 
+  bind:instance={text} 
+  x={360} 
+  y={200} 
+  text="Hello World" 
+  anchor={0.5} 
+/>
 ```
 
 ## Using a Custom Instance
@@ -164,7 +159,7 @@ The `instance` prop also lets you pass down a custom PixiJS class
 that you've instantiated yourself. This is particularly useful
 if you have a custom class (whether that be your own or from a third-party library).
 
-```svelte live {14}
+```svelte live {12,16}
 <script>
   import * as PIXI from 'pixi.js'
   import { Text } from 'svelte-pixi'
@@ -175,10 +170,12 @@ if you have a custom class (whether that be your own or from a third-party libra
       this.style.fill = '#00ff00'
     }
   }
+
+  const instance = new GreenText()
 </script>
 
 <Text
-  instance={new GreenText()}
+  {instance}
   x={360}
   y={200}
   text="Hello World"

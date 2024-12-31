@@ -2,120 +2,248 @@
 title: Animation with svelte/motion
 ---
 
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
+
 You can animate using `svelte/motion` just like you would in other Svelte application.
 
 ## Spring
 
-```svelte live
-<script>
-  import * as PIXI from 'pixi.js'
-  import { Text, Sprite } from 'svelte-pixi'
-  import { spring } from 'svelte/motion'
+<SvelteTabs>
+  <div slot="svelte-5">
+   ```svelte live props={{ assets: ['/assets/mushroom.png'] }}
+  <script>
+    import * as PIXI from 'pixi.js'
+    import { Text, Sprite } from 'svelte-pixi'
+    import { spring } from 'svelte/motion'
 
-  let dragging = false
-  let offset = { x: 0, y: 0 }
-  let startingPosition = { x: 360, y: 200 }
+    let dragging = false
+    let offset = { x: 0, y: 0 }
+    let startingPosition = { x: 360, y: 200 }
 
-  let position = spring(startingPosition, {
-    stiffness: 0.2,
-    damping: 0.4,
-  })
+    let position = spring(startingPosition, {
+      stiffness: 0.2,
+      damping: 0.4,
+    })
 
-  function handleDragStart(event) {
-    dragging = true
-    const { x, y } = event.detail.data.global
+    function handleDragStart(event) {
+      dragging = true
+      const { x, y } = event.data.global
 
-    offset = {
-      x: x - $position.x,
-      y: y - $position.y,
+      offset = {
+        x: x - $position.x,
+        y: y - $position.y,
+      }
     }
-  }
 
-  function handleDrag(event) {
-    if (dragging) {
+    function handleDrag(event) {
+      if (dragging) {
+        const { x, y } = event.data.global
+        position.update(
+          ($position) => ({
+            x: x - offset.x,
+            y: y - offset.y,
+          }),
+          { hard: true },
+        )
+      }
+    }
+
+    function handleDragEnd() {
+      dragging = false
+      position.set(startingPosition, { soft: 1 })
+    }
+  </script>
+
+  <Sprite
+    texture={PIXI.Texture.from('/assets/mushroom.png')}
+    anchor={0.5}
+    x={$position.x}
+    y={$position.y}
+    rotation={($position.x - startingPosition.x) * 0.02}
+    eventMode="static"
+    cursor="pointer"
+    zIndex={10}
+    onpointerdown={handleDragStart}
+    onpointerup={handleDragEnd}
+    onpointerupoutside={handleDragEnd}
+    onglobalpointermove={handleDrag}
+  />
+
+  <Text
+    x={360}
+    y={300}
+    anchor={0.5}
+    text="Click and drag the mushroom"
+    style={{ fill: 'white', fontSize: 20 }}
+  />
+  ```
+  </div>
+  <div slot="svelte-4">
+  ```svelte live props={{ assets: ['/assets/mushroom.png'] }}
+  <script>
+    import * as PIXI from 'pixi.js'
+    import { Text, Sprite } from 'svelte-pixi/svelte-4'
+    import { spring } from 'svelte/motion'
+
+    let dragging = false
+    let offset = { x: 0, y: 0 }
+    let startingPosition = { x: 360, y: 200 }
+
+    let position = spring(startingPosition, {
+      stiffness: 0.2,
+      damping: 0.4,
+    })
+
+    function handleDragStart(event) {
+      dragging = true
       const { x, y } = event.detail.data.global
-      position.update(
-        ($position) => ({
-          x: x - offset.x,
-          y: y - offset.y,
-        }),
-        { hard: true },
-      )
+
+      offset = {
+        x: x - $position.x,
+        y: y - $position.y,
+      }
     }
-  }
 
-  function handleDragEnd() {
-    dragging = false
-    position.set(startingPosition, { soft: 1 })
-  }
-</script>
+    function handleDrag(event) {
+      if (dragging) {
+        const { x, y } = event.detail.data.global
+        position.update(
+          ($position) => ({
+            x: x - offset.x,
+            y: y - offset.y,
+          }),
+          { hard: true },
+        )
+      }
+    }
 
-<Sprite
-  texture={PIXI.Texture.from('/assets/mushroom.png')}
-  anchor={0.5}
-  x={$position.x}
-  y={$position.y}
-  rotation={($position.x - startingPosition.x) * 0.02}
-  eventMode="static"
-  cursor="pointer"
-  zIndex={10}
-  on:pointerdown={handleDragStart}
-  on:pointerup={handleDragEnd}
-  on:pointerupoutside={handleDragEnd}
-  on:globalpointermove={handleDrag}
-/>
+    function handleDragEnd() {
+      dragging = false
+      position.set(startingPosition, { soft: 1 })
+    }
+  </script>
 
-<Text
-  x={360}
-  y={300}
-  anchor={0.5}
-  text="Click and drag the mushroom"
-  style={{ fill: 'white', fontSize: 20 }}
-/>
-```
+  <Sprite
+    texture={PIXI.Texture.from('/assets/mushroom.png')}
+    anchor={0.5}
+    x={$position.x}
+    y={$position.y}
+    rotation={($position.x - startingPosition.x) * 0.02}
+    eventMode="static"
+    cursor="pointer"
+    zIndex={10}
+    on:pointerdown={handleDragStart}
+    on:pointerup={handleDragEnd}
+    on:pointerupoutside={handleDragEnd}
+    on:globalpointermove={handleDrag}
+  />
+
+  <Text
+    x={360}
+    y={300}
+    anchor={0.5}
+    text="Click and drag the mushroom"
+    style={{ fill: 'white', fontSize: 20 }}
+  />
+  ```
+  </div>
+</SvelteTabs>
 
 ## Tween
 
-```svelte live
-<script>
-  import { onMount } from 'svelte'
-  import { Graphics, onTick } from 'svelte-pixi'
-  import { tweened } from 'svelte/motion'
-  import { cubicOut } from 'svelte/easing'
+<SvelteTabs>
+  <div slot="svelte-5">
+  ```svelte live
+  <script>
+    import { onMount } from 'svelte'
+    import { Graphics, onTick } from 'svelte-pixi'
+    import { tweened } from 'svelte/motion'
+    import { cubicOut } from 'svelte/easing'
 
-  const barWidth = 200
+    const barWidth = 200
 
-  const progress = tweened(barWidth / 5, {
-    duration: 400,
-    easing: cubicOut,
-  })
+    const progress = tweened(barWidth / 5, {
+      duration: 400,
+      easing: cubicOut,
+    })
 
-  let step = 0
+    let step = 0
 
-  onTick(() => {
-    step += 1
+    onTick(() => {
+      step += 1
 
-    if (step > 100) {
-      step = 0
+      if (step > 100) {
+        step = 0
 
-      if ($progress < barWidth) {
-        $progress += barWidth / 5
-      } else {
-        $progress = barWidth / 5
+        if ($progress < barWidth) {
+          $progress += barWidth / 5
+        } else {
+          $progress = barWidth / 5
+        }
       }
-    }
-  })
-</script>
+    })
 
-<Graphics
-  x={360}
-  y={200}
-  pivot={{ x: barWidth / 2 }}
-  draw={(graphics) => {
-    graphics.clear()
-    graphics.beginFill(0xff0000)
-    graphics.drawRect(0, 0, $progress, 50)
-    graphics.endFill()
-  }}
-/>
-```
+    function draw(graphics) {
+      graphics.clear()
+      graphics
+        .rect(0, 0, $progress, 50)
+        .fill(0xff0000)
+    }
+  </script>
+
+  <Graphics
+    x={360}
+    y={200}
+    pivot={{ x: barWidth / 2 }}
+    {draw}
+  />
+  ```
+  </div>
+  <div slot="svelte-4">
+  ```svelte live
+  <script>
+    import { onMount } from 'svelte'
+    import { Graphics, onTick } from 'svelte-pixi/svelte-4'
+    import { tweened } from 'svelte/motion'
+    import { cubicOut } from 'svelte/easing'
+
+    const barWidth = 200
+
+    const progress = tweened(barWidth / 5, {
+      duration: 400,
+      easing: cubicOut,
+    })
+
+    let step = 0
+
+    onTick(() => {
+      step += 1
+
+      if (step > 100) {
+        step = 0
+
+        if ($progress < barWidth) {
+          $progress += barWidth / 5
+        } else {
+          $progress = barWidth / 5
+        }
+      }
+    })
+
+    $: draw = (graphics) => {
+      graphics.clear()
+      graphics
+        .rect(0, 0, $progress, 50)
+        .fill(0xff0000)
+    }
+  </script>
+
+  <Graphics
+    x={360}
+    y={200}
+    pivot={{ x: barWidth / 2 }}
+    {draw}
+  />
+  ```
+  </div>
+</SvelteTabs>

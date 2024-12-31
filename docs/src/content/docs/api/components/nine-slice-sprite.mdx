@@ -1,0 +1,84 @@
+---
+title: NineSliceSprite
+---
+
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
+
+Renders a PIXI.NineSliceSprite.
+
+<ComponentDescription name="NineSliceSprite" source="https://pixijs.download/dev/docs/scene.NineSliceSprite.html" />
+
+## Usage
+
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live props={{ assets: ['/assets/nine-slice-blue.png'] }}
+    <script>
+      import * as PIXI from 'pixi.js'
+      import { NineSliceSprite, onTick } from 'svelte-pixi'
+
+      let width = 100
+      let height = 100    
+
+      onTick((ticker) => {
+        const time = ticker.lastTime / 300
+
+        width = 100 + Math.cos(time) * 20
+        height = 100 + Math.sin(time) * 20
+      })
+    </script>
+
+    <NineSliceSprite
+      x={360}
+      y={200}
+      texture={PIXI.Texture.from('/assets/nine-slice-blue.png')}
+      leftWidth={12}
+      topHeight={12}
+      rightWidth={12}
+      bottomHeight={12}
+      {width}
+      {height}
+      pivot={{ x: width / 2, y: height / 2 }}
+      scale={2}
+    />
+    ```
+  </div>
+  <div slot="svelte-4">
+    ```svelte live props={{ assets: ['/assets/nine-slice-blue.png'] }}
+    <script>
+      import * as PIXI from 'pixi.js'
+      import { NineSliceSprite, onTick } from 'svelte-pixi/svelte-4'
+
+      let width = 100
+      let height = 100
+
+      onTick((ticker) => {
+        const time = ticker.lastTime / 300
+
+        width = 100 + Math.cos(time) * 20
+        height = 100 + Math.sin(time) * 20
+      })
+    </script>
+
+    <NineSliceSprite
+      x={360}
+      y={200}
+      texture={PIXI.Texture.from('/assets/nine-slice-blue.png')}
+      leftWidth={12}
+      topHeight={12}
+      rightWidth={12}
+      bottomHeight={12}
+      {width}
+      {height}
+      pivot={{ x: width / 2, y: height / 2 }}
+      scale={2}
+    />
+    ```
+  </div>
+</SvelteTabs>
+
+## API
+
+<ComponentAPI component="NineSliceSprite.svelte" />

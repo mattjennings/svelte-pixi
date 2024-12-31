@@ -2,56 +2,130 @@
 title: Binding Props
 ---
 
-There are times when the underlying PixiJS instance of a component gets updated externally (e.g, a physics system that applies forces on collision). In such a scenario, it would be helpful to bind our component props to the instance properties so that they are in sync. However, the `bind:` syntax will have no effect for instance-related properties on SveltePixi components (such as `x` or `y`) . This is to improve performance as the components would have to sync all props all the time regardless if they are bound, causing a large performance hit.
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
 
-Instead, SveltePixi provides a [track](/docs/utilities/track) utility function that will allow you to achieve similar behaviour. It returns a writable store that updates on every tick with the passed in function. We can use this to grab instance values and pass them back down as props (effectively creating a bind).
+There are times when the underlying PixiJS instance of a component gets updated externally (e.g, a physics system that applies forces on collision). 
+In such a scenario, it would be helpful to bind our component props to the instance properties so that they are in sync. 
+However, the `bind:` syntax will have no effect for instance-related properties on SveltePixi components (such as `x` or `y`). 
+This is to improve performance as the components would have to sync all props all the time regardless if they are bound, 
+causing a large performance hit.
 
-```svelte live
-<script>
-  import * as PIXI from 'pixi.js'
-  import { Container, Text, track, Graphics, onTick } from 'svelte-pixi'
-  import { writable } from 'svelte/store'
+Instead, SveltePixi provides a [tick](/docs/utilities/tick) utility function that will allow you to achieve similar behaviour. 
+It returns a writable store that updates on every tick with the result of a function. We can use this to grab instance values 
+and pass them back down as props, effectively creating a bind.
 
-  let instance
+<SvelteTabs>
+ <div slot="svelte-5">
+  ```svelte live
+  <script>
+    import * as PIXI from 'pixi.js'
+    import { Container, Text, tick, Graphics, onTick } from 'svelte-pixi'
+    import { writable } from 'svelte/store'
 
-  let x = track(() => instance.x, 360)
-  let y = track(() => instance.y, 200)
+    let instance
+    let time = 0
 
-  function reset() {
-    $x = 360
-    $y = 200
-    time = 0
-  }
+    // tick() executes first immediately so instance won't be defined yet, 
+    // fallback to default values
+    let x = tick(() => instance?.x ?? 360)
+    let y = tick(() => instance?.y ?? 200)
 
-  let time = 0
-  onTick((delta) => {
-    time += delta * 0.02
-    instance.x = 360 + Math.cos(time) * 50
-    instance.y = 200 + Math.sin(time) * 50
-  })
-</script>
+    onTick((ticker) => {
+      time += ticker.deltaTime * 0.02
+      
+      // update instance.x directly and $x will be updated on next tick
+      instance.x = 360 + Math.cos(time) * 50
 
-<Graphics
-  bind:instance
-  x={$x}
-  y={$y}
-  pivot={0.5}
-  draw={(graphics) => {
-    graphics.clear()
-    graphics.beginFill(0xde3249)
-    graphics.drawCircle(0, 0, 50)
-    graphics.endFill()
-  }}
-/>
-<Text
-  x={$x}
-  y={$y >= 200 ? $y - 75 : $y + 75}
-  text={`${Math.round($x)}, ${Math.round($y)}`}
-  style={{ fill: 'white' }}
-  anchor={0.5}
-/>
+      // or update the store directly and instance.y will be updated via prop update
+      $y = 200 + Math.sin(time) * 50
+    })
 
-<button class="font-medium rounded mt-2 w-full cursor-pointer" on:click={reset}>
-  Reset
-</button>
-```
+   function reset() {      
+      time = 0
+    }    
+  </script>
+
+  <Graphics
+    bind:instance
+    x={$x}
+    y={$y}
+    pivot={0.5}
+    draw={(graphics) => {
+      graphics.clear()
+      graphics
+        .circle(0, 0, 50)
+        .fill(0xde3249)
+    }}
+  />
+  <Text
+    x={$x}
+    y={$y >= 200 ? $y - 75 : $y + 75}
+    text={`${Math.round($x)}, ${Math.round($y)}`}
+    style={{ fill: 'white' }}
+    anchor={0.5}
+  />
+  
+  <button class="font-medium rounded mt-2 w-full cursor-pointer" onclick={reset}>
+    Reset
+  </button>
+  ```
+  </div>
+
+  <div slot="svelte-4">
+  ```svelte live
+  <script>
+    import * as PIXI from 'pixi.js'
+    import { Container, Text, tick, Graphics, onTick } from 'svelte-pixi/svelte-4'
+    import { writable } from 'svelte/store'
+
+    let instance
+    let time = 0
+
+    // tick() executes first immediately so instance won't be defined yet, 
+    // fallback to default values
+    let x = tick(() => instance?.x ?? 360)
+    let y = tick(() => instance?.y ?? 200)
+
+    // this logic could also just be in the tick(ticker => ...), but to demonstrate
+    // the example we'll mutate the instance directly here
+    onTick((ticker) => {      
+      time += ticker.deltaTime * 0.02
+      
+      // update instance.x directly and $x will be updated on next tick
+      instance.x = 360 + Math.cos(time) * 50
+
+      // or update the store directly and instance.y will be updated via prop update
+      $y = 200 + Math.sin(time) * 50
+    })
+
+    function reset() {      
+      time = 0
+    }
+  </script>
+
+  <Graphics
+    bind:instance
+    x={$x}
+    y={$y}
+    pivot={0.5}
+    draw={(graphics) => {
+      graphics.clear()
+      graphics
+        .circle(0, 0, 50)
+        .fill(0xde3249)
+    }}
+  />
+  <Text
+    x={$x}
+    y={$y >= 200 ? $y - 75 : $y + 75}
+    text={`${Math.round($x)}, ${Math.round($y)}`}
+    style={{ fill: 'white' }}
+    anchor={0.5}
+  />
+
+  <button class="font-medium rounded mt-2 w-full cursor-pointer" on:click={reset}>
+    Reset
+  </button>
+  ```
+  </div>
+</SvelteTabs>

@@ -1,104 +1,187 @@
 ---
 title: Mesh
-pixi: https://pixijs.download/release/docs/PIXI.Mesh.html
 ---
 
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
 import ComponentAPI from '$lib/components/ComponentAPI.astro'
+import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
 
-This component empowers you to have maximum flexibility to render any kind of WebGL visuals you can think of. This component assumes a certain level of WebGL knowledge.
+Renders a PIXI.Mesh.
 
-Pretty much all WebGL can be broken down into the following:
-
-- Geometry - The structure and data for the mesh. This can include anything from positions, uvs, normals, colors etc.
-- Shader - This is the shader that PixiJS will render the geometry with (attributes in the shader must match the geometry)
-- State - This is the state of WebGL required to render the mesh.
+<ComponentDescription name="Mesh" source="https://pixijs.download/dev/docs/scene.Mesh.html" />
 
 ## Usage
 
-```svelte live
-<script>
-  import { Mesh, onTick } from 'svelte-pixi'
-  import * as PIXI from 'pixi.js'
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live props={{ assets: ['/assets/bg_mesh.jpg']}}
+    <script>
+      import { Mesh, tick } from 'svelte-pixi'
+      import * as PIXI from 'pixi.js'
 
-  let rotation = 0
+      let rotation = tick((t, prev = 0) => prev + 0.01 * t.deltaTime)
 
-  const geometry = new PIXI.Geometry()
-    .addAttribute(
-      'aVertexPosition', // the attribute name
-      [
-        -100,
-        -100, // x, y
-        100,
-        -100, // x, y
-        100,
-        100,
-        -100,
-        100,
-      ], // x, y
-      2,
-    ) // the size of the attribute
-    .addAttribute(
-      'aUvs', // the attribute name
-      [
-        0,
-        0, // u, v
-        1,
-        0, // u, v
-        1,
-        1,
-        0,
-        1,
-      ], // u, v
-      2,
-    ) // the size of the attribute
-    .addIndex([0, 1, 2, 0, 2, 3])
+      const geometry = new PIXI.Geometry({
+        attributes: {
+          aPosition: [
+            // x, y
+            -100, -100,
+            100, -100,
+            100,  100,
+            -100,  100,
+          ],
+          aUV: [
+            // u, v
+            0, 0, 
+            1, 0,
+            1, 1,
+            0, 1,
+          ],
+        }
+      })
 
-  const vertexSrc = `
-    precision mediump float;
+      const vertex = `
+    in vec2 aPosition;
+    in vec2 aUV;
 
-    attribute vec2 aVertexPosition;
-    attribute vec2 aUvs;
+    out vec2 vUV;
 
-    uniform mat3 translationMatrix;
-    uniform mat3 projectionMatrix;
+    uniform mat3 uProjectionMatrix;
+    uniform mat3 uWorldTransformMatrix;
 
-    varying vec2 vUvs;
+    uniform mat3 uTransformMatrix;
+
 
     void main() {
 
-        vUvs = aUvs;
-        gl_Position = vec4((projectionMatrix * translationMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);
+        mat3 mvp = uProjectionMatrix * uWorldTransformMatrix * uTransformMatrix;
+        gl_Position = vec4((mvp * vec3(aPosition, 1.0)).xy, 0.0, 1.0);
 
+        vUV = aUV;
     }`
 
-  const fragmentSrc = `
-    precision mediump float;
+      const fragment = `
+    in vec2 vUV;
 
-    varying vec2 vUvs;
+    uniform sampler2D uTexture;
 
-    uniform sampler2D uSampler2;
-    uniform float time;
+    void main() {
+        gl_FragColor = texture2D(uTexture, vUV);
+    }`
+
+      const glProgram = PIXI.GlProgram.from({
+          vertex,
+          fragment,
+      });
+
+
+      const shader = new PIXI.Shader({    
+        glProgram,
+        resources: {
+            // make sure texture is loaded!
+            uTexture: PIXI.Texture.from('/assets/bg_mesh.jpg').source,
+            uTime: 0,
+        },    
+      })
+    </script>
+
+    <Mesh 
+      x={360} 
+      y={200} 
+      anchor={0.5} 
+      scale={2} 
+      rotation={$rotation} 
+      {geometry} 
+      {shader} 
+    />
+    ```
+
+  </div>
+  <div slot="svelte-4">
+    ```svelte live props={{ assets: ['/assets/bg_mesh.jpg']}}
+    <script>
+      import { Mesh, tick } from 'svelte-pixi/svelte-4'
+      import * as PIXI from 'pixi.js'
+
+      let rotation = tick((t, prev = 0) => prev + 0.01 * t.deltaTime)
+
+      const geometry = new PIXI.Geometry({
+        attributes: {
+          aPosition: [
+            // x, y
+            -100, -100,
+            100, -100,
+            100,  100,
+            -100,  100,
+          ],
+          aUV: [
+            // u, v
+            0, 0, 
+            1, 0,
+            1, 1,
+            0, 1,
+          ],
+        }
+      })
+
+      const vertex = `
+    in vec2 aPosition;
+    in vec2 aUV;
+
+    out vec2 vUV;
+
+    uniform mat3 uProjectionMatrix;
+    uniform mat3 uWorldTransformMatrix;
+
+    uniform mat3 uTransformMatrix;
+
 
     void main() {
 
-        gl_FragColor = texture2D(uSampler2, vUvs + sin( (time + (vUvs.x) * 14.) ) * 0.1 );
+        mat3 mvp = uProjectionMatrix * uWorldTransformMatrix * uTransformMatrix;
+        gl_Position = vec4((mvp * vec3(aPosition, 1.0)).xy, 0.0, 1.0);
+
+        vUV = aUV;
     }`
 
-  const uniforms = {
-    uSampler2: PIXI.Texture.from('/assets/bg_mesh.jpg'),
-    time: 0,
-  }
+      const fragment = `
+    in vec2 vUV;
 
-  const shader = PIXI.Shader.from(vertexSrc, fragmentSrc, uniforms)
+    uniform sampler2D uTexture;
 
-  onTick((delta) => {
-    rotation += 0.01 * delta
-    shader.uniforms.time += 0.1 * delta
-  })
-</script>
+    void main() {
+        gl_FragColor = texture2D(uTexture, vUV);
+    }`
 
-<Mesh x={360} y={200} anchor={0.5} scale={2} {geometry} {shader} {rotation} />
-```
+      const glProgram = PIXI.GlProgram.from({
+          vertex,
+          fragment,
+      });
+
+
+      const shader = new PIXI.Shader({    
+        glProgram,
+        resources: {
+            // make sure texture is loaded!
+            uTexture: PIXI.Texture.from('/assets/bg_mesh.jpg').source,
+            uTime: 0,
+        },    
+      })
+
+    </script>
+
+    <Mesh 
+      x={360} 
+      y={200} 
+      anchor={0.5} 
+      scale={2} 
+      rotation={$rotation} 
+      {geometry} 
+      {shader} 
+    />
+    ```
+  </div>
+</SvelteTabs>
 
 ## API
 

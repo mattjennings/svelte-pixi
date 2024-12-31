@@ -1,0 +1,74 @@
+---
+title: MeshRope
+---
+
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
+
+Renders a PIXI.MeshRope.
+
+<ComponentDescription name="MeshRope" source="https://pixijs.download/dev/docs/scene.MeshRope.html" />
+
+## Usage
+
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live props={{ assets: ['/assets/snake.png'] }}
+    <script>
+      import { MeshRope, tick } from 'svelte-pixi'
+      import * as PIXI from 'pixi.js'
+
+      let ropeLength = 918 / 20
+      let points = tick((t) =>
+        Array.from({ length: 20 }).map((point, i) => {
+          const time = t.lastTime / 300
+          return {
+            x: i * ropeLength + Math.cos(i * 0.3 + time) * 20,
+            y: Math.sin(i * 0.5 + time) * 30,
+          }
+        })
+      )
+    </script>
+
+    <MeshRope
+      x={100}
+      y={200}
+      texture={PIXI.Texture.from('/assets/snake.png')}
+      scale={0.6}
+      points={$points}
+    />
+    ``` 
+  </div>
+  <div slot="svelte-4">
+    ```svelte live props={{ assets: ['/assets/snake.png'] }}
+    <script>
+      import { MeshRope, tick } from 'svelte-pixi/svelte-4'
+      import * as PIXI from 'pixi.js'
+
+      let ropeLength = 918 / 20
+      let points = tick((t) =>
+        Array.from({ length: 20 }).map((point, i) => {
+          const time = t.lastTime / 300
+          return {
+            x: i * ropeLength + Math.cos(i * 0.3 + time) * 20,
+            y: Math.sin(i * 0.5 + time) * 30,
+          }
+        })
+      )
+    </script>
+
+    <MeshRope
+      x={100}
+      y={200}
+      texture={PIXI.Texture.from('/assets/snake.png')}
+      scale={0.6}
+      points={$points}
+    />
+    ```
+  </div>
+</SvelteTabs>
+
+## API
+
+<ComponentAPI component="MeshRope.svelte" />
