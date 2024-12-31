@@ -222,9 +222,6 @@ importers:
       svelte:
         specifier: ^4.0.0
         version: 4.2.19
-      svelte-preprocess:
-        specifier: ^6.0.0
-        version: 6.0.3(postcss@8.4.49)(svelte@4.2.19)(typescript@5.7.2)
       vite:
         specifier: ^5.0.0
         version: 5.4.11(@types/node@22.10.2)
@@ -240,13 +237,13 @@ importers:
     devDependencies:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^5.0.3
-        version: 5.0.3(svelte@5.16.0)(vite@6.0.5)
+        version: 5.0.3(svelte@5.16.0)(vite@examples+vite-svelte-4-5-interop)
       svelte:
         specifier: ^5.15.0
         version: 5.16.0
       vite:
-        specifier: ^6.0.5
-        version: 6.0.5(@types/node@22.10.2)
+        specifier: ^0.0.1-next.0
+        version: 'link:'
 
 packages:
 
@@ -2467,6 +2464,22 @@ packages:
       - supports-color
     dev: true
 
+  /@sveltejs/vite-plugin-svelte-inspector@4.0.1(@sveltejs/vite-plugin-svelte@5.0.3)(svelte@5.16.0)(vite@examples+vite-svelte-4-5-interop):
+    resolution: {integrity: sha512-J/Nmb2Q2y7mck2hyCX4ckVHcR5tu2J+MtBEQqpDrrgELZ2uvraQcK/ioCV61AqkdXFgriksOKIceDcQmqnGhVw==}
+    engines: {node: ^18.0.0 || ^20.0.0 || >=22}
+    peerDependencies:
+      '@sveltejs/vite-plugin-svelte': ^5.0.0
+      svelte: ^5.0.0
+      vite: ^6.0.0
+    dependencies:
+      '@sveltejs/vite-plugin-svelte': 5.0.3(svelte@5.16.0)(vite@examples+vite-svelte-4-5-interop)
+      debug: 4.4.0
+      svelte: 5.16.0
+      vite: link:examples/vite-svelte-4-5-interop
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /@sveltejs/vite-plugin-svelte@3.1.2(svelte@4.2.19)(vite@5.4.11):
     resolution: {integrity: sha512-Txsm1tJvtiYeLUVRNqxZGKR/mI+CzuIQuc2gn+YCs9rMTowpNZ2Nqt53JdL8KF9bLhAf2ruR/dr9eZCwdTriRA==}
     engines: {node: ^18.0.0 || >=20}
@@ -2559,6 +2572,25 @@ packages:
       svelte: 5.16.0
       vite: 6.0.5(@types/node@22.10.2)
       vitefu: 1.0.4(vite@6.0.5)
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.16.0)(vite@examples+vite-svelte-4-5-interop):
+    resolution: {integrity: sha512-MCFS6CrQDu1yGwspm4qtli0e63vaPCehf6V7pIMP15AsWgMKrqDGCPFF/0kn4SP0ii4aySu4Pa62+fIRGFMjgw==}
+    engines: {node: ^18.0.0 || ^20.0.0 || >=22}
+    peerDependencies:
+      svelte: ^5.0.0
+      vite: ^6.0.0
+    dependencies:
+      '@sveltejs/vite-plugin-svelte-inspector': 4.0.1(@sveltejs/vite-plugin-svelte@5.0.3)(svelte@5.16.0)(vite@examples+vite-svelte-4-5-interop)
+      debug: 4.4.0
+      deepmerge: 4.3.1
+      kleur: 4.1.5
+      magic-string: 0.30.17
+      svelte: 5.16.0
+      vite: link:examples/vite-svelte-4-5-interop
+      vitefu: 1.0.4(vite@examples+vite-svelte-4-5-interop)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -9408,6 +9440,17 @@ packages:
         optional: true
     dependencies:
       vite: 6.0.6(@types/node@22.10.2)
+    dev: true
+
+  /vitefu@1.0.4(vite@examples+vite-svelte-4-5-interop):
+    resolution: {integrity: sha512-y6zEE3PQf6uu/Mt6DTJ9ih+kyJLr4XcSgHR2zUkM8SWDhuixEJxfJ6CZGMHh1Ec3vPLoEA0IHU5oWzVqw8ulow==}
+    peerDependencies:
+      vite: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
+    peerDependenciesMeta:
+      vite:
+        optional: true
+    dependencies:
+      vite: link:examples/vite-svelte-4-5-interop
     dev: true
 
   /vitest-browser-svelte@0.0.1(@vitest/browser@2.1.8)(svelte@5.15.0)(vitest@2.1.8):
