@@ -4,5 +4,10 @@
   "initialVersions": {
     "svelte-pixi": "7.0.0"
   },
-  "changesets": ["neat-rivers-complain", "tough-books-run", "warm-taxis-dream"]
+  "changesets": [
+    "great-cups-brake",
+    "neat-rivers-complain",
+    "tough-books-run",
+    "warm-taxis-dream"
+  ]
 }
