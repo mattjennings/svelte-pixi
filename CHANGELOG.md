@@ -1,5 +1,11 @@
 # svelte-pixi
 
+## 8.0.0-next.2
+
+### Patch Changes
+
+- 1abdb09: add experimental assets and texture store loaders
+
 ## 8.0.0-next.1
 
 ### Patch Changes
