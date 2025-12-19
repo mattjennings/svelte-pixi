@@ -1,5 +1,19 @@
 # svelte-pixi
 
+## 8.0.0
+
+### Major Changes
+
+- d4d10b4: support PixiJS v8.6.5
+- d4d10b4: upgrade components to use Svelte 5
+
+### Patch Changes
+
+- ae083e0: narrow peerDependency for pixi.js to ^v8.6.5
+- d4d10b4: remove lang tags on svelte 4 processed components
+- d4d10b4: add experimental assets and texture store loaders
+- d4d10b4: ignore state_referenced_locally warning when creating instance
+
 ## 8.0.0-next.3
 
 ### Patch Changes
