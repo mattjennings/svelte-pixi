@@ -1,0 +1,69 @@
+---
+title: texture
+sidebar:
+  badge:
+    text: experimental
+    variant: caution
+---
+
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
+import { Aside } from '@astrojs/starlight/components'
+
+<Aside>This may change or be removed in the future</Aside>
+
+Similar to [asset](/api/utilities/asset) but will ensure the returned asset is a PIXI.Texture. If
+the asset has not been loaded an empty texture will be returned.
+
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live
+    <script>
+      import * as PIXI from 'pixi.js'
+      import { Sprite, texture } from 'svelte-pixi'
+
+      const adventurer = texture('/assets/adventurer.png')
+    </script>
+
+    <Sprite
+      x={360}
+      y={200}
+      texture={$adventurer}
+      anchor={0.5}
+      scale={3}
+    />
+    ```
+
+  </div>
+  <div slot="svelte-4">
+    ```svelte live
+    <script>
+      import * as PIXI from 'pixi.js'
+      import { Sprite, texture } from 'svelte-pixi/svelte-4'
+
+      const adventurer = texture('/assets/adventurer.png')
+    </script>
+
+    <Sprite
+      x={360}
+      y={200}
+      texture={$adventurer}
+      anchor={0.5}
+      scale={3}
+    />
+    ```
+
+  </div>
+</SvelteTabs>
+
+## Type Definition
+
+```ts
+function texture<T extends PIXI.Texture>(
+  src: string | PIXI.UnresolvedAsset,
+  opts?: {
+    onProgress?: (progress: number) => void
+    onComplete?: (asset: PIXI.ResolvedAsset) => void
+    onError?: (error: Error) => void
+  },
+)
+```

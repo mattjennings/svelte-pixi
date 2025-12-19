@@ -5,6 +5,8 @@ import * as PIXI from 'pixi.js'
  * Gets or loads an asset from PIXI.Assets and returns a readable store containing
  * the loaded asset. If the asset has not been loaded, the store will update
  * when the loading completes.
+ *
+ * @experimental may change or be removed in the future
  */
 export function asset<T = any>(
   src: string | PIXI.UnresolvedAsset,
@@ -59,6 +61,8 @@ export function asset<T = any>(
 /**
  * Similar to asset() but will ensure the returned asset is a PIXI.Texture. If
  * the asset has not been loaded an empty texture will be returned.
+ *
+ * @experimental may change or be removed in the future
  */
 export function texture<T extends PIXI.Texture>(
   src: string | PIXI.UnresolvedAsset,
