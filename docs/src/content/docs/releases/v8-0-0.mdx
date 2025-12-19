@@ -22,16 +22,15 @@ npm install pixi.js@~8.6.0 svelte-pixi@~8.0.0
 - [Application `stage` snippet/slot](/api/components/application#custom-stage)
 - [tick](/api/utilities/tick) utility function
 
-  ```svelte
-  <script>
-    import { tick } from 'svelte-pixi'
+    ```svelte
+    <script>
+      import { tick } from 'svelte-pixi'
 
-    let elapsed = tick((ticker, prev = 0) => prev + ticker.deltaTime)
+      let elapsed = tick((ticker, prev = 0) => prev + ticker.deltaTime)
 
-    $effect(() => console.log($elapsed))
-  </script>
-  ```
-
+      $effect(() => console.log($elapsed))
+    </script>
+    ```
   Note that this deprecates `track` - [see below](#deprecations)
 
 - [onStageEvent](/api/utilities/on-stage-event/)
@@ -75,6 +74,7 @@ extras during Application initialization. If you were using a custom pixi.js bun
 In Pixi v8 Application and Renderer are now initialiazed asynchronously. The Application and Renderer components are affected in the following ways:
 
 - When `<Application />` mounts it will call `init()` on the application instance. When it resolves the children are rendered.
+
   - This should be very quick but if you want to render HTML while it initializes you can use the `loading` snippet/slot.
   - The `instance` prop will be bound immediately to the Application but it will not contain `renderer` etc. properties until the initialization is complete. You can use the `oninit` prop (or `on:init` in Svelte 4) to know when it is ready.
 
@@ -303,5 +303,5 @@ You may notice the following warning when using components from `svelte-pixi/sve
 The SveltePixi components _do_ use `label` instead of `name` now, but there are some reactive statements that causes the Svelte compiler
 to do a key comparison on the `instance`, triggering this warning when it reads `instance.name`.
 
-This only happens with the Svelte 4 components and given that this is a warning and Svelte 4 components will be removed next version,
+This only happens with the Svelte 4 components and given that this is a warning and Svelte 4 components will be removed next version, 
 this likely won't get fixed.

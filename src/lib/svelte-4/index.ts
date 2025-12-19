@@ -27,3 +27,4 @@ export {
 } from '../core/context/container'
 export { getRenderer } from '../core/context/renderer'
 export { getTicker, onTick, track, tick } from '../core/context/ticker'
+export { asset, texture } from '../core/util/asset'

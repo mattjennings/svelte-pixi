@@ -177,7 +177,7 @@ importers:
         specifier: ^8.6.5
         version: 8.14.3
       svelte-pixi:
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../..
     devDependencies:
       '@sveltejs/adapter-auto':
@@ -202,7 +202,7 @@ importers:
         specifier: ^8.6.5
         version: 8.14.3
       svelte-pixi:
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../..
     devDependencies:
       '@sveltejs/vite-plugin-svelte':
@@ -221,7 +221,7 @@ importers:
         specifier: ^8.6.5
         version: 8.14.3
       svelte-pixi:
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../..
     devDependencies:
       '@sveltejs/vite-plugin-svelte':
@@ -240,7 +240,7 @@ importers:
         specifier: ^8.6.5
         version: 8.14.3
       svelte-pixi:
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../..
     devDependencies:
       '@sveltejs/vite-plugin-svelte':

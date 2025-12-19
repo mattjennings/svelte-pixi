@@ -10,10 +10,7 @@ import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.
 
 Renders a PIXI.PerspectiveMesh.
 
-<ComponentDescription
-  name="PerspectiveMesh"
-  source="https://pixijs.download/dev/docs/scene.PerspectiveMesh.html"
-/>
+<ComponentDescription name="PerspectiveMesh" source="https://pixijs.download/dev/docs/scene.PerspectiveMesh.html" />
 
 ## Usage
 
@@ -47,8 +44,8 @@ Renders a PIXI.PerspectiveMesh.
         const angleX = -(mouseY - meshY) / 10;
         rotate3D(angleX, angleY, 300)
       }
-
-      function rotate3D(angleX, angleY, perspective) {
+      
+      function rotate3D(angleX, angleY, perspective) {    
         const radX = (angleX * Math.PI) / 180;
         const radY = (angleY * Math.PI) / 180;
         const cosX = Math.cos(radX);
@@ -82,13 +79,13 @@ Renders a PIXI.PerspectiveMesh.
         }
 
         corners = corners
-      }
+      }  
     </script>
 
-    <PerspectiveMesh
+    <PerspectiveMesh 
       x={meshX}
       y={meshY}
-      {texture}
+      {texture} 
       pivot={{ x: texture.width / 2, y: texture.height / 2}}
       x0={corners[0].x}
       y0={corners[0].y}
@@ -99,13 +96,12 @@ Renders a PIXI.PerspectiveMesh.
       x3={corners[3].x}
       y3={corners[3].y}
     />
-    <Container
+    <Container 
       hitArea={app.screen}
       eventMode="static"
       onpointermove={handlePointerMove}
     />
     ```
-
   </div>
   <div slot="svelte-4">
     ```svelte live props={{ assets: ['/assets/eggHead.png']}}
@@ -137,7 +133,7 @@ Renders a PIXI.PerspectiveMesh.
         rotate3D(angleX, angleY, 300)
       }
 
-      function rotate3D(angleX, angleY, perspective) {
+      function rotate3D(angleX, angleY, perspective) {    
         const radX = (angleX * Math.PI) / 180;
         const radY = (angleY * Math.PI) / 180;
         const cosX = Math.cos(radX);
@@ -171,13 +167,13 @@ Renders a PIXI.PerspectiveMesh.
         }
 
         corners = corners
-      }
+      }  
     </script>
 
-    <PerspectiveMesh
+    <PerspectiveMesh 
       x={meshX}
       y={meshY}
-      {texture}
+      {texture} 
       pivot={{ x: texture.width / 2, y: texture.height / 2}}
       x0={corners[0].x}
       y0={corners[0].y}
@@ -188,13 +184,12 @@ Renders a PIXI.PerspectiveMesh.
       x3={corners[3].x}
       y3={corners[3].y}
     />
-    <Container
+    <Container 
       hitArea={app.screen}
       eventMode="static"
       on:pointermove={handlePointerMove}
     />
     ```
-
   </div>
 </SvelteTabs>
 

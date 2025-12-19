@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- ignore state_referenced_locally warning when creating instance
+- 1abdb09: add experimental assets and texture store loaders
 
 ## 8.0.0-next.1
 

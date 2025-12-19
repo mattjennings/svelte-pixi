@@ -8,10 +8,8 @@ import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.
 
 Renders a PIXI.MeshPlane.
 
-<ComponentDescription
-  name="MeshPlane"
-  source="https://pixijs.download/dev/docs/scene.MeshPlane.html"
-/>
+<ComponentDescription name="MeshPlane" source="https://pixijs.download/dev/docs/scene.MeshPlane.html" />
+
 
 ## Usage
 
@@ -35,16 +33,15 @@ Renders a PIXI.MeshPlane.
       })
     </script>
 
-    <MeshPlane
+    <MeshPlane 
       bind:instance={plane}
       texture={PIXI.Texture.from('/assets/bg_grass.jpg')}
       verticesX={10}
       verticesY={10}
-      x={75}
-      y={0}
+      x={75} 
+      y={0} 
     />
-    ```
-
+    ```  
   </div>
   <div slot="svelte-4">
     ```svelte live props={{ assets: ['/assets/bg_grass.jpg'] }}
@@ -60,23 +57,23 @@ Renders a PIXI.MeshPlane.
           for (let i = 0; i < buffer.data.length; i++) {
             buffer.data[i] += Math.sin(ticker.lastTime / 100 + i) * 0.5;
           }
-          buffer.update();
+          buffer.update();          
         }
       })
     </script>
 
-    <MeshPlane
+    <MeshPlane 
       bind:instance={plane}
       texture={PIXI.Texture.from('/assets/bg_grass.jpg')}
       verticesX={10}
       verticesY={10}
-      x={75}
-      y={0}
+      x={75} 
+      y={0} 
     />
     ```
-
   </div>
 </SvelteTabs>
+
 
 ## API
 

@@ -19,6 +19,7 @@ Svelte 5 can still run Svelte 4 code so you should be able to update to `svelte@
 will allow you to incrementally upgrade your components to Svelte 5, and in the meantime, use SveltePixi v8 with the `svelte-pixi/svelte-4` import. It fully supports
 all the same features as the Svelte 5 components (however, these will be removed in the next major version of SveltePixi).
 
+
 ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
 <script>
   import { Application, Text } from 'svelte-pixi/svelte-4'
@@ -41,31 +42,31 @@ You can mix SveltePixi components that use Svelte 4 and Svelte 5. However, there
 
 #### Snippets / Slots
 
-[Svelte 5 introduced "snippets"](https://svelte.dev/docs/svelte/v5-migration-guide#Snippets-instead-of-slots) to replace slots. Their
-documentation claims you can mix and match snippets/slots, but I have found that named slots do not work with snippets.
+[Svelte 5 introduced "snippets"](https://svelte.dev/docs/svelte/v5-migration-guide#Snippets-instead-of-slots) to replace slots. Their 
+documentation claims you can mix and match snippets/slots, but I have found that named slots do not work with snippets. 
 
 ```svelte
 <script>
   // receives Svelte 5 snippets
-  import SnippetComponent from './SnippetComponent.svelte'
+	import SnippetComponent from './SnippetComponent.svelte'
   // receives Svelte 4 slots
-  import SlotComponent from './SlotComponent.svelte'
+	import SlotComponent from './SlotComponent.svelte'
 </script>
 
 <!-- passing snippets to slots -->
 <SlotComponent>
   <!-- both of these work -->
-  {#snippet a()}
-    <div>named slot</div>
-  {/snippet}
-  <div>children</div>
+	{#snippet a()}
+		<div>named slot</div>
+	{/snippet}
+	<div>children</div>
 </SlotComponent>
 
 <!-- passing slots to snippets -->
 <SnippetComponent>
   <!-- named slot does not work! -->
-  <div slot="a">named snippet</div>
-  <div>children</div>
+	<div slot="a">named snippet</div>
+	<div>children</div>
 </SnippetComponent>
 ```
 
@@ -105,9 +106,12 @@ For example, SveltePixi has a [Graphics](/api/components/graphics) component tha
   onTick(() => {
     size += 1
   })
+
 </script>
 
-<Graphics draw={(g) => g.drawRect(0, 0, size, size)} />
+<Graphics 
+  draw={g => g.drawRect(0, 0, size, size)} 
+/>
 ```
 
 In `svelte@4`, `draw` would be called again whenever `size` changed. The Graphics component would call it like this:
@@ -133,11 +137,12 @@ In `svelte@5` this no longer works. Instead, `draw` needs to explicilty be decla
     size += 1
   })
 
-  $: draw = (g) => g.drawRect(0, 0, size, size)
+  $: draw = g => g.drawRect(0, 0, size, size)
 </script>
 
 <Graphics {draw} />
 ```
+
 
 If you migrate to the Svelte 5 SveltePixi component, simply declaring it as a function will work:
 
@@ -145,16 +150,21 @@ If you migrate to the Svelte 5 SveltePixi component, simply declaring it as a fu
 <script>
   import { Graphics, onTick } from 'svelte-pixi'
 
-  let size = $state(100)
+  let size = $state(100)      
 
   onTick(() => {
     size += 1
   })
 
-  function draw(g) {
+  function draw(g) { 
     g.drawRect(0, 0, size, size)
   }
+
 </script>
 
-<Graphics x={375} y={200} {draw} />
+<Graphics
+  x={375}
+  y={200}
+  {draw}
+/>
 ```

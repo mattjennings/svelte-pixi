@@ -1,7 +1,7 @@
 ---
 title: track
 sidebar:
-  badge:
+  badge: 
     text: deprecated
     variant: caution
 ---
@@ -15,7 +15,7 @@ import { Aside } from '@astrojs/starlight/components'
 
 Returns a writable store that gets updated during a low-priority tick. If there's no Ticker, it will run during the PIXI.Renderer's `postrender` event.
 
-This is useful for watching a property on a PixiJS instance that is getting updated outside of the component (e.g. a physics system).
+This is useful for watching a property on a PixiJS instance that is getting updated outside of the component (e.g. a physics system). 
 
 It can also be used to [bind props](/guides/binding-props), as SveltePixi components don't support `bind:` syntax for instance properties.
 
@@ -44,8 +44,7 @@ It can also be used to [bind props](/guides/binding-props), as SveltePixi compon
     <Container bind:instance x={$x} y={$y}>
       <Text {text} style={{ fill: 'white' }} />
     </Container>
-    ```
-
+    ```  
   </div>
   <div slot="svelte-4">
   ```svelte live
@@ -66,7 +65,6 @@ It can also be used to [bind props](/guides/binding-props), as SveltePixi compon
         instance.x = 200
       }
     })
-
   </script>
 
   <Container bind:instance x={$x} y={$y}>

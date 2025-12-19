@@ -72,10 +72,10 @@ You can use the [AssetsLoader](/api/components/assets-loader) component to do th
 ## Ticker
 
 A [Ticker](/docs/components/ticker) runs an update loop for the application.
-The `Application` component will create one automatically and child components can hook
+The `Application` component will create one automatically and child components can hook 
 into the loop with `onTick`.
 
-```svelte live props={{ assets: ['/assets/food/lemonpie.png'] }}
+```svelte live props={{ assets: ['/assets/food/lemonpie.png'] }} 
 <script>
   import * as PIXI from 'pixi.js'
   import { Sprite, onTick } from 'svelte-pixi'
@@ -101,16 +101,17 @@ into the loop with `onTick`.
 
 You can also use `tick` to create a Svelte writable store that updates on each tick.
 
-```svelte live props={{ assets: ['/assets/food/lemonpie.png'] }}
+
+```svelte live props={{ assets: ['/assets/food/lemonpie.png'] }} 
 <script>
   import * as PIXI from 'pixi.js'
   import { Sprite, tick } from 'svelte-pixi'
 
-  const position = tick((ticker) => {
+  const position = tick(ticker => {
     const time = ticker.lastTime / 500
     return {
       x: 360 + Math.cos(time) * 50,
-      y: 200 + Math.sin(time) * 50,
+      y: 200 + Math.sin(time) * 50
     }
   })
 </script>
@@ -143,7 +144,13 @@ so you can bind to it if you need to access it.
   })
 </script>
 
-<Text bind:instance={text} x={360} y={200} text="Hello World" anchor={0.5} />
+<Text 
+  bind:instance={text} 
+  x={360} 
+  y={200} 
+  text="Hello World" 
+  anchor={0.5} 
+/>
 ```
 
 ## Using a Custom Instance
@@ -167,5 +174,11 @@ if you have a custom class (whether that be your own or from a third-party libra
   const instance = new GreenText()
 </script>
 
-<Text {instance} x={360} y={200} text="Hello World" anchor={0.5} />
+<Text
+  {instance}
+  x={360}
+  y={200}
+  text="Hello World"
+  anchor={0.5}
+/>
 ```

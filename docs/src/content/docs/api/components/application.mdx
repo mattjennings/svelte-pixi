@@ -8,13 +8,9 @@ import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.
 
 Just like `PIXI.Application`, it sets up the [Renderer](/docs/components/renderer), [Ticker](/docs/components/ticker) and root [Container](/docs/components/container). If you wish, you can manually render those components instead.
 
-<ComponentDescription
-  name="Application"
-  source="https://pixijs.download/dev/docs/app.Application.html"
-/>
+<ComponentDescription name="Application" source="https://pixijs.download/dev/docs/app.Application.html" />
 
 ## Usage
-
 <SvelteTabs>
   <div slot="svelte-5">
     ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
@@ -32,7 +28,6 @@ Just like `PIXI.Application`, it sets up the [Renderer](/docs/components/rendere
       />
     </Application>
     ```
-
   </div>
   <div slot="svelte-4">
     ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
@@ -50,9 +45,9 @@ Just like `PIXI.Application`, it sets up the [Renderer](/docs/components/rendere
       />
     </Application>
     ```
-
   </div>
 </SvelteTabs>
+
 
 ### Custom View
 
@@ -89,7 +84,6 @@ If you want to customize the element that the canvas is rendered into, you can u
       }
     </style>
     ```
-
   </div>
   <div slot="svelte-4">
     ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
@@ -119,13 +113,12 @@ If you want to customize the element that the canvas is rendered into, you can u
       }
     </style>
     ```
-
   </div>
 </SvelteTabs>
 
 ### Custom Stage
 
-PIXI.Application automatically creates a root container at `app.stage`. If you want to customize it you can either modify it directly
+PIXI.Application automatically creates a root container at `app.stage`. If you want to customize it you can either modify it directly 
 or use the `stage` snippet to manually render it as a `Container` component.
 
 <SvelteTabs>
@@ -140,11 +133,11 @@ or use the `stage` snippet to manually render it as a `Container` component.
     <Application width={400} height={400} antialias autoDensity>
       <!-- customize the app.stage instance -->
       {#snippet stage({ app, children })}
-        <Container
-          instance={app.stage}
+        <Container 
+          instance={app.stage} 
           hitArea={app.screen}
-          eventMode="static"
-          onpointermove={(e) => mouse = e.data.global}
+          eventMode="static" 
+          onpointermove={(e) => mouse = e.data.global}          
         >
           <!-- your pixi components go here -->
           <Text
@@ -155,7 +148,7 @@ or use the `stage` snippet to manually render it as a `Container` component.
             style={{ fill: 'white' }}
           />
 
-          <!--
+          <!-- 
            alternatively, you can do {@render children()} here
            and put your components outside of this snippet.
            they will both work the same way.
@@ -164,7 +157,6 @@ or use the `stage` snippet to manually render it as a `Container` component.
       {/snippet}
     </Application>
     ```
-
   </div>
   <div slot="svelte-4">
     ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
@@ -176,11 +168,11 @@ or use the `stage` snippet to manually render it as a `Container` component.
     <Application width={400} height={400} antialias autoDensity>
       <!-- customize the app.stage instance -->
       <slot slot="stage" let:app>
-        <Container
-          instance={app.stage}
+        <Container 
+          instance={app.stage} 
           hitArea={app.screen}
-          eventMode="static"
-          on:pointermove={(e) => mouse = e.detail.data.global}
+          eventMode="static" 
+          on:pointermove={(e) => mouse = e.detail.data.global}  
         >
           <!-- your pixi components go here -->
           <Text
@@ -201,7 +193,6 @@ or use the `stage` snippet to manually render it as a `Container` component.
       }
     </style>
     ```
-
   </div>
 </SvelteTabs>
 
@@ -233,7 +224,6 @@ or use the `stage` snippet to manually render it as a `Container` component.
       />
     </Application>
     ```
-
   </div>
   <div slot="svelte-4">
     ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
@@ -260,7 +250,6 @@ or use the `stage` snippet to manually render it as a `Container` component.
       />
     </Application>
     ```
-
   </div>
 </SvelteTabs>
 
