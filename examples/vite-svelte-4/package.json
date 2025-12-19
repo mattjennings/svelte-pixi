@@ -15,6 +15,6 @@
   },
   "dependencies": {
     "pixi.js": "^8.6.5",
-    "svelte-pixi": "latest"
+    "svelte-pixi": "workspace:^"
   }
 }

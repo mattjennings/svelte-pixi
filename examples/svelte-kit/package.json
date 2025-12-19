@@ -16,7 +16,7 @@
     "vite": "^5.4.11"
   },
   "dependencies": {
-    "svelte-pixi": "latest",
+    "svelte-pixi": "workspace:^",
     "pixi.js": "^8.6.5"
   }
 }
