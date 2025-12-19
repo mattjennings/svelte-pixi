@@ -28,7 +28,7 @@
      *
      * @type {string}
      */
-    bundleName: string
+    bundleName?: string
 
     /**
      * A snippet to render while the assets are loading. The progress of the
