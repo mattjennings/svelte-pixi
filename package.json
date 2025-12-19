@@ -10,7 +10,7 @@
     "build:watch": "svelte-package --watch",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
-    "validate": "svelte-check --tsconfig ./tsconfig.json --threshold error --ignore \"dist\"",
+    "validate": "svelte-check --tsconfig ./tsconfig.json --threshold error",
     "prepare": "husky install && npm run build",
     "prepublishOnly": "npm run build",
     "lint-staged": "lint-staged",
