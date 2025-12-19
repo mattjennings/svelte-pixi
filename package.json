@@ -5,6 +5,7 @@
   "repository": "https://github.com/mattjennings/svelte-pixi",
   "author": "Matt Jennings",
   "license": "MIT",
+  "packageManager": "pnpm@10.26.1",
   "scripts": {
     "build": "svelte-package",
     "build:watch": "svelte-package --watch",
