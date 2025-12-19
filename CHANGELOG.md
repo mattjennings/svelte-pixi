@@ -1,5 +1,11 @@
 # svelte-pixi
 
+## 8.0.0-next.2
+
+### Patch Changes
+
+- ignore state_referenced_locally warning when creating instance
+
 ## 8.0.0-next.1
 
 ### Patch Changes
