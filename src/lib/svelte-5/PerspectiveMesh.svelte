@@ -1,7 +1,9 @@
 <script lang="ts" module>
   export interface PerspectiveMeshProps<
     T extends PIXI.PerspectiveMesh = PIXI.PerspectiveMesh,
-  > extends ContainerProps<T>,
+  >
+    extends
+      ContainerProps<T>,
       PickPixiProps<
         PIXI.PerspectiveMesh & PIXI.PerspectivePlaneOptions,
         | 'shader'
@@ -48,6 +50,7 @@
   }: PerspectiveMeshProps<T> = $props()
 
   if (!instance) {
+    // svelte-ignore state_referenced_locally
     instance = new PIXI.PerspectiveMesh({
       texture,
       verticesX,

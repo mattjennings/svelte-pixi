@@ -1,78 +1,79 @@
 <script lang="ts" module>
-  export interface ContainerProps<T extends PIXI.Container = PIXI.Container>
-    extends PickPixiProps<
-      PIXI.Container,
-      | 'accessible'
-      | 'accessibleChildren'
-      | 'accessibleHint'
-      | 'accessiblePointerEvents'
-      | 'accessibleTitle'
-      | 'accessibleType'
-      | 'alpha'
-      | 'angle'
-      | 'boundsArea'
-      | 'cacheAsBitmap'
-      | 'cullable'
-      | 'cullableChildren'
-      | 'cullArea'
-      | 'cursor'
-      | 'effects'
-      | 'filterArea'
-      | 'filters'
-      | 'height'
-      | 'hitArea'
-      | 'eventMode'
-      | 'interactive'
-      | 'interactiveChildren'
-      | 'isRenderGroup'
-      | 'label'
-      | 'name'
-      | 'pivot'
-      | 'position'
-      | 'renderable'
-      | 'rotation'
-      | 'scale'
-      | 'skew'
-      | 'sortableChildren'
-      | 'tabIndex'
-      | 'width'
-      | 'visible'
-      | 'x'
-      | 'y'
-      | 'zIndex'
-      | 'onclick'
-      | 'onglobalmousemove'
-      | 'onglobalpointermove'
-      | 'onglobaltouchmove'
-      | 'onmousedown'
-      | 'onmousemove'
-      | 'onmouseout'
-      | 'onmouseover'
-      | 'onmouseup'
-      | 'onmouseupoutside'
-      | 'onmouseenter'
-      | 'onmouseleave'
-      | 'onpointercancel'
-      | 'onpointerdown'
-      | 'onpointermove'
-      | 'onpointerout'
-      | 'onpointerover'
-      | 'onpointertap'
-      | 'onpointerup'
-      | 'onpointerupoutside'
-      | 'onpointerenter'
-      | 'onpointerleave'
-      | 'onrightclick'
-      | 'onrightdown'
-      | 'onrightup'
-      | 'onrightupoutside'
-      | 'ontap'
-      | 'ontouchcancel'
-      | 'ontouchend'
-      | 'ontouchendoutside'
-      | 'ontouchmove'
-      | 'ontouchstart'
-    > {
+  export interface ContainerProps<
+    T extends PIXI.Container = PIXI.Container,
+  > extends PickPixiProps<
+    PIXI.Container,
+    | 'accessible'
+    | 'accessibleChildren'
+    | 'accessibleHint'
+    | 'accessiblePointerEvents'
+    | 'accessibleTitle'
+    | 'accessibleType'
+    | 'alpha'
+    | 'angle'
+    | 'boundsArea'
+    | 'cacheAsBitmap'
+    | 'cullable'
+    | 'cullableChildren'
+    | 'cullArea'
+    | 'cursor'
+    | 'effects'
+    | 'filterArea'
+    | 'filters'
+    | 'height'
+    | 'hitArea'
+    | 'eventMode'
+    | 'interactive'
+    | 'interactiveChildren'
+    | 'isRenderGroup'
+    | 'label'
+    | 'name'
+    | 'pivot'
+    | 'position'
+    | 'renderable'
+    | 'rotation'
+    | 'scale'
+    | 'skew'
+    | 'sortableChildren'
+    | 'tabIndex'
+    | 'width'
+    | 'visible'
+    | 'x'
+    | 'y'
+    | 'zIndex'
+    | 'onclick'
+    | 'onglobalmousemove'
+    | 'onglobalpointermove'
+    | 'onglobaltouchmove'
+    | 'onmousedown'
+    | 'onmousemove'
+    | 'onmouseout'
+    | 'onmouseover'
+    | 'onmouseup'
+    | 'onmouseupoutside'
+    | 'onmouseenter'
+    | 'onmouseleave'
+    | 'onpointercancel'
+    | 'onpointerdown'
+    | 'onpointermove'
+    | 'onpointerout'
+    | 'onpointerover'
+    | 'onpointertap'
+    | 'onpointerup'
+    | 'onpointerupoutside'
+    | 'onpointerenter'
+    | 'onpointerleave'
+    | 'onrightclick'
+    | 'onrightdown'
+    | 'onrightup'
+    | 'onrightupoutside'
+    | 'ontap'
+    | 'ontouchcancel'
+    | 'ontouchend'
+    | 'ontouchendoutside'
+    | 'ontouchmove'
+    | 'ontouchstart'
+  > {
     instance?: T
 
     /**
@@ -198,6 +199,7 @@
   }: ContainerProps<T> = $props()
 
   if (!instance) {
+    // svelte-ignore state_referenced_locally
     instance = new PIXI.Container({
       isRenderGroup,
     }) as T
@@ -220,14 +222,17 @@
 
   if (_parent) {
     if (_parent.children.indexOf(_instance) === -1) {
+      // svelte-ignore state_referenced_locally
       if (onadded) {
         // $effect will run after we add, so make onadd is properly setup initilaly
+        // svelte-ignore state_referenced_locally
         _instance.once('added', onadded)
       }
       _parent.addChild(_instance)
     }
   }
 
+  // svelte-ignore state_referenced_locally
   oncreate?.(instance)
 
   onMount(() => {

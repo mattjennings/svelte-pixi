@@ -1,7 +1,9 @@
 <script lang="ts" module>
   export interface TilingSpriteProps<
     T extends PIXI.TilingSprite = PIXI.TilingSprite,
-  > extends ContainerProps<T>,
+  >
+    extends
+      ContainerProps<T>,
       PickPixiProps<
         PIXI.TilingSprite & PIXI.TilingSpriteOptions,
         | 'anchor'
@@ -41,6 +43,7 @@
   }: TilingSpriteProps<T> = $props()
 
   if (!instance) {
+    // svelte-ignore state_referenced_locally
     instance = new PIXI.TilingSprite({
       texture,
       width,

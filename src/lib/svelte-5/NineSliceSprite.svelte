@@ -1,7 +1,9 @@
 <script lang="ts" module>
   export interface NineSliceSpriteProps<
     T extends PIXI.NineSliceSprite = PIXI.NineSliceSprite,
-  > extends ContainerProps<T>,
+  >
+    extends
+      ContainerProps<T>,
       PickPixiProps<
         PIXI.NineSliceSprite & PIXI.NineSliceSpriteOptions,
         'width' | 'height' | 'roundPixels',
@@ -34,6 +36,7 @@
   }: NineSliceSpriteProps<T> = $props()
 
   if (!instance) {
+    // svelte-ignore state_referenced_locally
     instance = new PIXI.NineSliceSprite({
       texture,
       width,

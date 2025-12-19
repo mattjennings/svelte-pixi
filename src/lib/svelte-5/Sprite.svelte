@@ -1,6 +1,7 @@
 <script lang="ts" module>
   export interface SpriteProps<T extends PIXI.Sprite = PIXI.Sprite>
-    extends ContainerProps<T>,
+    extends
+      ContainerProps<T>,
       PickPixiProps<
         PIXI.Sprite & PIXI.SpriteOptions,
         'anchor' | 'blendMode' | 'roundPixels',
@@ -27,6 +28,7 @@
   }: SpriteProps<T> = $props()
 
   if (!instance) {
+    // svelte-ignore state_referenced_locally
     instance = new PIXI.Sprite({
       texture,
       roundPixels,

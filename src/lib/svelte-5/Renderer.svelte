@@ -1,6 +1,7 @@
 <script lang="ts" module>
-  export interface RendererProps<T extends PIXI.Renderer = PIXI.Renderer>
-    extends Partial<Omit<PIXI.AutoDetectOptions, 'view'>> {
+  export interface RendererProps<
+    T extends PIXI.Renderer = PIXI.Renderer,
+  > extends Partial<Omit<PIXI.AutoDetectOptions, 'view'>> {
     /**
      * The PIXI.Renderer instance. Can be set or bound to. By default
      * PIXI.autoDetectRenderer() is called and sets the instance when it resolves
@@ -107,6 +108,7 @@
     instance
       ? Promise.resolve(instance)
       : PIXI.autoDetectRenderer(
+          // svelte-ignore state_referenced_locally
           omitUndefined<PIXI.AutoDetectOptions>({
             antialias,
             autoDensity,

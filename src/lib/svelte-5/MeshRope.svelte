@@ -1,6 +1,7 @@
 <script lang="ts" module>
   export interface MeshRopeProps<T extends PIXI.MeshRope = PIXI.MeshRope>
-    extends ContainerProps<T>,
+    extends
+      ContainerProps<T>,
       PickPixiProps<
         PIXI.MeshRope & PIXI.MeshRopeOptions,
         'shader' | 'state' | 'textureScale',
@@ -31,6 +32,7 @@
   }: MeshRopeProps<T> = $props()
 
   if (!instance) {
+    // svelte-ignore state_referenced_locally
     instance = new PIXI.MeshRope({
       texture,
       points: parsePoints(points),

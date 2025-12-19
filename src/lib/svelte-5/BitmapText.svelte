@@ -1,6 +1,7 @@
 <script lang="ts" module>
   export interface BitmapTextProps<T extends PIXI.BitmapText = PIXI.BitmapText>
-    extends ContainerProps<T>,
+    extends
+      ContainerProps<T>,
       PickPixiProps<
         PIXI.BitmapText,
         'anchor' | 'roundPixels' | 'text' | 'style'
@@ -27,6 +28,7 @@
   }: BitmapTextProps<T> = $props()
 
   if (!instance) {
+    // svelte-ignore state_referenced_locally
     instance = new PIXI.BitmapText({ text, style, isRenderGroup }) as T
   }
 

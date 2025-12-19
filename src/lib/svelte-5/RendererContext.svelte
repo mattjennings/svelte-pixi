@@ -13,6 +13,7 @@
     oninvalidate?: () => void
   } = $props()
 
+  // svelte-ignore state_referenced_locally
   setRenderer(renderer, {
     onInvalidate: () => {
       oninvalidate?.()

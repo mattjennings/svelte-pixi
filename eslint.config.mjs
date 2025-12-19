@@ -107,5 +107,10 @@ export default [
         parser: '@typescript-eslint/parser',
       },
     },
+    rules: {
+      // this is not properly recognizing state_referenced_locally
+      // probably need to update everything and redo svelte eslint config
+      'svelte/no-unused-svelte-ignore': 'off',
+    },
   },
 ]

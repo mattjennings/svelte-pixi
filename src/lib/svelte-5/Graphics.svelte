@@ -1,6 +1,7 @@
 <script lang="ts" module>
   export interface GraphicsProps<T extends PIXI.Graphics = PIXI.Graphics>
-    extends ContainerProps<T>,
+    extends
+      ContainerProps<T>,
       PickPixiProps<PIXI.Graphics, 'blendMode' | 'tint'> {
     instance?: T
 
@@ -29,6 +30,7 @@
   }: GraphicsProps<T> = $props()
 
   if (!instance) {
+    // svelte-ignore state_referenced_locally
     instance = new PIXI.Graphics({
       isRenderGroup,
     }) as T

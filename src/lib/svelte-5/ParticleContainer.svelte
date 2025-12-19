@@ -1,7 +1,9 @@
 <script lang="ts" module>
   export interface ParticleContainerProps<
     T extends PIXI.ParticleContainer = PIXI.ParticleContainer,
-  > extends ContainerProps<T>,
+  >
+    extends
+      ContainerProps<T>,
       PickPixiProps<
         PIXI.ParticleContainer & PIXI.ParticleContainerOptions,
         'dynamicProperties' | 'shader' | 'roundPixels',
@@ -29,6 +31,7 @@
   }: ParticleContainerProps<T> = $props()
 
   if (!instance) {
+    // svelte-ignore state_referenced_locally
     instance = new PIXI.ParticleContainer({
       dynamicProperties,
       shader,

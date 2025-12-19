@@ -1,6 +1,7 @@
 <script lang="ts" module>
   export interface HTMLTextProps<T extends PIXI.HTMLText = PIXI.HTMLText>
-    extends ContainerProps<T>,
+    extends
+      ContainerProps<T>,
       PickPixiProps<
         PIXI.HTMLText,
         'anchor' | 'blendMode' | 'roundPixels' | 'style',
@@ -27,6 +28,7 @@
   }: HTMLTextProps<T> = $props()
 
   if (!instance) {
+    // svelte-ignore state_referenced_locally
     instance = new PIXI.HTMLText({ text, style, isRenderGroup }) as T
   }
 

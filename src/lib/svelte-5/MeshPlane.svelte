@@ -1,6 +1,7 @@
 <script lang="ts" module>
   export interface MeshPlaneProps<T extends PIXI.MeshPlane = PIXI.MeshPlane>
-    extends ContainerProps<T>,
+    extends
+      ContainerProps<T>,
       PickPixiProps<
         PIXI.MeshPlane & PIXI.MeshPlaneOptions,
         'shader' | 'state',
@@ -27,6 +28,7 @@
   }: MeshPlaneProps<T> = $props()
 
   if (!instance) {
+    // svelte-ignore state_referenced_locally
     instance = new PIXI.MeshPlane({
       texture,
       verticesX,

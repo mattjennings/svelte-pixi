@@ -1,6 +1,7 @@
 <script lang="ts" module>
   export interface MeshProps<T extends PIXI.Mesh = PIXI.Mesh>
-    extends ContainerProps<T>,
+    extends
+      ContainerProps<T>,
       PickPixiProps<
         PIXI.Mesh & PIXI.MeshOptions,
         'state' | 'shader' | 'roundPixels' | 'texture',
@@ -27,6 +28,7 @@
   }: MeshProps<T> = $props()
 
   if (!instance) {
+    // svelte-ignore state_referenced_locally
     instance = new PIXI.Mesh({
       geometry,
       shader,

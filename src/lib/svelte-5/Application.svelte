@@ -123,12 +123,14 @@
     instance = new PIXI.Application() as T
   }
 
+  // svelte-ignore state_referenced_locally
   const initPromise = (
     autoInit
       ? instance
           .init(
             // some props being explicitly undefined different behaviour than implicit
             // undefined
+            // svelte-ignore state_referenced_locally
             omitUndefined<PIXI.ApplicationOptions>({
               antialias,
               autoDensity,

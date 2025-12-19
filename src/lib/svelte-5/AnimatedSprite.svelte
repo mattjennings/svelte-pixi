@@ -1,7 +1,9 @@
 <script module lang="ts">
   export interface AnimatedSpriteProps<
     T extends PIXI.AnimatedSprite = PIXI.AnimatedSprite,
-  > extends ContainerProps<T>,
+  >
+    extends
+      ContainerProps<T>,
       PickPixiProps<
         PIXI.AnimatedSprite,
         | 'playing'
@@ -68,6 +70,7 @@
   }: AnimatedSpriteProps<T> = $props()
 
   if (!instance) {
+    // svelte-ignore state_referenced_locally
     instance = new PIXI.AnimatedSprite({
       textures,
       autoUpdate,
