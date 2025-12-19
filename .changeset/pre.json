@@ -2,7 +2,12 @@
   "mode": "pre",
   "tag": "next",
   "initialVersions": {
-    "svelte-pixi": "7.0.0"
+    "svelte-pixi": "7.0.0",
+    "docs": "0.0.1",
+    "svelte-kit-example": "0.0.1",
+    "vite-example": "0.0.0",
+    "vite-svelte-4-example": "0.0.0",
+    "vite-svelte-4-5-interop-example": "0.0.1-next.0"
   },
   "changesets": [
     "great-cups-brake",

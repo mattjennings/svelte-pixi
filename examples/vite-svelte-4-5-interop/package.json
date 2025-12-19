@@ -1,5 +1,5 @@
 {
-  "name": "vite",
+  "name": "vite-svelte-4-5-interop-example",
   "private": true,
   "version": "0.0.1-next.0",
   "type": "module",
