@@ -8,7 +8,10 @@ import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.
 
 Renders a PIXI.NineSliceSprite.
 
-<ComponentDescription name="NineSliceSprite" source="https://pixijs.download/dev/docs/scene.NineSliceSprite.html" />
+<ComponentDescription
+  name="NineSliceSprite"
+  source="https://pixijs.download/dev/docs/scene.NineSliceSprite.html"
+/>
 
 ## Usage
 
@@ -20,7 +23,7 @@ Renders a PIXI.NineSliceSprite.
       import { NineSliceSprite, onTick } from 'svelte-pixi'
 
       let width = 100
-      let height = 100    
+      let height = 100
 
       onTick((ticker) => {
         const time = ticker.lastTime / 300
@@ -44,6 +47,7 @@ Renders a PIXI.NineSliceSprite.
       scale={2}
     />
     ```
+
   </div>
   <div slot="svelte-4">
     ```svelte live props={{ assets: ['/assets/nine-slice-blue.png'] }}
@@ -76,6 +80,7 @@ Renders a PIXI.NineSliceSprite.
       scale={2}
     />
     ```
+
   </div>
 </SvelteTabs>
 

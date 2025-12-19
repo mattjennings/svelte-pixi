@@ -64,7 +64,7 @@
   export let progress = 0
 
   $: loading = progress < 1
-  $: progress, invalidate()
+  $: (progress, invalidate())
 
   onMount(() => {
     async function load() {

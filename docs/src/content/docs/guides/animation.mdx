@@ -52,22 +52,23 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
       dragging = false
       position.set(startingPosition, { soft: 1 })
     }
+
   </script>
 
-  <Sprite
-    texture={PIXI.Texture.from('/assets/mushroom.png')}
-    anchor={0.5}
-    x={$position.x}
-    y={$position.y}
-    rotation={($position.x - startingPosition.x) * 0.02}
-    eventMode="static"
-    cursor="pointer"
-    zIndex={10}
-    onpointerdown={handleDragStart}
-    onpointerup={handleDragEnd}
-    onpointerupoutside={handleDragEnd}
-    onglobalpointermove={handleDrag}
-  />
+<Sprite
+  texture={PIXI.Texture.from('/assets/mushroom.png')}
+  anchor={0.5}
+  x={$position.x}
+  y={$position.y}
+  rotation={($position.x - startingPosition.x) * 0.02}
+  eventMode="static"
+  cursor="pointer"
+  zIndex={10}
+  onpointerdown={handleDragStart}
+  onpointerup={handleDragEnd}
+  onpointerupoutside={handleDragEnd}
+  onglobalpointermove={handleDrag}
+/>
 
   <Text
     x={360}
@@ -121,22 +122,23 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
       dragging = false
       position.set(startingPosition, { soft: 1 })
     }
+
   </script>
 
-  <Sprite
-    texture={PIXI.Texture.from('/assets/mushroom.png')}
-    anchor={0.5}
-    x={$position.x}
-    y={$position.y}
-    rotation={($position.x - startingPosition.x) * 0.02}
-    eventMode="static"
-    cursor="pointer"
-    zIndex={10}
-    on:pointerdown={handleDragStart}
-    on:pointerup={handleDragEnd}
-    on:pointerupoutside={handleDragEnd}
-    on:globalpointermove={handleDrag}
-  />
+<Sprite
+  texture={PIXI.Texture.from('/assets/mushroom.png')}
+  anchor={0.5}
+  x={$position.x}
+  y={$position.y}
+  rotation={($position.x - startingPosition.x) * 0.02}
+  eventMode="static"
+  cursor="pointer"
+  zIndex={10}
+  on:pointerdown={handleDragStart}
+  on:pointerup={handleDragEnd}
+  on:pointerupoutside={handleDragEnd}
+  on:globalpointermove={handleDrag}
+/>
 
   <Text
     x={360}
@@ -189,6 +191,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
         .rect(0, 0, $progress, 50)
         .fill(0xff0000)
     }
+
   </script>
 
   <Graphics
@@ -236,6 +239,7 @@ You can animate using `svelte/motion` just like you would in other Svelte applic
         .rect(0, 0, $progress, 50)
         .fill(0xff0000)
     }
+
   </script>
 
   <Graphics

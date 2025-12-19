@@ -1,0 +1,6 @@
+**/.svelte-kit/**
+**/.astro/**
+.changeset/**
+examples/**
+pnpm-lock.yaml
+*.lock

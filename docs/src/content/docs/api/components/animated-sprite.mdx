@@ -10,8 +10,10 @@ A simple way to display an animation depicted by a list of textures.
 
 I recommend using spritesheets created by TexturePacker ([they have a great tutorial on it](https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-and-animations-with-pixijs5)). If you don't want to use spritesheets, you can simply just pass in an array of your desired textures.
 
-
-<ComponentDescription name="AnimatedSprite" source="https://pixijs.download/dev/docs/scene.AnimatedSprite.html" />
+<ComponentDescription
+  name="AnimatedSprite"
+  source="https://pixijs.download/dev/docs/scene.AnimatedSprite.html"
+/>
 
 ## Usage
 
@@ -83,6 +85,7 @@ I recommend using spritesheets created by TexturePacker ([they have a great tuto
       const randomIndex = Math.floor(Math.random() * keys.length)
       textures = spritesheet.animations[keys[randomIndex]]
     }
+
   </script>
 
   <AnimatedSprite
@@ -114,6 +117,7 @@ I recommend using spritesheets created by TexturePacker ([they have a great tuto
       const randomIndex = Math.floor(Math.random() * keys.length)
       textures = spritesheet.animations[keys[randomIndex]]
     }
+
   </script>
 
   <AnimatedSprite

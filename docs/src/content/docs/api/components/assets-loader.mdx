@@ -37,6 +37,7 @@ render until the loading has completed. You can show progress by using the `prog
       />
     </AssetsLoader>
     ```
+
   </div>
   <div slot="svelte-4">
       ```svelte live props={{ bg: 'white' }}
@@ -60,6 +61,7 @@ render until the loading has completed. You can show progress by using the `prog
         />
       </AssetsLoader>
       ```
+
   </div>
 </SvelteTabs>
 
@@ -90,6 +92,7 @@ Note that `PIXI.Assets` can only be initialized once.
       </Application>
     {/await}
     ```
+
   </div>
   <div slot="svelte-4">
     ```svelte
@@ -110,13 +113,14 @@ Note that `PIXI.Assets` can only be initialized once.
         </AssetsLoader>
       </Application>
     {/await}
-    ```  
+    ```
+
   </div>
 </SvelteTabs>
 
 ## Textures
 
-Starting with Pixi v8, textures **must** be loaded before use. In most cases, a root-level `<AssetsLoader />` 
+Starting with Pixi v8, textures **must** be loaded before use. In most cases, a root-level `<AssetsLoader />`
 component should be used to load all assets used in your app. However you can always use another `<AssetsLoader />`
 when needed to load additional assets.
 
@@ -129,8 +133,7 @@ when needed to load additional assets.
 Other options below would also work:
 
 ```svelte
-{#await PIXI.Assets.load("/my-texture.png")}
-{:then texture}
+{#await PIXI.Assets.load('/my-texture.png') then texture}
   <Sprite {texture} />
 {/await}
 ```
@@ -143,4 +146,4 @@ Other options below would also work:
 
 ## API
 
-<ComponentAPI svelte5 component="AssetsLoader.svelte"  />
+<ComponentAPI svelte5 component="AssetsLoader.svelte" />

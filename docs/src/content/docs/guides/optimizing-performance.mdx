@@ -4,12 +4,12 @@ title: Optimizing Performance
 
 import SvelteTabs from '$lib/components/SvelteTabs.astro'
 
-This page will outline a few scenarios where you may be able to optimize performance of your application. Svelte and Pixi are very performant 
+This page will outline a few scenarios where you may be able to optimize performance of your application. Svelte and Pixi are very performant
 so you won't have to think about it too much but they still have their limits!
 
 ## Rendering Lots of Components
 
-You may find yourself needing to render and update many components at once. Take the [app on the homepage](/), for example. 
+You may find yourself needing to render and update many components at once. Take the [app on the homepage](/), for example.
 If we were to recreate this, we might imagine every Star as a `<Sprite />` component that receives props every frame.
 
 <SvelteTabs>
@@ -46,12 +46,13 @@ If we were to recreate this, we might imagine every Star as a `<Sprite />` compo
     onTick((ticker) => {
       cameraZ += ticker.deltaTime * 10 * speed
     })
+
   </script>
 
-  {#each stars as star}
-    <!-- calculate new position based on cameraZ -->
-    {@const z = star.z - cameraZ}
-    {@const distance = Math.max(0, (2000 - z) / 2000)}
+{#each stars as star}
+<!-- calculate new position based on cameraZ -->
+{@const z = star.z - cameraZ}
+{@const distance = Math.max(0, (2000 - z) / 2000)}
 
     <Sprite
       texture={PIXI.Texture.from('/assets/star.png')}
@@ -60,7 +61,8 @@ If we were to recreate this, we might imagine every Star as a `<Sprite />` compo
       x={star.x * (fov / z) * width + width / 2}
       y={star.y * (fov / z) * height + height / 2}
     />
-  {/each}
+
+{/each}
 
   <label class="flex flex-col !mt-0">
     <span class="text-white text-center">Amount: {amount}</span>
@@ -99,12 +101,13 @@ If we were to recreate this, we might imagine every Star as a `<Sprite />` compo
     onTick((ticker) => {
       cameraZ += ticker.deltaTime * 10 * speed
     })
+
   </script>
 
-  {#each stars as star}
-    <!-- calculate new position based on cameraZ -->
-    {@const z = star.z - cameraZ}
-    {@const distance = Math.max(0, (2000 - z) / 2000)}
+{#each stars as star}
+<!-- calculate new position based on cameraZ -->
+{@const z = star.z - cameraZ}
+{@const distance = Math.max(0, (2000 - z) / 2000)}
 
     <Sprite
       texture={PIXI.Texture.from('/assets/star.png')}
@@ -113,7 +116,8 @@ If we were to recreate this, we might imagine every Star as a `<Sprite />` compo
       x={star.x * (fov / z) * width + width / 2}
       y={star.y * (fov / z) * height + height / 2}
     />
-  {/each}
+
+{/each}
 
   <label class="flex flex-col !mt-0">
     <span class="text-white text-center">Amount: {amount}</span>
@@ -122,7 +126,6 @@ If we were to recreate this, we might imagine every Star as a `<Sprite />` compo
   ```
   </div>
 </SvelteTabs>
-
 
 Notice how the performance drops as you increase the amount of stars with the slider. It is important to remember that
 mounting, unmounting, and updating props of components always come at a cost, but this is only really noticed
@@ -147,7 +150,7 @@ When working at this scale every optimization counts, so it is best to create Pi
     let cameraZ = 0
     let amount = $state(5000)
 
-    let stars = $derived.by(() => {              
+    let stars = $derived.by(() => {
         container.removeChildren()
 
         return new Array(amount).fill(null).map(() => {
@@ -195,9 +198,10 @@ When working at this scale every optimization counts, so it is best to create Pi
         }
       }
     })
+
   </script>
 
-  <Container bind:instance={container} />
+<Container bind:instance={container} />
 
   <label class="flex flex-col !mt-0">
     <span class="text-white text-center">Amount: {amount}</span>
@@ -282,9 +286,10 @@ When working at this scale every optimization counts, so it is best to create Pi
         }
       }
     })
+
   </script>
 
-  <Container bind:instance={container} />
+<Container bind:instance={container} />
 
   <label class="flex flex-col !mt-0">
     <span class="text-white text-center">Amount: {amount}</span>
@@ -300,9 +305,9 @@ If you wanted to squeeze out a bit more you could use a [ParticleContainer](/doc
 
 ## Render on Demand
 
-Pixi applications typically render at 60 frames per second (or higher if the user's screen has a higher refresh rate). 
-This is perfectly fine and most WebGL apps function this way, but it could be wasteful to keep rendering if everything in your 
-scene has stopped moving or animating. In which case it would be better to only render when our components have actually 
+Pixi applications typically render at 60 frames per second (or higher if the user's screen has a higher refresh rate).
+This is perfectly fine and most WebGL apps function this way, but it could be wasteful to keep rendering if everything in your
+scene has stopped moving or animating. In which case it would be better to only render when our components have actually
 updated (e.g. after user interaction).
 
 You can set `render="demand"` on the `Application` component to opt into this behaviour:
@@ -332,7 +337,8 @@ You can set `render="demand"` on the `Application` component to opt into this be
         anchor={0.5}
       />
     </Application>
-    ```  
+    ```
+
   </div>
   <div slot="svelte-4">
     ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
@@ -359,6 +365,7 @@ You can set `render="demand"` on the `Application` component to opt into this be
       />
     </Application>
     ```
+
   </div>
 </SvelteTabs>
 
@@ -366,8 +373,8 @@ If you are using the `Renderer` component, see [this example](/docs/components/r
 
 ### Triggering Renders Manually
 
-Every SveltePixi component will automatically trigger renders when they are updated when rendering on demand. 
-If you are mutating Pixi instances directly or adding functionality to a base component you will need to mark 
+Every SveltePixi component will automatically trigger renders when they are updated when rendering on demand.
+If you are mutating Pixi instances directly or adding functionality to a base component you will need to mark
 that an update is required manually.
 
 <SvelteTabs>
@@ -394,39 +401,41 @@ that an update is required manually.
         invalidate()
       }
     })
+
   </script>
 
-  <Sprite bind:instance={sprite} />
-  ```
+<Sprite bind:instance={sprite} />
+```
 
-  ```svelte title="CustomSprite.svelte"  
-  <script>
-    import { Sprite, getRenderer } from 'svelte-pixi'    
+```svelte title="CustomSprite.svelte"
+<script>
+  import { Sprite, getRenderer } from 'svelte-pixi'
 
-    let { customProp, customProp2, ...restProps } = $props()
-    const { invalidate } = getRenderer()
+  let { customProp, customProp2, ...restProps } = $props()
+  const { invalidate } = getRenderer()
 
-    class CustomSprite extends PIXI.Sprite {
-      customProp = "1"
-      customProp2 = "2"
-    }
+  class CustomSprite extends PIXI.Sprite {
+    customProp = '1'
+    customProp2 = '2'
+  }
 
-    let sprite = new CustomSprite()
+  let sprite = new CustomSprite()
 
-    // apply our custom props
-    $effect(() => {
-      sprite.customProp = customProp
-      invalidate()
-    })
+  // apply our custom props
+  $effect(() => {
+    sprite.customProp = customProp
+    invalidate()
+  })
 
-    $effect(() => {
-      sprite.customProp2 = customProp2
-      invalidate()
-    })
-  </script>
+  $effect(() => {
+    sprite.customProp2 = customProp2
+    invalidate()
+  })
+</script>
 
-  <Sprite instance={sprite} {...restProps} />
-  ```  
+<Sprite instance={sprite} {...restProps} />
+```
+
   </div>
   <div slot="svelte-4">
   ```svelte
@@ -451,40 +460,42 @@ that an update is required manually.
         invalidate()
       }
     })
+
   </script>
 
-  <Sprite bind:instance={sprite} />
-  ```
+<Sprite bind:instance={sprite} />
+```
 
-  ```svelte title="CustomSprite.svelte"
-  <script>
-    import { Sprite, getRenderer } from 'svelte-pixi'    
+```svelte title="CustomSprite.svelte"
+<script>
+  import { Sprite, getRenderer } from 'svelte-pixi'
 
-    export let customProp
-    export let customProp2
+  export let customProp
+  export let customProp2
 
-    const { invalidate } = getRenderer()
+  const { invalidate } = getRenderer()
 
-    class CustomSprite extends PIXI.Sprite {
-      customProp = "1"
-      customProp2 = "2"
-    }
+  class CustomSprite extends PIXI.Sprite {
+    customProp = '1'
+    customProp2 = '2'
+  }
 
-    let sprite = new CustomSprite()
+  let sprite = new CustomSprite()
 
-    // apply our custom props
-    $: {
-      sprite.customProp = customProp
-      invalidate()
-    }
+  // apply our custom props
+  $: {
+    sprite.customProp = customProp
+    invalidate()
+  }
 
-    $: {
-      sprite.customProp2 = customProp2
-      invalidate()
-    }
-  </script>
+  $: {
+    sprite.customProp2 = customProp2
+    invalidate()
+  }
+</script>
 
-  <Sprite instance={sprite} {...$$restProps} />
-  ```
+<Sprite instance={sprite} {...$$restProps} />
+```
+
   </div>
 </SvelteTabs>

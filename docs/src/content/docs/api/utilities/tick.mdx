@@ -8,8 +8,8 @@ import SvelteTabs from '$lib/components/SvelteTabs.astro'
 
 Returns a writable store that gets updated during the parent `<Ticker />` component.
 
-This is useful for deriving a property from the ticker or for watching a property 
-on a PixiJS instance. It can also be used to [bind props](/guides/binding-props), 
+This is useful for deriving a property from the ticker or for watching a property
+on a PixiJS instance. It can also be used to [bind props](/guides/binding-props),
 (as SveltePixi components don't support `bind:` syntax for instance properties).
 
 <SvelteTabs>
@@ -25,7 +25,8 @@ on a PixiJS instance. It can also be used to [bind props](/guides/binding-props)
     <Container x={$x} y={200}>
       <Text {text} style={{ fill: 'white' }} />
     </Container>
-    ```  
+    ```
+
   </div>
   <div slot="svelte-4">
   ```svelte live
@@ -34,6 +35,7 @@ on a PixiJS instance. It can also be used to [bind props](/guides/binding-props)
 
     let x = tick((ticker) => 250 + Math.sin(ticker.lastTime / 600) * 150)
     $: text = $x < 300 ? "I'm on the left!" : "I'm on the right!"
+
   </script>
 
   <Container x={$x} y={200}>
@@ -57,10 +59,11 @@ your callback has side effects.
   let z = 0
 
   onTick((ticker) => {
+    /*
     x = ...
     y = ...
     z = ...
-
+    */
     if (y > 1000) {
       gameOver()
     }
@@ -73,5 +76,8 @@ your callback has side effects.
 ## Type Definition
 
 ```ts
-function tick<T>(callback: (ticker: PIXI.Ticker, prev?: T) => T, priority?: number): Writable<T>
+function tick<T>(
+  callback: (ticker: PIXI.Ticker, prev?: T) => T,
+  priority?: number,
+): Writable<T>
 ```

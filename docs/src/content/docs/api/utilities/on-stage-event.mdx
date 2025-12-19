@@ -12,12 +12,12 @@ Registers an event handler on the app stage
 
   const { app } = getApp()
 
-  // make stage interactive first. 
+  // make stage interactive first.
   // (can be set using the Application `stage` snippet instead)
   app.stage.hitArea = app.screen
   app.stage.eventMode = 'static'
 
-  onStageEvent('pointermove', (e) => {    
+  onStageEvent('pointermove', (e) => {
     text = `Mouse: ${Math.round(e.data.global.x)}, ${Math.round(e.data.global.y)}`
   })
 </script>

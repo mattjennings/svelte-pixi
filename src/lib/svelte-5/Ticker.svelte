@@ -1,9 +1,10 @@
 <script lang="ts" module>
-  export interface TickerProps<T extends PIXI.Ticker = PIXI.Ticker>
-    extends PickPixiProps<
-      PIXI.Ticker,
-      'autoStart' | 'maxFPS' | 'minFPS' | 'speed'
-    > {
+  export interface TickerProps<
+    T extends PIXI.Ticker = PIXI.Ticker,
+  > extends PickPixiProps<
+    PIXI.Ticker,
+    'autoStart' | 'maxFPS' | 'minFPS' | 'speed'
+  > {
     instance?: T
 
     /**

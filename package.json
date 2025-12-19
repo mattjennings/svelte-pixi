@@ -15,8 +15,8 @@
     "prepublishOnly": "npm run build",
     "lint-staged": "lint-staged",
     "lint": "eslint .",
-    "prettier": "prettier --ignore-path .eslintignore . --check",
-    "format": "prettier --ignore-path .eslintignore . --write",
+    "prettier": "prettier . --check",
+    "format": "prettier . --write",
     "test": "vitest",
     "test:browser": "vitest --workspace=vitest.workspace.ts"
   },

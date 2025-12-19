@@ -4,7 +4,7 @@ title: Masks
 
 import SvelteTabs from '$lib/components/SvelteTabs.astro'
 
-Any graphics component (e.g. `Graphics`, `Sprite`, etc)  can take a `mask` prop.
+Any graphics component (e.g. `Graphics`, `Sprite`, etc) can take a `mask` prop.
 
 ## Basic
 
@@ -19,17 +19,17 @@ Get the instance of a component by binding to its `instance` prop and then passi
 
     let mask
     let x = tick(t => 300 + (Math.sin(t.lastTime / 400) * 100))
+
   </script>
 
-
-  <Graphics
-    bind:instance={mask}
-    x={$x}
-    y={150}
-    draw={(g) => {    
-      g.rect(0, 0, 100, 100).fill('black')
-    }}
-  />
+<Graphics
+  bind:instance={mask}
+  x={$x}
+  y={150}
+  draw={(g) => {
+    g.rect(0, 0, 100, 100).fill('black')
+  }}
+/>
 
   <Graphics  
     x={0}
@@ -49,17 +49,17 @@ Get the instance of a component by binding to its `instance` prop and then passi
 
     let mask
     let x = tick(t => 300 + (Math.sin(t.lastTime / 400) * 100))
+
   </script>
 
-
-  <Graphics
-    bind:instance={mask}
-    x={$x}
-    y={150}
-    draw={(g) => {    
-      g.rect(0, 0, 100, 100).fill('black')
-    }}
-  />
+<Graphics
+  bind:instance={mask}
+  x={$x}
+  y={150}
+  draw={(g) => {
+    g.rect(0, 0, 100, 100).fill('black')
+  }}
+/>
 
   <Graphics  
     x={0}
@@ -85,18 +85,18 @@ Get the instance of a component by binding to its `instance` prop and then passi
     import { Graphics, Sprite, Container, tick } from 'svelte-pixi'
 
     let mask
-    let x = tick(t => 300 + (Math.sin(t.lastTime / 400) * 100))    
+    let x = tick(t => 300 + (Math.sin(t.lastTime / 400) * 100))
+
   </script>
 
-
-  <Graphics
-    bind:instance={mask}
-    x={$x}
-    y={150}
-    draw={(g) => {    
-      g.rect(0, 0, 100, 100).fill('black')
-    }}
-  />
+<Graphics
+  bind:instance={mask}
+  x={$x}
+  y={150}
+  draw={(g) => {
+    g.rect(0, 0, 100, 100).fill('black')
+  }}
+/>
 
   <Graphics  
     x={0}
@@ -116,17 +116,17 @@ Get the instance of a component by binding to its `instance` prop and then passi
 
     let mask
     let x = tick(t => 300 + (Math.sin(t.lastTime / 400) * 100))
+
   </script>
 
-
-  <Graphics
-    bind:instance={mask}
-    x={$x}
-    y={150}
-    draw={(g) => {    
-      g.rect(0, 0, 100, 100).fill('black')
-    }}
-  />
+<Graphics
+  bind:instance={mask}
+  x={$x}
+  y={150}
+  draw={(g) => {
+    g.rect(0, 0, 100, 100).fill('black')
+  }}
+/>
 
   <Graphics  
     x={0}
