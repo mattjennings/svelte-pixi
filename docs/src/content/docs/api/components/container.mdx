@@ -10,11 +10,15 @@ Renders a PIXI.Container. It is the basis for most SveltePixi components in the 
 
 When child components are rendered inside, their coordinates become local to the parent Container.
 
-<ComponentDescription name="Container" source="https://pixijs.download/dev/docs/scene.Container.html" />
+<ComponentDescription
+  name="Container"
+  source="https://pixijs.download/dev/docs/scene.Container.html"
+/>
 
 ## Usage
 
 ### Basic
+
 <SvelteTabs>
   <div slot="svelte-5">
     ```svelte live
@@ -27,6 +31,7 @@ When child components are rendered inside, their coordinates become local to the
       <Text text="World" x={0} y={60} anchor={0.5} style={{ fill: 'white' }} />
     </Container>
     ```
+
   </div>
   <div slot="svelte-4">
     ```svelte live
@@ -39,6 +44,7 @@ When child components are rendered inside, their coordinates become local to the
       <Text text="World" x={0} y={60} anchor={0.5} style={{ fill: 'white' }} />
     </Container>
     ```
+
   </div>
 </SvelteTabs>
 
@@ -69,6 +75,7 @@ components that extend PIXI.Container can be used in this way.
 
     <Container {instance} x={280} y={170} />
     ```
+
   </div>
   <div slot="svelte-4">
     ```svelte live title="MyCustomTextComponent.svelte"
@@ -86,7 +93,8 @@ components that extend PIXI.Container can be used in this way.
     </script>
 
     <Container {instance} x={280} y={170} />
-    ```  
+    ```
+
   </div>
 </SvelteTabs>
 
@@ -106,6 +114,7 @@ You can also bind to it to access the default one:
 
     <Container bind:instance label="my container"/>
     ```
+
   </div>
   <div slot="svelte-4">
     ```svelte
@@ -120,6 +129,7 @@ You can also bind to it to access the default one:
 
     <Container bind:instance label="my container"/>
     ```
+
   </div>
 </SvelteTabs>
 

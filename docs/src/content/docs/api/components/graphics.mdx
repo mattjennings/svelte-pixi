@@ -8,7 +8,10 @@ import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.
 
 Renders a PIXI.Graphics. Use the `draw` prop to interact with the Graphics API.
 
-<ComponentDescription name="Graphics" source="https://pixijs.download/dev/docs/scene.Graphics.html" />
+<ComponentDescription
+  name="Graphics"
+  source="https://pixijs.download/dev/docs/scene.Graphics.html"
+/>
 
 ## Usage
 
@@ -23,9 +26,9 @@ draws when the function itself or any state inside of it changes.
     <script>
       import { Graphics, tick } from 'svelte-pixi'
 
-      let size = tick(t => 100 + Math.sin(t.lastTime / 700) * 50) 
+      let size = tick(t => 100 + Math.sin(t.lastTime / 700) * 50)
 
-      function draw(graphics) {         
+      function draw(graphics) {
         graphics.clear()
         graphics
           .circle(0, 0, $size)
@@ -40,6 +43,7 @@ draws when the function itself or any state inside of it changes.
       {draw}
     />
     ```
+
   </div>
 
   <div slot="svelte-4">
@@ -47,9 +51,9 @@ draws when the function itself or any state inside of it changes.
     <script>
       import { Graphics, tick } from 'svelte-pixi/svelte-4'
 
-      let size = tick(t => 100 + Math.sin(t.lastTime / 700) * 50) 
+      let size = tick(t => 100 + Math.sin(t.lastTime / 700) * 50)
 
-      $: draw = (graphics) => {        
+      $: draw = (graphics) => {
         graphics.clear()
         graphics
           .circle(0, 0, $size)
@@ -57,14 +61,15 @@ draws when the function itself or any state inside of it changes.
       }
 
     </script>
-    
-    <Graphics      
+
+    <Graphics
       x={375}
       y={200}
       draw={draw}
     />
     ```
     </div>
+
 </SvelteTabs>
 
 ## API

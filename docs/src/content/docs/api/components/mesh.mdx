@@ -8,7 +8,10 @@ import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.
 
 Renders a PIXI.Mesh.
 
-<ComponentDescription name="Mesh" source="https://pixijs.download/dev/docs/scene.Mesh.html" />
+<ComponentDescription
+  name="Mesh"
+  source="https://pixijs.download/dev/docs/scene.Mesh.html"
+/>
 
 ## Usage
 
@@ -32,7 +35,7 @@ Renders a PIXI.Mesh.
           ],
           aUV: [
             // u, v
-            0, 0, 
+            0, 0,
             1, 0,
             1, 1,
             0, 1,
@@ -75,24 +78,24 @@ Renders a PIXI.Mesh.
       });
 
 
-      const shader = new PIXI.Shader({    
+      const shader = new PIXI.Shader({
         glProgram,
         resources: {
             // make sure texture is loaded!
             uTexture: PIXI.Texture.from('/assets/bg_mesh.jpg').source,
             uTime: 0,
-        },    
+        },
       })
     </script>
 
-    <Mesh 
-      x={360} 
-      y={200} 
-      anchor={0.5} 
-      scale={2} 
-      rotation={$rotation} 
-      {geometry} 
-      {shader} 
+    <Mesh
+      x={360}
+      y={200}
+      anchor={0.5}
+      scale={2}
+      rotation={$rotation}
+      {geometry}
+      {shader}
     />
     ```
 
@@ -116,7 +119,7 @@ Renders a PIXI.Mesh.
           ],
           aUV: [
             // u, v
-            0, 0, 
+            0, 0,
             1, 0,
             1, 1,
             0, 1,
@@ -159,27 +162,28 @@ Renders a PIXI.Mesh.
       });
 
 
-      const shader = new PIXI.Shader({    
+      const shader = new PIXI.Shader({
         glProgram,
         resources: {
             // make sure texture is loaded!
             uTexture: PIXI.Texture.from('/assets/bg_mesh.jpg').source,
             uTime: 0,
-        },    
+        },
       })
 
     </script>
 
-    <Mesh 
-      x={360} 
-      y={200} 
-      anchor={0.5} 
-      scale={2} 
-      rotation={$rotation} 
-      {geometry} 
-      {shader} 
+    <Mesh
+      x={360}
+      y={200}
+      anchor={0.5}
+      scale={2}
+      rotation={$rotation}
+      {geometry}
+      {shader}
     />
     ```
+
   </div>
 </SvelteTabs>
 

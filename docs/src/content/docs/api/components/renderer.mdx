@@ -5,8 +5,8 @@ title: Renderer
 import SvelteTabs from '$lib/components/SvelteTabs.astro'
 import ComponentAPI from '$lib/components/ComponentAPI.astro'
 
-This is an alternative to using the [Application](/docs/components/application) component. 
-It allows you to use a custom `PIXI.Renderer` instance but – like its native class – will not 
+This is an alternative to using the [Application](/docs/components/application) component.
+It allows you to use a custom `PIXI.Renderer` instance but – like its native class – will not
 start the render loop or create the root container for you. You will need to do this yourself.
 
 By default it will call `PIXI.autoDetectRenderer` to determine the `instance`. Like Application, this
@@ -25,6 +25,7 @@ is an asynchronous operation and will call `oninit` when complete.
 
     let renderer
     let stage
+
   </script>
 
   <Renderer
@@ -65,6 +66,7 @@ is an asynchronous operation and will call `oninit` when complete.
 
     let renderer
     let stage
+
   </script>
 
   <Renderer
@@ -111,6 +113,7 @@ If you want to customize the element that the canvas is rendered into, you can u
 
     let renderer
     let stage
+
   </script>
 
   <Renderer
@@ -141,6 +144,7 @@ If you want to customize the element that the canvas is rendered into, you can u
         style={{ fill: 'white' }}
       />
     </Container>
+
   </Renderer>
 
   <style>
@@ -149,52 +153,54 @@ If you want to customize the element that the canvas is rendered into, you can u
       border-radius: 5px;
     }
   </style>
-  ```
+
+````
+</div>
+<div slot="svelte-4">
+```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+<script>
+  import { Renderer, Container, Ticker, Text } from 'svelte-pixi/svelte-4'
+
+  let renderer
+  let stage
+</script>
+
+<Renderer
+  bind:instance={renderer}
+  width={400}
+  height={400}
+  antialias
+  autoDensity
+>
+  <div slot="view" class="custom">
+    <!-- canvas will be placed here -->
   </div>
-  <div slot="svelte-4">
-  ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
-  <script>
-    import { Renderer, Container, Ticker, Text } from 'svelte-pixi/svelte-4'
 
-    let renderer
-    let stage
-  </script>
+  <!-- pixi components go here -->
+  <Container bind:instance={stage}>
+    <Ticker
+      on:tick={() => {
+        renderer.render(stage)
+      }}
+    />
+    <Text
+      x={200}
+      y={200}
+      anchor={0.5}
+      text="Hello World"
+      style={{ fill: 'white' }}
+    />
+  </Container>
+</Renderer>
 
-  <Renderer
-    bind:instance={renderer}  
-    width={400}
-    height={400}
-    antialias
-    autoDensity
-  >
-    <div slot="view" class="custom">
-      <!-- canvas will be placed here -->
-    </div>
+<style>
+  .custom :global(canvas) {
+    border: 5px solid tomato;
+    border-radius: 5px;
+  }
+</style>
+````
 
-    <!-- pixi components go here -->
-    <Container bind:instance={stage}>
-      <Ticker
-        on:tick={() => {
-          renderer.render(stage)
-        }}
-      />
-      <Text
-        x={200}
-        y={200}
-        anchor={0.5}
-        text="Hello World"
-        style={{ fill: 'white' }}
-      />
-    </Container>
-  </Renderer>
-
-  <style>
-    .custom :global(canvas) {
-      border: 5px solid tomato;
-      border-radius: 5px;
-    }
-  </style>
-  ```
   </div>
 </SvelteTabs>
 
@@ -213,6 +219,7 @@ you can still implement this manually:
     let renderer
     let stage
     let needsRender = true
+
   </script>
 
   <Renderer
@@ -257,6 +264,7 @@ you can still implement this manually:
     let renderer
     let stage
     let needsRender = true
+
   </script>
 
   <Renderer

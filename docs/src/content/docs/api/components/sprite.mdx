@@ -6,12 +6,14 @@ import SvelteTabs from '$lib/components/SvelteTabs.astro'
 import ComponentAPI from '$lib/components/ComponentAPI.astro'
 import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
 
-
-Renders a PIXI.Sprite. 
+Renders a PIXI.Sprite.
 
 Textures **must** be loaded before use either with [AssetsLoader](/api/components/assets-loader) or `PIXI.Assets.load`.
 
-<ComponentDescription name="Sprite" source="https://pixijs.download/dev/docs/scene.Sprite.html" />
+<ComponentDescription
+  name="Sprite"
+  source="https://pixijs.download/dev/docs/scene.Sprite.html"
+/>
 
 ## Usage
 
@@ -31,6 +33,7 @@ Textures **must** be loaded before use either with [AssetsLoader](/api/component
       scale={3}
     />
     ```
+
   </div>
     <div slot="svelte-4">
     ```svelte live props={{ assets: ['/assets/adventurer.png'] }}
@@ -47,9 +50,9 @@ Textures **must** be loaded before use either with [AssetsLoader](/api/component
       scale={3}
     />
     ```
+
   </div>
 </SvelteTabs>
-
 
 ## API
 
