@@ -50,7 +50,9 @@ If we were to recreate this, we might imagine every Star as a `<Sprite />` compo
   </script>
 
 {#each stars as star}
+
 <!-- calculate new position based on cameraZ -->
+
 {@const z = star.z - cameraZ}
 {@const distance = Math.max(0, (2000 - z) / 2000)}
 
@@ -105,7 +107,9 @@ If we were to recreate this, we might imagine every Star as a `<Sprite />` compo
   </script>
 
 {#each stars as star}
+
 <!-- calculate new position based on cameraZ -->
+
 {@const z = star.z - cameraZ}
 {@const distance = Math.max(0, (2000 - z) / 2000)}
 
