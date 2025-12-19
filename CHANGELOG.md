@@ -1,5 +1,11 @@
 # svelte-pixi
 
+## 8.0.0-next.3
+
+### Patch Changes
+
+- ae083e0: narrow peerDependency for pixi.js to v8
+
 ## 8.0.0-next.2
 
 ### Patch Changes

@@ -10,12 +10,12 @@
     "vite-svelte-4-5-interop-example": "0.0.1-next.0"
   },
   "changesets": [
+    "fuzzy-years-allow",
     "great-cups-brake",
     "neat-rivers-complain",
-    "tough-books-run",
-    "two-bananas-tie",
     "seven-baboons-marry",
     "tough-books-run",
+    "two-bananas-tie",
     "warm-taxis-dream"
   ]
 }
