@@ -1,90 +1,268 @@
 ---
 title: Application
-pixi: https://pixijs.download/release/docs/PIXI.Application.html
 ---
 
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
 import ComponentAPI from '$lib/components/ComponentAPI.astro'
+import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
 
 Just like `PIXI.Application`, it sets up the [Renderer](/docs/components/renderer), [Ticker](/docs/components/ticker) and root [Container](/docs/components/container). If you wish, you can manually render those components instead.
 
+<ComponentDescription
+  name="Application"
+  source="https://pixijs.download/dev/docs/app.Application.html"
+/>
+
 ## Usage
 
-```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
-<script>
-  import { Application, Text } from 'svelte-pixi'
-</script>
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+    <script>
+      import { Application, Text } from 'svelte-pixi'
+    </script>
 
-<Application width={400} height={400} antialias>
-  <Text
-    x={200}
-    y={200}
-    anchor={0.5}
-    text="Hello World"
-    style={{ fill: 'white' }}
-  />
-</Application>
-```
+    <Application width={400} height={400} antialias>
+      <Text
+        x={200}
+        y={200}
+        anchor={0.5}
+        text="Hello World"
+        style={{ fill: 'white' }}
+      />
+    </Application>
+    ```
 
-## Custom View
+  </div>
+  <div slot="svelte-4">
+    ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+    <script>
+      import { Application, Text } from 'svelte-pixi/svelte-4'
+    </script>
+
+    <Application width={400} height={400} antialias>
+      <Text
+        x={200}
+        y={200}
+        anchor={0.5}
+        text="Hello World"
+        style={{ fill: 'white' }}
+      />
+    </Application>
+    ```
+
+  </div>
+</SvelteTabs>
+
+### Custom View
 
 If you want to customize the element that the canvas is rendered into, you can use the `view` slot. The canvas will be appended as a child of the slot element.
 
-```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
-<script>
-  import { Application, Text } from 'svelte-pixi'
-</script>
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+    <script>
+      import { Application, Text } from 'svelte-pixi'
+    </script>
 
-<Application width={400} height={400} antialias>
-  <div slot="view" class="custom">
-    <!-- canvas will be placed here -->
+    <Application width={400} height={400} antialias autoDensity>
+      {#snippet view()}
+        <div class="custom">
+          <!-- canvas will be placed here -->
+        </div>
+      {/snippet}
+
+      <!-- pixi components go here -->
+      <Text
+        x={200}
+        y={200}
+        anchor={0.5}
+        text="Hello World"
+        style={{ fill: 'white' }}
+      />
+    </Application>
+
+    <style>
+      .custom :global(canvas) {
+        border: 5px solid tomato;
+        border-radius: 5px;
+      }
+    </style>
+    ```
+
   </div>
+  <div slot="svelte-4">
+    ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+    <script>
+      import { Application, Text } from 'svelte-pixi/svelte-4'
+    </script>
 
-  <!-- pixi components go here -->
-  <Text
-    x={200}
-    y={200}
-    anchor={0.5}
-    text="Hello World"
-    style={{ fill: 'white' }}
-  />
-</Application>
+    <Application width={400} height={400} antialias autoDensity>
+      <div slot="view" class="custom">
+        <!-- canvas will be placed here -->
+      </div>
 
-<style>
-  .custom :global(canvas) {
-    border: 5px solid tomato;
-    border-radius: 5px;
-  }
-</style>
-```
+      <!-- pixi components go here -->
+      <Text
+        x={200}
+        y={200}
+        anchor={0.5}
+        text="Hello World"
+        style={{ fill: 'white' }}
+      />
+    </Application>
 
-## Render on Demand
+    <style>
+      .custom :global(canvas) {
+        border: 5px solid tomato;
+        border-radius: 5px;
+      }
+    </style>
+    ```
 
-```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
-<script>
-  import { onMount } from 'svelte'
-  import { Text, Application } from 'svelte-pixi'
-  import DraggableCircle from '$lib/components/DraggableCircle.svelte'
-</script>
+  </div>
+</SvelteTabs>
 
-<Application
-  width={400}
-  height={400}
-  antialias
-  render="demand"
-  on:postrender={() => console.log('render')}
->
-  <DraggableCircle x={200} y={200} />
-  <Text
-    x={200}
-    y={300}
-    text="Click and drag"
-    style={{ fill: 'white' }}
-    anchor={0.5}
-  />
-</Application>
-```
+### Custom Stage
 
-See [Render on Demand](/docs/advanced/optimizing-performance#render-on-demand) for more information.
+PIXI.Application automatically creates a root container at `app.stage`. If you want to customize it you can either modify it directly
+or use the `stage` snippet to manually render it as a `Container` component.
+
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+    <script>
+      import { Application, Text, Container} from 'svelte-pixi'
+
+      let mouse = { x: 0, y: 0 }
+    </script>
+
+    <Application width={400} height={400} antialias autoDensity>
+      <!-- customize the app.stage instance -->
+      {#snippet stage({ app, children })}
+        <Container
+          instance={app.stage}
+          hitArea={app.screen}
+          eventMode="static"
+          onpointermove={(e) => mouse = e.data.global}
+        >
+          <!-- your pixi components go here -->
+          <Text
+            x={200}
+            y={200}
+            anchor={0.5}
+            text={`Mouse: ${Math.round(mouse.x)}, ${Math.round(mouse.y)}`}
+            style={{ fill: 'white' }}
+          />
+
+          <!--
+           alternatively, you can do {@render children()} here
+           and put your components outside of this snippet.
+           they will both work the same way.
+          -->
+        </Container>
+      {/snippet}
+    </Application>
+    ```
+
+  </div>
+  <div slot="svelte-4">
+    ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+    <script>
+      import { Application, Text, Container } from 'svelte-pixi/svelte-4'
+      let mouse = { x: 0, y: 0 }
+    </script>
+
+    <Application width={400} height={400} antialias autoDensity>
+      <!-- customize the app.stage instance -->
+      <slot slot="stage" let:app>
+        <Container
+          instance={app.stage}
+          hitArea={app.screen}
+          eventMode="static"
+          on:pointermove={(e) => mouse = e.detail.data.global}
+        >
+          <!-- your pixi components go here -->
+          <Text
+            x={200}
+            y={200}
+            anchor={0.5}
+            text={`Mouse: ${Math.round(mouse.x)}, ${Math.round(mouse.y)}`}
+            style={{ fill: 'white' }}
+          />
+        </Container>
+      </slot>
+    </Application>
+
+    <style>
+      .custom :global(canvas) {
+        border: 5px solid tomato;
+        border-radius: 5px;
+      }
+    </style>
+    ```
+
+  </div>
+</SvelteTabs>
+
+### Render on Demand
+
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+    <script>
+      import { onMount } from 'svelte'
+      import { Text, Application } from 'svelte-pixi'
+      import DraggableCircle from '$lib/components/DraggableCircle.svelte'
+    </script>
+
+    <Application
+      width={400}
+      height={400}
+      antialias
+      render="demand"
+      onrender={() => console.log('render')}
+    >
+      <DraggableCircle x={200} y={200} />
+      <Text
+        x={200}
+        y={300}
+        text="Click and drag"
+        style={{ fill: 'white' }}
+        anchor={0.5}
+      />
+    </Application>
+    ```
+
+  </div>
+  <div slot="svelte-4">
+    ```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+    <script>
+      import { onMount } from 'svelte'
+      import { Text, Application } from 'svelte-pixi/svelte-4'
+      import DraggableCircle from '$lib/components/DraggableCircle.svelte'
+    </script>
+
+    <Application
+      width={400}
+      height={400}
+      antialias
+      render="demand"
+      on:render={() => console.log('render')}
+    >
+      <DraggableCircle x={200} y={200} />
+      <Text
+        x={200}
+        y={300}
+        text="Click and drag"
+        style={{ fill: 'white' }}
+        anchor={0.5}
+      />
+    </Application>
+    ```
+
+  </div>
+</SvelteTabs>
 
 ## API
 

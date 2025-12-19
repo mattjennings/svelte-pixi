@@ -1,0 +1,83 @@
+---
+title: MeshPlane
+---
+
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
+import ComponentAPI from '$lib/components/ComponentAPI.astro'
+import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
+
+Renders a PIXI.MeshPlane.
+
+<ComponentDescription
+  name="MeshPlane"
+  source="https://pixijs.download/dev/docs/scene.MeshPlane.html"
+/>
+
+## Usage
+
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live props={{ assets: ['/assets/bg_grass.jpg'] }}
+    <script>
+      import { MeshPlane, onTick } from 'svelte-pixi'
+      import * as PIXI from 'pixi.js'
+            
+      let plane
+
+      onTick((ticker) => {
+        if (plane) {
+          const buffer = plane.geometry.getAttribute('aPosition').buffer
+          for (let i = 0; i < buffer.data.length; i++) {
+            buffer.data[i] += Math.sin(ticker.lastTime / 100 + i) * 0.5;
+          }
+          buffer.update();
+        }
+      })
+    </script>
+
+    <MeshPlane
+      bind:instance={plane}
+      texture={PIXI.Texture.from('/assets/bg_grass.jpg')}
+      verticesX={10}
+      verticesY={10}
+      x={75}
+      y={0}
+    />
+    ```
+
+  </div>
+  <div slot="svelte-4">
+    ```svelte live props={{ assets: ['/assets/bg_grass.jpg'] }}
+    <script>
+      import { MeshPlane, onTick } from 'svelte-pixi/svelte-4'
+      import * as PIXI from 'pixi.js'
+      
+      let plane
+
+      onTick((ticker) => {
+        if (plane) {
+          const buffer = plane.geometry.getAttribute('aPosition').buffer
+          for (let i = 0; i < buffer.data.length; i++) {
+            buffer.data[i] += Math.sin(ticker.lastTime / 100 + i) * 0.5;
+          }
+          buffer.update();
+        }
+      })
+    </script>
+
+    <MeshPlane
+      bind:instance={plane}
+      texture={PIXI.Texture.from('/assets/bg_grass.jpg')}
+      verticesX={10}
+      verticesY={10}
+      x={75}
+      y={0}
+    />
+    ```
+
+  </div>
+</SvelteTabs>
+
+## API
+
+<ComponentAPI component="MeshPlane.svelte" />

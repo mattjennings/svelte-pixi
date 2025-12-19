@@ -1,0 +1,74 @@
+---
+title: asset
+sidebar:
+  badge:
+    text: experimental
+    variant: caution
+---
+
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
+import { Aside } from '@astrojs/starlight/components'
+
+<Aside>This may change or be removed in the future</Aside>
+
+Gets or loads an asset from PIXI.Assets and returns a readable store containing
+the loaded asset. If the asset has not yet been loaded the store will update
+when the loading completes.
+
+There is also [texture](/api/utilities/texture) which uses this so it can be passed directly to components as a texture prop.
+
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live
+    <script>
+      import * as PIXI from 'pixi.js'
+      import { Text, asset } from 'svelte-pixi'
+
+      const image = asset('/assets/adventurer.png')
+
+      $effect(() => console.log('image', $image))
+    </script>
+
+    <Text
+      x={200}
+      y={200}
+      text={$image ? 'Loaded, check console' : 'Loading...'}
+      style={{ fill: 'white' }}
+    />
+    ```
+
+  </div>
+  <div slot="svelte-4">
+    ```svelte live
+    <script>
+      import * as PIXI from 'pixi.js'
+      import { Text, asset } from 'svelte-pixi/svelte-4'
+
+      const image = asset('/assets/adventurer.png')
+
+      $: console.log('image', $image)
+    </script>
+
+    <Text
+      x={200}
+      y={200}
+      text={$image ? 'Loaded, check console' : 'Loading...'}
+      style={{ fill: 'white' }}
+    />
+    ```
+
+  </div>
+</SvelteTabs>
+
+## Type Definition
+
+```ts
+function asset<T = any>(
+  src: string | PIXI.UnresolvedAsset,
+  opts?: {
+    onProgress?: (progress: number) => void
+    onComplete?: (asset: PIXI.ResolvedAsset) => void
+    onError?: (error: Error) => void
+  },
+): Readable<T | undefined>
+```

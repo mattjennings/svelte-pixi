@@ -1,37 +1,75 @@
 ---
 title: Ticker
-pixi: https://pixijs.download/release/docs/Ticker.html
 ---
 
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
 import ComponentAPI from '$lib/components/ComponentAPI.astro'
+import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
 
 Children of this component can use [onTick](/docs/utilities/on-tick) to hook into the update loop.
 
+<ComponentDescription
+  name="Ticker"
+  source="https://pixijs.download/dev/docs/app.Ticker.html"
+/>
+
 ## Usage
 
-```svelte live
-<script>
-  import { Ticker, Text } from 'svelte-pixi'
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live
+    <script>
+      import { Ticker, Text } from 'svelte-pixi'
 
-  let delta = 0
-  let frame = 0
-</script>
+      let delta = $state(0)
+      let frame = $state(0)
+    </script>
 
-<Ticker
-  on:tick={(ev) => {
-    frame++
-    delta = ev.detail
-  }}
->
-  <Text
-    x={360}
-    y={200}
-    text={`Frame ${frame}\nDelta: ${delta.toFixed(10)}`}
-    style={{ fill: 'white' }}
-    anchor={0.5}
-  />
-</Ticker>
-```
+    <Ticker
+      ontick={(ticker) => {
+        frame++
+        delta = ticker.deltaTime
+      }}
+    >
+      <Text
+        x={360}
+        y={200}
+        text={`Frame ${frame}\nDelta: ${delta.toFixed(10)}`}
+        style={{ fill: 'white' }}
+        anchor={0.5}
+      />
+    </Ticker>
+    ```
+
+  </div>
+    <div slot="svelte-4">
+    ```svelte live
+    <script>
+      import { Ticker, Text } from 'svelte-pixi/svelte-4'
+
+      let delta = 0
+      let frame = 0
+    </script>
+
+    <Ticker
+      on:tick={(ev) => {
+        const ticker = ev.detail
+        frame++
+        delta = ticker.deltaTime
+      }}
+    >
+      <Text
+        x={360}
+        y={200}
+        text={`Frame ${frame}\nDelta: ${delta.toFixed(10)}`}
+        style={{ fill: 'white' }}
+        anchor={0.5}
+      />
+    </Ticker>
+    ```
+
+  </div>
+</SvelteTabs>
 
 ## API
 

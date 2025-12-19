@@ -1,28 +1,58 @@
 ---
 title: Sprite
-pixi: https://pixijs.download/release/docs/Sprite.html
 ---
 
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
 import ComponentAPI from '$lib/components/ComponentAPI.astro'
+import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
 
-Sprites are the base for all textured objects that are rendered to the screen
+Renders a PIXI.Sprite.
+
+Textures **must** be loaded before use either with [AssetsLoader](/api/components/assets-loader) or `PIXI.Assets.load`.
+
+<ComponentDescription
+  name="Sprite"
+  source="https://pixijs.download/dev/docs/scene.Sprite.html"
+/>
 
 ## Usage
 
-```svelte live
-<script>
-  import * as PIXI from 'pixi.js'
-  import { Sprite } from 'svelte-pixi'
-</script>
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live props={{ assets: ['/assets/adventurer.png'] }}
+    <script>
+      import * as PIXI from 'pixi.js'
+      import { Sprite } from 'svelte-pixi'
+    </script>
 
-<Sprite
-  x={360}
-  y={200}
-  texture={PIXI.Texture.from('/assets/adventurer.png')}
-  anchor={0.5}
-  scale={3}
-/>
-```
+    <Sprite
+      x={360}
+      y={200}
+      texture={PIXI.Texture.from('/assets/adventurer.png')}
+      anchor={0.5}
+      scale={3}
+    />
+    ```
+
+  </div>
+    <div slot="svelte-4">
+    ```svelte live props={{ assets: ['/assets/adventurer.png'] }}
+    <script>
+      import * as PIXI from 'pixi.js'
+      import { Sprite } from 'svelte-pixi/svelte-4'
+    </script>
+
+    <Sprite
+      x={360}
+      y={200}
+      texture={PIXI.Texture.from('/assets/adventurer.png')}
+      anchor={0.5}
+      scale={3}
+    />
+    ```
+
+  </div>
+</SvelteTabs>
 
 ## API
 

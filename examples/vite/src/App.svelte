@@ -1,5 +1,5 @@
 <script>
-  import { Application, Text } from 'svelte-pixi'
+  import { Text, Application } from 'svelte-pixi'
 </script>
 
 <Application width={400} height={400} antialias>

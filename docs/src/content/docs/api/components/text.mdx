@@ -1,35 +1,111 @@
 ---
 title: Text
-pixi: https://pixijs.download/release/docs/Text.html
 ---
 
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
 import ComponentAPI from '$lib/components/ComponentAPI.astro'
+import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
 
-Renders a line or multiple lines of text to the canvas.
+Renders a PIXI.Text.
 
-The primary advantage of this class over BitmapText is that you have great control over the style of the text, which you can change at runtime.
-
-The primary disadvantages is that each piece of text has it's own texture, which can use more memory. When text changes, this texture has to be re-generated and re-uploaded to the GPU, taking up time.
-
-To split a line you can use '\n' in your text string, or, on the style prop, change its `wordWrap` property to true and and give the `wordWrapWidth` property a value.
+<ComponentDescription
+  name="Text"
+  source="https://pixijs.download/dev/docs/scene.Text.html"
+/>
 
 ## Usage
 
-```svelte live
-<script>
-  import { Text } from 'svelte-pixi'
-</script>
+### Basic
 
-<Text
-  x={360}
-  y={200}
-  text="Hello World"
-  anchor={0.5}
-  style={{
-    fill: 'white',
-  }}
-/>
-```
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live props={{ assets: ['/assets/adventurer.png'] }}
+    <script>
+      import * as PIXI from 'pixi.js'
+      import { Text } from 'svelte-pixi'
+    </script>
+
+    <Text
+      x={300}
+      y={200}
+      text="Hello world"
+      style={{ fill: 'white' }}
+    />
+    ```
+
+  </div>
+    <div slot="svelte-4">
+    ```svelte live props={{ assets: ['/assets/adventurer.png'] }}
+    <script>
+      import * as PIXI from 'pixi.js'
+      import { Text } from 'svelte-pixi/svelte-4'
+    </script>
+
+    <Text
+      x={300}
+      y={200}
+      text="Hello world"
+      style={{ fill: 'white' }}
+    />
+    ```
+
+  </div>
+</SvelteTabs>
+
+### Updating style
+
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live props={{ assets: ['/assets/adventurer.png'] }}
+    <script>
+      import * as PIXI from 'pixi.js'
+      import { Text, tick } from 'svelte-pixi'
+
+      let fill = tick(t => {
+        const time = t.lastTime
+        const r = Math.floor(Math.sin(time / 1000) * 128 + 128)
+        const g = Math.floor(Math.sin(time / 500) * 128 + 128)
+        const b = Math.floor(Math.sin(time / 300) * 128 + 128)
+
+        return (r << 16) + (g << 8) + b
+      })
+    </script>
+
+    <Text
+      x={300}
+      y={200}
+      text="Hello world"
+      style={{ fill: $fill }}
+    />
+    ```
+
+  </div>
+    <div slot="svelte-4">
+    ```svelte live props={{ assets: ['/assets/adventurer.png'] }}
+    <script>
+      import * as PIXI from 'pixi.js'
+      import { Text, tick } from 'svelte-pixi/svelte-4'
+      
+      let fill = tick(t => {
+        const time = t.lastTime
+        const r = Math.floor(Math.sin(time / 1000) * 128 + 128)
+        const g = Math.floor(Math.sin(time / 500) * 128 + 128)
+        const b = Math.floor(Math.sin(time / 300) * 128 + 128)
+        
+        return (r << 16) + (g << 8) + b
+      })
+    </script>
+
+    <Text
+      x={300}
+      y={200}
+      text="Hello world"
+      style={{ fill: $fill }}
+    />
+    ```
+
+  </div>
+</SvelteTabs>
 
 ## API
 

@@ -1,0 +1,307 @@
+---
+title: v8.0.0
+sidebar:
+  order: -1
+---
+
+Brings support for PixiJS v8.6.5 and Svelte 5 (Svelte 4 components still available). If you are upgrading from a previous version, please read
+the [PixiJS v8 migration guide](https://pixijs.com/8.x/guides/migrations/v8) to get an overview of the changes in PixiJS. Most of these
+are handled for you by SveltePixi but there are still a few breaking changes.
+
+## Installation
+
+```bash
+npm install pixi.js@~8.6.0 svelte-pixi@~8.0.0
+```
+
+## Features
+
+- PixiJS v8.6 support
+- Rewritten for Svelte 5
+  - Svelte 4 components are still available from `svelte-pixi/svelte-4`. [Read more on migrating to Svelte 5](/guides/upgrading-to-svelte-5)
+- [Application `stage` snippet/slot](/api/components/application#custom-stage)
+- [tick](/api/utilities/tick) utility function
+
+  ```svelte
+  <script>
+    import { tick } from 'svelte-pixi'
+
+    let elapsed = tick((ticker, prev = 0) => prev + ticker.deltaTime)
+
+    $effect(() => console.log($elapsed))
+  </script>
+  ```
+
+  Note that this deprecates `track` - [see below](#deprecations)
+
+- [onStageEvent](/api/utilities/on-stage-event/)
+- [onContainerEvent](/api/utilities/on-container-event/)
+- [PerspectiveMesh](/api/components/perspective-mesh) component
+
+## Bug fixes
+
+- Fix event listeners triggering twice
+- Fix svelte package.json exports field ([#41](https://github.com/mattjennings/svelte-pixi/issues/41))
+- `instance` props are now set to undefined when unmounted
+
+## Breaking Changes
+
+### Textures
+
+In PixiJS v8 all textures **must** be loaded before use. You can use the [AssetsLoader](/api/components/assets-loader) component to do this.
+
+```svelte
+<script>
+  import * as PIXI from 'pixi.js'
+  import { AssetsLoader, Sprite } from 'svelte-pixi'
+</script>
+
+<AssetsLoader assets={['/my-texture.png']}>
+  <Sprite texture={PIXI.Texture.from('/my-texture.png')} />
+</AssetsLoader>
+```
+
+### Reducing bundle size
+
+The method for reducing bundle size has changed. PixiJS v8 now ships a single bundle and dynamically imports
+extras during Application initialization. If you were using a custom pixi.js bundle in v7 or earlier, see the new guide on [reducing bundle size](/guides/reducing-bundle-size).
+
+### Components
+
+#### Application / Renderer
+
+##### Initialization is now async
+
+In Pixi v8 Application and Renderer are now initialiazed asynchronously. The Application and Renderer components are affected in the following ways:
+
+- When `<Application />` mounts it will call `init()` on the application instance. When it resolves the children are rendered.
+  - This should be very quick but if you want to render HTML while it initializes you can use the `loading` snippet/slot.
+  - The `instance` prop will be bound immediately to the Application but it will not contain `renderer` etc. properties until the initialization is complete. You can use the `oninit` prop (or `on:init` in Svelte 4) to know when it is ready.
+
+- When `<Renderer />` mounts will call `autoDetectRenderer()` to get the renderer if the `instance` prop is not provided.
+  - Like Application, a `loading` snippet/slot will be rendered while it awaits and it will emit an `oninit` / `on:init` event when it is ready.
+  - Unlike Application the `instance` prop will not be bound until it finishes.
+  - If the `instance` prop is provided it will render immediately.
+
+You most likely aren't affected by this unless you are manually binding to the `instance` props.
+
+See the [Application](/api/components/application) and [Renderer](/api/components/renderer) documentation for more information.
+
+##### Changes to default prop values
+
+In previous versions of SveltePixi the default Application/Renderer props were set to match PixiJS defaults according to their documentation. This was not ideal as it did not stay in sync with future PixiJS versions when those defaults changed.
+
+Now, all props that are used for the PIXI.Application/Renderer options have no defaults so that PixiJS determines the default behaviour.
+
+If you need to maintain the previous behaviour, set the Application or Renderer props to the following:
+
+```svelte
+<Application
+  autoDensity
+  antialias
+  resolution={1}
+  backgroundAlpha={1}
+  backgroundColor={0x000000}
+  height={600}
+  width={800}
+  preserveDrawingBuffer={false}
+/>
+```
+
+##### Removed props
+
+As a result of PixiJS API changes, the following props have been removed:
+
+- `useContextAlpha`
+  - use `premultipliedAlpha` and `backgroundAlpha` instead.
+- `forceCanvas`
+- `stage` (Renderer only)
+  - use a Container as a child instead and bind to its instance
+
+### BitmapText
+
+#### Props
+
+- `fontName` is now `fontFamily`
+- `maxWidth` is now `wordWrapWidth`
+- `tint` is now `fill`
+
+### Container
+
+#### Props
+
+- `name` deprecated, use `label` instead. name will set label on instance.
+- `isMask` removed
+- `isSprite` removed
+- `cacheAsBitmapMultisample` removed
+- `cacheAsBitmapResolution` removed
+- `cacheAsBitmap` deprecated by PixiJS v8, use `cacheAsTexture` instead
+- `transform` removed in PixiJS for groupTransform, localTransform, and worldTransform properties, but they're all read-only anyway
+
+### Graphics
+
+If using the Svelte 4 components, there has been a slight change in the reactivity of functions when used with Svelte 5.
+Previously you could inline a function to the `draw` prop and it would update when any used reactive state changed, but now the function must be declared as a reactive variable.
+
+```svelte
+<script>
+  import { Graphics } from 'svelte-pixi'
+
+  let foo = 0
+
+  $: draw = (g) => {
+    console.log(foo)
+  }
+</script>
+
+<Graphics {draw} />
+
+<!-- this will no longer be reactive -->
+<Graphics
+  draw={(g) => {
+    console.log(foo)
+  }}
+/>
+```
+
+### Mesh
+
+#### Props
+
+- `drawMode` removed
+
+### NineSlicePlane -> NineSliceSprite
+
+Renamed in PixiJS to NineSliceSprite
+
+#### Props
+
+- `geometry` removed
+- `state` removed
+- `drawMode` removed
+
+### ParticleContainer
+
+Received an overhaul in PixiJS v8. Recommend reading the [ParticleContainer](/api/components/particle-container) documentation for how to use it with the new APIs.
+
+#### Props
+
+- `maxSize` removed
+- `batchSize` removed
+- `autoResize` removed
+- `properties` removed
+
+### SimplePlane -> MeshPlane
+
+Renamed in PixiJS to MeshPlane
+
+#### Props
+
+- `drawMode` removed
+- `geometry` removed, use `verticesX` and `verticesY` instead
+
+### SimpleRope -> MeshRope
+
+Renamed in PixiJS to MeshRope
+
+#### Props
+
+- `drawMode` removed
+
+### TilingSprite
+
+#### Props
+
+- `uvMatrix` removed
+
+### Ticker
+
+#### Props
+
+Defaults for the following props have been removed and will now use the defaults that PixiJS designates:
+
+- maxFPS
+- minFPS
+- speed
+
+`autoStart` remains defaulted to true for convenience
+
+#### onTick
+
+The event payload for the ticker has changed in PixiJS v8. The payload is now the ticker instance.
+
+```svelte
+<script>
+  import { onTick } from 'svelte-pixi'
+
+  onTick((ticker) => {
+    console.log(ticker.deltaTime)
+  })
+</script>
+```
+
+```svelte
+<script>
+  import { Ticker } from 'svelte-pixi'
+</script>
+
+<Ticker ontick={(ticker) => console.log(ticker.deltaTime)} />
+```
+
+## Deprecations
+
+### track
+
+`track()` has been depracted in favour of `tick()` and will be removed in a future version.
+
+`tick` works similarly but has a few differences:
+
+- receives the parent Ticker instance in the callback
+- executes the callback immediately to get the initial value, rather than waiting for the next tick
+- requires a parent Ticker in the component tree
+
+In most cases the migration from `track` will look like this:
+
+```diff lang="svelte"
+<script>
+-  import { track } from 'svelte-pixi'
++  import { tick } from 'svelte-pixi'
+  let instance
+
+-  let x = track(() => instance.x, 100)
++  let x = tick(() => instance?.x ?? 100)
+</script>
+
+<Container bind:instance />
+```
+
+This also makes it easier to derive values from the Ticker:
+
+```svelte
+<script>
+  import { onTick, tick } from 'svelte-pixi'
+
+  // using onTick
+  let elapsed = 0
+  onTick((ticker) => {
+    elapsed += ticker.deltaTime
+  })
+
+  // using tick
+  let elapsed = tick((ticker, prev = 0) => prev + ticker.deltaTime)
+</script>
+```
+
+## Known issues
+
+### Container.name warning
+
+You may notice the following warning when using components from `svelte-pixi/svelte-4`:
+
+> PixiJS Deprecation Warning: Container.name property has been removed, use Container.label instead
+
+The SveltePixi components _do_ use `label` instead of `name` now, but there are some reactive statements that causes the Svelte compiler
+to do a key comparison on the `instance`, triggering this warning when it reads `instance.name`.
+
+This only happens with the Svelte 4 components and given that this is a warning and Svelte 4 components will be removed next version,
+this likely won't get fixed.

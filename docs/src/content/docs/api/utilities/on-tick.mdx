@@ -10,8 +10,8 @@ Child components of [Ticker](/docs/components/ticker) can use `onTick` to add a 
 
   let text = 0
 
-  onTick((delta) => {
-    text = `Delta: ${delta.toFixed(10)}`
+  onTick((ticker) => {
+    text = `Delta: ${ticker.deltaTime.toFixed(10)}`
   })
 </script>
 

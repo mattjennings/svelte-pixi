@@ -1,0 +1,82 @@
+---
+title: tick
+sidebar:
+  badge: new
+---
+
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
+
+Returns a writable store that gets updated during the parent `<Ticker />` component.
+
+This is useful for deriving a property from the ticker or for watching a property
+on a PixiJS instance. It can also be used to [bind props](/guides/binding-props),
+(as SveltePixi components don't support `bind:` syntax for instance properties).
+
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live
+    <script>
+      import { Container, Text, tick } from 'svelte-pixi'
+
+      let x = tick((ticker) => 250 + Math.sin(ticker.lastTime / 600) * 150)
+      let text = $derived($x < 300 ? "I'm on the left!" : "I'm on the right!")
+    </script>
+
+    <Container x={$x} y={200}>
+      <Text {text} style={{ fill: 'white' }} />
+    </Container>
+    ```
+
+  </div>
+  <div slot="svelte-4">
+  ```svelte live
+  <script>
+    import { Container, Text, tick } from 'svelte-pixi/svelte-4'
+
+    let x = tick((ticker) => 250 + Math.sin(ticker.lastTime / 600) * 150)
+    $: text = $x < 300 ? "I'm on the left!" : "I'm on the right!"
+
+  </script>
+
+  <Container x={$x} y={200}>
+    <Text {text} style={{ fill: 'white' }} />
+  </Container>
+  ```
+  </div>
+</SvelteTabs>
+
+## tick vs onTick
+
+The difference between `tick` and `onTick` is that `tick` returns a writable store. `onTick` may make more sense when
+your callback has side effects.
+
+```svelte
+<script>
+  import { onTick } from 'svelte-pixi'
+
+  let x = 0
+  let y = 0
+  let z = 0
+
+  onTick((ticker) => {
+    // x = ...
+    // y = ...
+    // z = ...
+
+    if (y > 1000) {
+      gameOver()
+    }
+  })
+</script>
+```
+
+(You could also use `tick` in the same way and ignore the return value; it's mostly a matter of preference)
+
+## Type Definition
+
+```ts
+function tick<T>(
+  callback: (ticker: PIXI.Ticker, prev?: T) => T,
+  priority?: number,
+): Writable<T>
+```

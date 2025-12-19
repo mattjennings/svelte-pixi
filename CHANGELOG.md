@@ -1,5 +1,24 @@
 # svelte-pixi
 
+## 8.0.0-next.2
+
+### Patch Changes
+
+- 1abdb09: add experimental assets and texture store loaders
+
+## 8.0.0-next.1
+
+### Patch Changes
+
+- remove lang tags on svelte 4 processed components
+
+## 8.0.0-next.0
+
+### Major Changes
+
+- support PixiJS v8.6.5
+- upgrade components to use Svelte 5
+
 ## 7.0.0
 
 ### Major Changes

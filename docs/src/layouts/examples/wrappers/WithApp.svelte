@@ -1,40 +1,55 @@
 <script>
-  import { Application, AssetsLoader, Container } from 'svelte-pixi'
-  import { onMount } from 'svelte'
+  import { Application, AssetsLoader, Container } from 'svelte-pixi/svelte-5'
   import IntersectionObserver from 'svelte-intersection-observer'
   import Stats from 'stats-js'
+  import { untrack, tick } from 'svelte'
 
-  export let assets = []
-  export let bg = 0x000000
-  export let stats = false
+  let { assets = [], bg = 0x000000, stats = false, children } = $props()
 
-  let intersecting = true
-  let element
+  let intersecting = $state(true)
+  let element = $state()
+
   /**
    * @type {HTMLElement}
    */
-  let statsElement
-  let app
-  let width
-  let height
+  let statsElement = $state()
 
+  /**
+   * @type {import('pixi.js').Application}
+   */
+  let app = $state()
+  let clientWidth = $state(0)
+  let clientHeight = $state(0)
+
+  let containerX = $state(0)
+  let containerY = $state(0)
   const resolution = {
     width: 718,
     height: 400,
   }
 
   // only render while in view
-  $: if (app) {
-    if (!intersecting) {
-      app.stop()
-    } else {
-      app.start()
+  $effect(() => {
+    if (app) {
+      try {
+        if (!intersecting) {
+          app.stop()
+        } else {
+          app.start()
+        }
+      } catch (err) {
+        console.error(err)
+      }
     }
+  })
+
+  function onAppInit(ev) {
+    app = ev.application
   }
 
-  onMount(() => {
-    try {
-      if (app && statsElement && stats) {
+  $effect(() => {
+    if (app && statsElement && stats) {
+      try {
         let _stats = new Stats()
         statsElement.appendChild(_stats.dom)
 
@@ -54,31 +69,45 @@
           null,
           Infinity,
         )
+      } catch (e) {
+        console.error(e)
       }
-    } catch (e) {
-      console.error(e)
+    }
+  })
+
+  $effect(() => {
+    if (clientWidth > 0 && clientHeight > 0) {
+      containerX = -((resolution.width - clientWidth) / 2)
+      containerY = -((resolution.height - clientHeight) / 2)
     }
   })
 </script>
 
-<div bind:clientWidth={width} bind:clientHeight={height}>
+<div bind:clientWidth bind:clientHeight>
   <Application
-    bind:instance={app}
+    oninit={onAppInit}
     autoStart={false}
     width={resolution.width}
     height={resolution.height}
     backgroundColor={bg}
+    autoDensity
   >
-    <div bind:this={element} class="relative not-content" slot="view">
-      {#if stats}
-        <div
-          bind:this={statsElement}
-          class="absolute top-0 left-0 z-100 [&>div]:!absolute"
-        />
-      {/if}
+    {#snippet view()}
+      <div bind:this={element} class="relative not-content">
+        {#if stats}
+          <div
+            bind:this={statsElement}
+            class="absolute top-0 left-0 z-100 [&>div]:!absolute"
+          ></div>
+        {/if}
 
-      <IntersectionObserver {element} bind:intersecting />
-    </div>
+        <IntersectionObserver
+          {element}
+          bind:intersecting
+          rootMargin={'100px'}
+        />
+      </div>
+    {/snippet}
 
     <AssetsLoader {assets}>
       <!--
@@ -86,11 +115,10 @@
         but if width is 400, x should be -400. this will center the content while keeping the coordinates
         the same for examples.
        -->
-      <Container
-        x={-((resolution.width - width) / 2)}
-        y={-((resolution.height - height) / 2)}
-      >
-        <slot />
+      <Container x={containerX} y={containerY}>
+        {#if intersecting}
+          {@render children?.()}
+        {/if}
       </Container>
     </AssetsLoader>
   </Application>

@@ -1,40 +1,76 @@
 ---
 title: Graphics
-pixi: https://pixijs.download/release/docs/PIXI.Graphics.html
 ---
 
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
 import ComponentAPI from '$lib/components/ComponentAPI.astro'
+import ComponentDescription from '$lib/components/svelte-5/ComponentDescription.astro'
 
-Graphics can be used for any kind of drawing. Use the `draw` prop to interact with the PIXI.Graphics API.
+Renders a PIXI.Graphics. Use the `draw` prop to interact with the Graphics API.
+
+<ComponentDescription
+  name="Graphics"
+  source="https://pixijs.download/dev/docs/scene.Graphics.html"
+/>
 
 ## Usage
 
-```svelte live
-<script>
-  import { onMount } from 'svelte'
-  import { Graphics, onTick } from 'svelte-pixi'
+### Draw prop
 
-  let size = 100
-  let counter = 0
+The `draw` prop is a helper prop that gets called inside of an `$effect()`. This means it only
+draws when the function itself or any state inside of it changes.
 
-  onTick((delta) => {
-    counter += delta * 0.025
+<SvelteTabs>
+  <div slot="svelte-5">
+    ```svelte live
+    <script>
+      import { Graphics, tick } from 'svelte-pixi'
 
-    size = 100 + Math.sin(counter) * 50
-  })
-</script>
+      let size = tick(t => 100 + Math.sin(t.lastTime / 700) * 50)
 
-<Graphics
-  x={375}
-  y={200}
-  draw={(graphics) => {
-    graphics.clear()
-    graphics.beginFill(0xde3249)
-    graphics.drawCircle(0, 0, size)
-    graphics.endFill()
-  }}
-/>
-```
+      function draw(graphics) {
+        graphics.clear()
+        graphics
+          .circle(0, 0, $size)
+          .fill('darksalmon')
+      }
+
+    </script>
+
+    <Graphics
+      x={375}
+      y={200}
+      {draw}
+    />
+    ```
+
+  </div>
+
+  <div slot="svelte-4">
+    ```svelte live
+    <script>
+      import { Graphics, tick } from 'svelte-pixi/svelte-4'
+
+      let size = tick(t => 100 + Math.sin(t.lastTime / 700) * 50)
+
+      $: draw = (graphics) => {
+        graphics.clear()
+        graphics
+          .circle(0, 0, $size)
+          .fill('darksalmon')
+      }
+
+    </script>
+
+    <Graphics
+      x={375}
+      y={200}
+      draw={draw}
+    />
+    ```
+    </div>
+
+</SvelteTabs>
 
 ## API
 

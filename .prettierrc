@@ -2,6 +2,6 @@
   "semi": false,
   "tabWidth": 2,
   "singleQuote": true,
-  "plugins": ["prettier-plugin-svelte"],
+  "plugins": ["prettier-plugin-svelte", "prettier-plugin-astro"],
   "overrides": [{ "files": "*.svelte", "options": { "parser": "svelte" } }]
 }

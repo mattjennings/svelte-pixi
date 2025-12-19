@@ -2,3 +2,9 @@ packages:
   - .
   - examples/*
   - docs
+
+onlyBuiltDependencies:
+  - esbuild
+  - msw
+  - sharp
+  - svelte-preprocess

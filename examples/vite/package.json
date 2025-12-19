@@ -1,7 +1,7 @@
 {
   "name": "vite-example",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1-next.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,10 +9,12 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^3.0.0",
-    "pixi.js": "^7.3.2",
-    "svelte": "^4.2.3",
-    "svelte-pixi": "latest",
-    "vite": "^5.0.0"
+    "@sveltejs/vite-plugin-svelte": "^5.0.3",
+    "svelte": "^5.15.0",
+    "vite": "^6.0.5"
+  },
+  "dependencies": {
+    "pixi.js": "^8.6.5",
+    "svelte-pixi": "workspace:^"
   }
 }

@@ -1,7 +1,11 @@
+<script>
+  const { children } = $props()
+</script>
+
 <div
   class="with-app-container w-full h-full overflow-hidden flex items-center justify-center bg-gray-900"
 >
-  <slot />
+  {@render children?.()}
 </div>
 
 <style>

@@ -1,0 +1,141 @@
+---
+title: Masks
+---
+
+import SvelteTabs from '$lib/components/SvelteTabs.astro'
+
+Any graphics component (e.g. `Graphics`, `Sprite`, etc) can take a `mask` prop.
+
+## Basic
+
+Get the instance of a component by binding to its `instance` prop and then passing it as the mask to another component.
+
+<SvelteTabs>
+  <div slot="svelte-5">
+  ```svelte live
+  <script>
+    import * as PIXI from 'pixi.js'
+    import { Graphics, Sprite, Container, tick } from 'svelte-pixi'
+
+    let mask
+    let x = tick(t => 300 + (Math.sin(t.lastTime / 400) * 100))
+
+  </script>
+
+<Graphics
+  bind:instance={mask}
+  x={$x}
+  y={150}
+  draw={(g) => {
+    g.rect(0, 0, 100, 100).fill('black')
+  }}
+/>
+
+  <Graphics  
+    x={0}
+    y={0}
+    {mask}
+    draw={(g) => {
+      g.rect(0, 0, 1000, 1000).fill('green')    
+    }}
+  />
+  ```
+  </div>
+  <div slot="svelte-4">
+  ```svelte live
+  <script>
+    import * as PIXI from 'pixi.js'
+    import { Graphics, Sprite, Container, tick } from 'svelte-pixi/svelte-4'
+
+    let mask
+    let x = tick(t => 300 + (Math.sin(t.lastTime / 400) * 100))
+
+  </script>
+
+<Graphics
+  bind:instance={mask}
+  x={$x}
+  y={150}
+  draw={(g) => {
+    g.rect(0, 0, 100, 100).fill('black')
+  }}
+/>
+
+  <Graphics  
+    x={0}
+    y={0}
+    {mask}
+    draw={(g) => {
+      g.rect(0, 0, 1000, 1000).fill('red')    
+    }}
+  />
+  ```
+  </div>  
+</SvelteTabs>
+
+## Inverse
+
+`mask` alternatively takes the same arguments as the [setMask method](https://pixijs.download/release/docs/scene.Container.html#setMask).
+
+<SvelteTabs>
+  <div slot="svelte-5">
+  ```svelte live
+  <script>
+    import * as PIXI from 'pixi.js'
+    import { Graphics, Sprite, Container, tick } from 'svelte-pixi'
+
+    let mask
+    let x = tick(t => 300 + (Math.sin(t.lastTime / 400) * 100))
+
+  </script>
+
+<Graphics
+  bind:instance={mask}
+  x={$x}
+  y={150}
+  draw={(g) => {
+    g.rect(0, 0, 100, 100).fill('black')
+  }}
+/>
+
+  <Graphics  
+    x={0}
+    y={0}
+    mask={{ mask, inverse: true }}
+    draw={(g) => {
+      g.rect(0, 0, 1000, 1000).fill('green')    
+    }}
+  />
+  ```
+  </div>
+  <div slot="svelte-4">
+  ```svelte live
+  <script>
+    import * as PIXI from 'pixi.js'
+    import { Graphics, Sprite, Container, tick } from 'svelte-pixi/svelte-4'
+
+    let mask
+    let x = tick(t => 300 + (Math.sin(t.lastTime / 400) * 100))
+
+  </script>
+
+<Graphics
+  bind:instance={mask}
+  x={$x}
+  y={150}
+  draw={(g) => {
+    g.rect(0, 0, 100, 100).fill('black')
+  }}
+/>
+
+  <Graphics  
+    x={0}
+    y={0}
+    mask={{ mask, inverse: true }}
+    draw={(g) => {
+      g.rect(0, 0, 1000, 1000).fill('green')    
+    }}
+  />
+  ```
+  </div>  
+</SvelteTabs>

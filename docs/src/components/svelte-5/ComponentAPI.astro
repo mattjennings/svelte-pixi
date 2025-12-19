@@ -1,0 +1,102 @@
+---
+import { marked } from 'marked'
+
+import { parseComponent } from './component-parser'
+
+const { props, snippets } = parseComponent(Astro.props.component)
+---
+
+<style>
+  th {
+    @apply text-left;
+  }
+
+  td {
+    @apply !text-sm !py-3;
+  }
+  td code {
+    @apply !mt-0;
+  }
+
+  table div {
+    @apply !mt-0;
+  }
+</style>
+
+{
+  props.length > 0 && (
+    <>
+      <h3 id="props">Props</h3>
+      <p>
+        <em>* denotes required</em>
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.map((prop) => (
+            <tr>
+              <td class="align-top">
+                <div class="inline-flex flex-col gap-2 pt-1">
+                  <span>
+                    {prop.name}
+                    {prop.isRequired && '*'}
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div class="flex justify-between gap-1 pb-2">
+                  <div class="inline-flex flex-wrap gap-1">
+                    {prop.type &&
+                      prop.type.map((type) => (
+                        <code
+                          title="Prop type"
+                          class="whitespace-nowrap rounded"
+                        >
+                          {type}
+                        </code>
+                      ))}
+                  </div>
+                </div>
+                <div
+                  class="align-top pt-2"
+                  set:html={
+                    'description' in prop ? marked(prop.description) : ''
+                  }
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  )
+}
+
+{
+  snippets.length > 0 && (
+    <>
+      <h3 id="snippets">Snippets</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          {snippets.map((slot) => (
+            <tr>
+              <td>{slot.name}</td>
+              <td>{slot.type && <code>{slot.type}</code>}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  )
+}

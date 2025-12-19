@@ -1,0 +1,160 @@
+---
+title: Upgrading to Svelte 5
+---
+
+If you are upgrading to SveltePixi v8 from a Svelte 4 project, this guide will try to help you through the migration process. Please
+note that this it not an official Svelte 5 migration guide (that can be found [here](https://svelte.dev/docs/svelte/v5-migration-guide)),
+but rather one that aims to help within the context of SveltePixi.
+
+## Try the Svelte 5 migration script
+
+Before doing anything else, you should try the [Svelte 5 migration script](https://svelte.dev/docs/svelte/v5-migration-guide#Migration-script).
+If all goes well, all of your Svelte code migrated successfully and you can concern yourself with the Pixi-related breaking changes in [SveltePixi v8](/releases/v8-0-0)
+
+If all does not go well, keep reading!
+
+## Incrementally upgrading to Svelte 5
+
+Svelte 5 can still run Svelte 4 code so you should be able to update to `svelte@5` manually (& tooling etc) and leave your Svelte code as-is. This
+will allow you to incrementally upgrade your components to Svelte 5, and in the meantime, use SveltePixi v8 with the `svelte-pixi/svelte-4` import. It fully supports
+all the same features as the Svelte 5 components (however, these will be removed in the next major version of SveltePixi).
+
+```svelte live props={{ bg: 'none' }} wrapper="/src/layouts/examples/wrappers/Empty.svelte"
+<script>
+  import { Application, Text } from 'svelte-pixi/svelte-4'
+</script>
+
+<Application width={400} height={400} antialias>
+  <Text
+    x={200}
+    y={200}
+    anchor={0.5}
+    text="Hello World"
+    style={{ fill: 'white' }}
+  />
+</Application>
+```
+
+### Svelte 4 and 5 interop
+
+You can mix SveltePixi components that use Svelte 4 and Svelte 5. However, there are some caveats to be aware of.
+
+#### Snippets / Slots
+
+[Svelte 5 introduced "snippets"](https://svelte.dev/docs/svelte/v5-migration-guide#Snippets-instead-of-slots) to replace slots. Their
+documentation claims you can mix and match snippets/slots, but I have found that named slots do not work with snippets.
+
+```svelte
+<script>
+  // receives Svelte 5 snippets
+  import SnippetComponent from './SnippetComponent.svelte'
+  // receives Svelte 4 slots
+  import SlotComponent from './SlotComponent.svelte'
+</script>
+
+<!-- passing snippets to slots -->
+<SlotComponent>
+  <!-- both of these work -->
+  {#snippet a()}
+    <div>named slot</div>
+  {/snippet}
+  <div>children</div>
+</SlotComponent>
+
+<!-- passing slots to snippets -->
+<SnippetComponent>
+  <!-- named slot does not work! -->
+  <div slot="a">named snippet</div>
+  <div>children</div>
+</SnippetComponent>
+```
+
+[Svelte playground](https://svelte.dev/playground/hello-world?version=5.16.0#H4sIAAAAAAAAE42SzU7DMBCEX2VrkNpKTXOP3AA37hwJhzTeUgvXtuylgKK8O3Z-2qQUxNGz365nPa6ZLg_IMvaIShn4ME4JWKCQhGLJVmwnFXqWPdeMvmzkohD0vuvB2rU_oqKobUuP1_TKaEJNYQzjvnLSUl7oguTBGkfwpKW1SLBz5gDzddqf-_b5mFRmhIXDmeHpebCuC8aHqWkODiuUR6lfwYcenxWsidSAtF64kMe2vClYWbA8riHAdwRPQzUHPksSEAa9pvhObzNIklNzXu2lEg51B0dHo_mab12wcjIXF5k669iRuYC0w-ubvgblYhlr1F_YWwzccGWA0x5u_vIVR4dYCD-JZeTesVn9Eu80i2nEP2rXYw4-VDBfQ7mCwQs0sIFb64z1i-VlePcBEOigvFu3C5-EobvV_-n__EkuzE8KE-cxm0h1P6FNrRPTi0d7ab4BisAq4z0DAAA=)
+
+There may be [other scenarios](https://github.com/sveltejs/svelte/issues/13063) that cause issue too.
+In SveltePixi only `Application`, `Renderer`, and `AssetsLoader` take named slots, but if you have
+custom components that take named slots you will need to keep this in mind.
+
+#### Events
+
+[In Svelte 5 events are now callback props](https://svelte.dev/docs/svelte/v5-migration-guide#Event-changes). If you are using the `svelte-pixi/svelte-4` import
+it still uses the `on:` syntax for events. If you are using the default `svelte-pixi` import, you will need to use the new
+callback syntax (which is much more performant as now it only listens for the events you actually use).
+
+```svelte
+<Sprite on:pointermove={handlePointerMove} />
+
+<!-- is now -->
+
+<Sprite onpointermove={handlePointerMove} />
+```
+
+#### Svelte 4 Function Reactivity
+
+This may be a Svelte bug, I'm not too sure, but I wanted to mention this finding. There are some scenarios where a function
+that was previously reactive in Svelte 4 syntax may no longer be reactive when using `svelte@5`.
+
+For example, SveltePixi has a [Graphics](/api/components/graphics) component that has a `draw` function prop.
+
+```svelte
+<script>
+  import { Graphics, onTick } from 'svelte-pixi/svelte-4'
+
+  let size = 100
+
+  onTick(() => {
+    size += 1
+  })
+</script>
+
+<Graphics draw={(g) => g.drawRect(0, 0, size, size)} />
+```
+
+In `svelte@4`, `draw` would be called again whenever `size` changed. The Graphics component would call it like this:
+
+```svelte title="Graphics.svelte"
+<script>
+  export let instance = new PIXI.Graphics()
+  export let draw
+
+  $: draw(instance)
+</script>
+```
+
+In `svelte@5` this no longer works. Instead, `draw` needs to explicilty be declared as a reactive variable:
+
+```svelte
+<script>
+  import { Graphics, onTick } from 'svelte-pixi/svelte-4'
+
+  let size = 100
+
+  onTick(() => {
+    size += 1
+  })
+
+  $: draw = (g) => g.drawRect(0, 0, size, size)
+</script>
+
+<Graphics {draw} />
+```
+
+If you migrate to the Svelte 5 SveltePixi component, simply declaring it as a function will work:
+
+```svelte
+<script>
+  import { Graphics, onTick } from 'svelte-pixi'
+
+  let size = $state(100)
+
+  onTick(() => {
+    size += 1
+  })
+
+  function draw(g) {
+    g.drawRect(0, 0, size, size)
+  }
+</script>
+
+<Graphics x={375} y={200} {draw} />
+```
