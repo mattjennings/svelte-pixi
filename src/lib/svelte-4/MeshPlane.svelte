@@ -52,6 +52,24 @@
   /**
    * The PIXI.MeshPlane instance. Can be set or bound to.
    *
+   * WARNING: Type-safety limitation - If you are using a subclass of PIXI.MeshPlane,
+   * you MUST provide the instance prop with your custom instance. Due to TypeScript's
+   * limitations with generic types, if you don't provide an instance, a base
+   * PIXI.MeshPlane will be created and cast to your type, which will cause runtime
+   * errors when trying to access subclass-specific properties or methods.
+   *
+   * Example:
+   *
+   * ```typescript
+   * class MyMeshPlane extends PIXI.MeshPlane {
+   *   myMethod() { ... }
+   * }
+   * const plane = new MyMeshPlane(texture)
+   *
+   * <!-- Correct: always provide instance for subclasses -->
+   * <MeshPlane instance={plane} />
+   * ```
+   *
    * @type {PIXI.MeshPlane}
    */
   export let instance: T = new PIXI.MeshPlane({

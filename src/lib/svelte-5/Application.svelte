@@ -4,10 +4,28 @@
     T extends PIXI.Application = PIXI.Application,
   > extends Partial<Omit<PIXI.ApplicationOptions, 'view'>> {
     /**
-     * The PIXI.Application instance. This can be manually set or bound to.
+     * The PIXI.Application instance. Can be manually set or bound to.
      *
      * Note: if manually set any PIXI.ApplicationOptions props will not be set
      * as they are passed into the constructor
+     *
+     * WARNING: Type-safety limitation: If you are using a subclass of PIXI.Application,
+     * you MUST provide the instance prop with your custom instance. Due to TypeScript's
+     * limitations with generic types, if you don't provide an instance, a base
+     * PIXI.Application will be created and cast to your type, which will cause runtime
+     * errors when trying to access subclass-specific properties or methods.
+     *
+     * Example:
+     *
+     * ```typescript
+     * class MyApp extends PIXI.Application {
+     *   myMethod() { ... }
+     * }
+     * const app = new MyApp()
+     *
+     * <!-- Correct: always provide instance for subclasses. -->
+     * <Application instance={app} />
+     * ```
      *
      * @type {PIXI.Application}
      */

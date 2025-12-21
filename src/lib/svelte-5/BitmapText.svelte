@@ -6,6 +6,26 @@
         PIXI.BitmapText,
         'anchor' | 'roundPixels' | 'text' | 'style'
       > {
+    /**
+     * The PIXI.BitmapText instance. Can be set or bound to.
+     *
+     * WARNING: Type-safety limitation - If you are using a subclass of PIXI.BitmapText,
+     * you MUST provide the instance prop with your custom instance. Due to TypeScript's
+     * limitations with generic types, if you don't provide an instance, a base
+     * PIXI.BitmapText will be created and cast to your type, which will cause runtime
+     * errors when trying to access subclass-specific properties or methods.
+     *
+     * Example:
+     * ```typescript
+     * class MyBitmapText extends PIXI.BitmapText {
+     *   myMethod() { ... }
+     * }
+     * const bitmapText = new MyBitmapText()
+     *
+     * <!-- Correct: always provide instance for subclasses -->
+     * <BitmapText instance={bitmapText} />
+     * ```
+     */
     instance?: T
   }
 </script>
