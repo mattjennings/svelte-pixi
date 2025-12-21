@@ -51,3 +51,9 @@ export {
 export { getRenderer } from '../core/context/renderer'
 export { getTicker, onTick, track, tick } from '../core/context/ticker'
 export { asset, texture } from '../core/util/asset'
+export {
+  createApplyProps,
+  applyProps,
+  applyProp,
+  type Apply,
+} from '../core/util/props'
