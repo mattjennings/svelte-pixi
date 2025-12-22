@@ -12,6 +12,30 @@ start the render loop or create the root container for you. You will need to do 
 By default it will call `PIXI.autoDetectRenderer` to determine the `instance`. Like Application, this
 is an asynchronous operation and will call `oninit` when complete.
 
+## Type-Safety Limitation with Subclasses
+
+:::caution[Important: Using Subclasses]
+If you are extending `PIXI.Renderer` with your own subclass, you **MUST** provide the `instance` prop with your custom instance.
+
+Due to TypeScript's limitations with generic types, if you rely on `autoDetectRenderer()` without providing an instance,
+the result will be unsafely cast to your subclass type. This will cause **runtime errors** when trying to access
+subclass-specific properties or methods that don't actually exist on the instance.
+
+**Correct Usage with Subclasses:**
+
+```typescript
+class MyRenderer extends PIXI.Renderer {
+  myCustomMethod() { ... }
+}
+
+const renderer = new MyRenderer()
+<Renderer instance={renderer} />
+```
+
+This limitation is documented in [issue #49](https://github.com/mattjennings/svelte-pixi/issues/49).
+When using the base `PIXI.Renderer` type (the default), this is not a concern.
+:::
+
 ## Usage
 
 ### Basic

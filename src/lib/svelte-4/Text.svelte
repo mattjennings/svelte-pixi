@@ -60,6 +60,24 @@
   /**
    * The PIXI.Text instance. Can be set or bound to.
    *
+   * WARNING: Type-safety limitation - If you are using a subclass of PIXI.Text,
+   * you MUST provide the instance prop with your custom instance. Due to TypeScript's
+   * limitations with generic types, if you don't provide an instance, a base
+   * PIXI.Text will be created and cast to your type, which will cause runtime
+   * errors when trying to access subclass-specific properties or methods.
+   *
+   * Example:
+   *
+   * ```typescript
+   * class MyText extends PIXI.Text {
+   *   myMethod() { ... }
+   * }
+   * const text = new MyText()
+   *
+   * <!-- Correct: always provide instance for subclasses -->
+   * <Text instance={text} />
+   * ```
+   *
    * @type {PIXI.Text}
    */
   export let instance: T = new PIXI.Text({ text, style }) as T

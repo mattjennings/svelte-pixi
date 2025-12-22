@@ -3,8 +3,27 @@
     T extends PIXI.Renderer = PIXI.Renderer,
   > extends Partial<Omit<PIXI.AutoDetectOptions, 'view'>> {
     /**
-     * The PIXI.Renderer instance. Can be set or bound to. By default
-     * PIXI.autoDetectRenderer() is called and sets the instance when it resolves
+     * The PIXI.Renderer instance. Can be set or bound to.
+     *
+     * By default `PIXI.autoDetectRenderer()` is called and sets the instance when it resolves.
+     *
+     * WARNING: Type-safety limitation: If you are using a subclass of PIXI.Renderer,
+     * you MUST provide the instance prop with your custom instance. Due to TypeScript's
+     * limitations with generic types, if you don't provide an instance and rely on
+     * autoDetectRenderer(), the result will be cast to your type, which will cause
+     * runtime errors when trying to access subclass-specific properties or methods.
+     *
+     * Example:
+     *
+     * ```typescript
+     * class MyRenderer extends PIXI.Renderer {
+     *   myMethod() { ... }
+     * }
+     * const renderer = new MyRenderer()
+     *
+     * <!-- Correct: always provide instance for subclasses. -->
+     * <Renderer instance={renderer} />
+     * ```
      */
     instance?: T
 

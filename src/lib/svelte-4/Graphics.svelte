@@ -42,6 +42,24 @@
   /**
    * The PIXI.Graphics instance. Can be set or bound to.
    *
+   * WARNING: Type-safety limitation - If you are using a subclass of PIXI.Graphics,
+   * you MUST provide the instance prop with your custom instance. Due to TypeScript's
+   * limitations with generic types, if you don't provide an instance, a base
+   * PIXI.Graphics will be created and cast to your type, which will cause runtime
+   * errors when trying to access subclass-specific properties or methods.
+   *
+   * Example:
+   *
+   * ```typescript
+   * class MyGraphics extends PIXI.Graphics {
+   *   myMethod() { ... }
+   * }
+   * const graphics = new MyGraphics()
+   *
+   * <!-- Correct: always provide instance for subclasses -->
+   * <Graphics instance={graphics} />
+   * ```
+   *
    * @type {PIXI.Graphics}
    */
   export let instance: T = new PIXI.Graphics({

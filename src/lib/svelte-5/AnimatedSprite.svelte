@@ -18,6 +18,26 @@
         | 'onLoop',
         'textures'
       > {
+    /**
+     * The PIXI.AnimatedSprite instance. Can be set or bound to.
+     *
+     * WARNING: Type-safety limitation - If you are using a subclass of PIXI.AnimatedSprite,
+     * you MUST provide the instance prop with your custom instance. Due to TypeScript's
+     * limitations with generic types, if you don't provide an instance, a base
+     * PIXI.AnimatedSprite will be created and cast to your type, which will cause runtime
+     * errors when trying to access subclass-specific properties or methods.
+     *
+     * Example:
+     * ```typescript
+     * class MyAnimatedSprite extends PIXI.AnimatedSprite {
+     *   myMethod() { ... }
+     * }
+     * const sprite = new MyAnimatedSprite(textures)
+     *
+     * <!-- Correct: always provide instance for subclasses -->
+     * <AnimatedSprite instance={sprite} />
+     * ```
+     */
     instance?: T
 
     // because pixi has camel casing on these handlers, we'll also

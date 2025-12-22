@@ -71,6 +71,24 @@
   /**
    * The PIXI.NineSliceSprite instance. Can be set or bound to.
    *
+   * WARNING: Type-safety limitation - If you are using a subclass of PIXI.NineSliceSprite,
+   * you MUST provide the instance prop with your custom instance. Due to TypeScript's
+   * limitations with generic types, if you don't provide an instance, a base
+   * PIXI.NineSliceSprite will be created and cast to your type, which will cause runtime
+   * errors when trying to access subclass-specific properties or methods.
+   *
+   * Example:
+   *
+   * ```typescript
+   * class MyNineSliceSprite extends PIXI.NineSliceSprite {
+   *   myMethod() { ... }
+   * }
+   * const sprite = new MyNineSliceSprite(texture)
+   *
+   * <!-- Correct: always provide instance for subclasses -->
+   * <NineSliceSprite instance={sprite} />
+   * ```
+   *
    * @type {PIXI.NineSliceSprite}
    */
   export let instance: T = new PIXI.NineSliceSprite({

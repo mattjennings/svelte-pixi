@@ -44,6 +44,24 @@
   /**
    * The PIXI.Mesh instance. Can be set or bound to.
    *
+   * WARNING: Type-safety limitation - If you are using a subclass of PIXI.Mesh,
+   * you MUST provide the instance prop with your custom instance. Due to TypeScript's
+   * limitations with generic types, if you don't provide an instance, a base
+   * PIXI.Mesh will be created and cast to your type, which will cause runtime
+   * errors when trying to access subclass-specific properties or methods.
+   *
+   * Example:
+   *
+   * ```typescript
+   * class MyMesh extends PIXI.Mesh {
+   *   myMethod() { ... }
+   * }
+   * const mesh = new MyMesh(geometry, shader)
+   *
+   * <!-- Correct: always provide instance for subclasses -->
+   * <Mesh instance={mesh} />
+   * ```
+   *
    * @type {PIXI.Mesh}
    */
   export let instance: T = new PIXI.Mesh({
