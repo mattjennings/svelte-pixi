@@ -1,5 +1,12 @@
 # svelte-pixi
 
+## 8.0.1
+
+### Patch Changes
+
+- 03e8ae3: export each component's `…Props` type
+  export `createApplyProps`, `applyProps`, `applyProp` utility functions and corresponding `Apply` type
+
 ## 8.0.0
 
 ### Major Changes
